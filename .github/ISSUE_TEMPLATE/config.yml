@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "🐞 Vulnerability Report"
+    url: https://github.com/silberbullet
+    about: Alternatively, please send an email to pkw19961027@gmail.com.
