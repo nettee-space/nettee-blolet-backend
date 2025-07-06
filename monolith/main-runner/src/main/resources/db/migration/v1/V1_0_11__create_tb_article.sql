@@ -32,4 +32,4 @@ COMMENT ON COLUMN article.article.created_at    IS '생성시간';
 COMMENT ON COLUMN article.article.updated_at    IS '마지막 수정시간';
 
 ALTER TABLE "article"."article" ADD CONSTRAINT "pk_article" PRIMARY KEY ("id");
-ALTER TABLE "article"."article" ADD CONSTRAINT "uq_article_path" UNIQUE ("path");
+ALTER TABLE "article"."article" ADD CONSTRAINT "uq_article_path" UNIQUE ("blog_id", "path");
