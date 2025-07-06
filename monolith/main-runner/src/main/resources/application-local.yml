@@ -13,3 +13,7 @@ spring:
     locations:
       - db/migration/v1
       - db/migration/local
+
+logging:
+  level:
+    root: debug
