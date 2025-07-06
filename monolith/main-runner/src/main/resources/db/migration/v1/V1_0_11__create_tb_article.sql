@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS article.article (
     title       VARCHAR(255),
     content     TEXT,
     -- content     JSONB               --JSON 검토중
+    path        VARCHAR(255),
 
     total_views INTEGER,
     total_likes INTEGER,
@@ -30,3 +31,4 @@ COMMENT ON COLUMN article.article.created_at    IS '생성시간';
 COMMENT ON COLUMN article.article.updated_at    IS '마지막 수정시간';
 
 ALTER TABLE "article"."article" ADD CONSTRAINT "pk_article" PRIMARY KEY ("id");
+ALTER TABLE "article"."article" ADD CONSTRAINT "uq_article_path" UNIQUE ("path");
