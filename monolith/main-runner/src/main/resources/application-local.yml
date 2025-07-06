@@ -11,5 +11,5 @@ spring:
 
   flyway:
     locations:
-      - db/migration/v1_0
+      - db/migration/v1
       - db/migration/local
