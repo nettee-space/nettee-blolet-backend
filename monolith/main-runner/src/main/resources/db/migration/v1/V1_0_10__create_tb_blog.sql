@@ -17,3 +17,4 @@ COMMENT ON COLUMN "blog"."blog"."created_at" IS '생성일자';
 COMMENT ON COLUMN "blog"."blog"."updated_at" IS '수정일자';
 
 ALTER TABLE "blog"."blog" ADD CONSTRAINT "pk_blog" PRIMARY KEY ("id");
+ALTER TABLE "blog"."blog" ADD CONSTRAINT "uq_blog_url" UNIQUE ("url");
