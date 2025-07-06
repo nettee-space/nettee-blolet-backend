@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS article.article (
     title       VARCHAR(255),
     content     TEXT,
     -- content     JSONB               --JSON 검토중
-    path        VARCHAR(255),
+    "path"      VARCHAR(255),
 
     total_views INTEGER,
     total_likes INTEGER,
@@ -23,6 +23,7 @@ COMMENT ON COLUMN article.article.id            IS 'Article PK';
 COMMENT ON COLUMN article.article.blog_id       IS '블로그 ID';
 COMMENT ON COLUMN article.article.title         IS '제목';
 COMMENT ON COLUMN article.article.content       IS '본문';
+COMMENT ON COLUMN article.article."path"        IS '게시물 URL path';
 COMMENT ON COLUMN article.article.total_views   IS '총 조회수';
 COMMENT ON COLUMN article.article.total_likes   IS '총 좋아요 수';
 COMMENT ON COLUMN article.article.total_shares  IS '총 공유수';
