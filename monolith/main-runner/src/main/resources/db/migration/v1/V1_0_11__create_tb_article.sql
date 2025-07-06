@@ -15,17 +15,18 @@ CREATE TABLE IF NOT EXISTS article.article (
     status      INTEGER,
     created_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
     updated_at  TIMESTAMP   DEFAULT NOW()   NOT NULL
-    );
+);
 
 -- 컬럼 코멘트
+COMMENT ON COLUMN article.article.id            IS 'Article PK';
+COMMENT ON COLUMN article.article.blog_id       IS '블로그 ID';
 COMMENT ON COLUMN article.article.title         IS '제목';
 COMMENT ON COLUMN article.article.content       IS '본문';
-COMMENT ON COLUMN article.article.status        IS '상태';
 COMMENT ON COLUMN article.article.total_views   IS '총 조회수';
 COMMENT ON COLUMN article.article.total_likes   IS '총 좋아요 수';
 COMMENT ON COLUMN article.article.total_shares  IS '총 공유수';
+COMMENT ON COLUMN article.article.status        IS '상태';
 COMMENT ON COLUMN article.article.created_at    IS '생성시간';
 COMMENT ON COLUMN article.article.updated_at    IS '마지막 수정시간';
-COMMENT ON COLUMN article.article.blog_id       IS '블로그 ID';
 
 ALTER TABLE "article"."article" ADD CONSTRAINT "pk_article" PRIMARY KEY ("id");
