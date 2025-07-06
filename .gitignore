@@ -1,5 +1,5 @@
 ### Local ###
-db
+./db
 
 ### Gradle ###
 .gradle
