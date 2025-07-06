@@ -29,3 +29,6 @@ COMMENT ON COLUMN "auth"."user"."created_at"          IS '생성일자';
 COMMENT ON COLUMN "auth"."user"."updated_at"          IS '수정일자';
 
 ALTER TABLE "auth"."user" ADD CONSTRAINT "pk_user" PRIMARY KEY ("id");
+ALTER TABLE "auth"."user" ADD CONSTRAINT "uq_user_username" UNIQUE ("username");
+ALTER TABLE "auth"."user" ADD CONSTRAINT "uq_user_nickname" UNIQUE ("nickname");
+ALTER TABLE "auth"."user" ADD CONSTRAINT "uq_user_email" UNIQUE ("email");
