@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS article.draft (
 
     status      INTEGER,
     created_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
-    updated_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
+    updated_at  TIMESTAMP   DEFAULT NOW()   NOT NULL
 
     );
 

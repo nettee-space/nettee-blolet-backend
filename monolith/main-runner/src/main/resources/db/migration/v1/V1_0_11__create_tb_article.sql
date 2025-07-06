@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS article.article (
 
     status      INTEGER,
     created_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
-    updated_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
+    updated_at  TIMESTAMP   DEFAULT NOW()   NOT NULL
     );
 
 -- 컬럼 코멘트
