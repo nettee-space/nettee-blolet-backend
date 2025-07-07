@@ -29,4 +29,4 @@ COMMENT ON COLUMN article.draft.created_at  IS '생성시간';
 COMMENT ON COLUMN article.draft.updated_at  IS '마지막 수정시간';
 
 ALTER TABLE "article"."draft" ADD CONSTRAINT "pk_draft" PRIMARY KEY ("id");
-ALTER TABLE "article"."draft" ADD CONSTRAINT "uq_draft_path" UNIQUE ("blog_id", "path");
+ALTER TABLE "article"."draft" ADD CONSTRAINT "uq_draft_blog_id_path" UNIQUE ("blog_id", "path");
