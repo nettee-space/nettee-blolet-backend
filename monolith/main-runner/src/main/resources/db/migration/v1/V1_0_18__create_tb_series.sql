@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS "series";
 
 -- Schema: series
 CREATE TABLE IF NOT EXISTS "series"."series" (
-    "id"          BIGINT,
+    "id"          BIGSERIAL,
     "blog_id"     BIGINT,
     "title"       VARCHAR(255),
     "display_order"  INTEGER,
