@@ -18,5 +18,4 @@ COMMENT ON COLUMN "series"."series_article"."display_order"    IS '사용자정�
 COMMENT ON COLUMN "series"."series_article"."created_at"       IS '생성시간';
 COMMENT ON COLUMN "series"."series_article"."updated_at"       IS '마지막 수정시간';
 
-ALTER TABLE "series"."series_articles" ADD CONSTRAINT "uq_series_articles_series_id" UNIQUE ("series_id");
-ALTER TABLE "series"."series_articles" ADD CONSTRAINT "uq_series_articles_draft_id" UNIQUE ("draft_id");
+ALTER TABLE "series"."series_article" ADD CONSTRAINT "uq_series_articles_series_id_draft_id" UNIQUE ("series_id", "draft_id");
