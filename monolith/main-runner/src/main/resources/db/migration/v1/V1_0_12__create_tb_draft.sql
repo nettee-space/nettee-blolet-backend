@@ -4,6 +4,7 @@ CREATE TABLE IF NOT EXISTS article.draft (
     id          BIGINT,
     blog_id     BIGINT,
     article_id  BIGINT,
+    entry_block_id BIGINT,
 
     title       VARCHAR(255),
     content     TEXT,
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS article.draft (
 COMMENT ON COLUMN article.draft.id          IS '임시 게시물 PK';
 COMMENT ON COLUMN article.draft.blog_id     IS '블로그 ID';
 COMMENT ON COLUMN article.draft.article_id  IS '포스트 ID';
+COMMENT ON COLUMN article.draft.entry_block_id  IS '첫 블록 ID';
 COMMENT ON COLUMN article.draft.title       IS '글 제목';
 COMMENT ON COLUMN article.draft.content     IS '내용';
 COMMENT ON COLUMN article.draft.status      IS '상태';

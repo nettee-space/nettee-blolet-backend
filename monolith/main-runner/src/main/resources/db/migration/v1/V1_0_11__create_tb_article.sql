@@ -3,6 +3,7 @@ CREATE SCHEMA IF NOT EXISTS article;
 CREATE TABLE IF NOT EXISTS article.article (
     id          BIGINT,
     blog_id     BIGINT,
+    entry_block_id BIGINT,
 
     title       VARCHAR(255),
     content     TEXT,
@@ -21,6 +22,7 @@ CREATE TABLE IF NOT EXISTS article.article (
 -- 컬럼 코멘트
 COMMENT ON COLUMN article.article.id            IS 'Article PK';
 COMMENT ON COLUMN article.article.blog_id       IS '블로그 ID';
+COMMENT ON COLUMN article.article.entry_block_id IS '첫 블록 ID';
 COMMENT ON COLUMN article.article.title         IS '제목';
 COMMENT ON COLUMN article.article.content       IS '본문';
 COMMENT ON COLUMN article.article."path"        IS '게시물 URL path';
