@@ -23,3 +23,4 @@ COMMENT ON COLUMN "series"."series"."created_at"        IS '생성시간';
 COMMENT ON COLUMN "series"."series"."updated_at"        IS '마지막 수정시간';
 
 ALTER TABLE "series"."series" ADD CONSTRAINT "pk_series" PRIMARY KEY ("id");
+ALTER TABLE "series"."series" ADD CONSTRAINT "uq_series_blog_id_title" UNIQUE ("blog_id", "title");
