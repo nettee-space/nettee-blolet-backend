@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS "series"."series_article" (
 );
 
 --테이블 코멘트
-COMMENT ON TABLE "series"."series_articles" IS '시리즈아티클';
+COMMENT ON TABLE "series"."series_article" IS '시리즈아티클';
 
 -- 컬럼 코멘트
 COMMENT ON COLUMN "series"."series_article"."series_id"         IS '시리즈 PK';
