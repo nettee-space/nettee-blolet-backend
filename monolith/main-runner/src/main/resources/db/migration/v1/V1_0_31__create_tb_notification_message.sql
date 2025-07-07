@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS notification_message (
     id          BIGINT      NOT NULL,  -- 알림 메시지 임의의 PK
     message_id  VARCHAR     NULL,      -- 메시지의 고유 ID (문자열일 수 있음)
     content     VARCHAR     NULL,      -- 메시지 내용
-    status      ENUM        NULL,      -- 메시지 처리에 대한 상태 (대기, 성공, 실패)
+    status      INTEGER     NULL,      -- 메시지 처리에 대한 상태 (대기, 성공, 실패)
     created_at  TIMESTAMP   NULL,      -- 메시지 생성 시각
 
     CONSTRAINT pk_notification_message PRIMARY KEY (id)

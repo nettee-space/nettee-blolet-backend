@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS notification (
     id          BIGINT      NOT NULL,  -- 알림 데이터에 대한 PK
     user_id     BIGINT      NOT NULL,  -- 수신자를 식별하기 위한 ID
-    type        ENUM        NULL,      -- 알림에 대한 종류(회원가입, 댓글, 답글, 구독, 뉴스레터)
+    type        INTEGER     NULL,      -- 알림에 대한 종류(회원가입, 댓글, 답글, 구독, 뉴스레터)
     content     VARCHAR     NULL,      -- 알림에 대한 구체적인 내용
     is_read     BOOLEAN     NULL,      -- 알림에 대해 사용자가 읽었는지 (True or False)
     created_at  TIMESTAMP   NULL,      -- 알림 생성 시각
