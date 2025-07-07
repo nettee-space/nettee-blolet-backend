@@ -4,7 +4,7 @@ CREATE SCHEMA IF NOT EXISTS "series";
 -- Schema: series
 CREATE TABLE IF NOT EXISTS "series"."series_article" (
     "series_id"         BIGINT,
-    "aricle_id"         BIGINT, -- 비정규화
+    "article_id"         BIGINT, -- 비정규화
     "draft_id"          BIGINT,
     "display_order"     INTEGER,
     "created_at"        TIMESTAMP       DEFAULT NOW(),
@@ -16,7 +16,7 @@ COMMENT ON TABLE "series"."series_article" IS '시리즈아티클';
 
 -- 컬럼 코멘트
 COMMENT ON COLUMN "series"."series_article"."series_id"         IS '시리즈 PK';
-COMMENT ON COLUMN "series"."series_article"."aricle_id"         IS '아티클 PK';
+COMMENT ON COLUMN "series"."series_article"."article_id"         IS '아티클 PK';
 COMMENT ON COLUMN "series"."series_article"."draft_id"          IS '임시아티클 PK';
 COMMENT ON COLUMN "series"."series_article"."display_order"     IS '사용자정렬순서';
 COMMENT ON COLUMN "series"."series_article"."created_at"        IS '생성시간';
