@@ -14,11 +14,11 @@ import java.util.Objects;
 @AllArgsConstructor
 public class SeriesArticle {
     
-    private Long seriesId;
+    private String seriesId;
     
-    private Long articleId;
+    private String articleId;
     
-    private Long draftId;
+    private String draftId;
     
     private Integer displayOrder;
     

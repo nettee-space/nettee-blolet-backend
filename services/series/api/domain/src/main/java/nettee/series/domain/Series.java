@@ -14,9 +14,9 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Series {
     
-    private Long id;
+    private String id;
     
-    private Long blogId;
+    private String blogId;
     
     private String title;
     
