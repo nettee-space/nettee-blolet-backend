@@ -25,24 +25,24 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Series", description = "Series API")
 public class SeriesCommandApi {
     
-    @Operation(summary = "시리즈 생성", description = "시리즈를 생성합니다.")
+    @Operation(summary = "시리즈 생성", description = "블로그 ID에 해당하는 시리즈를 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공")
     })
-    @PostMapping
+    @PostMapping("/{blogId}")
     @ResponseStatus(HttpStatus.CREATED)
-    public SeriesCommandResponse create(@RequestBody @Valid SeriesCreateCommand command) {
+    public SeriesCommandResponse create(@RequestBody @Valid SeriesCreateCommand command, @PathVariable("blogId") String blogId) {
         // ...
         return null;
     }
     
-    @Operation(summary = "시리즈 수정", description = "해당 시리즈의 제목 혹은 사용자 순서를 수정합니다")
+    @Operation(summary = "시리즈 수정", description = "블로그 ID에 해당 시리즈의 제목 혹은 사용자 순서를 수정합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
     })
-    @PatchMapping
+    @PatchMapping("/{blogId}")
     @ResponseStatus(HttpStatus.OK)
-    public SeriesCommandResponse update(@RequestBody @Valid SeriesUpdateCommand command) {
+    public SeriesCommandResponse update(@RequestBody @Valid SeriesUpdateCommand command, @PathVariable("blogId") String blogId) {
         // ...
         return null;
     }
