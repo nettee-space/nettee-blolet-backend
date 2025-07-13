@@ -17,4 +17,4 @@ COMMENT ON COLUMN "blog"."blog_subscription"."created_at" IS '생성일자';
 COMMENT ON COLUMN "blog"."blog_subscription"."updated_at" IS '수정일자';
 
 ALTER TABLE "blog"."blog_subscription" ADD CONSTRAINT "pk_blog_subscription" PRIMARY KEY ("id");
-ALTER TABLE "blog"."blog_subscription" ADD CONSTRAINT "uq_blog_subscription_user_id_blog_id" PRIMARY KEY ("user_id", "blog_id");
+ALTER TABLE "blog"."blog_subscription" ADD CONSTRAINT "uq_blog_subscription_user_id_blog_id" UNIQUE ("user_id", "blog_id");
