@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nettee.series.article.domain.SeriesArticle;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -20,7 +22,13 @@ public class Series {
     
     private String title;
     
+    private String description;
+    
+    private byte[] banner;
+    
     private Integer displayOrder;
+    
+    private List<SeriesArticle> seriesArticleList;
     
     private Instant createdAt;
     
