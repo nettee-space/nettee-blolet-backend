@@ -1,12 +1,13 @@
 package nettee.series.application.usecase;
 
-import nettee.series.domain.Series;
+import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 
 import java.util.List;
 
 public interface SeriesReadUseCase {
     
-    Series getSeries(String blogId, String seriesId);
+    SeriesDetail getSeries(String blogId, String seriesId);
     
-    List<Series> getSeriesLiST(String blogId);
+    List<SeriesSummary> getSeriesList(String blogId);
 }
