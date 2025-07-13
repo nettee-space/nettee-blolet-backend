@@ -6,5 +6,7 @@ public interface SeriesArticleCommandRepositoryPort {
     
     SeriesArticle save (SeriesArticle article);
     
+    SeriesArticle updateDraftToArticle (SeriesArticle article);
+    
     void delete (String seriesId);
 }
