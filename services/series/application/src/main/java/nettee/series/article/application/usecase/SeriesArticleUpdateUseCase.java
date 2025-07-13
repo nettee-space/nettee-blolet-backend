@@ -2,7 +2,7 @@ package nettee.series.article.application.usecase;
 
 import nettee.series.article.domain.SeriesArticle;
 
-public interface SeriesArticleCreateUseCase {
+public interface SeriesArticleUpdateUseCase {
     
-    SeriesArticle createSeriesArticle(SeriesArticle article);
+    SeriesArticle updateSeriesArticle(SeriesArticle article);
 }

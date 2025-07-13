@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SeriesArticleReadUseCase {
     
-    List<SeriesArticleSummary> findBySeriesId(String seriesId);
+    List<SeriesArticleSummary> getSeriesArticleList(String seriesId);
 }
