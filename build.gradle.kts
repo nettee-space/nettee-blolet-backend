@@ -47,7 +47,7 @@ subprojects {
 
         // FIXME determine the placement of logging library later
         implementation("org.springframework.boot:spring-boot-starter-log4j2")
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2")
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6")
 
         compileOnly("org.projectlombok:lombok")
         annotationProcessor("org.projectlombok:lombok")
