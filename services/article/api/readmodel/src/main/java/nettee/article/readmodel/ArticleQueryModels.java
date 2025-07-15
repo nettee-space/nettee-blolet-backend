@@ -1,0 +1,26 @@
+package nettee.article.readmodel;
+
+import lombok.Builder;
+import nettee.article.domain.ArticleStatus;
+
+import java.time.Instant;
+
+public final class ArticleQueryModels {
+
+    private ArticleQueryModels() {}
+
+    @Builder
+    public record ArticleSummary(
+        String id,
+        String blogId,
+        String title,
+        String content,
+        String path,
+        Integer totalViews,
+        Integer totalLikes,
+        Integer totalShares,
+        ArticleStatus status,
+        Instant createdAt,
+        Instant updatedAt
+    ) {}
+}
