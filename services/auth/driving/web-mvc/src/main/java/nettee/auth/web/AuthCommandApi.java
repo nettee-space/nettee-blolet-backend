@@ -70,7 +70,7 @@ public class AuthCommandApi {
         // 이메일 인증 코드 전송 로직 구현
     }
 
-    @PostMapping("/email/verification/verify")
+    @PostMapping("/email/verification/check")
     @Operation(
             summary = "이메일 인증코드 확인",
             description = "사용자가 이메일 인증코드를 확인합니다."
@@ -80,7 +80,7 @@ public class AuthCommandApi {
     }
 
     // TODO: 비밀번호 변경 전 재인증 & 비밀번호 변경을 함께 진행할 수도 있음
-    @PostMapping("/password/verify")
+    @PostMapping("/password/verification")
     @Operation(
             summary = "비밀번호 변경 전 재인증",
             description = "사용자가 비밀번호를 변경하기 전에 재인증을 수행합니다."
