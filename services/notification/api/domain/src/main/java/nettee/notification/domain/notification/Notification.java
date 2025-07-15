@@ -13,7 +13,7 @@ import nettee.notification.domain.notification.type.NotificationType;
 @AllArgsConstructor
 public class Notification {
 
-    private Long id;
+    private String id;
 
     private Long userId;
 
