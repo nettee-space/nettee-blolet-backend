@@ -8,3 +8,4 @@ apply(from = "monolith/monolith.settings.gradle.kts")
 
 // services
 apply(from = "$services/series/series.settings.gradle.kts")
+apply(from = "$services/draft/draft.settings.gradle.kts")
