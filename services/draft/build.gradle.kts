@@ -6,4 +6,5 @@ val draftWebMvcAdapter: String by project
 dependencies {
     api(project(draftApi))
     api(project(draftWebMvcAdapter))
+    api(project(draftRdbAdapter))
 }
