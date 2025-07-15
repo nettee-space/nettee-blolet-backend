@@ -1,5 +1,9 @@
 package nettee.draft.driving.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
 import nettee.draft.readmodel.DraftQueryModels.DraftSummary;
@@ -19,10 +23,15 @@ import static nettee.draft.exception.DraftQueryErrorCode.DRAFT_NOT_FOUND;
 @RestController
 @RequestMapping("drafts")
 @RequiredArgsConstructor
+@Tag(name = "Draft Query", description = "Draft Query API")
 public class DraftQueryApi {
     private final DraftReadUseCase draftReadUseCase;
     private final DraftReadByStatusesUseCase draftReadByStatusesUseCase;
 
+    @Operation(summary = "임시 아티클 단건조회", description = "임시아티클을 상세조회 합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @GetMapping("/{draftId}")
     public DraftDetailResponse getDraft(@PathVariable("draftId") long draftId) {
         DraftQueryModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
@@ -30,9 +39,13 @@ public class DraftQueryApi {
         return new DraftDetailResponse(draftDetail);
     }
 
+    @Operation(summary = "임시 아티클 목록조회", description = "상태와 함께 임시아티클을 목록조회 합니다(기본 상태는 DRAFT이며, 추가로 PENDING, DELETED, DONE이 존재함)")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @GetMapping
     public Page<DraftSummary> getDraftsByStatuses(
-            @RequestParam(defaultValue = "PENDING, DRAFT") Set<DraftStatus> statuses,
+            @RequestParam(defaultValue = "DRAFT") Set<DraftStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
         return draftReadByStatusesUseCase.findByStatuses(statuses, size);
     }

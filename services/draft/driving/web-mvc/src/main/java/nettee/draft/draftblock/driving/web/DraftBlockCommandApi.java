@@ -1,5 +1,9 @@
 package nettee.draft.draftblock.driving.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.draftblock.application.usecase.DraftBlockCreateUseCase;
@@ -23,12 +27,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("draftBlocks")
 @RequiredArgsConstructor
+@Tag(name = "DraftBlock Command", description = "Draft Command API")
 public class DraftBlockCommandApi {
     private final DraftBlockCreateUseCase draftCreateUseCase;
     private final DraftBlockUpdateUseCase draftUpdateUseCase;
     private final DraftBlockDeleteUseCase draftDeleteUseCase;
     private final DraftBlockDtoMapper mapper;
 
+    @Operation(summary = "블록 생성", description = "블록을 생성합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand draftBlockCreateCommand) {
@@ -43,6 +52,10 @@ public class DraftBlockCommandApi {
                 .build();
     }
 
+    @Operation(summary = "블록 수정", description = "블록을 수정합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DraftBlockCommandResponse updateDraftBlock(
@@ -56,6 +69,10 @@ public class DraftBlockCommandApi {
                 .build();
     }
 
+    @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("id") Long id) {
