@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("drafts")
 @RequiredArgsConstructor
-@Tag(name = "Draft Command", description = "Draft Command API")
+@Tag(name = "Draft", description = "Draft API")
 public class DraftCommandApi {
     private final DraftCreateUseCase draftCreateUseCase;
     private final DraftUpdateUseCase draftUpdateUseCase;

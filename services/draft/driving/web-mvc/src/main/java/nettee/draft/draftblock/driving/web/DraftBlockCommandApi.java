@@ -25,9 +25,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("draftBlocks")
+@RequestMapping("draft-blocks")
 @RequiredArgsConstructor
-@Tag(name = "DraftBlock Command", description = "Draft Command API")
+@Tag(name = "DraftBlock", description = "DraftBlock API")
 public class DraftBlockCommandApi {
     private final DraftBlockCreateUseCase draftCreateUseCase;
     private final DraftBlockUpdateUseCase draftUpdateUseCase;

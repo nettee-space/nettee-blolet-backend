@@ -23,7 +23,7 @@ import static nettee.draft.exception.DraftQueryErrorCode.DRAFT_NOT_FOUND;
 @RestController
 @RequestMapping("drafts")
 @RequiredArgsConstructor
-@Tag(name = "Draft Query", description = "Draft Query API")
+@Tag(name = "Draft", description = "Draft API")
 public class DraftQueryApi {
     private final DraftReadUseCase draftReadUseCase;
     private final DraftReadByStatusesUseCase draftReadByStatusesUseCase;

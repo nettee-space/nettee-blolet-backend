@@ -23,9 +23,9 @@ import java.util.Set;
 import static nettee.draft.draftblock.exception.DraftBlockQueryErrorCode.DRAFT_NOT_FOUND;
 
 @RestController
-@RequestMapping("draftBlocks")
+@RequestMapping("draft-blocks")
 @RequiredArgsConstructor
-@Tag(name = "DraftBlock Query", description = "DraftBlock Query API")
+@Tag(name = "DraftBlock", description = "DraftBlock API")
 public class DraftBlockQueryApi {
     private final DraftBlockReadUseCase draftReadUseCase;
     private final DraftBlockReadByStatusesUseCase draftReadByStatusesUseCase;
