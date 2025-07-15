@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthCommandApi {
 
-    @PostMapping("/signUp")
+    @PostMapping("/sign-up")
     @Operation(
             summary = "회원가입",
             description = "일반 사용자를 등록합니다."
@@ -32,7 +32,7 @@ public class AuthCommandApi {
         // 회원 가입 로직 구현
     }
 
-    @PostMapping("/logIn")
+    @PostMapping("/log-in")
     @Operation(
             summary = "로그인",
             description = """
@@ -45,7 +45,7 @@ public class AuthCommandApi {
         return null;
     }
 
-    @PostMapping("/logOut")
+    @PostMapping("/log-out")
     @Operation(summary = "로그아웃", description = "사용자가 로그아웃합니다.")
     public void logOut() {
         // 로그아웃 로직 구현
@@ -108,5 +108,5 @@ public class AuthCommandApi {
         return null;
     }
 
-    // TODO: 추후 자동 로그인, 아이디/비밀번호 찾기 추가 기능 구현 필요
+    // TODO: 아이디/비밀번호 찾기 추가 기능 구현 가능성 있음
 }
