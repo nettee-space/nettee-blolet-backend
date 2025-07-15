@@ -1,7 +1,9 @@
 val draftApi: String by project
+val draftApplication: String by project
 
 dependencies {
     api(project(draftApi))
+    api(project(draftApplication))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
@@ -11,5 +13,8 @@ dependencies {
     compileOnly("org.mapstruct:mapstruct:1.6.3")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
+
+    // spring
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 }
 

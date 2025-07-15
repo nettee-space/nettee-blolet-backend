@@ -15,18 +15,23 @@ import java.util.Objects;
 @AllArgsConstructor
 public class Draft {
     private Long id;
+    private Long blogId;
+    private Long articleId;
+    private Long entryBlockId;
     private String title;
     private String content;
+    private String path;
     private DraftStatus status;
     private Instant createdAt;
     private Instant updatedAt;
-    private Long blogId;
-    private Long articleId;
 
-    public static Draft of(String title, String content) {
+    public static Draft of(Long blogId, Long articleId, String title, String content, String path) {
         return Draft.builder()
+                .blogId(blogId)
+                .articleId(articleId)
                 .title(title)
                 .content(content)
+                .path(path)
                 .status(DraftStatus.PENDING) // 기본 상태 설정
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())
@@ -38,12 +43,13 @@ public class Draft {
             builderMethodName = "prepareDraftUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, String content) {
+    public void update(String title, String content, String path) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(content, "Content cannot be null");
 
         this.title = title;
         this.content = content;
+        this.path = path;
         this.updatedAt = Instant.now();
     }
 
