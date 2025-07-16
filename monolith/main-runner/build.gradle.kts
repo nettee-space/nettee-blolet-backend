@@ -2,6 +2,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 val series: String by project
 val article: String by project
+val blog: String by project
 val auth: String by project
 
 version = "0.0.1-SNAPSHOT"
@@ -16,6 +17,7 @@ dependencies {
     // service
     api(project(series))
     api(project(article))
+    api(project(blog))
     api(project(auth))
 
     // webmvc
