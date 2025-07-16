@@ -1,0 +1,91 @@
+package nettee.blolet.blog.web;
+
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterSubscribeResponse;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterUnsubscribeResponse;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogSubscribeResponse;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUnsubscribeResponse;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateCommand;
+import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("blogs")
+@Tag(name = "Blog", description = "Blog API")
+public class BlogCommandApi {
+
+//    @GetMapping("/user/{username}/blogs")
+//    public List<Void> findAllByUserId(@PathVariable("username") String username) {
+//        throw new Error("아직 다중 블로그 제공이 기획되지 않음.");
+//    }
+
+    @PutMapping("/{blogId}")
+    @Operation(
+            summary = "블로그 정보 수정",
+            description = "사용자가 소유한 블로그 정보를 수정합니다."
+    )
+    public BlogUpdateResponse updateBlog(@PathVariable("blogId") String blogId, @RequestBody BlogUpdateCommand dto) {
+        return null;
+    }
+
+    /**
+     * TODO 예상되는 정책 또는 논의 (블로그 상세 조회)
+     * <ul>
+     *     <li>Q. 사용자는 최소 하나의 블로그를 갖고 있어야 할까요?</li>
+     * </ul>
+     */
+    @DeleteMapping("/{blogId}")
+    @Operation(
+            summary = "블로그 삭제",
+            description = "사용자가 소유한 블로그 중 하나를 삭제합니다."
+    )
+    public void deleteBlog(@PathVariable("blogId") String blogId) {}
+
+    @PostMapping("/{blogId}/subscribe")
+    @Operation(
+            summary = "블로그 구독(팔로우; 용어 미정)",
+            description = "블로그를 구독합니다."
+    )
+    public BlogSubscribeResponse subscribeBlog(@PathVariable("blogId") String blogId) {
+        return null;
+    }
+
+    @DeleteMapping("/{blogId}/subscribe")
+    @Operation(
+            summary = "블로그 구독 취소",
+            description = "구독한 블로그의 구독을 취소합니다. (TODO 정책 논의: 아마도 뉴스레터 구독도 함께 취소될 것입니다.)"
+    )
+    public BlogUnsubscribeResponse unsubscribeBlog(@PathVariable("blogId") String blogId) {
+        return null;
+    }
+
+    @PostMapping("/{blogId}/newsletter")
+    @Operation(
+            summary = "블로그 뉴스레터 구독 (뉴스레터 수신 동의)",
+            description = "블로그의 뉴스레터 수신을 동의합니다. (TODO 정책 논의: 아직 구독하지 않은 블로그라면 아마도 구독도 함께 될 것입니다.)"
+    )
+    public BlogNewsletterSubscribeResponse subscribeNewsletter(@PathVariable("blogId") String blogId) {
+        return null;
+    }
+
+    @DeleteMapping("/{blogId}/newsletter")
+    @Operation(
+            summary = "블로그 뉴스레터 취소 (뉴스레터 수신 비동의)",
+            description = "블로그의 뉴스레터 수신 동의를 철회합니다."
+    )
+    public BlogNewsletterUnsubscribeResponse unsubscribeNewsletter(@PathVariable("blogId") String blogId) {
+        return null;
+    }
+}
