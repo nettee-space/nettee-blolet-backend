@@ -2,6 +2,9 @@ package nettee.draft.draftblock.driven.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,25 +13,38 @@ import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatusConverter;
 import nettee.jpa.support.LongBaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 
 @Getter
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "draftBlock")
+@Entity
+@Table(schema = "article", name = "draft_block")
 public class DraftBlockEntity extends LongBaseTimeEntity {
-    public String title;
+    @Id
+    private Long id; //snowflake로 수정예정
+    private Long blogId;
+    private Long draftId;
+    private Long articleId;
+    private Long nextBlockId;
+    private String type;
     public String content;
 
     @Convert(converter = DraftBlockEntityStatusConverter.class)
     public DraftBlockEntityStatus status;
 
     @Builder
-    public DraftBlockEntity(String title, String content, DraftBlockEntityStatus status) {
-        this.title = title;
+    public DraftBlockEntity(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
+        this.id = System.currentTimeMillis(); //임시 아이디. 필히 삭제!!
         this.content = content;
+        this.blogId = blogId;
+        this.draftId = draftId;
+        this.articleId = articleId;
+        this.nextBlockId = nextBlockId;
         this.status = status;
+        this.type = type;
     }
 
     @Builder(
@@ -36,13 +52,17 @@ public class DraftBlockEntity extends LongBaseTimeEntity {
             builderMethodName = "prepareDraftBlockEntityUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, String content, Integer totalLikes, Integer totalViews, Integer totalShares) {
-        Objects.requireNonNull(title, "Title cannot be null");
+    public void update(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
         Objects.requireNonNull(content, "Content cannot be null");
         Objects.requireNonNull(status, "status cannot be null");
 
-        this.title = title;
         this.content = content;
+        this.blogId = blogId;
+        this.draftId = draftId;
+        this.articleId = articleId;
+        this.nextBlockId = nextBlockId;
+        this.status = status;
+        this.type = type;
     }
 
     @Builder(
@@ -52,7 +72,6 @@ public class DraftBlockEntity extends LongBaseTimeEntity {
     )
     public void updateStatus(DraftBlockEntityStatus status) {
         Objects.requireNonNull(status, "status cannot be null");
-
         this.status = status;
     }
 }

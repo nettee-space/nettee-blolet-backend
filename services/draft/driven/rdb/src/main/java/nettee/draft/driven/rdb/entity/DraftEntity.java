@@ -2,6 +2,9 @@ package nettee.draft.driven.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,25 +13,38 @@ import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatusConverter;
 import nettee.jpa.support.LongBaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.Objects;
 
 @Getter
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "draft")
+@Entity
+@Table(schema = "article", name = "draft")
 public class DraftEntity extends LongBaseTimeEntity {
+    @Id
+    private Long id; //snowflake로 수정예정
     public String title;
     public String content;
+    public Long blogId;
+    public Long articleId;
+    public Long entryBlockId;
+    public String path;
 
     @Convert(converter = DraftEntityStatusConverter.class)
     public DraftEntityStatus status;
 
     @Builder
-    public DraftEntity(String title, String content, DraftEntityStatus status) {
+    public DraftEntity(String title, String content, Long blogId, Long articleId, Long entryBlockId, String path, DraftEntityStatus status) {
+        this.id = System.currentTimeMillis(); //임시 아이디. 필히 삭제!!
         this.title = title;
         this.content = content;
         this.status = status;
+        this.blogId = blogId;
+        this.articleId = articleId;
+        this.entryBlockId = entryBlockId;
+        this.path = path;
     }
 
     @Builder(
@@ -36,13 +52,18 @@ public class DraftEntity extends LongBaseTimeEntity {
             builderMethodName = "prepareDraftEntityUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, String content, Integer totalLikes, Integer totalViews, Integer totalShares) {
+    public void update(String title, String content, Long blogId, Long articleId, Long entryBlockId, String path, DraftEntityStatus status) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(content, "Content cannot be null");
         Objects.requireNonNull(status, "status cannot be null");
 
         this.title = title;
         this.content = content;
+        this.status = status;
+        this.blogId = blogId;
+        this.articleId = articleId;
+        this.entryBlockId = entryBlockId;
+        this.path = path;
     }
 
     @Builder(

@@ -41,16 +41,17 @@ public class DraftCommandApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftCommandResponse create(@RequestBody @Valid DraftCreateCommand draftCreateCommand) {
-        var draft = Draft.of(
-                draftCreateCommand.blogId(),
-                draftCreateCommand.articleId(),
-                draftCreateCommand.title(),
-                draftCreateCommand.content(),
-                draftCreateCommand.path()
-        );
-        return DraftCommandResponse.builder()
-                .draft(draftCreateUseCase.createDraft(draft))
-                .build();
+//        var draft = Draft.of(
+//                draftCreateCommand.blogId(),
+//                draftCreateCommand.articleId(),
+//                draftCreateCommand.title(),
+//                draftCreateCommand.content(),
+//                draftCreateCommand.path()
+//        );
+//        return DraftCommandResponse.builder()
+//                .draft(draftCreateUseCase.createDraft(draft))
+//                .build();
+        return null;
     }
 
     @Operation(summary = "임시 아티클 수정", description = "임시아티클 ID로 임시 아티클을 수정합니다.")
@@ -63,11 +64,12 @@ public class DraftCommandApi {
             @PathVariable("id") Long id,
             @RequestBody @Valid DraftUpdateCommand draftUpdateCommand
     ) {
-        var draft = mapper.toDomain(id, draftUpdateCommand);
-
-        return DraftCommandResponse.builder()
-                .draft(draftUpdateUseCase.updateDraft(draft))
-                .build();
+//        var draft = mapper.toDomain(id, draftUpdateCommand);
+//
+//        return DraftCommandResponse.builder()
+//                .draft(draftUpdateUseCase.updateDraft(draft))
+//                .build();
+        return null;
     }
 
     @Operation(summary = "임시 아티클 삭제", description = "임시아티클 ID로 임시 아티클을 삭제합니다.")
@@ -77,7 +79,7 @@ public class DraftCommandApi {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("id") Long id) {
-        draftDeleteUseCase.deleteDraft(id);
+//        draftDeleteUseCase.deleteDraft(id);
     }
 
 }

@@ -41,15 +41,17 @@ public class DraftBlockCommandApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand draftBlockCreateCommand) {
-        var draft = DraftBlock.of(
-                draftBlockCreateCommand.type(),
-                draftBlockCreateCommand.content(),
-                draftBlockCreateCommand.style()
-        );
+//        var draft = DraftBlock.of(
+//                draftBlockCreateCommand.type(),
+//                draftBlockCreateCommand.content(),
+//                draftBlockCreateCommand.style()
+//        );
+//
+//        return DraftBlockCommandResponse.builder()
+//                .draftblock(draftCreateUseCase.createDraftBlock(draft))
+//                .build();
 
-        return DraftBlockCommandResponse.builder()
-                .draftblock(draftCreateUseCase.createDraftBlock(draft))
-                .build();
+        return null;
     }
 
     @Operation(summary = "블록 수정", description = "블록을 수정합니다.")
@@ -62,11 +64,13 @@ public class DraftBlockCommandApi {
             @PathVariable("id") Long id,
             @RequestBody @Valid DraftBlockUpdateCommand draftUpdateCommand
     ) {
-        var draft = mapper.toDomain(id, draftUpdateCommand);
+//        var draft = mapper.toDomain(id, draftUpdateCommand);
+//
+//        return DraftBlockCommandResponse.builder()
+//                .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
+//                .build();
 
-        return DraftBlockCommandResponse.builder()
-                .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
-                .build();
+        return null;
     }
 
     @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
@@ -76,7 +80,7 @@ public class DraftBlockCommandApi {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("id") Long id) {
-        draftDeleteUseCase.deleteDraftBlock(id);
+//        draftDeleteUseCase.deleteDraftBlock(id);
     }
 
 }

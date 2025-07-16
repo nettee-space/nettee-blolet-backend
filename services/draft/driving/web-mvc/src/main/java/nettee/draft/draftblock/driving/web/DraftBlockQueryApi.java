@@ -36,9 +36,10 @@ public class DraftBlockQueryApi {
     })
     @GetMapping("/{draftBlockId}")
     public DraftBlockDetailResponse getDraftBlock(@PathVariable("draftBlockId") long draftBlockId) {
-        DraftBlockQueryModels.DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
-                .orElseThrow(DRAFT_NOT_FOUND::exception);
-        return new DraftBlockDetailResponse(draftDetail);
+//        DraftBlockQueryModels.DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
+//                .orElseThrow(DRAFT_NOT_FOUND::exception);
+//        return new DraftBlockDetailResponse(draftDetail);
+        return null;
     }
 
     @Operation(summary = "블록 목록조회", description = "블록을 상태와 함께 조회합니다. (기본상태는 DRAFT, PUBLISHED이며, 추가로 DELETED가 존재함)")
@@ -49,6 +50,7 @@ public class DraftBlockQueryApi {
     public Page<DraftBlockSummary> getDraftBlocksByStatuses(
             @RequestParam(defaultValue = "DRAFT, PUBLISHED") Set<DraftBlockStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
-        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
+//        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
+        return null;
     }
 }

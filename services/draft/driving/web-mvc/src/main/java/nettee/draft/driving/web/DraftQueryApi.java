@@ -34,9 +34,10 @@ public class DraftQueryApi {
     })
     @GetMapping("/{draftId}")
     public DraftDetailResponse getDraft(@PathVariable("draftId") long draftId) {
-        DraftQueryModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
-                .orElseThrow(DRAFT_NOT_FOUND::exception);
-        return new DraftDetailResponse(draftDetail);
+//        DraftQueryModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
+//                .orElseThrow(DRAFT_NOT_FOUND::exception);
+//        return new DraftDetailResponse(draftDetail);
+        return null;
     }
 
     @Operation(summary = "임시 아티클 목록조회", description = "상태와 함께 임시아티클을 목록조회 합니다(기본 상태는 DRAFT이며, 추가로 PENDING, DELETED, DONE이 존재함)")
@@ -47,6 +48,7 @@ public class DraftQueryApi {
     public Page<DraftSummary> getDraftsByStatuses(
             @RequestParam(defaultValue = "DRAFT") Set<DraftStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
-        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
+//        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
+        return null;
     }
 }
