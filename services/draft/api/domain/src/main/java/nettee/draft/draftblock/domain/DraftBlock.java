@@ -14,11 +14,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DraftBlock {
-    private Long id;
-    private Long blogId;
-    private Long draftId;
-    private Long articleId;
-    private Long nextBlockId;
+    private String id;
+    private String blogId;
+    private String draftId;
+    private String articleId;
+    private String nextBlockId;
     private String type;
     private String content;
     private Map<String, Object> style;

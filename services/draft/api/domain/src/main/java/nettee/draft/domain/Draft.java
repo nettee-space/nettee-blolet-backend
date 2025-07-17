@@ -14,10 +14,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Draft {
-    private Long id;
-    private Long blogId;
-    private Long articleId;
-    private Long entryBlockId;
+    private String id;
+    private String blogId;
+    private String articleId;
+    private String entryBlockId;
     private String title;
     private String content;
     private String path;
@@ -25,7 +25,7 @@ public class Draft {
     private Instant createdAt;
     private Instant updatedAt;
 
-    public static Draft of(Long blogId, Long articleId, String title, String content, String path) {
+    public static Draft of(String blogId, String articleId, String title, String content, String path) {
         return Draft.builder()
                 .blogId(blogId)
                 .articleId(articleId)
