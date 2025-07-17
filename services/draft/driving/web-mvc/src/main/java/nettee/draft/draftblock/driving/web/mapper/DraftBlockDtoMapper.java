@@ -4,7 +4,7 @@ import nettee.draft.draftblock.domain.DraftBlock;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockDetail;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import org.mapstruct.Mapper;
 
 import java.util.Optional;

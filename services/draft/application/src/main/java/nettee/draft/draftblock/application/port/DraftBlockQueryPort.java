@@ -1,8 +1,8 @@
 package nettee.draft.draftblock.application.port;
 
 import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockSummary;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

@@ -5,8 +5,8 @@ import nettee.draft.draftblock.domain.type.DraftBlockStatus;
 
 import java.time.Instant;
 
-public final class DraftBlockQueryModels {
-    private DraftBlockQueryModels() {
+public final class DraftBlockReadModels {
+    private DraftBlockReadModels() {
     }
 
     @Builder

@@ -2,8 +2,8 @@ package nettee.draft.draftblock.driven.rdb.persistence.mapper;
 
 import nettee.draft.draftblock.domain.DraftBlock;
 import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockSummary;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.mapstruct.Mapper;
 
 import java.util.Optional;

@@ -6,10 +6,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
-import nettee.draft.readmodel.DraftQueryModels.DraftSummary;
+import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
-import nettee.draft.readmodel.DraftQueryModels;
 import nettee.draft.domain.type.DraftStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
-import static nettee.draft.exception.DraftQueryErrorCode.DRAFT_NOT_FOUND;
 
 @RestController
 @RequestMapping("drafts")

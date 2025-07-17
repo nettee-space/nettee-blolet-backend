@@ -4,8 +4,8 @@ import lombok.Builder;
 import nettee.draft.domain.type.DraftStatus;
 
 import java.time.Instant;
-public final class DraftQueryModels {
-    private DraftQueryModels() {
+public final class DraftReadModels {
+    private DraftReadModels() {
     }
 
     @Builder

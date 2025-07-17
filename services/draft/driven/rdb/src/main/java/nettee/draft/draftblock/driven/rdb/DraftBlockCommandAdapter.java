@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import nettee.draft.draftblock.application.port.DraftBlockCommandPort;
 import nettee.draft.draftblock.domain.DraftBlock;
 import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.driven.rdb.DraftBlockJpaRepository;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.persistence.mapper.DraftBlockEntityMapper;
-import nettee.draft.draftblock.readmodel.DraftBlockQueryModels.DraftBlockDetail;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
