@@ -36,7 +36,7 @@ public class DraftBlockCommandApi {
 
     @Operation(summary = "블록 생성", description = "블록을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
+            @ApiResponse(responseCode = "201", description = "성공")
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -75,7 +75,7 @@ public class DraftBlockCommandApi {
 
     @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
+            @ApiResponse(responseCode = "204", description = "성공")
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

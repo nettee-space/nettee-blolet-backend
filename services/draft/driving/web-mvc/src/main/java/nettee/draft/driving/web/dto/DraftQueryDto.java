@@ -10,7 +10,6 @@ public class DraftQueryDto {
 
     @Builder
     public record DraftDetailResponse(
-
             DraftDetail draft
     ) {
     }

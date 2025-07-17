@@ -10,7 +10,6 @@ public class DraftBlockQueryDto {
 
     @Builder
     public record DraftBlockDetailResponse(
-
             DraftBlockDetail draftBlockDetail
     ) {
     }

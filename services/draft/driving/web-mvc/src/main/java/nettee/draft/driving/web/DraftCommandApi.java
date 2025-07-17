@@ -36,7 +36,7 @@ public class DraftCommandApi {
 
     @Operation(summary = "임시 아티클 생성", description = "임시 아티클을 생성합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
+            @ApiResponse(responseCode = "201", description = "성공")
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -74,7 +74,7 @@ public class DraftCommandApi {
 
     @Operation(summary = "임시 아티클 삭제", description = "임시아티클 ID로 임시 아티클을 삭제합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
+            @ApiResponse(responseCode = "204", description = "성공")
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
