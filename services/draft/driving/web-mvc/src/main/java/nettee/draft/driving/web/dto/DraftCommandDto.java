@@ -15,8 +15,8 @@ public final class DraftCommandDto {
     @Builder
     public record DraftCreateCommand(
             @NotNull(message = "블로그ID를 입력하십시오.")
-            Long blogId,
-            Long articleId,
+            String blogId,
+            String articleId,
             @NotBlank(message = "제목을 입력하십시오.")
             @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
             String title,
@@ -30,7 +30,7 @@ public final class DraftCommandDto {
     @Builder
     public record DraftUpdateCommand(
             @NotNull(message = "id를 입력하십시오.")
-            Long id,
+            String id,
             @NotBlank(message = "제목을 입력하십시오.")
             @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
             String title,
@@ -46,7 +46,7 @@ public final class DraftCommandDto {
     @Builder
     public record DraftUpdateTotalViewsCommand(
             @NotNull(message = "id를 입력하십시오.")
-            Long id,
+            String id,
             @NotNull(message = "총 조회수를 입력해주세요.")
             Integer totalViews
     ) {
@@ -55,7 +55,7 @@ public final class DraftCommandDto {
     @Builder
     public record DraftUpdateTotalLikesCommand(
             @NotNull(message = "id를 입력하십시오.")
-            Long id,
+            String id,
             @NotNull(message = "총 좋아요 수를 입력해주세요.")
             Integer totalLikes
     ) {
@@ -64,7 +64,7 @@ public final class DraftCommandDto {
     @Builder
     public record DraftUpdateTotalSharesCommand(
             @NotNull(message = "id를 입력하십시오.")
-            Long id,
+            String id,
             @NotNull(message = "총 공유수를 입력해주세요.")
             Integer totalShares
     ) {

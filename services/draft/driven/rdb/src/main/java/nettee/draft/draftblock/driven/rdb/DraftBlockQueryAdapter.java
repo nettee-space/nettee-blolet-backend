@@ -33,7 +33,7 @@ public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public Optional<DraftBlockDetail> findById(Long id) {
+    public Optional<DraftBlockDetail> findById(String id) {
         return draftBlockEntityMapper.toOptionalDraftBlockDetail(
                 getQuerydsl().createQuery()
                         .select(draftBlockEntity)

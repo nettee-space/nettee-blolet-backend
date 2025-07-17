@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface DraftQueryPort {
-    Optional<DraftDetail> findById(Long id);
+    Optional<DraftDetail> findById(String id);
     Page<DraftSummary> findAll(Pageable pageable);
 
     Page<DraftSummary> findByStatuses(Set<DraftStatus> statuses, Pageable pageable);

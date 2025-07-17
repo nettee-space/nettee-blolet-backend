@@ -19,11 +19,11 @@ public final class DraftBlockCommandDto {
     @Builder
     public record DraftBlockCreateCommand(
             @NotNull(message = "블로그ID를 입력하십시오.")
-            Long blogId,
+            String blogId,
             @NotNull(message = "임시글ID를 입력하십시오.")
-            Long draftId,
-            Long articleId,
-            Long nextBlockId,
+            String draftId,
+            String articleId,
+            String nextBlockId,
             @NotBlank(message = "블록 종류를 입력하십시오.")
             String type,
             @NotBlank(message = "블록 내용을 입력하십시오.")
@@ -35,8 +35,8 @@ public final class DraftBlockCommandDto {
     @Builder
     public record DraftBlockUpdateCommand(
             @NotNull(message = "id를 입력하십시오.")
-            Long id,
-            Long nextBlockId, // 순서/블록 연결성 변경시 사용
+            String id,
+            String nextBlockId, // 순서/블록 연결성 변경시 사용
             @NotBlank(message = "블록 종류를 입력하십시오.")
             String type,
             @NotBlank(message = "블록 내용을 입력하십시오.")

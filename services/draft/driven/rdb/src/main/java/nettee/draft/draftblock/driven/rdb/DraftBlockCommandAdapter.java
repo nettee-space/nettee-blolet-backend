@@ -22,7 +22,7 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     private final DraftBlockEntityMapper draftEntityMapper;
 
     @Override
-    public Optional<DraftBlockDetail> findById(Long id) {
+    public Optional<DraftBlockDetail> findById(String id) {
         var draft = draftJpaRepository.findById(id)
                 .orElseThrow(DRAFT_NOT_FOUND::exception);
         return draftEntityMapper.toOptionalDraftBlockDetail(draft);
@@ -57,7 +57,7 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     }
 
     @Override
-    public void updateStatus(Long id, DraftBlockStatus draftStatus) {
+    public void updateStatus(String id, DraftBlockStatus draftStatus) {
         var draft = draftJpaRepository.findById(id)
                     .orElseThrow(DRAFT_NOT_FOUND::exception);
         draft.prepareDraftBlockEntityStatusUpdate()

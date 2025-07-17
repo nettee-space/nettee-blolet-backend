@@ -23,7 +23,7 @@ public class DraftQueryService implements DraftReadUseCase, DraftReadByStatusesU
     private final DraftQueryPort draftQueryPort;
 
     @Override
-    public Optional<DraftDetail> getDraft(Long id) {
+    public Optional<DraftDetail> getDraft(String id) {
         return draftQueryPort.findById(id);
     }
 

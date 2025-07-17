@@ -22,7 +22,7 @@ public class DraftCommandAdapter implements DraftCommandPort {
     private final DraftEntityMapper draftEntityMapper;
 
     @Override
-    public Optional<DraftDetail> findById(Long id) {
+    public Optional<DraftDetail> findById(String id) {
         var draft = draftJpaRepository.findById(id)
                 .orElseThrow(DRAFT_NOT_FOUND::exception);
         return draftEntityMapper.toOptionalDraftDetail(draft);
@@ -53,7 +53,7 @@ public class DraftCommandAdapter implements DraftCommandPort {
     }
 
     @Override
-    public void updateStatus(Long id, DraftStatus draftStatus) {
+    public void updateStatus(String id, DraftStatus draftStatus) {
         var draft = draftJpaRepository.findById(id)
                     .orElseThrow(DRAFT_NOT_FOUND::exception);
         draft.prepareDraftEntityStatusUpdate()

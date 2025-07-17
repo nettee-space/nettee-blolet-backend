@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface DraftBlockQueryPort {
-    Optional<DraftBlockDetail> findById(Long id);
+    Optional<DraftBlockDetail> findById(String id);
     Page<DraftBlockSummary> findAll(Pageable pageable);
 
     Page<DraftBlockSummary> findByStatuses(Set<DraftBlockStatus> statuses, Pageable pageable);

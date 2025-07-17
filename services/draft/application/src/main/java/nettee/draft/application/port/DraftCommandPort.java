@@ -6,8 +6,8 @@ import nettee.draft.domain.type.DraftStatus;
 import java.util.Optional;
 
 public interface DraftCommandPort {
-    Optional<DraftDetail> findById(Long id);
+    Optional<DraftDetail> findById(String id);
     Draft save(Draft draft);
     Draft update(Draft draft);
-    void updateStatus(Long id, DraftStatus draftStatus);
+    void updateStatus(String id, DraftStatus draftStatus);
 }

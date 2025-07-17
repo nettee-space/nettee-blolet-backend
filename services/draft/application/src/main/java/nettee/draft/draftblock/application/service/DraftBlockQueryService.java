@@ -23,7 +23,7 @@ public class DraftBlockQueryService implements DraftBlockReadUseCase, DraftBlock
     private final DraftBlockQueryPort draftBlockQueryPort;
 
     @Override
-    public Optional<DraftBlockDetail> getDraftBlock(Long id) {
+    public Optional<DraftBlockDetail> getDraftBlock(String id) {
         return draftBlockQueryPort.findById(id);
     }
 

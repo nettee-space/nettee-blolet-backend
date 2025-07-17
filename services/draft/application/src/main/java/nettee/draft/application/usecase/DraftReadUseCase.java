@@ -7,6 +7,6 @@ import org.springframework.data.domain.Page;
 import java.util.Optional;
 
 public interface DraftReadUseCase {
-    Optional<DraftDetail> getDraft(Long id);
+    Optional<DraftDetail> getDraft(String id);
     Page<DraftSummary> getAllDraft(int size);
 }

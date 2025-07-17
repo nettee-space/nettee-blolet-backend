@@ -7,8 +7,8 @@ import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import java.util.Optional;
 
 public interface DraftBlockCommandPort {
-    Optional<DraftBlockDetail> findById(Long id);
+    Optional<DraftBlockDetail> findById(String id);
     DraftBlock save(DraftBlock draft);
     DraftBlock update(DraftBlock draft);
-    void updateStatus(Long id, DraftBlockStatus draftStatus);
+    void updateStatus(String id, DraftBlockStatus draftStatus);
 }
