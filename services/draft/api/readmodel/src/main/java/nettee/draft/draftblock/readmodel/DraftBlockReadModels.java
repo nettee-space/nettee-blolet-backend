@@ -11,11 +11,11 @@ public final class DraftBlockReadModels {
 
     @Builder
     public record DraftBlockDetail(
-            Long id,
-            Long blogId,
-            Long draftId,
-            Long articleId,
-            Long nextBlockId,
+            String id,
+            String blogId,
+            String draftId,
+            String articleId,
+            String nextBlockId,
             String type,
             String content,
             Object style,
@@ -27,7 +27,7 @@ public final class DraftBlockReadModels {
     }
     @Builder
     public record DraftBlockSummary(
-            Long id,
+            String id,
             String type,
             DraftBlockStatus status,
             Instant createdAt,

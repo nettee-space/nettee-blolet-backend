@@ -10,10 +10,10 @@ public final class DraftReadModels {
 
     @Builder
     public record DraftDetail(
-            Long id,
-            Long blogId,
-            Long articleId,
-            Long entryBlockId,
+            String id,
+            String blogId,
+            String articleId,
+            String entryBlockId,
             String title,
             String content,
             String path,
@@ -25,8 +25,8 @@ public final class DraftReadModels {
     }
     @Builder
     public record DraftSummary(
-            Long id,
-            Long blogId,
+            String id,
+            String blogId,
             String title,
             String path,
             DraftStatus status,
