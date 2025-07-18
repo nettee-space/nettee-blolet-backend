@@ -1,6 +1,7 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 val series: String by project
+val draft: String by project
 val article: String by project
 val blog: String by project
 val auth: String by project
@@ -16,6 +17,7 @@ dependencies {
 
     // service
     api(project(series))
+    api(project(draft))
     api(project(article))
     api(project(blog))
     api(project(auth))
