@@ -24,6 +24,11 @@ spring:
     locations:
       - db/migration/v1
 
+springdoc:
+  swagger-ui:
+    tags-sorter: alpha # 태그 알파벳순
+    operations-sorter: method # 엔드포인트: HTTP 메서드순 (GET/POST/…)
+
 server:
   # 5000 포트를 사용하지 않기: macOS '제어 센터'가 5000, 7000 포트를 계속 사용함. (macOS Monterey 이후 AirPlay receiver 활성화 시)
   port: 8080
