@@ -38,7 +38,7 @@ public class DraftBlock {
     }
 
     @Builder(
-            builderClassName = "updateDraftBlockBuilder",
+            builderClassName = "UpdateDraftBlockBuilder",
             builderMethodName = "prepareDraftBlockUpdate",
             buildMethodName = "update"
     )

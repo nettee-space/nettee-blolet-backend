@@ -39,7 +39,7 @@ public class Draft {
     }
 
     @Builder(
-            builderClassName = "updateDraftBuilder",
+            builderClassName = "UpdateDraftBuilder",
             builderMethodName = "prepareDraftUpdate",
             buildMethodName = "update"
     )

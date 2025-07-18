@@ -23,6 +23,7 @@ public final class DraftReadModels {
 
     ) {
     }
+
     @Builder
     public record DraftSummary(
             String id,

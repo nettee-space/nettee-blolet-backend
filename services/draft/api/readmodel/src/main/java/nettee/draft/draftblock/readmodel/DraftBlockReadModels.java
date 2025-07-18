@@ -25,6 +25,7 @@ public final class DraftBlockReadModels {
 
     ) {
     }
+
     @Builder
     public record DraftBlockSummary(
             String id,
