@@ -17,3 +17,7 @@ spring:
 logging:
   level:
     root: debug
+    # JDK RMI transport, class-loader, and connector activities
+    sun.rmi.transport.tcp: INFO
+    sun.rmi.loader: INFO
+    javax.management.remote.rmi: INFO
