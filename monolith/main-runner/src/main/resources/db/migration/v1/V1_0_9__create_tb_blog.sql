@@ -3,6 +3,9 @@ CREATE SCHEMA IF NOT EXISTS "blog";
 CREATE TABLE IF NOT EXISTS "blog"."blog" (
     "id"         BIGINT,
     "user_id"    BIGINT,
+    "profile_id" BIGINT,
+    "username"   VARCHAR(255),
+    "nickname"   VARCHAR(255),
     "name"       VARCHAR(255),
     "url"        VARCHAR(255),
     "created_at" TIMESTAMP   DEFAULT NOW()  NOT NULL,
