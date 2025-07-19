@@ -47,5 +47,5 @@ tasks.withType<BootJar>{
 }
 
 tasks.withType<Jar>{
-    enabled = false
+    enabled = true
 }
