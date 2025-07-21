@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SeriesArticleCreateUseCase {
     
-    List<SeriesArticleSummary> createSeriesArticle(SeriesArticle article);
+    List<SeriesArticle> createSeriesArticle(String seriesId, List<SeriesArticle> articleList);
 }

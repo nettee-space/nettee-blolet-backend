@@ -31,10 +31,10 @@ public class SeriesArticle {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(Integer displayOrder) {
-        Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
+    public void update(String seriesId) {
+        Objects.requireNonNull(seriesId, "seriesId cannot be null");
         
-        this.displayOrder = displayOrder;
+        this.seriesId = seriesId;
         this.updatedAt = Instant.now();
     }
 }
