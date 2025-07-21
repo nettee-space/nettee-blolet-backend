@@ -8,7 +8,10 @@ import java.util.function.Supplier;
 
 public enum BlogErrorCode implements ErrorCode {
     BLOG_NOT_FOUND("블로그를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    DEFAULT("블로그 API 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    BLOG_COMMAND_FORBIDDEN("이 블로그를 수정하거나 삭제할 수 없습니다.", HttpStatus.FORBIDDEN),
+    BLOG_SUSPENDED("일시정지 된 블로그입니다.", HttpStatus.FORBIDDEN),
+    DEFAULT("블로그 API 오류", HttpStatus.INTERNAL_SERVER_ERROR),
+    ;
 
     private final String message;
     private final HttpStatus status;
