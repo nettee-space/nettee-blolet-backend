@@ -1,10 +1,10 @@
 package nettee.series.article.application.port;
 
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
+import nettee.series.article.domain.SeriesArticle;
 
 import java.util.List;
 
 public interface SeriesArticleQueryRepositoryPort {
     
-    List<SeriesArticleSummary> findBySeriesId (String seriesId);
+    List<SeriesArticle>findBySeriesId (String seriesId);
 }
