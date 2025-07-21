@@ -1,6 +1,5 @@
 package nettee.blolet.blog.web.dto;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 import nettee.blolet.blog.readmodel.BlogReadModels.UserProfileBlogs;
