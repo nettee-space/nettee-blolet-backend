@@ -1,16 +1,18 @@
 package nettee.blolet.blog.web;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.blog.web.dto.BlogQueryDto.BlogDetailViewResponse;
 import nettee.blolet.blog.web.dto.BlogQueryDto.BlogListViewResponse;
-import nettee.blolet.blog.web.dto.BlogQueryDto.BlogOwnerProfileIds;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +31,11 @@ public class BlogQueryApi {
             summary = "블로그 목록 조회 (여러 사용자)",
             description = "선택한 사용자별 블로그 목록을 조회합니다."
     )
-    public BlogListViewResponse findAllByUsernames(@RequestBody BlogOwnerProfileIds profileIds) {
+    public BlogListViewResponse findAllByUsernames(
+            @RequestParam
+            @Schema(description = "사용자 프로필 일련번호 목록", example = "1,2,3")
+            List<String> userProfileIds
+    ) {
         return null;
     }
 
