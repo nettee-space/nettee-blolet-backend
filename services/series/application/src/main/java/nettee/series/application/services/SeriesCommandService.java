@@ -5,6 +5,8 @@ import nettee.series.application.port.SeriesCommandRepositoryPort;
 import nettee.series.application.usecase.SeriesCreateUseCase;
 import nettee.series.application.usecase.SeriesDeleteUseCase;
 import nettee.series.application.usecase.SeriesUpdateUseCase;
+import nettee.series.article.application.usecase.SeriesArticleCreateUseCase;
+import nettee.series.article.application.usecase.SeriesArticleDeleteUseCase;
 import nettee.series.domain.Series;
 import nettee.series.exception.SeriesException;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,8 @@ import static nettee.series.exception.SeriesErrorCode.SERIES_ALREADY_EXIST;
 public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUseCase, SeriesDeleteUseCase {
     
     private final SeriesCommandRepositoryPort commandRepositoryPort;
+    private final SeriesArticleCreateUseCase seriesArticleCreateUseCase;
+    private final SeriesArticleDeleteUseCase seriesArticleDeleteUseCase;
     
     @Override
     public Series createSeries(Series series) {
@@ -33,7 +37,7 @@ public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUs
        
         // 시리즈에 시리즈 게시글 목록이 존재할 경우 게시글 목록 저장
         if (series.getSeriesArticleList() != null && !series.getSeriesArticleList().isEmpty()) {
-            // TODO 시리즈 게시글 목록 저장 로직 추가
+            seriesArticleCreateUseCase.createSeriesArticle(newSeries.getId(), series.getSeriesArticleList());
         }
         
         return newSeries;
@@ -53,7 +57,10 @@ public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUs
         
         // 시리즈내에 시리즈 게시글이 존재할 경우 게시글 목록 저장
         if (series.getSeriesArticleList() != null && !series.getSeriesArticleList().isEmpty()) {
-            // TODO 기존 시리즈 게시글 목록 삭제 후 저장 로직 추가
+            // 시리즈 게시글 전체 삭제 후
+            seriesArticleDeleteUseCase.deleteSeriesArticle(updatedSeries.getId());
+            // 시리즈 게시글 새로 추가
+            seriesArticleCreateUseCase.createSeriesArticle(updatedSeries.getId(), series.getSeriesArticleList());
         }
         
         return updatedSeries;
@@ -68,6 +75,6 @@ public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUs
         commandRepositoryPort.delete(blogId,seriesId);
         
         // 시리즈내에 게시글이 존재 시, 해당 매핑 정보 삭제
-        // TODO 해당 시리즈 게시물의 시리즈 삭제
+        seriesArticleDeleteUseCase.deleteSeriesArticle(seriesId);
     }
 }
