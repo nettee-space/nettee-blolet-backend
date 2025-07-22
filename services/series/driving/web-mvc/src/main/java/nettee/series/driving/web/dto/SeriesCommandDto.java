@@ -5,45 +5,64 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
+import nettee.series.article.driving.web.dto.SeriesArticleCommandDto.SeriesArticleCreateCommand;
 import nettee.series.domain.Series;
 
+import java.util.List;
+
 public final class SeriesCommandDto {
-
-    private SeriesCommandDto() {}
-
+    
+    private SeriesCommandDto() {
+    }
+    
     @Builder
     public record SeriesCreateCommand(
-            @NotBlank(message = "제목을 입력하십시오.")
-            @Size(max = 300, message = "제목은 300자 이내로 입력하세요.")
-            @Schema(description = "시리즈 제목", example = "시리즈 예시")
+            @NotBlank(message = "이름을 입력해주세요.")
+            @Size(max = 30, message = "이름은 최대 30글자 이대로 적어주세요")
+            @Schema(description = "시리즈 제목", example = "시리즈샘플")
             String title,
             
-            @NotNull(message = "사용자 정렬 순서를 입력하세요.")
-            @Schema(description = "시리즈 사용자 순서", example = "1")
-            Integer displayOrder
+            @Schema(description = "시리즈 설명", example = "시리즈 설명 샘플입니다.")
+            String description,
+            @Schema(
+                    description = "시리즈 이미지 배너 (Base64 인코딩된 문자열)",
+                    example = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+            )
+            String banner,
+            
+            @Schema(
+                    description = "시리즈에 포함된 게시글 목록",
+                    implementation = SeriesArticleCreateCommand.class
+            )
+            List<SeriesArticleCreateCommand> seriesArticleList
     ) {
     }
-
+    
     @Builder
     public record SeriesUpdateCommand(
             @NotNull(message = "id를 입력하십시오.")
             @Schema(description = "시리즈 ID", example = "1")
             String id,
             
-            @NotBlank(message = "제목을 입력하십시오.")
-            @Size(max = 300, message = "제목은 300자 이내로 입력하세요.")
-            @Schema(description = "시리즈 제목", example = "시리즈 예시")
-            String title,
+            @Schema(description = "시리즈 설명", example = "시리즈 설명 샘플입니다.")
+            String description,
+            @Schema(
+                    description = "시리즈 이미지 배너 (Base64 인코딩된 문자열)",
+                    example = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
+            )
+            String banner,
             
-            @NotNull(message = "사용자 정렬 순서를 입력하세요.")
-            @Schema(description = "시리즈 사용자 순서", example = "1")
-            Integer displayOrder
+            @Schema(
+                    description = "시리즈에 포함된 게시글 목록",
+                    implementation = SeriesArticleCreateCommand.class
+            )
+            List<SeriesArticleCreateCommand> seriesArticleList
     ) {
     }
-
+    
     @Builder
     public record SeriesCommandResponse(
-            Series Series
+            Series series
     ) {
     }
 }
