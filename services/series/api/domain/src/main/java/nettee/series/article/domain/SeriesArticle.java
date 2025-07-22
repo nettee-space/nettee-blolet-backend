@@ -31,10 +31,11 @@ public class SeriesArticle {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String seriesId) {
+    public void update(String seriesId, String articleId) {
         Objects.requireNonNull(seriesId, "seriesId cannot be null");
         
         this.seriesId = seriesId;
+        this.articleId = articleId;
         this.updatedAt = Instant.now();
     }
 }

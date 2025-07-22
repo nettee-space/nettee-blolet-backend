@@ -21,6 +21,18 @@ public final class SeriesQueryModels {
             Instant createdAt,
             Instant updatedAt
     ) {
+        public void addSummaryList(List<SeriesArticleSummary> summaryList) {
+            new SeriesDetail(
+                    this.id,
+                    this.blogId,
+                    this.title,
+                    this.description,
+                    this.banner,
+                    summaryList,
+                    this.createdAt,
+                    this.updatedAt
+            );
+        }
     }
     
     @Builder
