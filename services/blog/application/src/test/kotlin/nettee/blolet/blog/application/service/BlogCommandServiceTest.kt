@@ -8,7 +8,7 @@ import nettee.blolet.blog.application.port.BlogCommandPort
 import nettee.blolet.blog.domain.Blog
 import java.time.Instant
 
-class BlogCommandServiceTest_Create : FreeSpec({
+class BlogCommandServiceTest : FreeSpec({
     val commandPort = mockk<BlogCommandPort>()
     val commandService = BlogCommandService(commandPort)
 
