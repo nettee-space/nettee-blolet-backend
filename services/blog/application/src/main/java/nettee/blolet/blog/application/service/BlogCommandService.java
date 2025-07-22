@@ -8,6 +8,8 @@ import nettee.blolet.blog.application.usecase.BlogDeleteUseCase;
 import nettee.blolet.blog.application.usecase.BlogUpdateUseCase;
 import nettee.blolet.blog.domain.Blog;
 
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED;
+
 @Server
 @RequiredArgsConstructor
 public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase, BlogDeleteUseCase {
@@ -16,6 +18,11 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
 
     @Override
     public Blog save(Blog blog) {
+        int count = blogCommandPort.countByUserId(blog.getUserId());
+
+        if (count >= 1 /* TODO 정책 데이터 관리 전략 도입 시 수정 */) {
+            throw BLOG_MAXIMUM_EXCEEDED.exception();
+        }
         return blogCommandPort.save(blog);
     }
 
