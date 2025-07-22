@@ -1,8 +1,7 @@
 package nettee.series.application.port;
 
-import nettee.series.domain.Series;
-import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 
 import java.util.List;
 import java.util.Optional;

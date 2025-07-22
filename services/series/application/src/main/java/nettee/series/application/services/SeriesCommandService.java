@@ -15,7 +15,7 @@ import static nettee.series.exception.SeriesErrorCode.SERIES_ALREADY_EXIST;
 
 @Service
 @RequiredArgsConstructor
-public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUseCase, SeriesDeleteUseCase {
+public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUseCase, SeriesDeleteUseCase {
     
     private final SeriesCommandRepositoryPort commandRepositoryPort;
     private final SeriesArticleCreateUseCase seriesArticleCreateUseCase;

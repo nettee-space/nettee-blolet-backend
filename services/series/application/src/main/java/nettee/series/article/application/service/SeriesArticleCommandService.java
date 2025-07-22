@@ -4,14 +4,17 @@ import lombok.RequiredArgsConstructor;
 import nettee.series.article.application.port.SeriesArticleCommandRepositoryPort;
 import nettee.series.article.application.usecase.SeriesArticleCreateUseCase;
 import nettee.series.article.application.usecase.SeriesArticleDeleteUseCase;
+import nettee.series.article.application.usecase.SeriesArticleUpdateUseCase;
 import nettee.series.article.domain.SeriesArticle;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static nettee.series.article.exception.SeriesArticleErrorCode.SERIES_ARTICLE_NOT_FOUND;
+
 @Service
 @RequiredArgsConstructor
-public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, SeriesArticleDeleteUseCase {
+public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, SeriesArticleUpdateUseCase, SeriesArticleDeleteUseCase {
     
     private final SeriesArticleCommandRepositoryPort commandRepositoryPort;
     
@@ -23,11 +26,26 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
         return articleList.stream()
                 .map(article -> {
                     // 시리즈 아이디 생성
-                    article.update(seriesId);
+                    article.prepareUpdate()
+                            .seriesId(seriesId)
+                            .update();
                     
                     return commandRepositoryPort.save(article);
                 })
                 .toList();
+    }
+
+    @Override
+    public SeriesArticle updateDraftToArticle(String seriesId, String draftId, String articleId) {
+        var article = commandRepositoryPort.findByIdAndDraftId(seriesId, draftId)
+                .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
+
+        article.prepareUpdate()
+                .seriesId(seriesId)
+                .articleId(articleId)
+                .update();
+
+        return commandRepositoryPort.updateDraftToArticle(article);
     }
     
     @Override
