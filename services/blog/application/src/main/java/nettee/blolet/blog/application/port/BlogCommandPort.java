@@ -6,4 +6,6 @@ public interface BlogCommandPort {
     void transaction(Runnable runnable);
 
     Blog save(Blog blog);
+
+    int countByUserId(String userId);
 }
