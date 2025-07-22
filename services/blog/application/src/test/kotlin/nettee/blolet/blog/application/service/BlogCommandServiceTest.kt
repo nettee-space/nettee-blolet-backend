@@ -16,7 +16,7 @@ class BlogCommandServiceTest : FreeSpec({
         clearMocks(commandPort, answers = true, recordedCalls = true)
     }
 
-    "[CREATE ✅] 정상적인 아이템 등록 시" - {
+    "[CREATE] 블로그 등록 시" - {
         val now = Instant.now()
         val item = Blog.builder()
             .id(null)
@@ -35,16 +35,32 @@ class BlogCommandServiceTest : FreeSpec({
             .updatedAt(item.createdAt)
             .build()
 
-        "반환된 객체가 저장된 Blog와 동일해야 한다. (equals)" {
+        "✅ 반환된 객체가 저장된 Blog와 동일해야 한다. (equals)" {
             // mock:
-            every { commandPort.save(item) } returns expectedItem // verify(exactly = 1)와 동일 테스트 블록에.
+            val capturedItem = mutableListOf<Blog>()
+            every { commandPort.countByUserId(any()) } answers {
+                val userIdArg: String = firstArg()
+                capturedItem.count {it.userId == userIdArg}
+            }
+            // verify(exactly = 1)와 동일 테스트 블록에.
+            every { commandPort.save(capture(capturedItem)) } answers {
+                val inputtedBlog: Blog = firstArg()
+                Blog.builder()
+                    .id(inputtedBlog.id ?: "1")
+                    .userId(inputtedBlog.userId)
+                    .name(inputtedBlog.name)
+                    .url(inputtedBlog.url)
+                    .createdAt(inputtedBlog.createdAt)
+                    .updatedAt(inputtedBlog.createdAt)
+                    .build()
+            }
 
             // action:
-            val result = commandService.save(item)
+            val savedItem: Blog = commandService.save(item)
 
             // assert:
-            result shouldNotBe null
-            result shouldBeEqual expectedItem
+            savedItem shouldNotBe null
+            savedItem shouldBeEqual expectedItem
             // 모킹된 port.save(...) 함수가 1회만 호출되었는지 확인
             verify(exactly = 1) { commandPort.save(item) }
         }
