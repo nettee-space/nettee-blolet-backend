@@ -1,0 +1,50 @@
+package nettee.blolet.blog.application.service
+
+import io.kotest.core.spec.style.FreeSpec
+import io.kotest.matchers.*
+import io.kotest.matchers.equals.*
+import io.mockk.*
+import nettee.blolet.blog.application.port.BlogCommandPort
+import nettee.blolet.blog.domain.Blog
+import java.time.Instant
+
+class BlogCommandServiceTest_Create : FreeSpec({
+    val commandPort = mockk<BlogCommandPort>()
+    val commandService = BlogCommandService(commandPort)
+
+    beforeTest {
+        clearMocks(commandPort, answers = true, recordedCalls = true)
+    }
+
+    "[CREATE ✅] 정상적인 아이템 등록 시" - {
+        val now = Instant.now()
+        val item = Blog.builder()
+            .id(null)
+            .name("A Blog")
+            .url("")
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
+        val expectedItem = Blog.builder()
+            .id(item.id ?: "1")
+            .name(item.name)
+            .url(item.url)
+            .createdAt(item.createdAt)
+            .updatedAt(item.createdAt)
+            .build()
+
+        "반환된 객체가 저장된 Blog와 동일해야 한다. (equals)" {
+            // stub:
+            //   verify(exactly = 1)와 동일 테스트 블록에 있어야 함.
+            every { commandPort.save(item) } returns expectedItem
+
+            // action:
+            val result = commandService.save(item)
+
+            // assert:
+            result shouldNotBe null
+            result shouldBeEqual expectedItem
+            verify(exactly = 1) { commandPort.save(item) }
+        }
+    }
+})
