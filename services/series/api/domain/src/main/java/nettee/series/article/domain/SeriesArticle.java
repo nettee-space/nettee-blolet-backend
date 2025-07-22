@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.Objects;
 
 @Getter
 @Builder
@@ -32,10 +31,14 @@ public class SeriesArticle {
             buildMethodName = "update"
     )
     public void update(String seriesId, String articleId) {
-        Objects.requireNonNull(seriesId, "seriesId cannot be null");
+        if (seriesId != null) {
+            this.seriesId = seriesId;
+        }
         
-        this.seriesId = seriesId;
-        this.articleId = articleId;
+        if (articleId != null) {
+            this.articleId = articleId;
+        }
+        
         this.updatedAt = Instant.now();
     }
 }

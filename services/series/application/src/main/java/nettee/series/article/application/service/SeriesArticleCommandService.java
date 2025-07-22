@@ -35,11 +35,14 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
     
     @Override
     public SeriesArticle updateDraftToArticle(String seriesId, String draftId, String articleId) {
+        assert seriesId != null;
+        assert draftId != null;
+        assert articleId != null;
+        
         var article = commandRepositoryPort.findByIdAndDraftId(seriesId, draftId)
                 .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
         
         article.prepareUpdate()
-                .seriesId(seriesId)
                 .articleId(articleId)
                 .update();
         
