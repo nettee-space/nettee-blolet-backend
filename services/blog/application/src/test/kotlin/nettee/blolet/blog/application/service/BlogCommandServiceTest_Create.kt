@@ -34,9 +34,8 @@ class BlogCommandServiceTest_Create : FreeSpec({
             .build()
 
         "반환된 객체가 저장된 Blog와 동일해야 한다. (equals)" {
-            // stub:
-            //   verify(exactly = 1)와 동일 테스트 블록에 있어야 함.
-            every { commandPort.save(item) } returns expectedItem
+            // mock:
+            every { commandPort.save(item) } returns expectedItem // verify(exactly = 1)와 동일 테스트 블록에.
 
             // action:
             val result = commandService.save(item)
@@ -44,6 +43,7 @@ class BlogCommandServiceTest_Create : FreeSpec({
             // assert:
             result shouldNotBe null
             result shouldBeEqual expectedItem
+            // 모킹된 port.save(...) 함수가 1회만 호출되었는지 확인
             verify(exactly = 1) { commandPort.save(item) }
         }
     }
