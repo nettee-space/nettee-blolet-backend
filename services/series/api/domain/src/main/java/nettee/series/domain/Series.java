@@ -24,7 +24,7 @@ public class Series {
     
     private String description;
     
-    private byte[] banner;
+    private String banner;
     
     private Integer displayOrder;
     
@@ -39,7 +39,7 @@ public class Series {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, Integer displayOrder, String description, byte[] banner) {
+    public void update(String title, Integer displayOrder, String description, String banner) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
         
