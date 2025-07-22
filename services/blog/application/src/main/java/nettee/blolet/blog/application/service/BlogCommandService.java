@@ -2,7 +2,7 @@ package nettee.blolet.blog.application.service;
 
 import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.RequiredArgsConstructor;
-import nettee.blolet.blog.application.port.BlogCommandPort;
+import nettee.blolet.blog.application.port.BlogCommandRepositoryPort;
 import nettee.blolet.blog.application.usecase.BlogCreateUseCase;
 import nettee.blolet.blog.application.usecase.BlogDeleteUseCase;
 import nettee.blolet.blog.application.usecase.BlogUpdateUseCase;
@@ -14,16 +14,16 @@ import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED;
 @RequiredArgsConstructor
 public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase, BlogDeleteUseCase {
 
-    private final BlogCommandPort blogCommandPort;
+    private final BlogCommandRepositoryPort commandRepository;
 
     @Override
     public Blog save(Blog blog) {
-        int count = blogCommandPort.countByUserId(blog.getUserId());
+        int count = commandRepository.countByUserId(blog.getUserId());
 
         if (count >= 1 /* TODO 정책 데이터 관리 전략 도입 시 수정 */) {
             throw BLOG_MAXIMUM_EXCEEDED.exception();
         }
-        return blogCommandPort.save(blog);
+        return commandRepository.save(blog);
     }
 
     @Override

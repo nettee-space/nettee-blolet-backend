@@ -5,14 +5,14 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.*
 import io.kotest.matchers.equals.*
 import io.mockk.*
-import nettee.blolet.blog.application.port.BlogCommandPort
+import nettee.blolet.blog.application.port.BlogCommandRepositoryPort
 import nettee.blolet.blog.domain.Blog
 import nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED
 import nettee.common.CustomException
 import java.time.Instant
 
 class BlogCommandServiceTest : FreeSpec({
-    val commandPort = mockk<BlogCommandPort>()
+    val commandPort = mockk<BlogCommandRepositoryPort>()
     val commandService = BlogCommandService(commandPort)
 
     beforeTest {
