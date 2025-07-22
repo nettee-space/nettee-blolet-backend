@@ -31,7 +31,7 @@ public class SeriesQueryService implements SeriesReadUseCase {
         var seriesArticleSummary = seriesArticleReadUseCase.getSeriesArticleList(seriesId);
 
         if(seriesArticleSummary != null && !seriesArticleSummary.isEmpty()) {
-            series.addSummaryList(seriesArticleSummary);
+           return series.addSummaryList(seriesArticleSummary);
         }
         
         return series;

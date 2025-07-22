@@ -19,37 +19,35 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
     private final SeriesArticleCommandRepositoryPort commandRepositoryPort;
     
     @Override
-    public List<SeriesArticle> createSeriesArticle(String seriesId, List<SeriesArticle> articleList) {
+    public List<SeriesArticle> createSeriesArticleList(String seriesId, List<SeriesArticle> articleList) {
         assert seriesId != null;
         assert articleList != null;
         
-        return articleList.stream()
-                .map(article -> {
-                    // 시리즈 아이디 생성
-                    article.prepareUpdate()
-                            .seriesId(seriesId)
-                            .update();
-                    
-                    return commandRepositoryPort.save(article);
-                })
-                .toList();
+        // 시리즈 ID 세팅
+        articleList.forEach(article ->
+            article.prepareUpdate()
+                    .seriesId(seriesId)
+                    .update()
+        );
+        
+        return commandRepositoryPort.saveAll(articleList);
     }
-
+    
     @Override
     public SeriesArticle updateDraftToArticle(String seriesId, String draftId, String articleId) {
         var article = commandRepositoryPort.findByIdAndDraftId(seriesId, draftId)
                 .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
-
+        
         article.prepareUpdate()
                 .seriesId(seriesId)
                 .articleId(articleId)
                 .update();
-
+        
         return commandRepositoryPort.updateDraftToArticle(article);
     }
     
     @Override
-    public void deleteSeriesArticle(String seriesId) {
+    public void deleteSeriesArticleList(String seriesId) {
         assert seriesId != null;
         
         commandRepositoryPort.delete(seriesId);

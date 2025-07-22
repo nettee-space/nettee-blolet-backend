@@ -23,7 +23,6 @@ public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateU
     
     @Override
     public Series createSeries(Series series) {
-        // 블로그의 존재와 제목 존재 여부 확인
         assert series.getBlogId() != null;
         assert series.getTitle() != null;
         
@@ -37,7 +36,7 @@ public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateU
        
         // 시리즈에 시리즈 게시글 목록이 존재할 경우 게시글 목록 저장
         if (series.getSeriesArticleList() != null && !series.getSeriesArticleList().isEmpty()) {
-            seriesArticleCreateUseCase.createSeriesArticle(newSeries.getId(), series.getSeriesArticleList());
+            seriesArticleCreateUseCase.createSeriesArticleList(newSeries.getId(), series.getSeriesArticleList());
         }
         
         return newSeries;
@@ -58,23 +57,22 @@ public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateU
         // 시리즈내에 시리즈 게시글이 존재할 경우 게시글 목록 저장
         if (series.getSeriesArticleList() != null && !series.getSeriesArticleList().isEmpty()) {
             // 시리즈 게시글 전체 삭제 후
-            seriesArticleDeleteUseCase.deleteSeriesArticle(updatedSeries.getId());
+            seriesArticleDeleteUseCase.deleteSeriesArticleList(updatedSeries.getId());
             // 시리즈 게시글 새로 추가
-            seriesArticleCreateUseCase.createSeriesArticle(updatedSeries.getId(), series.getSeriesArticleList());
+            seriesArticleCreateUseCase.createSeriesArticleList(updatedSeries.getId(), series.getSeriesArticleList());
         }
         
         return updatedSeries;
     }
     
     @Override
-    public void deleteSeries(String blogId, String seriesId) {
-        assert blogId != null;
+    public void deleteSeries(String seriesId) {
         assert seriesId != null;
         
         // 시리즈 삭제
-        commandRepositoryPort.delete(blogId,seriesId);
+        commandRepositoryPort.delete(seriesId);
         
         // 시리즈내에 게시글이 존재 시, 해당 매핑 정보 삭제
-        seriesArticleDeleteUseCase.deleteSeriesArticle(seriesId);
+        seriesArticleDeleteUseCase.deleteSeriesArticleList(seriesId);
     }
 }

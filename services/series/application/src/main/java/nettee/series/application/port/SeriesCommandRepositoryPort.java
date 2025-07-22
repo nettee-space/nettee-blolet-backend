@@ -4,11 +4,11 @@ import nettee.series.domain.Series;
 
 public interface SeriesCommandRepositoryPort {
     
-    Boolean existsByBlogIdAndTitle(String blogId, String title);
-
-    Series save (Series series);
+    boolean existsByBlogIdAndTitle(String blogId, String title);
     
-    Series update (Series series);
+    Series save(Series series);
     
-    void delete (String blogId, String seriesId);
+    Series update(Series series);
+    
+    void delete(String seriesId);
 }

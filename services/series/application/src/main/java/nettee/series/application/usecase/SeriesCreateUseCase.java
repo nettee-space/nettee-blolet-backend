@@ -4,5 +4,5 @@ import nettee.series.domain.Series;
 
 public interface SeriesCreateUseCase {
     
-    Series createSeries (Series series);
+    Series createSeries(Series series);
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface SeriesArticleQueryRepositoryPort {
     
-    List<SeriesArticleSummary>findBySeriesId (String seriesId);
+    List<SeriesArticleSummary> findBySeriesId(String seriesId);
 }
