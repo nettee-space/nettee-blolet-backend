@@ -20,11 +20,10 @@ public class SeriesQueryService implements SeriesReadUseCase {
     private final SeriesArticleReadUseCase seriesArticleReadUseCase;
     
     @Override
-    public SeriesDetail getSeries(String blogId, String seriesId) {
-        assert blogId != null;
+    public SeriesDetail getSeries(String seriesId) {
         assert seriesId != null;
         
-        var series = queryRepositoryPort.findByBlogIdAndSeriesId(blogId,seriesId)
+        var series = queryRepositoryPort.findBySeriesId(seriesId)
                 .orElseThrow(SERIES_NOT_FOUND::exception);
         
         // 시리즈 게시물 조회
