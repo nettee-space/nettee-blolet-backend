@@ -11,6 +11,7 @@ import nettee.blolet.blog.domain.Blog;
 import java.util.Objects;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_CANNOT_BE_BLANK;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_FOUND;
 
 @Server
@@ -42,8 +43,9 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
     @Override
     public Blog update(String blogId, String name, String url) {
         Objects.requireNonNull(blogId, "blogId cannot be null");
-        name = name != null ? name : "";
-        url = url != null ? url : "";
+        if (name == null || name.isBlank()) {
+            throw BLOG_NAME_CANNOT_BE_BLANK.exception();
+        }
 
         // Exception when BLOG_NOT_FOUND
         var entity = commandRepository.findById(blogId)
