@@ -16,6 +16,8 @@ public enum BlogErrorCode implements ErrorCode {
     // subscription
     ALREADY_SUBSCRIBED_BLOG("이미 구독하였습니다.", HttpStatus.CONFLICT),
     UNSUBSCRIBED_BLOG("이미 구독 취소하거나 아직 구독하지 않은 블로그입니다.", HttpStatus.CONFLICT),
+    ALREADY_SUBSCRIBED_BLOG_NEWSLETTER("이미 뉴스레터를 구독하였습니다.", HttpStatus.CONFLICT),
+    UNSUBSCRIBED_BLOG_NEWSLETTER("이미 구독 취소하거나 아직 구독하지 않은 뉴스레터입니다.", HttpStatus.CONFLICT),
 
     DEFAULT("블로그 API 오류", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
