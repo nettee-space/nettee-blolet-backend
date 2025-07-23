@@ -10,4 +10,5 @@ public interface BlogCommandRepositoryPort {
     void deleteById(String id);
 
     int countByUserId(String userId);
+    boolean existsById(String id);
 }
