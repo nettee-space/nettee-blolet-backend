@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum SeriesArticleErrorCode implements ErrorCode {
+    SERIES_ARTICLE_NOT_FOUND("시리즈 게시물을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     SERIES_ARTICLE_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
-    SERIES_ARTICLE__ALREADY_EXIST("시리즈 게시글이 이미 존재합니다.", HttpStatus.CONFLICT),
+    SERIES_ARTICLE_ALREADY_EXIST("시리즈 게시글이 이미 존재합니다.", HttpStatus.CONFLICT),
     DEFAULT("시리즈 게시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
