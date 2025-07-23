@@ -32,7 +32,7 @@ public class SeriesQueryApi {
     @GetMapping("/{seriesId}")
     public SeriesDetailResponse getSeries(@PathVariable("seriesId") String seriesId) {
         return SeriesDetailResponse.builder()
-                .seriesDetail(seriesReadUseCase.getSeries(seriesId))
+                .series(seriesReadUseCase.getSeries(seriesId))
                 .build();
     }
     
@@ -44,7 +44,7 @@ public class SeriesQueryApi {
     @GetMapping("/{blogId}")
     public SeriesSummaryResponse getSeriesList(@PathVariable("blogId") String blogId) {
         return SeriesSummaryResponse.builder()
-                .seriesSummary(seriesReadUseCase.getSeriesList(blogId))
+                .seriesList(seriesReadUseCase.getSeriesList(blogId))
                 .build();
     }
 }
