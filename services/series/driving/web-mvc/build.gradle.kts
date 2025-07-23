@@ -1,7 +1,8 @@
 val seriesApi: String by project
-
+val seriesApplication: String by project
 dependencies {
     api(project(seriesApi))
+    api(project(seriesApplication))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
