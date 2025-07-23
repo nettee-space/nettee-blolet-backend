@@ -62,6 +62,13 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
 
     @Override
     public Blog updateUrl(String blogId, String url) {
-        throw new Error("Not implemented yet");
+        Objects.requireNonNull(blogId, "blogId cannot be null");
+        Objects.requireNonNull(url, "url cannot be null");
+        var entity = commandRepository.findById(blogId)
+                .orElseThrow(BLOG_NOT_FOUND::exception);
+
+        entity.updateUrl(url);
+
+        return commandRepository.save(entity);
     }
 }

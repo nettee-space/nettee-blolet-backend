@@ -1,16 +1,13 @@
 package nettee.blolet.blog.application.service
 
-import io.kotest.assertions.throwables.shouldThrow
+import io.kotest.assertions.throwables.*
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.matchers.equals.shouldBeEqual
-import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.equals.*
+import io.kotest.matchers.*
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogCommandRepositoryPort
 import nettee.blolet.blog.domain.Blog
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_FOUND
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_CANNOT_BE_BLANK
+import nettee.blolet.blog.exception.BlogErrorCode.*
 import nettee.common.CustomException
 import java.time.Instant
 import java.util.*
@@ -174,6 +171,88 @@ class BlogCommandServiceTest : FreeSpec({
                 commandPort.findById(targetId)
                 commandPort.save(any())
             }
+        }
+    }
+
+    "[UPDATE > URL] 블로그 URL 수정 시" - {
+        val targetId = "1"
+        val wrongId = "999"
+        val oldUrl = "https://old.url"
+        val newUrl = "https://new.url"
+        val now = Instant.now()
+        val originalBlog = Blog.builder()
+            .id(targetId)
+            .userId("USER-1")
+            .name("A Blog")
+            .url(oldUrl)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
+
+        val capturedItems = mutableListOf<Blog>(originalBlog)
+
+        beforeTest {
+            // mock
+            every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
+            every { commandPort.findById(wrongId) } returns Optional.empty()
+            every { commandPort.save(capture(capturedItems)) } answers {
+                // TODO 다른 테스트 컨테이너에서도 복붙하여 재사용하려고 저장 기능까지 넣음. (언제든 공통된 관리에서 이탈하도록 복붙이 나아 보임.)
+                val input = firstArg<Blog>()
+                val savedItem = Blog.builder()
+                    .id(input.id ?: (capturedItems.size + 1).toString())
+                    .userId(input.userId)
+                    .name(input.name)
+                    .url(input.url)
+                    .createdAt(input.createdAt)
+                    .updatedAt(Instant.now())
+                    .build()
+                capturedItems.add(savedItem)
+                savedItem
+            }
+        }
+
+        "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
+
+            // action
+            val updated = commandService.updateUrl(targetId, newUrl)
+
+            // assert: URL이 바뀌었는지, 반환 객체가 save 호출된 엔티티와 동일한지
+            updated.url shouldBeEqual newUrl
+            verify(exactly = 1) { commandPort.findById(targetId) }
+            verify(exactly = 1) { commandPort.save(match { it.url == newUrl }) }
+            verifySequence {
+                commandPort.findById(targetId)
+                commandPort.save(any())
+            }
+        }
+
+        "🚧 blogId가 null이면 NPE를 던진다" {
+            shouldThrow<NullPointerException> {
+                commandService.updateUrl(null, "https://any.url")
+            }
+
+            verify(inverse = true) { commandPort.save(any()) }
+        }
+
+        "🚧 존재하지 않는 블로그 ID로 조회 시 BLOG_NOT_FOUND 예외를 던진다" {
+
+            val ex = shouldThrow<CustomException> {
+                commandService.updateUrl(wrongId, "https://any.url")
+            }
+            ex.errorCode shouldBeEqual BLOG_NOT_FOUND
+
+            verify(exactly = 1) { commandPort.findById(wrongId) }
+            verify(inverse = true) { commandPort.save(any()) }
+        }
+
+        "🚧 url이 null이면 NPE를 던진다" {
+            every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
+
+            shouldThrow<NullPointerException> {
+                commandService.updateUrl(targetId, null)
+            }
+
+            verify(inverse = true) { commandPort.save(any()) }
         }
     }
 
