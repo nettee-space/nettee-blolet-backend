@@ -14,14 +14,14 @@ public final class SeriesQueryDto {
     @Builder
     public record SeriesDetailResponse(
             @Schema(description = "시리즈")
-            SeriesDetail seriesDetail
+            SeriesDetail series
     ) {
     }
     
     @Builder
     public record SeriesSummaryResponse(
             @Schema(description = "시리즈 목록")
-            List<SeriesSummary> seriesSummary
+            List<SeriesSummary> seriesList
     ) {
     }
 }
