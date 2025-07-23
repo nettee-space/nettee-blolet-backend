@@ -10,7 +10,7 @@ public final class SeriesArticleQueryModels {
 
     @Builder
     public record SeriesArticleSummary(
-            String id,
+            String seriesId,
             String articleId,
             String draftId,
             String articleTitle,
