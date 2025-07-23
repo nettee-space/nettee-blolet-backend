@@ -9,6 +9,7 @@ import nettee.blolet.blog.application.usecase.BlogUpdateUseCase;
 import nettee.blolet.blog.domain.Blog;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_FOUND;
 
 @Server
 @RequiredArgsConstructor
@@ -38,7 +39,17 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
 
     @Override
     public Blog update(String blogId, String name, String url) {
-        throw new Error("Not implemented yet");
+        // Exception when BLOG_NOT_FOUND
+        boolean exists = commandRepository.existsById(blogId);
+        if (!exists) throw BLOG_NOT_FOUND.exception();
+
+        var newItem = Blog.builder()
+                .id(blogId)
+                .name(name)
+                .url(url)
+                .build();
+
+        return commandRepository.save(newItem);
     }
 
     @Override
