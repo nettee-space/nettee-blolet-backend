@@ -189,12 +189,26 @@ class BlogCommandServiceTest : FreeSpec({
             .updatedAt(now)
             .build()
 
+        val capturedItems = mutableListOf<Blog>(originalBlog)
+
         beforeTest {
-            // mock: findById → 기존 엔티티 반환
+            // mock
             every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
             every { commandPort.findById(wrongId) } returns Optional.empty()
-            // mock: save → 입력된 엔티티 그대로 반환
-            every { commandPort.save(any()) } answers { firstArg<Blog>() }
+            every { commandPort.save(capture(capturedItems)) } answers {
+                // TODO 다른 테스트 컨테이너에서도 복붙하여 재사용하려고 저장 기능까지 넣음. (언제든 공통된 관리에서 이탈하도록 복붙이 나아 보임.)
+                val input = firstArg<Blog>()
+                val savedItem = Blog.builder()
+                    .id(input.id ?: (capturedItems.size + 1).toString())
+                    .userId(input.userId)
+                    .name(input.name)
+                    .url(input.url)
+                    .createdAt(input.createdAt)
+                    .updatedAt(Instant.now())
+                    .build()
+                capturedItems.add(savedItem)
+                savedItem
+            }
         }
 
         "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
