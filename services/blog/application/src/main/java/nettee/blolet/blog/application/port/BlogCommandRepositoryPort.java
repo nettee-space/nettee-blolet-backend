@@ -7,5 +7,7 @@ public interface BlogCommandRepositoryPort {
 
     Blog save(Blog blog);
 
+    void deleteById(String id);
+
     int countByUserId(String userId);
 }

@@ -26,9 +26,14 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
         return commandRepository.save(blog);
     }
 
+    /**
+     *
+     * @param blogId 블로그 아이디
+     * @throws nettee.common.CustomException includes {@code BLOG_NOT_FOUND} error code if target blog doesn't exist.
+     */
     @Override
     public void deleteById(String blogId) {
-        throw new Error("Not implemented yet");
+        commandRepository.deleteById(blogId);
     }
 
     @Override
