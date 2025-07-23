@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum BlogErrorCode implements ErrorCode {
+    BLOG_MAXIMUM_EXCEEDED("사용자당 개설할 수 있는 최대 블로그 개수를 초과했습니다.", HttpStatus.CONFLICT),
     BLOG_NOT_FOUND("블로그를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BLOG_COMMAND_FORBIDDEN("이 블로그를 수정하거나 삭제할 수 없습니다.", HttpStatus.FORBIDDEN),
     BLOG_SUSPENDED("일시정지 된 블로그입니다.", HttpStatus.FORBIDDEN),

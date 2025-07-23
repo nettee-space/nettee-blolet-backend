@@ -44,4 +44,19 @@ public class Blog {
         Objects.requireNonNull(url, "Url must not be null");
         this.url = url;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Blog blog)) return false;
+
+        return Objects.equals(id, blog.id)
+                && Objects.equals(userId, blog.userId)
+                && Objects.equals(name, blog.name)
+                && Objects.equals(url, blog.url);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, userId, name, url);
+    }
 }
