@@ -8,9 +8,7 @@ import io.kotest.matchers.shouldNotBe
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogCommandRepositoryPort
 import nettee.blolet.blog.domain.Blog
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_FOUND
-import nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_CANNOT_BE_BLANK
+import nettee.blolet.blog.exception.BlogErrorCode.*
 import nettee.common.CustomException
 import java.time.Instant
 import java.util.*
