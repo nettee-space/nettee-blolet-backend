@@ -192,11 +192,15 @@ class BlogCommandServiceTest : FreeSpec({
             .updatedAt(now)
             .build()
 
-        "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
+        beforeTest {
             // mock: findById → 기존 엔티티 반환
             every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
+            every { commandPort.findById(wrongId) } returns Optional.empty()
             // mock: save → 입력된 엔티티 그대로 반환
             every { commandPort.save(any()) } answers { firstArg<Blog>() }
+        }
+
+        "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
 
             // action
             val updated = commandService.updateUrl(targetId, newUrl)
@@ -220,7 +224,6 @@ class BlogCommandServiceTest : FreeSpec({
         }
 
         "🚧 존재하지 않는 블로그 ID로 조회 시 BLOG_NOT_FOUND 예외를 던진다" {
-            every { commandPort.findById(wrongId) } returns Optional.empty()
 
             val ex = shouldThrow<CustomException> {
                 commandService.updateUrl(wrongId, "https://any.url")
