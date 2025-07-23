@@ -177,6 +177,71 @@ class BlogCommandServiceTest : FreeSpec({
         }
     }
 
+    "[UPDATE > URL] 블로그 URL 수정 시" - {
+        val targetId = "1"
+        val wrongId = "999"
+        val oldUrl = "https://old.url"
+        val newUrl = "https://new.url"
+        val now = Instant.now()
+        val originalBlog = Blog.builder()
+            .id(targetId)
+            .userId("USER-1")
+            .name("A Blog")
+            .url(oldUrl)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
+
+        "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
+            // mock: findById → 기존 엔티티 반환
+            every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
+            // mock: save → 입력된 엔티티 그대로 반환
+            every { commandPort.save(any()) } answers { firstArg<Blog>() }
+
+            // action
+            val updated = commandService.updateUrl(targetId, newUrl)
+
+            // assert: URL이 바뀌었는지, 반환 객체가 save 호출된 엔티티와 동일한지
+            updated.url shouldBeEqual newUrl
+            verify(exactly = 1) { commandPort.findById(targetId) }
+            verify(exactly = 1) { commandPort.save(match { it.url == newUrl }) }
+            verifySequence {
+                commandPort.findById(targetId)
+                commandPort.save(any())
+            }
+        }
+
+        "🚧 blogId가 null이면 NPE를 던진다" {
+            shouldThrow<NullPointerException> {
+                commandService.updateUrl(null, "https://any.url")
+            }
+
+            verify(inverse = true) { commandPort.save(any()) }
+        }
+
+        "🚧 존재하지 않는 블로그 ID로 조회 시 BLOG_NOT_FOUND 예외를 던진다" {
+            every { commandPort.findById(wrongId) } returns Optional.empty()
+
+            val ex = shouldThrow<CustomException> {
+                commandService.updateUrl(wrongId, "https://any.url")
+            }
+            ex.errorCode shouldBeEqual BLOG_NOT_FOUND
+
+            verify(exactly = 1) { commandPort.findById(wrongId) }
+            verify(inverse = true) { commandPort.save(any()) }
+        }
+
+        "🚧 url이 null이면 NPE를 던진다" {
+            every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
+
+            shouldThrow<NullPointerException> {
+                commandService.updateUrl(targetId, null)
+            }
+
+            verify(inverse = true) { commandPort.save(any()) }
+        }
+    }
+
     "[DELETE] 블로그 삭제 시" - {
         val targetId = "1"
         val wrongTargetId = "999"
