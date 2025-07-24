@@ -1,7 +1,6 @@
 package nettee.series.driving.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,15 +9,12 @@ import lombok.RequiredArgsConstructor;
 import nettee.series.application.usecase.SeriesReadUseCase;
 import nettee.series.driving.web.dto.SeriesQueryDto.SeriesDetailResponse;
 import nettee.series.driving.web.dto.SeriesQueryDto.SeriesSummaryResponse;
-import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("series")
 @Tag(name = "Series", description = "Series API")
 public class SeriesQueryApi {
 
@@ -27,12 +23,10 @@ public class SeriesQueryApi {
     @Operation(summary = "시리즈 목록 조회", description = "블로그 ID를 기준으로 시리즈 목록을 조회합니다.")
     @ApiResponse(
             content = @Content(
-                    array = @ArraySchema(
-                            schema = @Schema(implementation = SeriesSummary.class)
-                    )
+                    schema = @Schema(implementation = SeriesSummaryResponse.class)
             )
     )
-    @GetMapping("/blogs/{blogId}")
+    @GetMapping("/blogs/{blogId}/series")
     public SeriesSummaryResponse getSeriesList(@PathVariable("blogId") String blogId) {
         return SeriesSummaryResponse.builder()
                 .seriesList(seriesReadUseCase.getSeriesList(blogId))
@@ -40,7 +34,7 @@ public class SeriesQueryApi {
     }
 
     @Operation(summary = "시리즈 상세 조회", description = "시리즈 ID를 이용해 시리즈를 상세 조회합니다.")
-    @GetMapping("/{seriesId}")
+    @GetMapping("/series/{seriesId}")
     public SeriesDetailResponse getSeries(@PathVariable("seriesId") String seriesId) {
         return SeriesDetailResponse.builder()
                 .series(seriesReadUseCase.getSeries(seriesId))
