@@ -35,11 +35,10 @@ public class SeriesCommandApi {
     private final SeriesDtoMapper mapper;
     
     @Operation(summary = "시리즈 생성", description = "블로그 ID에 해당하는 시리즈를 생성합니다.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "성공")})
-    @PostMapping("/{blogId}")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public SeriesCommandResponse create(@RequestBody @Valid SeriesCreateCommand command, @PathVariable("blogId") String blogId) {
-        var series = mapper.toDomain(command, blogId);
+    public SeriesCommandResponse create(@RequestBody @Valid SeriesCreateCommand command) {
+        var series = mapper.toDomain(command);
         
         return SeriesCommandResponse.builder()
                 .series(seriesCreateUseCase.createSeries(series))
@@ -47,11 +46,10 @@ public class SeriesCommandApi {
     }
     
     @Operation(summary = "시리즈 수정", description = "블로그 ID에 해당 시리즈를 수정합니다")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "성공")})
-    @PutMapping
+    @PutMapping("/{seriesId}")
     @ResponseStatus(HttpStatus.OK)
-    public SeriesCommandResponse update(@RequestBody @Valid SeriesUpdateCommand command) {
-        var series = mapper.toDomain(command);
+    public SeriesCommandResponse update(@RequestBody @Valid SeriesUpdateCommand command, @PathVariable("seriesId") String seriesId) {
+        var series = mapper.toDomain(command, seriesId);
         
         return SeriesCommandResponse.builder()
                 .series(seriesUpdateUseCase.updateSeries(series))
@@ -59,7 +57,6 @@ public class SeriesCommandApi {
     }
     
     @Operation(summary = "시리즈 삭제", description = "시리즈 ID로 시리즈를 삭제합니다.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "성공")})
     @DeleteMapping("/{seriesId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("seriesId") String seriesId) {
