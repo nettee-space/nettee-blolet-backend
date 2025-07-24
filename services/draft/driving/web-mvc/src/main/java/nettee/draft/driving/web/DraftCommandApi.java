@@ -41,17 +41,16 @@ public class DraftCommandApi {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftCommandResponse create(@RequestBody @Valid DraftCreateCommand draftCreateCommand) {
-//        var draft = Draft.of(
-//                draftCreateCommand.blogId(),
-//                draftCreateCommand.articleId(),
-//                draftCreateCommand.title(),
-//                draftCreateCommand.content(),
-//                draftCreateCommand.path()
-//        );
-//        return DraftCommandResponse.builder()
-//                .draft(draftCreateUseCase.createDraft(draft))
-//                .build();
-        return null;
+        var draft = Draft.of(
+                draftCreateCommand.blogId(),
+                draftCreateCommand.articleId(),
+                draftCreateCommand.title(),
+                draftCreateCommand.content(),
+                draftCreateCommand.path()
+        );
+        return DraftCommandResponse.builder()
+                .draft(draftCreateUseCase.createDraft(draft))
+                .build();
     }
 
     @Operation(summary = "임시 아티클 수정", description = "임시아티클 ID로 임시 아티클을 수정합니다.")

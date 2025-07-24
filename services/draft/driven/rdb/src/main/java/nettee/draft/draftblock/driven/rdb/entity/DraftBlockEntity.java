@@ -2,6 +2,7 @@ package nettee.draft.draftblock.driven.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -16,6 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -25,13 +27,14 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft_block")
+@EntityListeners(AuditingEntityListener.class)
 public class DraftBlockEntity {
     @Id
-    private String id; //snowflake로 수정예정
-    private String blogId;
-    private String draftId;
-    private String articleId;
-    private String nextBlockId;
+    private Long id; //snowflake로 수정예정
+    private Long blogId;
+    private Long draftId;
+    private Long articleId;
+    private Long nextBlockId;
     private String type;
     public String content;
 
@@ -45,8 +48,8 @@ public class DraftBlockEntity {
     public DraftBlockEntityStatus status;
 
     @Builder
-    public DraftBlockEntity(String content, String blogId, String draftId, String articleId, String nextBlockId, String type, DraftBlockEntityStatus status) {
-        this.id = java.util.UUID.randomUUID().toString(); //임시 아이디. 필히 삭제!!
+    public DraftBlockEntity(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
+        this.id = new java.util.Random().nextLong(); //임시 아이디. 필히 삭제!!
         this.content = content;
         this.blogId = blogId;
         this.draftId = draftId;
@@ -61,7 +64,7 @@ public class DraftBlockEntity {
             builderMethodName = "prepareDraftBlockEntityUpdate",
             buildMethodName = "update"
     )
-    public void update(String content, String blogId, String draftId, String articleId, String nextBlockId, String type, DraftBlockEntityStatus status) {
+    public void update(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
         Objects.requireNonNull(content, "Content cannot be null");
         Objects.requireNonNull(status, "status cannot be null");
 
