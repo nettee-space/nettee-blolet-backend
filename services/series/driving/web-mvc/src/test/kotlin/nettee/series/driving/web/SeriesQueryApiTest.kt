@@ -60,7 +60,7 @@ class SeriesQueryApiTest(
             // mock
             `when`(seriesReadUseCase.getSeriesList(blogId)).thenReturn(sampleSeriesSummaryList)
 
-            mvcRequest(HttpMethod.GET, "/series/{blogId}", mapOf("blogId" to blogId))
+            mvcRequest(HttpMethod.GET, "/series/blogs/{blogId}", mapOf("blogId" to blogId))
                 .andExpect {
                     status { is2xxSuccessful() }
                     jsonPath("$.seriesList.size()") { value(1) }
@@ -82,7 +82,7 @@ class SeriesQueryApiTest(
             mvcRequest(HttpMethod.GET, "/series/{seriesId}", mapOf("seriesId" to seriesId))
                 .andExpect {
                     status { is2xxSuccessful() }
-                    jsonPath("$.series.id") { value("series-1") }
+                    jsonPath("$.series.id") { value("1") }
                     jsonPath("$.series.title") { value("시리즈 A") }
                     jsonPath("$.series.description") { value("시리즈 설명") }
                 }
