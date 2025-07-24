@@ -49,19 +49,20 @@ class SeriesCommandApiTest(
 
         "[정상 요청] 제목이 30자 내외이며 존재할 때" - {
             // when
-            val createCommand = SeriesCreateCommand("시리즈 테스트 제목", "시리즈 예시", null, null)
+            val createCommand = SeriesCreateCommand("1'","시리즈 테스트 제목", "시리즈 예시", null, null)
 
             "2xx 응답 상태 반환" {
                 // then
                 mvcRequest(
                     HttpMethod.POST,
-                    "/series/{blogId}",
-                    mapOf("blogId" to seriesCreateResponse.blogId),
+                    "/series",
+                    emptyMap(),
                     createCommand
                 )
                     .andExpect {
                         status { is2xxSuccessful() }
                         jsonPath("series.id") { value(seriesCreateResponse.id) }
+                        jsonPath("series.blogId") { value(seriesCreateResponse.blogId) }
                         jsonPath("series.title") { value(seriesCreateResponse.title) }
                         jsonPath("series.description") { value(seriesCreateResponse.description) }
                     }
@@ -72,14 +73,14 @@ class SeriesCommandApiTest(
 
         "[실패 요청] 시리즈 제목이 공백 혹은 없을 때" - {
             // when
-            val failBlankTitleCommand = SeriesCreateCommand("", "시리즈 예시", null, null)
+            val failBlankTitleCommand = SeriesCreateCommand("1", "", "시리즈 예시", null, null)
 
             // then
             "제목 공백 4xx 응답 상태 반환" {
                 mvcRequest(
                     HttpMethod.POST,
-                    "/series/{blogId}",
-                    mapOf("blogId" to seriesCreateResponse.blogId),
+                    "/series",
+                    emptyMap(),
                     failBlankTitleCommand
                 )
                     .andExpect {
@@ -90,13 +91,13 @@ class SeriesCommandApiTest(
             }
 
             // when
-            val failNullTitleCommand = SeriesCreateCommand(null, "시리즈 예시", null, null)
+            val failNullTitleCommand = SeriesCreateCommand("1",null, "시리즈 예시", null, null)
 
             "제목 없을 때 4xx 응답 상태 반환" {
                 mvcRequest(
                     HttpMethod.POST,
-                    "/series/{blogId}",
-                    mapOf("blogId" to seriesCreateResponse.blogId),
+                    "/series",
+                    emptyMap(),
                     failNullTitleCommand
                 )
                     .andExpect {
@@ -114,14 +115,14 @@ class SeriesCommandApiTest(
 
         "[정상 요청] 제목이 30자 내외이며 존재할 때" - {
             // when
-            val updateCommand = SeriesUpdateCommand("1", "시리즈 테스트 제목", "시리즈 예시", null, null)
+            val updateCommand = SeriesUpdateCommand("시리즈 테스트 제목", "시리즈 예시", null, null)
 
             "2xx 정상 상태 반환" {
                 // then
                 mvcRequest(
                     HttpMethod.PUT,
-                    "/series",
-                    emptyMap(),
+                    "/series/{id}",
+                    mapOf("id" to seriesDomain.id),
                     updateCommand
                 )
                     .andExpect {
@@ -137,7 +138,7 @@ class SeriesCommandApiTest(
 
         "[실패 요청] 제목이 공백 일 때" - {
             // when
-            val failBlankTitleCommand = SeriesUpdateCommand("1", "", "시리즈 예시", null, null)
+            val failBlankTitleCommand = SeriesUpdateCommand("", "시리즈 예시", null, null)
 
             // then
             "제목 공백 4xx 응답 상태 반환" {
@@ -155,7 +156,7 @@ class SeriesCommandApiTest(
             }
 
             // when
-            val failNullTitleCommand = SeriesUpdateCommand("1", null, "시리즈 예시", null, null)
+            val failNullTitleCommand = SeriesUpdateCommand(null, "시리즈 예시", null, null)
 
             "제목 없을 때 4xx 응답 상태 반환" {
                 mvcRequest(
