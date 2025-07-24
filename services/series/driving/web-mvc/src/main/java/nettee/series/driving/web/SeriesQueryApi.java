@@ -32,7 +32,7 @@ public class SeriesQueryApi {
                     )
             )
     )
-    @GetMapping("/{blogId}")
+    @GetMapping("/blogs/{blogId}")
     public SeriesSummaryResponse getSeriesList(@PathVariable("blogId") String blogId) {
         return SeriesSummaryResponse.builder()
                 .seriesList(seriesReadUseCase.getSeriesList(blogId))
