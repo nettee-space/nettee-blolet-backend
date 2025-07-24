@@ -39,8 +39,8 @@ public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements
                 getQuerydsl().createQuery()
                         .select(draftBlockEntity)
                         .from(draftBlockEntity)
-                        .where(draftBlockEntity.id.eq(longId)
-                        ).fetchOne()
+                        .where(draftBlockEntity.id.eq(longId))
+                        .fetchOne()
         );
     }
 

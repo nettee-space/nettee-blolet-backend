@@ -38,8 +38,8 @@ public class DraftQueryAdapter extends QuerydslRepositorySupport implements Draf
                 getQuerydsl().createQuery()
                         .select(draftEntity)
                         .from(draftEntity)
-                        .where(draftEntity.id.eq(longId)
-                        ).fetchOne()
+                        .where(draftEntity.id.eq(longId))
+                        .fetchOne()
         );
     }
 
