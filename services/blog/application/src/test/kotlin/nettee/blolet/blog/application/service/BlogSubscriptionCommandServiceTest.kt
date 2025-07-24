@@ -6,7 +6,7 @@ import io.kotest.matchers.*
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase
-import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionCount
+import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats
 import nettee.blolet.blog.domain.BlogSubscription
 import nettee.blolet.blog.exception.BlogErrorCode.*
 import nettee.common.CustomException
@@ -39,7 +39,7 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
             every { commandPort.countByBlogId(blogId) } returns blogSubscribers
 
             // when
-            val result: SubscriptionCount = service.subscribeBlog(userId, blogId)
+            val result: SubscriptionStats = service.subscribeBlog(userId, blogId)
 
             // then
             // save에 넘긴 엔티티 속성 검증
@@ -51,8 +51,8 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
             }
 
             // 반환된 통계 검증
-            result.userSubscriptions shouldBe userSubscriptions
-            result.totalSubscribers shouldBe blogSubscribers
+            result.userSubscriptionCount shouldBe userSubscriptions
+            result.blogTotalSubscriberCount shouldBe blogSubscribers
 
             // 호출 순서 검증
             verifySequence {
