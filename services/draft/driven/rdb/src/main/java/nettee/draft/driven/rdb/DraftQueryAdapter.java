@@ -33,12 +33,13 @@ public class DraftQueryAdapter extends QuerydslRepositorySupport implements Draf
 
     @Override
     public Optional<DraftDetail> findById(String id) {
+        Long longId = Long.parseLong(id);
         return draftEntityMapper.toOptionalDraftDetail(
                 getQuerydsl().createQuery()
                         .select(draftEntity)
                         .from(draftEntity)
-                        .where(draftEntity.id.eq(id)
-                        ).fetchOne()
+                        .where(draftEntity.id.eq(longId))
+                        .fetchOne()
         );
     }
 

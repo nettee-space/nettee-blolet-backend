@@ -2,6 +2,7 @@ package nettee.draft.driven.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,10 +13,12 @@ import lombok.NoArgsConstructor;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatusConverter;
 import nettee.jpa.support.LongBaseTimeEntity;
+import nettee.jpa.support.SnowflakeBaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 import java.util.Objects;
@@ -25,28 +28,19 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft")
-public class DraftEntity {
-    @Id
-    private String id; //snowflake로 수정예정
+public class DraftEntity extends SnowflakeBaseTimeEntity {
     public String title;
     public String content;
-    public String blogId;
-    public String articleId;
-    public String entryBlockId;
+    public Long blogId;
+    public Long articleId;
+    public Long entryBlockId;
     public String path;
-
-    @CreatedDate
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
 
     @Convert(converter = DraftEntityStatusConverter.class)
     public DraftEntityStatus status;
 
     @Builder
-    public DraftEntity(String title, String content, String blogId, String articleId, String entryBlockId, String path, DraftEntityStatus status) {
-        this.id = java.util.UUID.randomUUID().toString(); //임시 아이디. 필히 삭제!!
+    public DraftEntity(String title, String content, Long blogId, Long articleId, Long entryBlockId, String path, DraftEntityStatus status) {
         this.title = title;
         this.content = content;
         this.status = status;
@@ -61,7 +55,7 @@ public class DraftEntity {
             builderMethodName = "prepareDraftEntityUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, String content, String blogId, String articleId, String entryBlockId, String path, DraftEntityStatus status) {
+    public void update(String title, String content, Long blogId, Long articleId, Long entryBlockId, String path, DraftEntityStatus status) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(content, "Content cannot be null");
         Objects.requireNonNull(status, "status cannot be null");

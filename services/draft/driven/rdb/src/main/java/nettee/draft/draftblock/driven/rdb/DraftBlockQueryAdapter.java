@@ -34,12 +34,13 @@ public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements
 
     @Override
     public Optional<DraftBlockDetail> findById(String id) {
+        Long longId = Long.parseLong(id);
         return draftBlockEntityMapper.toOptionalDraftBlockDetail(
                 getQuerydsl().createQuery()
                         .select(draftBlockEntity)
                         .from(draftBlockEntity)
-                        .where(draftBlockEntity.id.eq(id)
-                        ).fetchOne()
+                        .where(draftBlockEntity.id.eq(longId))
+                        .fetchOne()
         );
     }
 
