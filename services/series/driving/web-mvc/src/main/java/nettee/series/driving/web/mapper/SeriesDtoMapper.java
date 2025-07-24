@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface SeriesDtoMapper {
     
-    Series toDomain(SeriesCreateCommand command, String blogId);
+    Series toDomain(SeriesCreateCommand command);
     
-    Series toDomain(SeriesUpdateCommand command);
+    Series toDomain(SeriesUpdateCommand command, String seriesId);
 }

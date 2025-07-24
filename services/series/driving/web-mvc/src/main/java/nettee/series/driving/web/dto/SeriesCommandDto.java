@@ -17,9 +17,13 @@ public final class SeriesCommandDto {
     
     @Builder
     public record SeriesCreateCommand(
+            @NotNull(message = "블로그 ID를 입력하십시오.")
+            @Schema(description = "블로그 ID", example = "1")
+            String blogId,
+
             @NotBlank(message = "이름을 입력해주세요.")
             @Size(max = 30, message = "이름은 최대 30글자 이대로 적어주세요")
-            @Schema(description = "시리즈 제목", example = "시리즈샘플")
+            @Schema(description = "시리즈 이름", example = "시리즈샘플")
             String title,
             
             @Schema(description = "시리즈 설명", example = "시리즈 설명 샘플입니다.")
@@ -40,9 +44,10 @@ public final class SeriesCommandDto {
     
     @Builder
     public record SeriesUpdateCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            @Schema(description = "시리즈 ID", example = "1")
-            String id,
+            @NotBlank(message = "이름을 입력해주세요.")
+            @Size(max = 30, message = "이름은 최대 30글자 이대로 적어주세요")
+            @Schema(description = "시리즈 이름", example = "시리즈샘플")
+            String title,
             
             @Schema(description = "시리즈 설명", example = "시리즈 설명 샘플입니다.")
             String description,

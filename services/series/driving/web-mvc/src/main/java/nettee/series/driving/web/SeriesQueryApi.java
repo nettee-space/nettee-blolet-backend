@@ -5,7 +5,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.series.application.usecase.SeriesReadUseCase;
@@ -22,29 +21,29 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("series")
 @Tag(name = "Series", description = "Series API")
 public class SeriesQueryApi {
-    
+
     private final SeriesReadUseCase seriesReadUseCase;
-    
-    @Operation(summary = "시리즈 상세 조회", description = "시리즈 ID를 이용해 시리즈를 상세 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
-    })
-    @GetMapping("/{seriesId}")
-    public SeriesDetailResponse getSeries(@PathVariable("seriesId") String seriesId) {
-        return SeriesDetailResponse.builder()
-                .series(seriesReadUseCase.getSeries(seriesId))
-                .build();
-    }
-    
-    @Operation(summary = "시리즈 목록 조회", description = "블로그 ID를 이용해 시리즈 목록을 조회합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공",
-                    content = @Content(array = @ArraySchema(schema = @Schema(implementation = SeriesSummary.class))))
-    })
+
+    @Operation(summary = "시리즈 목록 조회", description = "블로그 ID를 기준으로 시리즈 목록을 조회합니다.")
+    @ApiResponse(
+            content = @Content(
+                    array = @ArraySchema(
+                            schema = @Schema(implementation = SeriesSummary.class)
+                    )
+            )
+    )
     @GetMapping("/{blogId}")
     public SeriesSummaryResponse getSeriesList(@PathVariable("blogId") String blogId) {
         return SeriesSummaryResponse.builder()
                 .seriesList(seriesReadUseCase.getSeriesList(blogId))
+                .build();
+    }
+
+    @Operation(summary = "시리즈 상세 조회", description = "시리즈 ID를 이용해 시리즈를 상세 조회합니다.")
+    @GetMapping("/{seriesId}")
+    public SeriesDetailResponse getSeries(@PathVariable("seriesId") String seriesId) {
+        return SeriesDetailResponse.builder()
+                .series(seriesReadUseCase.getSeries(seriesId))
                 .build();
     }
 }
