@@ -23,17 +23,20 @@ public class DraftBlock {
     private String content;
     private Map<String, Object> style;
     private DraftBlockStatus status;
-    private Instant createAt;
-    private Instant updateAt;
+    private Instant createdAt;
+    private Instant updatedAt;
 
-    public static DraftBlock of(String type, String content, Map<String, Object> style) {
+    public static DraftBlock of(String blogId, String draftId, String articleId, String type, String content, Map<String, Object> style) {
         return DraftBlock.builder()
+                .blogId(blogId)
+                .draftId(draftId)
+                .articleId(articleId)
                 .type(type)
                 .content(content)
                 .style(style)
                 .status(DraftBlockStatus.DRAFT) // 기본 상태
-                .createAt(Instant.now())
-                .updateAt(Instant.now())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
                 .build();
     }
 
@@ -47,7 +50,7 @@ public class DraftBlock {
 
         this.content = content;
         this.style = style;
-        this.updateAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
 
     public void softDelete() { this.status = DraftBlockStatus.DELETED; }

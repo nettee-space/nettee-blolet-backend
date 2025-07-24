@@ -42,6 +42,9 @@ public class DraftBlockCommandApi {
     @ResponseStatus(HttpStatus.CREATED)
     public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand draftBlockCreateCommand) {
         var draft = DraftBlock.of(
+                draftBlockCreateCommand.blogId(),
+                draftBlockCreateCommand.draftId(),
+                draftBlockCreateCommand.articleId(),
                 draftBlockCreateCommand.type(),
                 draftBlockCreateCommand.content(),
                 draftBlockCreateCommand.style()
