@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort;
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase;
 import nettee.blolet.blog.application.usecase.subscription.BlogUnsubscriptionUseCase;
+import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionCount;
 import nettee.blolet.blog.domain.BlogSubscription;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
     private final BlogSubscriptionCommandRepositoryPort commandRepository;
 
     @Override
-    public void subscribeBlog(String userId, String blogId) {
+    public SubscriptionCount subscribeBlog(String userId, String blogId) {
         boolean exists = commandRepository.existsByUserIdAndBlogId(userId, blogId);
         if(exists) {
             throw ALREADY_SUBSCRIBED_BLOG.exception();
@@ -30,6 +31,15 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
                 .build();
 
         commandRepository.save(subscription);
+
+        // 저장 후 통계 조회
+        int userCount = commandRepository.countByUserId(userId);
+        int blogCount = commandRepository.countByBlogId(blogId);
+
+        return SubscriptionCount.builder()
+                .userSubscriptions(userCount)
+                .totalSubscribers(blogCount)
+                .build();
     }
 
     @Override

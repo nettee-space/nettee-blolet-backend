@@ -1,5 +1,7 @@
 package nettee.blolet.blog.application.usecase.subscription;
 
+import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionCount;
+
 public interface BlogSubscriptionUseCase {
-    void subscribeBlog(String userId, String blogId);
+    SubscriptionCount subscribeBlog(String userId, String blogId);
 }
