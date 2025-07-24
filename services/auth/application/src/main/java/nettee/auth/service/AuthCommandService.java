@@ -22,7 +22,7 @@ public class AuthCommandService implements AuthSignUsecase {
     private final AuthRedisPort authRedisPort;
 
     @Override
-    public LoginToken signUp(User user) {
+    public void signUp(User user) {
         /**
          * TODO: 회원가입 이메일 인증을 정상적으로 수행했는지 검증
          * 사용자 이메일 인증이 완료되었음을 확인하는 토큰을 받을 수 있다.
@@ -49,24 +49,5 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 4. user 저장
         authCommandRepositoryPort.save(user);
-
-        // TODO: 회원가입 후, 바로 로그인 상태로 전환할지 여부는 기획에 따라 달라질 수 있다.
-        return generateLoginToken(user.getLoginId());
-    }
-
-    /**
-     * accessToken & refreshToken 발급
-     */
-    private LoginToken generateLoginToken(String loginId) {
-        String refreshTokenKey = UUID.randomUUID().toString();
-        String refreshToken = authRedisPort.generateRefreshToken(loginId, refreshTokenKey);
-        String accessToken = authRedisPort.generateAccessToken(loginId);
-
-        return LoginToken.builder()
-                .loginId(loginId)
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .refreshTokenKey(refreshTokenKey)
-                .build();
     }
 }
