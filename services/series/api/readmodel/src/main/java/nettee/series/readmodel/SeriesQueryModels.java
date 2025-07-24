@@ -16,7 +16,7 @@ public final class SeriesQueryModels {
             String blogId,
             String title,
             String description,
-            Byte[] banner,
+            String banner,
             List<SeriesArticleSummary> seriesArticleSummaryList,
             Instant createdAt,
             Instant updatedAt
