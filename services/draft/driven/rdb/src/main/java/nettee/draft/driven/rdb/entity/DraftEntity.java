@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatusConverter;
 import nettee.jpa.support.LongBaseTimeEntity;
+import nettee.jpa.support.SnowflakeBaseTimeEntity;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
@@ -27,10 +28,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft")
-@EntityListeners(AuditingEntityListener.class)
-public class DraftEntity {
-    @Id
-    private Long id; //snowflake로 수정예정
+public class DraftEntity extends SnowflakeBaseTimeEntity {
     public String title;
     public String content;
     public Long blogId;
@@ -38,18 +36,11 @@ public class DraftEntity {
     public Long entryBlockId;
     public String path;
 
-    @CreatedDate
-    private Instant createdAt;
-
-    @LastModifiedDate
-    private Instant updatedAt;
-
     @Convert(converter = DraftEntityStatusConverter.class)
     public DraftEntityStatus status;
 
     @Builder
     public DraftEntity(String title, String content, Long blogId, Long articleId, Long entryBlockId, String path, DraftEntityStatus status) {
-        this.id = new java.util.Random().nextLong(); //임시 아이디. 필히 삭제!!
         this.title = title;
         this.content = content;
         this.status = status;
