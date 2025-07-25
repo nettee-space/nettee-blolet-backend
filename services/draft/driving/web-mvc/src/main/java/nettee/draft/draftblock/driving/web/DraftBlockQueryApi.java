@@ -9,6 +9,7 @@ import nettee.draft.draftblock.application.usecase.DraftBlockReadByStatusesUseCa
 import nettee.draft.draftblock.application.usecase.DraftBlockReadUseCase;
 import nettee.draft.draftblock.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
+
+import static nettee.draft.draftblock.exception.DraftBlockQueryErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @RestController
 @RequestMapping("draft-blocks")
@@ -32,11 +35,10 @@ public class DraftBlockQueryApi {
             @ApiResponse(responseCode = "200", description = "성공")
     })
     @GetMapping("/{draftBlockId}")
-    public DraftBlockDetailResponse getDraftBlock(@PathVariable("draftBlockId") long draftBlockId) {
-//        DraftBlockQueryModels.DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
-//                .orElseThrow(DRAFT_NOT_FOUND::exception);
-//        return new DraftBlockDetailResponse(draftDetail);
-        return null;
+    public DraftBlockDetailResponse getDraftBlock(@PathVariable("draftBlockId") String draftBlockId) {
+        DraftBlockReadModels.DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
+                .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
+        return new DraftBlockDetailResponse(draftDetail);
     }
 
     @Operation(summary = "블록 목록조회", description = "블록을 상태와 함께 조회합니다. (기본상태는 DRAFT, PUBLISHED이며, 추가로 DELETED가 존재함)")
@@ -47,7 +49,6 @@ public class DraftBlockQueryApi {
     public Page<DraftBlockSummary> getDraftBlocksByStatuses(
             @RequestParam(defaultValue = "DRAFT, PUBLISHED") Set<DraftBlockStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
-//        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
-        return null;
+        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
     }
 }
