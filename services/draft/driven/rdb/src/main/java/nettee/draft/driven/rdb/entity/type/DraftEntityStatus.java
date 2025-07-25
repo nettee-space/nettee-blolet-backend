@@ -82,11 +82,12 @@ public enum DraftEntityStatus {
 
     public static DraftEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0100_1000_0000_0000_0000_0000 -> DELETED;
-            case 0b0__0000_0000_0000_0001_0000_0000 -> PENDING;
-            case 0b0__0110_1100_0000_0010_0000_0000 -> DRAFT;
-            case 0b0__0100_1000_0000_0100_0000_0000 -> DONE;
-            default -> throw DEFAULT.exception();
+            case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> DELETED;
+            case 0b0__000_0000_0000_0000_0000_0001_0000_0000 -> PENDING;
+            case 0b0__110_1100_0000_0000_0000_0010_0000_0000 -> DRAFT;
+            case 0b0__100_1000_0000_0000_0000_0100_0000_0000 -> DONE;
+            default -> {
+                throw DEFAULT.exception();}
         };
     }
 }

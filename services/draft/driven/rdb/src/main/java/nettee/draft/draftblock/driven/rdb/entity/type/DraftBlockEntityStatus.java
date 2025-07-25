@@ -45,7 +45,7 @@ public enum DraftBlockEntityStatus {
                 .collect(Collectors.toSet())
                 .size()
                 == values().length
-                : "DraftEntityStatus의 모든 code 필드가 고유해야 합니다.";
+                : "DraftBlockEntityStatus의 모든 code 필드가 고유해야 합니다.";
     }
 
     DraftBlockEntityStatus(StatusParameters<Present, Present> articleStatusParameters) {
@@ -62,21 +62,21 @@ public enum DraftBlockEntityStatus {
     public static DraftBlockEntityStatus valueOf(DraftBlockStatus draftStatus) {
         assert Set.of(DraftBlockStatus.DELETED, DraftBlockStatus.PUBLISHED, DraftBlockStatus.DRAFT)
                 .containsAll(Arrays.stream(DraftBlockStatus.values()).collect(Collectors.toSet()))
-                : "DraftBlockStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
+                : "DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 
         return switch (draftStatus) {
             case DELETED -> DELETED;
             case PUBLISHED -> PUBLISHED;
             case DRAFT -> DRAFT;
-            default -> throw new Error("DraftBlockStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
+            default -> throw new Error("DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
         };
     }
 
     public static DraftBlockEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0100_1000_0000_0000_0000_0000 -> DELETED;
-            case 0b0__0110_1100_0000_0001_0000_0000 -> DRAFT;
-            case 0b0__0110_1100_0000_0010_0000_0000 -> PUBLISHED;
+            case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> DELETED;
+            case 0b0__110_1100_0000_0000_0000_0001_0000_0000 -> DRAFT;
+            case 0b0__110_1100_0000_0000_0000_0010_0000_0000 -> PUBLISHED;
             default -> throw DEFAULT.exception();
         };
     }
