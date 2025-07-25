@@ -3,11 +3,9 @@ package nettee.series.article.driven.rdb.entity;
 import jakarta.persistence.Entity;
 import lombok.Builder;
 import nettee.jpa.support.LongBaseTimeEntity;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Objects;
 
-@DynamicUpdate
 @Entity(name = "series_article")
 public class SeriesArticleEntity extends LongBaseTimeEntity {
     
