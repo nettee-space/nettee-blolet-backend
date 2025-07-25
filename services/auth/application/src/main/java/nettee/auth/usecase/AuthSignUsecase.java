@@ -1,7 +1,7 @@
 package nettee.auth.usecase;
 
-import nettee.auth.domain.User;
+import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
 
 public interface AuthSignUsecase {
-    void signUp(User user);
+    void signUp(SignUpRequestModel signUpRequest);
 }
