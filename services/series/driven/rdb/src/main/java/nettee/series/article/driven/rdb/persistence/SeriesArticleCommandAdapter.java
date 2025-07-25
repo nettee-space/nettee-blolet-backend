@@ -7,7 +7,6 @@ import nettee.series.article.driven.rdb.entity.SeriesArticleEntity;
 import nettee.series.article.driven.rdb.persistence.mapper.SeriesArticleEntityMapper;
 import nettee.series.article.exception.SeriesArticleException;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +21,7 @@ public class SeriesArticleCommandAdapter implements SeriesArticleCommandReposito
     private final SeriesArticleEntityMapper seriesArticleEntityMapper;
     
     @Override
-    public Optional<SeriesArticle> findByIdAndDraftId(String seriesId, String draftId) {
+    public Optional<SeriesArticle> findBySeriesIdAndDraftId(String seriesId, String draftId) {
         return seriesArticleEntityMapper.toOptionalSeriesArticle(
                 seriesArticleJpaRepository.findBySeriesIdAndDraftId(Long.valueOf(seriesId), Long.valueOf(draftId))
         );
@@ -42,9 +41,9 @@ public class SeriesArticleCommandAdapter implements SeriesArticleCommandReposito
     @Override
     public SeriesArticle updateDraftToArticle(SeriesArticle article) {
         var existsArticle = seriesArticleJpaRepository.findBySeriesIdAndDraftId
-                        (Long.valueOf(article.getSeriesId()), Long.valueOf(article.getDraftId()));
+                (Long.valueOf(article.getSeriesId()), Long.valueOf(article.getDraftId()));
         
-        if(existsArticle == null) {
+        if (existsArticle == null) {
             throw new SeriesArticleException(SERIES_ARTICLE_NOT_FOUND);
         }
         
@@ -56,7 +55,7 @@ public class SeriesArticleCommandAdapter implements SeriesArticleCommandReposito
     }
     
     @Override
-    public void delete(String seriesId) {
-        seriesArticleJpaRepository.deleteBySeriesId(Long.valueOf(seriesId));
+    public void deleteAllBySeriesId(String seriesId) {
+        seriesArticleJpaRepository.deleteAllBySeriesId(Long.valueOf(seriesId));
     }
 }

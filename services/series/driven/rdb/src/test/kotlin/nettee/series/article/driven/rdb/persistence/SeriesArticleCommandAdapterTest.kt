@@ -35,7 +35,7 @@ class SeriesArticleCommandAdapterTest(
 
         repository.save(entity)
 
-        val result = adapter.findByIdAndDraftId(testSeriesId, testDraftId)
+        val result = adapter.findBySeriesIdAndDraftId(testSeriesId, testDraftId)
 
         "조회된 결과가 존재해야 한다" {
             result.isPresent shouldBe true
@@ -101,7 +101,7 @@ class SeriesArticleCommandAdapterTest(
 
         repository.save(entity)
 
-        adapter.delete(testSeriesId)
+        adapter.deleteAllBySeriesId(testSeriesId)
 
         val deleted = repository.findById(entity.seriesId)
 
