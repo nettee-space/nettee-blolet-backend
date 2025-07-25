@@ -7,11 +7,11 @@ import java.util.Optional;
 
 public interface SeriesArticleCommandRepositoryPort {
     
-    Optional<SeriesArticle> findByIdAndDraftId(String seriesId, String draftId);
+    Optional<SeriesArticle> findBySeriesIdAndDraftId(String seriesId, String draftId);
     
     List<SeriesArticle> saveAll(List<SeriesArticle> article);
     
     SeriesArticle updateDraftToArticle(SeriesArticle article);
     
-    void delete(String seriesId);
+    void deleteAllBySeriesId(String seriesId);
 }

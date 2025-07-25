@@ -4,11 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import lombok.Builder;
 import nettee.jpa.support.LongBaseTimeEntity;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Objects;
 
-@DynamicUpdate
 @Entity(name = "series")
 public class SeriesEntity extends LongBaseTimeEntity {
     
@@ -24,8 +22,8 @@ public class SeriesEntity extends LongBaseTimeEntity {
     public Integer displayOrder;
     
     @Builder(
-            builderClassName = "updateSeriesEntityBuilder",
-            builderMethodName = "prepareSeriesEntityUpdate",
+            builderClassName = "UpdateSeriesEntityBuilder",
+            builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
     public void update(String title, String description, byte[] banner, Integer displayOrder) {

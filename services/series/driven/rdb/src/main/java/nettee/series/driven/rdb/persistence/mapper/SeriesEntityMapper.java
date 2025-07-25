@@ -29,7 +29,9 @@ public interface SeriesEntityMapper {
     
     @Named("bytesToBase64")
     default String bytesToBase64(byte[] bytes) {
-        return bytes != null ? Base64.getEncoder().encodeToString(bytes) : null;
+        return bytes != null ?
+                Base64.getEncoder().withoutPadding().encodeToString(bytes) :
+                null;
     }
     
     @Named("base64ToBytes")

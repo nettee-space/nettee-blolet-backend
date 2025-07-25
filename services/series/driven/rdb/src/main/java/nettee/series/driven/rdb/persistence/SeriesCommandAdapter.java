@@ -32,7 +32,7 @@ public class SeriesCommandAdapter implements SeriesCommandRepositoryPort {
         var existsSeries = seriesJpaRepository.findById(Long.valueOf(series.getId()))
                 .orElseThrow(SERIES_NOT_FOUND::exception);
         
-        existsSeries.prepareSeriesEntityUpdate()
+        existsSeries.prepareUpdate()
                 .title(series.getTitle())
                 .description(series.getDescription())
                 .banner(seriesEntityMapper.base64ToBytes(series.getBanner()))
