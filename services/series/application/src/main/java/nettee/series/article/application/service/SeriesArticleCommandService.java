@@ -25,9 +25,9 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
         
         // 시리즈 ID 세팅
         articleList.forEach(article ->
-            article.prepareUpdate()
-                    .seriesId(seriesId)
-                    .update()
+                article.prepareUpdate()
+                        .seriesId(seriesId)
+                        .update()
         );
         
         return commandRepositoryPort.saveAll(articleList);
@@ -39,7 +39,7 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
         assert draftId != null;
         assert articleId != null;
         
-        var article = commandRepositoryPort.findByIdAndDraftId(seriesId, draftId)
+        var article = commandRepositoryPort.findBySeriesIdAndDraftId(seriesId, draftId)
                 .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
         
         article.prepareUpdate()
@@ -53,6 +53,6 @@ public class SeriesArticleCommandService implements SeriesArticleCreateUseCase, 
     public void deleteSeriesArticleList(String seriesId) {
         assert seriesId != null;
         
-        commandRepositoryPort.delete(seriesId);
+        commandRepositoryPort.deleteAllBySeriesId(seriesId);
     }
 }

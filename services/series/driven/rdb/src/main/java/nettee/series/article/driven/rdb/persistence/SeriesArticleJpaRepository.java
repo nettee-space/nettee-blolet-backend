@@ -14,5 +14,5 @@ public interface SeriesArticleJpaRepository extends JpaRepository<SeriesArticleE
     @Modifying
     @Transactional
     @Query("delete from series_article s where s.seriesId = :seriesId")
-    void deleteBySeriesId(@Param("seriesId") Long seriesId);
+    void deleteAllBySeriesId(@Param("seriesId") Long seriesId);
 }
