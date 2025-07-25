@@ -2,8 +2,10 @@ package nettee.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.List;
+
 @ConfigurationProperties("app.cors")
 public record CorsProperties (
-        MappedCorsProperties[] endpoints
+        List<MappedCorsProperties> endpoints
 ) {
 }
