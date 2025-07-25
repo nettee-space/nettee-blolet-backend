@@ -71,7 +71,6 @@ public enum DraftEntityStatus {
         assert Set.of(DraftStatus.DELETED, DraftStatus.PENDING, DraftStatus.DRAFT, DraftStatus.DONE)
                 .containsAll(Arrays.stream(DraftStatus.values()).collect(Collectors.toSet()))
                 : "DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
-
         return switch (draftStatus) {
             case DELETED -> DELETED;
             case PENDING -> PENDING;
@@ -83,10 +82,10 @@ public enum DraftEntityStatus {
 
     public static DraftEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> DELETED;
-            case 0b0__0000_0000_0000_0001__000_0000_0000_0000 -> PENDING;
-            case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> DRAFT;
-            case 0b1__0000_0000_0000_0100__000_0000_0000_0000 -> DONE;
+            case 0b0__0100_1000_0000_0000_0000_0000 -> DELETED;
+            case 0b0__0000_0000_0000_0001_0000_0000 -> PENDING;
+            case 0b0__0110_1100_0000_0010_0000_0000 -> DRAFT;
+            case 0b0__0100_1000_0000_0100_0000_0000 -> DONE;
             default -> throw DEFAULT.exception();
         };
     }

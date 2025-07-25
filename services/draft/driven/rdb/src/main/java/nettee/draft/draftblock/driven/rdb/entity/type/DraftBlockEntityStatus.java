@@ -74,9 +74,9 @@ public enum DraftBlockEntityStatus {
 
     public static DraftBlockEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> DELETED;
-            case 0b0__0000_0000_0000_0001__000_0000_0000_0000 -> DRAFT;
-            case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> PUBLISHED;
+            case 0b0__0100_1000_0000_0000_0000_0000 -> DELETED;
+            case 0b0__0110_1100_0000_0001_0000_0000 -> DRAFT;
+            case 0b0__0110_1100_0000_0010_0000_0000 -> PUBLISHED;
             default -> throw DEFAULT.exception();
         };
     }
