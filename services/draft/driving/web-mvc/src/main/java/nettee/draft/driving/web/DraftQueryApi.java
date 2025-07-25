@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
+import nettee.draft.readmodel.DraftReadModels;
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
+
+import static nettee.draft.exception.DraftQueryErrorCode.DRAFT_NOT_FOUND;
 
 @RestController
 @RequestMapping("drafts")
@@ -31,11 +34,10 @@ public class DraftQueryApi {
             @ApiResponse(responseCode = "200", description = "성공")
     })
     @GetMapping("/{draftId}")
-    public DraftDetailResponse getDraft(@PathVariable("draftId") long draftId) {
-//        DraftQueryModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
-//                .orElseThrow(DRAFT_NOT_FOUND::exception);
-//        return new DraftDetailResponse(draftDetail);
-        return null;
+    public DraftDetailResponse getDraft(@PathVariable("draftId") String draftId) {
+        DraftReadModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
+                .orElseThrow(DRAFT_NOT_FOUND::exception);
+        return new DraftDetailResponse(draftDetail);
     }
 
     @Operation(summary = "임시 아티클 목록조회", description = "상태와 함께 임시아티클을 목록조회 합니다(기본 상태는 DRAFT이며, 추가로 PENDING, DELETED, DONE이 존재함)")
@@ -44,9 +46,8 @@ public class DraftQueryApi {
     })
     @GetMapping
     public Page<DraftSummary> getDraftsByStatuses(
-            @RequestParam(defaultValue = "DRAFT") Set<DraftStatus> statuses,
+            @RequestParam(defaultValue = "DRAFT, PENDING") Set<DraftStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
-//        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
-        return null;
+        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
     }
 }
