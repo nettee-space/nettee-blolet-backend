@@ -6,7 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
-import nettee.draft.readmodel.DraftReadModels;
+import nettee.draft.readmodel.DraftReadModels.DraftDetail;
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
@@ -35,7 +35,7 @@ public class DraftQueryApi {
     })
     @GetMapping("/{draftId}")
     public DraftDetailResponse getDraft(@PathVariable("draftId") String draftId) {
-        DraftReadModels.DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
+        DraftDetail draftDetail = draftReadUseCase.getDraft(draftId)
                 .orElseThrow(DRAFT_NOT_FOUND::exception);
         return new DraftDetailResponse(draftDetail);
     }

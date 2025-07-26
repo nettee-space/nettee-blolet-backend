@@ -9,7 +9,7 @@ import nettee.draft.draftblock.application.usecase.DraftBlockReadByStatusesUseCa
 import nettee.draft.draftblock.application.usecase.DraftBlockReadUseCase;
 import nettee.draft.draftblock.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels;
+import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +36,7 @@ public class DraftBlockQueryApi {
     })
     @GetMapping("/{draftBlockId}")
     public DraftBlockDetailResponse getDraftBlock(@PathVariable("draftBlockId") String draftBlockId) {
-        DraftBlockReadModels.DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
+        DraftBlockDetail draftDetail = draftReadUseCase.getDraftBlock(draftBlockId)
                 .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
         return new DraftBlockDetailResponse(draftDetail);
     }
