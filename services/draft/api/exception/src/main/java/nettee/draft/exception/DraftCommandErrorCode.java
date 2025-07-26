@@ -10,8 +10,8 @@ public enum DraftCommandErrorCode implements ErrorCode {
     DRAFT_NOT_FOUND("임시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
     DRAFT_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
-    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR),
-    DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT);
+    DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT),
+    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
     private final HttpStatus httpStatus;

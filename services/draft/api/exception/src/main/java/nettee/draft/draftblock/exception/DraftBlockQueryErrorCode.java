@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 
 public enum DraftBlockQueryErrorCode implements ErrorCode {
     DRAFT_BLOCK_NOT_FOUND("블록을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
-    DRAFT_BLOCK__GONE("더 이상 존재하지 않는 블록입니다.", HttpStatus.GONE),
-    DRAFT_BLOCK__FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
+    DRAFT_BLOCK_GONE("더 이상 존재하지 않는 블록입니다.", HttpStatus.GONE),
+    DRAFT_BLOCK_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
     DEFAULT("블록 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
