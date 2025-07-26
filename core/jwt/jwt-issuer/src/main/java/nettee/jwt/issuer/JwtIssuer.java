@@ -42,17 +42,17 @@ public class JwtIssuer implements BiFunction<String, Map<String, ?>, String> {
     /**
      * Create a new JwtIssuer for asymmetric (RSA, EC, or EdDSA) signing.
      *
-     * @param maxAge               the maximum validity period of the token, in seconds
+     * @param maxAgeInSeconds      the maximum validity period of the token, in seconds
      * @param base64PrivateKey     the private key in PKCS#8 format, as a base64-encoded string
      * @param algorithm            the asymmetric signature algorithm to use
      *                             (RS256, RS384, RS512, PS256, PS384, PS512, ES256, ES384, ES512, or EdDSA)
      */
     public JwtIssuer(
-            Long maxAge,
             String base64PrivateKey,
+            long maxAgeInSeconds,
             JwtSignatureAlgorithm algorithm
     ) {
-        this.maxAge = maxAge;
+        this.maxAge = maxAgeInSeconds;
 
         this.jwtBuilder = Jwts.builder()
                 .signWith(
