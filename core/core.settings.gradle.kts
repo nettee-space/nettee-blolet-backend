@@ -5,31 +5,31 @@ val core = rootDir.resolve("core")
     .associateBy(File::getName)
 
 include(
-    ":time-util",
-    ":jpa-core",
-    ":exception-handler-core",
+    ":client-api",
     ":cors-api",
     ":cors-webmvc",
+    ":exception-handler-core",
+    ":jpa-core",
+    ":redis-api",
+    ":redis-cache",
+    ":redis-template",
+    ":rest-client",
     ":security",
     ":snowflake-id-api",
     ":snowflake-id-hibernate",
-    ":client-api",
-    ":rest-client",
-    ":redis-api",
-    ":redis-template",
-    ":redis-cache",
+    ":time-util",
 )
 
-project(":time-util").projectDir = core["time-util"]!!
-project(":jpa-core").projectDir = core["jpa-core"]!!
-project(":exception-handler-core").projectDir = core["exception-handler-core"]!!
-project(":cors-webmvc").projectDir = core["nettee-cors-webmvc"]!!
+project(":client-api").projectDir = core["nettee-client-api"]!!
 project(":cors-api").projectDir = core["nettee-cors-api"]!!
+project(":cors-webmvc").projectDir = core["nettee-cors-webmvc"]!!
+project(":exception-handler-core").projectDir = core["exception-handler-core"]!!
+project(":jpa-core").projectDir = core["jpa-core"]!!
+project(":redis-api").projectDir = core["nettee-redis-api"]!!
+project(":redis-cache").projectDir = core["nettee-redis-cache"]!!
+project(":redis-template").projectDir = core["nettee-redis-template"]!!
+project(":rest-client").projectDir = core["nettee-rest-client"]!!
 project(":security").projectDir = core["security"]!!
 project(":snowflake-id-api").projectDir = core["nettee-snowflake-id-api"]!!
 project(":snowflake-id-hibernate").projectDir = core["nettee-snowflake-id-hibernate"]!!
-project(":client-api").projectDir = core["nettee-client-api"]!!
-project(":rest-client").projectDir = core["nettee-rest-client"]!!
-project(":redis-api").projectDir = core["nettee-redis-api"]!!
-project(":redis-template").projectDir = core["nettee-redis-template"]!!
-project(":redis-cache").projectDir = core["nettee-redis-cache"]!!
+project(":time-util").projectDir = core["time-util"]!!
