@@ -10,6 +10,7 @@ include(
     ":cors-webmvc",
     ":exception-handler-core",
     ":jpa-core",
+    ":jwt-api",
     ":jwt-issuer",
     ":redis-api",
     ":redis-cache",
@@ -26,6 +27,7 @@ project(":cors-api").projectDir = core["nettee-cors-api"]!!
 project(":cors-webmvc").projectDir = core["nettee-cors-webmvc"]!!
 project(":exception-handler-core").projectDir = core["exception-handler-core"]!!
 project(":jpa-core").projectDir = core["jpa-core"]!!
+project(":jwt-api").projectDir = core["jwt-api"]!!
 project(":jwt-issuer").projectDir = core["jwt-issuer"]!!
 project(":redis-api").projectDir = core["nettee-redis-api"]!!
 project(":redis-cache").projectDir = core["nettee-redis-cache"]!!
