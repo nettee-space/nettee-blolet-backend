@@ -31,8 +31,8 @@ public class AuthCommandService implements AuthSignUsecase {
          */
 
         /**
-         * TODO: 입력값에 대한 검증은 웹 계층에서 수행, 비밀번호 유효성 검증
-         * 다음과 같은 이유로 웹 계층에서 검증을 한다.
+         * 입력값에 대한 검증은 웹 계층에서 수행, 비밀번호 유효성 검증
+         * 웹 계층에서 검증하는 이유는 다음과 같습니다.
          *   서비스 로직을 실행하기 앞서 차단할 수 있다.
          *   서비스 로직에서 입력값 검증을 수행하지 않아도 되므로, 코드를 간결히 유지할 수 있다.
          *   spring 어노테이션을 쉽게 활용할 수 있다. (@Valid, @Pattern, @NotBlank 등)
@@ -42,10 +42,11 @@ public class AuthCommandService implements AuthSignUsecase {
         User.validateAgreed(model.agreedTerms(), model.agreedPrivacy());
 
         // 2. login ID 중복 체크
-        authQueryRepositoryPort.findByLoginId(model.loginId())
-                .ifPresent(ignored -> {
-                    throw new AuthException(AUTH_ACCOUNT_ALREADY_EXIST);
-                });
+        boolean exists = authQueryRepositoryPort.existsByLoginId(model.loginId());
+        if (exists) {
+            throw new AuthException(AUTH_ACCOUNT_ALREADY_EXIST);
+        }
+
 
         // 3. password 암호화 (Argon2id, 가변 솔트 사용)
         String encodedPassword = passwordEncoder.encode(model.password());
