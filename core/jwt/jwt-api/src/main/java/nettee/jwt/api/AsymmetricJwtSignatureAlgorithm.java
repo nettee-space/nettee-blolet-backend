@@ -12,7 +12,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 
-public enum JwtSignatureAlgorithm implements SupportedSignatureAlgorithm<PrivateKey, PublicKey> {
+public enum AsymmetricJwtSignatureAlgorithm implements SupportedSignatureAlgorithm<PrivateKey, PublicKey> {
     RS256("RSA", SIG.RS256),
     RS384("RSA", SIG.RS384),
     RS512("RSA", SIG.RS512),
@@ -28,7 +28,7 @@ public enum JwtSignatureAlgorithm implements SupportedSignatureAlgorithm<Private
     private final KeyFactory keyFactory;
     private final SignatureAlgorithm algorithm;
 
-    JwtSignatureAlgorithm(String keyFactoryInstanceName, SignatureAlgorithm algorithm) {
+    AsymmetricJwtSignatureAlgorithm(String keyFactoryInstanceName, SignatureAlgorithm algorithm) {
         try {
             this.keyFactory = KeyFactory.getInstance(keyFactoryInstanceName);
         } catch (NoSuchAlgorithmException e) {

@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import nettee.jwt.api.HmacJwtSignatureAlgorithm;
-import nettee.jwt.api.JwtSignatureAlgorithm;
+import nettee.jwt.api.AsymmetricJwtSignatureAlgorithm;
 
 import java.util.Date;
 import java.util.Map;
@@ -50,7 +50,7 @@ public class JwtIssuer implements BiFunction<String, Map<String, ?>, String> {
     public JwtIssuer(
             String base64PrivateKey,
             long maxAgeInSeconds,
-            JwtSignatureAlgorithm algorithm
+            AsymmetricJwtSignatureAlgorithm algorithm
     ) {
         this.maxAge = maxAgeInSeconds;
 
