@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static nettee.draft.draftblock.exception.DraftBlockCommandErrorCode.DEFAULT;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DEFAULT;
 
 public enum DraftBlockEntityStatus {
     DELETED(

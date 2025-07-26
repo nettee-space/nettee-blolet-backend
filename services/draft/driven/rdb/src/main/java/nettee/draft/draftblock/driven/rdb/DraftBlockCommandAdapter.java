@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static nettee.draft.draftblock.exception.DraftBlockCommandErrorCode.DEFAULT;
-import static nettee.draft.draftblock.exception.DraftBlockCommandErrorCode.DRAFT_BLOCK_NOT_FOUND;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DEFAULT;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor

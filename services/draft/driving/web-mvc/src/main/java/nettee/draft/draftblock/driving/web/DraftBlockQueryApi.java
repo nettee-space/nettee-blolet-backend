@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
-import static nettee.draft.draftblock.exception.DraftBlockQueryErrorCode.DRAFT_BLOCK_NOT_FOUND;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @RestController
 @RequestMapping("draft-blocks")

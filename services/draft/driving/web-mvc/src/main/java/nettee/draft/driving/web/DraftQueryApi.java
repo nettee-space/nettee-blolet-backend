@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.Set;
 
-import static nettee.draft.exception.DraftQueryErrorCode.DRAFT_NOT_FOUND;
+import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 
 @RestController
 @RequestMapping("drafts")
