@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS "series"."series" (
     "id"          BIGSERIAL,
     "blog_id"     BIGINT,
     "title"       VARCHAR(255),
-    "descrition"  VARCHAR(255),
+    "description" VARCHAR(255),
     "banner"      BYTEA,
     "display_order"  INTEGER,
     "created_at"  TIMESTAMP       DEFAULT NOW(),
@@ -20,7 +20,7 @@ COMMENT ON TABLE "series"."series" IS '시리즈';
 COMMENT ON COLUMN "series"."series"."id"                IS '시리즈 PK';
 COMMENT ON COLUMN "series"."series"."blog_id"           IS '블로그 PK';
 COMMENT ON COLUMN "series"."series"."title"             IS '시리즈제목';
-COMMENT ON COLUMN "series"."series"."descrition"        IS '시리즈설명';
+COMMENT ON COLUMN "series"."series"."description"       IS '시리즈설명';
 COMMENT ON COLUMN "series"."series"."banner"            IS '시리즈이미지배너';
 COMMENT ON COLUMN "series"."series"."display_order"     IS '사용자정렬순서';
 COMMENT ON COLUMN "series"."series"."created_at"        IS '생성시간';
