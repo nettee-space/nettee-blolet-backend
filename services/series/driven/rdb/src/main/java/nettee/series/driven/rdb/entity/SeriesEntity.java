@@ -2,12 +2,14 @@ package nettee.series.driven.rdb.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Builder;
 import nettee.jpa.support.LongBaseTimeEntity;
 
 import java.util.Objects;
 
-@Entity(name = "series")
+@Entity
+@Table(name = "series", schema = "series")
 public class SeriesEntity extends LongBaseTimeEntity {
     
     @Column(nullable = false)
