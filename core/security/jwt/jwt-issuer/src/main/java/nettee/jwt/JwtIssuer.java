@@ -15,13 +15,10 @@ import java.util.Map;
 public class JwtIssuer {
 
     private final long accessTokenMaxAgeSeconds;
-    private final long refreshTokenMaxAgeSeconds;
-
     private final JwtBuilder jwtBuilder;
 
     // JwtIusser 생성자
-    public JwtIssuer(String keyType, String secretKey, String privateKey,
-                     long accessTokenMaxAgeSeconds, long refreshTokenMaxAgeSeconds) {
+    public JwtIssuer(String keyType, String secretKey, String privateKey, long accessTokenMaxAgeSeconds) {
 
         Key signingKey;
         if (keyType.equalsIgnoreCase("HMAC")) {
@@ -40,17 +37,12 @@ public class JwtIssuer {
         }
 
         this.accessTokenMaxAgeSeconds = accessTokenMaxAgeSeconds;
-        this.refreshTokenMaxAgeSeconds = refreshTokenMaxAgeSeconds;
         this.jwtBuilder = Jwts.builder()
                 .signWith(signingKey);
     }
 
     public String issueAccessToken(String subject, Map<String, ?> claims) {
         return issue(subject, claims, accessTokenMaxAgeSeconds);
-    }
-
-    public String issueRefreshToken(String subject, Map<String, ?> claims) {
-        return issue(subject, claims, refreshTokenMaxAgeSeconds);
     }
 
     public String issue(String subject, Map<String, ?> claims, long maxAgeSeconds) {

@@ -14,7 +14,6 @@ public class JwtConfig {
                 properties.keyType(),
                 properties.secretKey(),
                 properties.privateKey(),
-                properties.accessTokenMaxAgeSeconds(),
-                properties.refreshTokenMaxAgeSeconds());
+                properties.accessTokenMaxAgeSeconds());
     }
 }

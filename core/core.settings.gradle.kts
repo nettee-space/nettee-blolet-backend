@@ -11,6 +11,7 @@ include(
     ":cors-api",
     ":cors-webmvc",
     ":security-jwt-issuer",
+    ":security-jwt-parser",
     ":security-password",
     ":snowflake-id-api",
     ":snowflake-id-hibernate",
@@ -27,6 +28,7 @@ project(":exception-handler-core").projectDir = core["exception-handler-core"]!!
 project(":cors-webmvc").projectDir = core["nettee-cors-webmvc"]!!
 project(":cors-api").projectDir = core["nettee-cors-api"]!!
 project(":security-jwt-issuer").projectDir = core["jwt-issuer"]!!
+project(":security-jwt-parser").projectDir = core["jwt-parser"]!!
 project(":security-password").projectDir = core["password"]!!
 project(":snowflake-id-api").projectDir = core["nettee-snowflake-id-api"]!!
 project(":snowflake-id-hibernate").projectDir = core["nettee-snowflake-id-hibernate"]!!
