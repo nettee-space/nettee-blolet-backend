@@ -1,4 +1,4 @@
-package nettee.security.config;
+package nettee.password.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
