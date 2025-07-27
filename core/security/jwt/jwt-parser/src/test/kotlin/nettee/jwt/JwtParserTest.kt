@@ -4,27 +4,62 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.assertions.throwables.shouldNotThrowAny
 import io.jsonwebtoken.Claims
+import java.security.KeyPairGenerator
 import java.util.*
 
 class JwtParserTest : FreeSpec({
 
-    val keyType = "HMAC"
-    val secretKey = Base64.getEncoder().encodeToString("nettee-blolet-jwt-secret-key-extend".toByteArray())
-    val issuer = JwtIssuer(
-        keyType,
-        secretKey,
-        null,
-        60,
-    )
-    val parser = JwtParser(
-        keyType,
-        secretKey,
-        null
-    )
+    "HMAC 알고리즘 기반 JWT를 파싱하여 클레임을 비교한다" {
+        val keyType = "HMAC"
+        val secretKey = Base64.getEncoder()
+            .encodeToString("nettee-blolet-jwt-secret-key-extend".toByteArray())
 
-    val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+        val issuer = JwtIssuer(
+            keyType,
+            secretKey,
+            null,
+            60L
+        )
+        val parser = JwtParser(
+            keyType,
+            secretKey,
+            null
+        )
 
-    "생성한 JWT를 파싱하여 클레임을 비교한다" {
+        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+
+        val claims: Claims = shouldNotThrowAny {
+            parser.parseClaims(token)
+        }
+
+        claims.subject shouldBe "sun"
+        claims["role"] shouldBe "USER"
+    }
+
+    "RSA 알고리즘 기반 JWT를 파싱하여 클레임을 비교한다" {
+        // RSA 키쌍 생성
+        val keyPairGenerator = KeyPairGenerator.getInstance("RSA")
+        keyPairGenerator.initialize(2048)
+        val keyPair = keyPairGenerator.generateKeyPair()
+
+        val privateKey = Base64.getEncoder().encodeToString(keyPair.private.encoded)
+        val publicKey = Base64.getEncoder().encodeToString(keyPair.public.encoded)
+        val keyType = "RSA"
+
+        val issuer = JwtIssuer(
+            keyType,
+            null,         // secretKey는 null
+            privateKey,
+            60L
+        )
+        val parser = JwtParser(
+            keyType,
+            null,         // secretKey는 null
+            publicKey
+        )
+
+        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+
         val claims: Claims = shouldNotThrowAny {
             parser.parseClaims(token)
         }
