@@ -18,6 +18,7 @@ spring:
       - properties/web/main.cors.yml
       - properties/persistence/main.snowflake.yml
       - properties/client/main.client.yml
+      - properties/jwt/main.jwt.yml
 
   flyway:
     baseline-on-migrate: true

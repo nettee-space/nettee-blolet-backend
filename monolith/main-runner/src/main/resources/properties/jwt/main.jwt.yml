@@ -1,0 +1,7 @@
+jwt:
+  keyType: "HMAC"
+  secretKey: "nettee-blolet-jwt-secret-key"
+  privateKey: "nettee-blolet-jwt-private-key"
+  publicKey: "nettee-blolet-jwt-public-key"
+  accessTokenMaxAgeSeconds: 1800      # 30 minutes
+  refreshTokenMaxAgeSeconds: 1209600  # 14 days
