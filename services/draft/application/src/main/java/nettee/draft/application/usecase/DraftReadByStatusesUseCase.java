@@ -2,10 +2,10 @@ package nettee.draft.application.usecase;
 
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.domain.type.DraftStatus;
-import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Set;
 
 public interface DraftReadByStatusesUseCase {
-    Page<DraftSummary> findByStatuses(Set<DraftStatus> statuses, int size);
+    List<DraftSummary> findByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending);
 }

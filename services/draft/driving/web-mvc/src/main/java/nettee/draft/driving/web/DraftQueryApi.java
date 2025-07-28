@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 import java.util.Set;
 
 import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
@@ -40,14 +42,17 @@ public class DraftQueryApi {
         return new DraftDetailResponse(draftDetail);
     }
 
-    @Operation(summary = "임시 아티클 목록조회", description = "상태와 함께 임시아티클을 목록조회 합니다(기본 상태는 DRAFT이며, 추가로 PENDING, DELETED, DONE이 존재함)")
+    @Operation(summary = "임시 아티클 목록조회", description = "상태와 함께 임시아티클을 목록조회 합니다(기본 상태는 PENDING(게시전), 추가로 UPDATED(게시후 수정), REMOVED(삭제), PUBLISHED(게시)가 존재함), sortBy(정렬 컬럼)는 title, createAt, updateAt으로 가능하며, ascending(오름차순)은 true/false로 오름차순/내림차순 정렬을 할 수 있습니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
     })
     @GetMapping
-    public Page<DraftSummary> getDraftsByStatuses(
+    public List<DraftSummary> getDraftsByStatuses(
+            @RequestParam String blogId,
             @RequestParam(defaultValue = "PENDING") Set<DraftStatus> statuses,
-            @RequestParam(defaultValue = "100") int size) {
-        return draftReadByStatusesUseCase.findByStatuses(statuses, size);
+            @RequestParam(defaultValue = "createdAt") String sortBy,
+            @RequestParam(defaultValue = "false") Boolean ascending
+            ) {
+        return draftReadByStatusesUseCase.findByStatuses(blogId, statuses, sortBy, ascending);
     }
 }
