@@ -46,7 +46,7 @@ public class DraftQueryApi {
     })
     @GetMapping
     public Page<DraftSummary> getDraftsByStatuses(
-            @RequestParam(defaultValue = "DRAFT, PENDING") Set<DraftStatus> statuses,
+            @RequestParam(defaultValue = "PENDING") Set<DraftStatus> statuses,
             @RequestParam(defaultValue = "100") int size) {
         return draftReadByStatusesUseCase.findByStatuses(statuses, size);
     }
