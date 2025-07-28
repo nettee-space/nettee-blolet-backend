@@ -30,7 +30,10 @@ public enum DraftBlockEntityStatus {
     ),
     PUBLISHED(
             StatusParameters.generate()
-                    .generalPurposeFeatures(GeneralPurposeFeatures.ALL)
+                    .generalPurposeFeatures(
+                            GeneralPurposeFeatures.READ,
+                            GeneralPurposeFeatures.SUBITEM_READ
+                    )
                     .categoryBits(0b0000_0000_0000_0010)
                     .instanceBits(0)
     );
@@ -76,7 +79,7 @@ public enum DraftBlockEntityStatus {
         return switch (value) {
             case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> REMOVED;
             case 0b0__110_1100_0000_0000_0000_0001_0000_0000 -> PENDING;
-            case 0b0__110_1100_0000_0000_0000_0010_0000_0000 -> PUBLISHED;
+            case 0b0__100_1000_0000_0000_0000_0010_0000_0000 -> PUBLISHED;
             default -> throw DEFAULT.exception();
         };
     }
