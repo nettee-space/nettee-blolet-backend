@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.Set;
 
 public interface DraftReadByStatusesUseCase {
-    List<DraftSummary> findByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending);
+    List<DraftSummary> getDraftsByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending);
 }

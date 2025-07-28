@@ -52,6 +52,6 @@ public class DraftQueryApi {
             @RequestParam(defaultValue = "createdAt") String sortBy,
             @RequestParam(defaultValue = "false") Boolean ascending
             ) {
-        return draftReadByStatusesUseCase.findByStatuses(blogId, statuses, sortBy, ascending);
+        return draftReadByStatusesUseCase.getDraftsByStatuses(blogId, statuses, sortBy, ascending);
     }
 }

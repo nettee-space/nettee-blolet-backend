@@ -5,7 +5,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nettee.draft.draftblock.application.usecase.DraftBlockReadByStatusUseCase;
 import nettee.draft.draftblock.application.usecase.DraftBlockReadUseCase;
+import nettee.draft.draftblock.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
@@ -25,6 +27,7 @@ import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_
 @Tag(name = "DraftBlock", description = "DraftBlock API")
 public class DraftBlockQueryApi {
     private final DraftBlockReadUseCase draftReadUseCase;
+    private final DraftBlockReadByStatusUseCase draftReadByStatusUseCase;
 
     @Operation(summary = "블록 단건조회", description = "블록 ID로 블록을 상세조회 합니다")
     @ApiResponses(value = {
@@ -43,7 +46,9 @@ public class DraftBlockQueryApi {
     })
     @GetMapping
     public List<DraftBlockSummary> getDraftBlocks(
-            @RequestParam String articleId) {
-        return draftReadUseCase.getDraftBlocks(articleId);
+            @RequestParam String articleId,
+            @RequestParam(defaultValue = "PUBLISHED") DraftBlockStatus status
+            ) {
+        return draftReadByStatusUseCase.getDraftBlocksByStatus(articleId, status);
     }
 }

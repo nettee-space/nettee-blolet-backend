@@ -12,5 +12,5 @@ import java.util.Set;
 
 public interface DraftBlockQueryPort {
     Optional<DraftBlockDetail> findById(String id);
-    List<DraftBlockSummary> findAll(String articleId);
+    List<DraftBlockSummary> findByStatus(String articleId, DraftBlockStatus status);
 }

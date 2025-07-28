@@ -18,7 +18,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static nettee.draft.driven.rdb.entity.QDraftEntity.draftEntity;
 import static nettee.draft.draftblock.driven.rdb.entity.QDraftBlockEntity.draftBlockEntity;
 
 @Repository
@@ -45,27 +44,16 @@ public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public List<DraftBlockSummary> findAll(String articleId) {
+    public List<DraftBlockSummary> findByStatus(String articleId, DraftBlockStatus status) {
         Long longArticleId = Long.parseLong(articleId);
-        DraftEntityStatus draftStatus = getQuerydsl().createQuery()
-                .select(draftEntity.status)
-                .from(draftEntity)
-                .where(draftEntity.articleId.eq(longArticleId))
-                .fetchOne();
-        if(draftStatus == null) {
-            throw DraftErrorCode.DEFAULT.exception();
-        }
+        DraftBlockEntityStatus draftBlockEntityStatus = DraftBlockEntityStatus.valueOf(status.name());
 
         var query = getQuerydsl().createQuery()
                 .select(draftBlockEntity)
                 .from(draftBlockEntity)
-                .where(draftBlockEntity.articleId.eq(longArticleId));
-
-        if (draftStatus == DraftEntityStatus.PUBLISHED) {
-            query.where(draftBlockEntity.status.eq(DraftBlockEntityStatus.PUBLISHED));
-        } else {
-            query.where(draftBlockEntity.status.eq(DraftBlockEntityStatus.PENDING));
-        }
+                .where(draftBlockEntity.articleId.eq(longArticleId)
+                        .and(draftBlockEntity.status.eq(draftBlockEntityStatus))
+                );
 
         var result = query.fetch();
 
