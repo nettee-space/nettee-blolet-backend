@@ -11,7 +11,6 @@ import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
 import nettee.draft.domain.type.DraftStatus;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
