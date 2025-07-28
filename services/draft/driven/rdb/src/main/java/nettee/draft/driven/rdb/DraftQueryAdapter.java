@@ -7,7 +7,6 @@ import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.persistence.mapper.DraftEntityMapper;
 import nettee.draft.application.port.DraftQueryPort;
 import nettee.draft.domain.type.DraftStatus;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 

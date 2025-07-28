@@ -34,7 +34,7 @@ public class DraftBlock {
                 .type(type)
                 .content(content)
                 .style(style)
-                .status(DraftBlockStatus.DRAFT) // 기본 상태
+                .status(DraftBlockStatus.PENDING)
                 .createdAt(Instant.now())
                 .updatedAt(Instant.now())
                 .build();
@@ -53,5 +53,5 @@ public class DraftBlock {
         this.updatedAt = Instant.now();
     }
 
-    public void softDelete() { this.status = DraftBlockStatus.DELETED; }
+    public void softDelete() { this.status = DraftBlockStatus.REMOVED; }
 }

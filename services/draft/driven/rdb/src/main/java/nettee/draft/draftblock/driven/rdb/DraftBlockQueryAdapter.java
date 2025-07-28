@@ -7,18 +7,18 @@ import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.persistence.mapper.DraftBlockEntityMapper;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
+import nettee.draft.exception.DraftErrorCode;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
+import static nettee.draft.driven.rdb.entity.QDraftEntity.draftEntity;
 import static nettee.draft.draftblock.driven.rdb.entity.QDraftBlockEntity.draftBlockEntity;
 
 @Repository
@@ -45,73 +45,32 @@ public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements
     }
 
     @Override
-    public Page<DraftBlockSummary> findAll(Pageable pageable) {
-        var query = getQuerydsl().createQuery()
-                .select(draftBlockEntity)
-                .from(draftBlockEntity)
-                .where();
-
-        pageable.getSort().forEach(order ->
-                query.orderBy(order.isAscending() ?
-                        draftBlockEntity.createdAt.asc() :
-                        draftBlockEntity.createdAt.desc())
-        );
-
-        var result = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        var totalCount  = getQuerydsl().createQuery()
-                .select(draftBlockEntity.count())
-                .from(draftBlockEntity)
-                .where();
-
-        return PageableExecutionUtils.getPage(
-                result.stream()
-                        .map(draftBlockEntityMapper::toDraftBlockSummary)
-                        .toList(),
-                pageable,
-                totalCount::fetchOne
-        );
-    }
-
-    @Override
-    public Page<DraftBlockSummary> findByStatuses(Set<DraftBlockStatus> statuses, Pageable pageable) {
-        var draftBlockEntityStatuses = statusMap.computeIfAbsent(
-                statuses,
-                (ignore) -> statuses.stream()
-                        .map(DraftBlockEntityStatus::valueOf)
-                        .collect(Collectors.toSet())
-        );
+    public List<DraftBlockSummary> findAll(String articleId) {
+        Long longArticleId = Long.parseLong(articleId);
+        DraftEntityStatus draftStatus = getQuerydsl().createQuery()
+                .select(draftEntity.status)
+                .from(draftEntity)
+                .where(draftEntity.articleId.eq(longArticleId))
+                .fetchOne();
+        if(draftStatus == null) {
+            throw DraftErrorCode.DEFAULT.exception();
+        }
 
         var query = getQuerydsl().createQuery()
                 .select(draftBlockEntity)
                 .from(draftBlockEntity)
-                .where(draftBlockEntity.status.in(draftBlockEntityStatuses));
+                .where(draftBlockEntity.articleId.eq(longArticleId));
 
-        pageable.getSort().forEach(order ->
-                query.orderBy(order.isAscending() ?
-                        draftBlockEntity.createdAt.asc() :
-                        draftBlockEntity.createdAt.desc())
-        );
+        if (draftStatus == DraftEntityStatus.PUBLISHED) {
+            query.where(draftBlockEntity.status.eq(DraftBlockEntityStatus.PUBLISHED));
+        } else {
+            query.where(draftBlockEntity.status.eq(DraftBlockEntityStatus.PENDING));
+        }
 
-        var result = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+        var result = query.fetch();
 
-        var totalCount = getQuerydsl().createQuery()
-                .select(draftBlockEntity.count())
-                .from(draftBlockEntity)
-                .where(draftBlockEntity.status.in(draftBlockEntityStatuses));
-
-        return PageableExecutionUtils.getPage(
-                result.stream()
-                        .map(draftBlockEntityMapper::toDraftBlockSummary)
-                        .toList(),
-                pageable,
-                totalCount::fetchOne
-        );
+        return result.stream()
+                .map(draftBlockEntityMapper::toDraftBlockSummary)
+                .toList();
     }
 }

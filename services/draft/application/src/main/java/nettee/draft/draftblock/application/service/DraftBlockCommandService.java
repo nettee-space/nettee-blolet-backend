@@ -26,6 +26,6 @@ public class DraftBlockCommandService implements DraftBlockCreateUseCase, DraftB
 
     @Override
     public void deleteDraftBlock(String id) {
-        draftblockCommandPort.updateStatus(id, DraftBlockStatus.DELETED);
+        draftblockCommandPort.updateStatus(id, DraftBlockStatus.REMOVED);
     }
 }

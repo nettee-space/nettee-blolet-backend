@@ -60,7 +60,7 @@ public enum DraftBlockEntityStatus {
 
 
     public static DraftBlockEntityStatus valueOf(DraftBlockStatus draftStatus) {
-        assert Set.of(DraftBlockStatus.DELETED, DraftBlockStatus.PUBLISHED, DraftBlockStatus.DRAFT)
+        assert Set.of(DraftBlockStatus.REMOVED, DraftBlockStatus.PENDING, DraftBlockStatus.PUBLISHED)
                 .containsAll(Arrays.stream(DraftBlockStatus.values()).collect(Collectors.toSet()))
                 : "DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 
