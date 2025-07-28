@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DEFAULT;
 
 public enum DraftBlockEntityStatus {
-    DELETED(
+    REMOVED(
             StatusParameters.generate()
                     .generalPurposeFeatures(
                             GeneralPurposeFeatures.READ,
@@ -22,7 +22,7 @@ public enum DraftBlockEntityStatus {
                     .categoryBits(0b0000_0000_0000_0000)
                     .instanceBits(0)
     ),
-    DRAFT(
+    PENDING(
             StatusParameters.generate()
                     .generalPurposeFeatures(GeneralPurposeFeatures.ALL)
                     .categoryBits(0b0000_0000_0000_0001)
@@ -65,17 +65,17 @@ public enum DraftBlockEntityStatus {
                 : "DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 
         return switch (draftStatus) {
-            case DELETED -> DELETED;
+            case REMOVED -> REMOVED;
+            case PENDING -> PENDING;
             case PUBLISHED -> PUBLISHED;
-            case DRAFT -> DRAFT;
             default -> throw new Error("DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
         };
     }
 
     public static DraftBlockEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> DELETED;
-            case 0b0__110_1100_0000_0000_0000_0001_0000_0000 -> DRAFT;
+            case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> REMOVED;
+            case 0b0__110_1100_0000_0000_0000_0001_0000_0000 -> PENDING;
             case 0b0__110_1100_0000_0000_0000_0010_0000_0000 -> PUBLISHED;
             default -> throw DEFAULT.exception();
         };
