@@ -2,8 +2,6 @@ package nettee.draft.driven.rdb.entity.type;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import nettee.draft.exception.DraftCommandErrorCode;
-import nettee.draft.exception.DraftCommandException;
 
 @Converter
 public class DraftEntityStatusConverter implements AttributeConverter<DraftEntityStatus, Integer> {

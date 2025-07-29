@@ -53,5 +53,5 @@ public class Draft {
         this.updatedAt = Instant.now();
     }
 
-    public void softDelete() { this.status = DraftStatus.DELETED; };
+    public void softDelete() { this.status = DraftStatus.REMOVED; };
 }

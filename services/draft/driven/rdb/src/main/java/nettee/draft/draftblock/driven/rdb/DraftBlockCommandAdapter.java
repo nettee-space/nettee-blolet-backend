@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static nettee.draft.draftblock.exception.DraftBlockCommandErrorCode.DEFAULT;
-import static nettee.draft.draftblock.exception.DraftBlockCommandErrorCode.DRAFT_NOT_FOUND;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DEFAULT;
+import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     @Override
     public Optional<DraftBlockDetail> findById(String id) {
         var draft = draftJpaRepository.findById(id)
-                .orElseThrow(DRAFT_NOT_FOUND::exception);
+                .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
         return draftEntityMapper.toOptionalDraftBlockDetail(draft);
     }
 
@@ -43,7 +43,7 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     @Override
     public DraftBlock update(DraftBlock draft) {
         var existDraftBlock = draftJpaRepository.findById(draft.getId())
-                            .orElseThrow(DRAFT_NOT_FOUND::exception);
+                            .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
         existDraftBlock.prepareDraftBlockEntityUpdate()
                 .content(existDraftBlock.getContent())
                 .blogId(existDraftBlock.getBlogId())
@@ -59,7 +59,7 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     @Override
     public void updateStatus(String id, DraftBlockStatus draftStatus) {
         var draft = draftJpaRepository.findById(id)
-                    .orElseThrow(DRAFT_NOT_FOUND::exception);
+                    .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
         draft.prepareDraftBlockEntityStatusUpdate()
                 .status(DraftBlockEntityStatus.valueOf(draftStatus))
                 .updateStatus();

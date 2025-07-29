@@ -7,11 +7,10 @@ import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.persistence.mapper.DraftEntityMapper;
 import nettee.draft.application.port.DraftQueryPort;
 import nettee.draft.domain.type.DraftStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -44,39 +43,8 @@ public class DraftQueryAdapter extends QuerydslRepositorySupport implements Draf
     }
 
     @Override
-    public Page<DraftSummary> findAll(Pageable pageable) {
-        var query = getQuerydsl().createQuery()
-                .select(draftEntity)
-                .from(draftEntity)
-                .where();
-
-        pageable.getSort().forEach(order ->
-                query.orderBy(order.isAscending() ?
-                        draftEntity.createdAt.asc() :
-                        draftEntity.createdAt.desc())
-        );
-
-        var result = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        var totalCount  = getQuerydsl().createQuery()
-                        .select(draftEntity.count())
-                        .from(draftEntity)
-                        .where();
-
-        return PageableExecutionUtils.getPage(
-                result.stream()
-                        .map(draftEntityMapper::toDraftSummary)
-                        .toList(),
-                pageable,
-                totalCount::fetchOne
-        );
-    }
-
-    @Override
-    public Page<DraftSummary> findByStatuses(Set<DraftStatus> statuses, Pageable pageable) {
+    public List<DraftSummary> findByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending) {
+        Long longBlogId = Long.parseLong(blogId);
         var draftEntityStatuses = statusMap.computeIfAbsent(
                 statuses,
                 (ignore) -> statuses.stream()
@@ -87,30 +55,20 @@ public class DraftQueryAdapter extends QuerydslRepositorySupport implements Draf
         var query = getQuerydsl().createQuery()
                 .select(draftEntity)
                 .from(draftEntity)
-                .where(draftEntity.status.in(draftEntityStatuses));
+                .where(draftEntity.blogId.eq(longBlogId)
+                        .and(draftEntity.status.in(draftEntityStatuses)));
 
-        pageable.getSort().forEach(order ->
-                query.orderBy(order.isAscending() ?
-                        draftEntity.createdAt.asc() :
-                        draftEntity.createdAt.desc())
-        );
+        switch (sortBy.toLowerCase()) {
+            case "title" -> query.orderBy(ascending ? draftEntity.title.asc() : draftEntity.title.desc());
+            case "createdat" -> query.orderBy(ascending ? draftEntity.createdAt.asc() : draftEntity.createdAt.desc());
+            case "updatedat" -> query.orderBy(ascending ? draftEntity.updatedAt.asc() : draftEntity.updatedAt.desc());
+            default -> query.orderBy(draftEntity.createdAt.desc());
+        }
 
-        var result = query
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
+        var result = query.fetch();
 
-        var totalCount = getQuerydsl().createQuery()
-                .select(draftEntity.count())
-                .from(draftEntity)
-                .where(draftEntity.status.in(draftEntityStatuses));
-
-        return PageableExecutionUtils.getPage(
-                result.stream()
-                        .map(draftEntityMapper::toDraftSummary)
-                        .toList(),
-                pageable,
-                totalCount::fetchOne
-        );
+        return result.stream()
+                .map(draftEntityMapper::toDraftSummary)
+                .toList();
     }
 }
