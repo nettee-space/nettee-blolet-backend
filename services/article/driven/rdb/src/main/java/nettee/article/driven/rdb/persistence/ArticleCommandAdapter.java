@@ -4,15 +4,15 @@ import lombok.RequiredArgsConstructor;
 import nettee.article.domain.Article;
 import nettee.article.driven.rdb.persistence.mapper.ArticleEntityMapper;
 import nettee.article.port.ArticleCommandPort;
-import nettee.common.status.StatusCodeConstants.Default;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import static nettee.article.exception.ArticleCommandErrorCode.DEFAULT;
+import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 @Repository
 @RequiredArgsConstructor
 public class ArticleCommandAdapter implements ArticleCommandPort {
+
     private final ArticleJpaRepository articleJpaRepository;
     private final ArticleEntityMapper articleEntityMapper;
 

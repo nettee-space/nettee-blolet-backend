@@ -6,14 +6,14 @@ import org.springframework.http.HttpStatus;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public enum ArticleCommandErrorCode implements ErrorCode {
+public enum ArticleErrorCode implements ErrorCode {
     ARTICLE_NOT_FOUND("아티클을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DEFAULT("아티클 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
     private final HttpStatus httpStatus;
 
-    ArticleCommandErrorCode(String message, HttpStatus httpStatus) {
+    ArticleErrorCode(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }
@@ -29,32 +29,32 @@ public enum ArticleCommandErrorCode implements ErrorCode {
     }
 
     @Override
-    public ArticleCommandException exception() {
-        return new ArticleCommandException(this);
+    public ArticleException exception() {
+        return new ArticleException(this);
     }
 
     @Override
-    public ArticleCommandException exception(Throwable cause) {
-        return new ArticleCommandException(this, cause);
+    public ArticleException exception(Throwable cause) {
+        return new ArticleException(this, cause);
     }
 
     @Override
     public RuntimeException exception(Runnable runnable) {
-        return new ArticleCommandException(this, runnable);
+        return new ArticleException(this, runnable);
     }
 
     @Override
     public RuntimeException exception(Runnable runnable, Throwable cause) {
-        return new ArticleCommandException(this, runnable, cause);
+        return new ArticleException(this, runnable, cause);
     }
 
     @Override
     public RuntimeException exception(Supplier<Map<String, Object>> payload) {
-        return new ArticleCommandException(this, payload);
+        return new ArticleException(this, payload);
     }
 
     @Override
     public RuntimeException exception(Supplier<Map<String, Object>> payload, Throwable cause) {
-        return new ArticleCommandException(this, payload, cause);
+        return new ArticleException(this, payload, cause);
     }
 }

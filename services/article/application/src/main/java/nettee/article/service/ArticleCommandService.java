@@ -11,7 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class ArticleCommandService implements ArticleCreateUseCase {
+
     private final ArticleCommandPort articleCommandPort;
+
     @Override
     public Article createArticle(Article article) {
         return articleCommandPort.save(article);

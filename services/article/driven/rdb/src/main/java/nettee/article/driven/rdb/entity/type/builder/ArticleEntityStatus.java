@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static nettee.article.exception.ArticleCommandErrorCode.DEFAULT;
+import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 public enum ArticleEntityStatus {
     DELETED(

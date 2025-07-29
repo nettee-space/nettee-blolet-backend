@@ -6,7 +6,7 @@ import nettee.article.driven.rdb.entity.type.builder.TypeSafeMarkers.Present;
 public class ArticleStatusParameters<
         HAS_CAN_READ extends TypeSafeMarkers,
         HAS_CLASSIFYING_BITS extends TypeSafeMarkers
-        > {
+> {
     boolean canRead;
     Integer classifyingBits;
     int detailBits;
