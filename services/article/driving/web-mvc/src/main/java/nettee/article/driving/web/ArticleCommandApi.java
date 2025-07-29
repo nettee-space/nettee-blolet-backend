@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import nettee.article.driving.web.dto.ArticleCommandDto.ArticleUpdateCommand;
 import nettee.article.driving.web.dto.ArticleCommandDto.ArticleCommandResponse;
 import nettee.article.driving.web.dto.ArticleCommandDto.ArticleCreateCommand;
+import nettee.article.usecase.ArticleCreateUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("article")
 @Tag(name = "Article", description = "Article API")
 public class ArticleCommandApi {
+    private final ArticleCreateUseCase articleCreateUseCase;
+    private final ArticleDtoMapper mapper;
+
     @Operation(summary = "아티클 생성", description = "블로그 ID에 해당하는 아티클을 생성합니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "성공")
@@ -26,9 +30,11 @@ public class ArticleCommandApi {
     public ArticleCommandResponse create(
             @RequestBody @Valid ArticleCreateCommand articleCreateCommand,
             @PathVariable("blogId") String blogId
-            ) {
-        // ...
-        return null;
+    ) {
+        var article = mapper.toDomain(blogId, articleCreateCommand);
+        return ArticleCommandResponse.builder()
+                .article(articleCreateUseCase.createArticle(article))
+                .build();
     }
 
     @Operation(summary = "아티클 수정", description = "블로그와 아티클 ID에 해당하는 아티클의 제목 혹은 내용을 수정합니다.")

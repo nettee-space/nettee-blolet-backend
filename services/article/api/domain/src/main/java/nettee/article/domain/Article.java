@@ -1,9 +1,6 @@
 package nettee.article.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
@@ -12,11 +9,12 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article {
-    private String id;
 
-    private String blogId;
+    private Long id;
 
-    private String entryBlockId;
+    private Long blogId;
+
+    private Long entryBlockId;
 
     private String title;
 
@@ -24,11 +22,14 @@ public class Article {
 
     private String path;
 
-    private Integer totalViews;
+    @Builder.Default
+    private Integer totalViews = 0;
 
-    private Integer totalLikes;
+    @Builder.Default
+    private Integer totalLikes = 0;
 
-    private Integer totalShares;
+    @Builder.Default
+    private Integer totalShares = 0;
 
     private ArticleStatus status;
 
