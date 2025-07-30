@@ -247,12 +247,12 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
         }
 
         "🚧 이미 뉴스레터 구독이 해제된 경우에는 UNSUBSCRIBED_BLOG_NEWSLETTER 예외가 발생한다" {
-            // notificationAllowed = false 인 경우
+            // emailAllowed = false 인 경우
             val alreadyUnsubscribed = BlogSubscription.builder()
                 .id("SUB-1")
                 .userId(userId)
                 .blogId(blogId)
-                .emailAllowed(true)
+                .emailAllowed(false)
                 .notificationAllowed(false)
                 .createdAt(now)
                 .build()
@@ -268,13 +268,13 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
         }
 
         "✅ 정상적으로 뉴스레터 구독을 취소하고 통계가 리턴된다" {
-            // notificationAllowed = true 인 원본 생성
+            // emailAllowed = true 인 원본 생성
             val original = BlogSubscription.builder()
                 .id("SUB-2")
                 .userId(userId)
                 .blogId(blogId)
                 .emailAllowed(true)
-                .notificationAllowed(true)
+                .notificationAllowed(false)
                 .createdAt(now)
                 .build()
 
