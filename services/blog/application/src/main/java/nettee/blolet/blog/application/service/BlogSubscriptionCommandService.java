@@ -38,10 +38,12 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
     }
 
     @Override
-    public void unsubscribeBlog(String userId, String blogId) {
+    public SubscriptionStats unsubscribeBlog(String userId, String blogId) {
         BlogSubscription subscription = commandRepository.findByUserIdAndBlogId(userId, blogId)
                 .orElseThrow(UNSUBSCRIBED_BLOG::exception);
         commandRepository.deleteById(subscription.getId());
+
+        return subscriptionStats(userId, blogId);
     }
 
     private SubscriptionStats subscriptionStats(String userId, String blogId) {
