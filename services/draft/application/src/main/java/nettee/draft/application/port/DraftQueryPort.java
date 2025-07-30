@@ -6,13 +6,12 @@ import nettee.draft.domain.type.DraftStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface DraftQueryPort {
     Optional<DraftDetail> findById(String id);
-    Page<DraftSummary> findAll(Pageable pageable);
-
-    Page<DraftSummary> findByStatuses(Set<DraftStatus> statuses, Pageable pageable);
+    List<DraftSummary> findByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending);
 
 }

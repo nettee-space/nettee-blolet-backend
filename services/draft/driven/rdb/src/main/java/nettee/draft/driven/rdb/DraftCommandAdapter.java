@@ -12,8 +12,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static nettee.draft.exception.DraftCommandErrorCode.DEFAULT;
-import static nettee.draft.exception.DraftCommandErrorCode.DRAFT_NOT_FOUND;
+import static nettee.draft.exception.DraftErrorCode.DEFAULT;
+import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor

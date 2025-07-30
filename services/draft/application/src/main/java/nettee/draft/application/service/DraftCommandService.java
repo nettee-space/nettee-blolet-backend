@@ -26,6 +26,6 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
 
     @Override
     public void deleteDraft(String id) {
-        draftCommandPort.updateStatus(id, DraftStatus.DELETED);
+        draftCommandPort.updateStatus(id, DraftStatus.REMOVED);
     }
 }

@@ -4,7 +4,7 @@ CREATE SCHEMA IF NOT EXISTS "series";
 -- Schema: series
 CREATE TABLE IF NOT EXISTS "series"."series_article" (
     "id"                BIGSERIAL,
-    "series_id"         BIGSERIAL,
+    "series_id"         BIGINT,
     "article_id"        BIGINT, -- 비정규화
     "draft_id"          BIGINT,
     "display_order"     INTEGER,

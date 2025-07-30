@@ -1,4 +1,4 @@
-package nettee.draft.draftblock.exception;
+package nettee.draft.exception;
 
 import nettee.common.ErrorCode;
 import org.springframework.http.HttpStatus;
@@ -6,17 +6,17 @@ import org.springframework.http.HttpStatus;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public enum DraftBlockCommandErrorCode implements ErrorCode {
+public enum DraftErrorCode implements ErrorCode {
     DRAFT_NOT_FOUND("임시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
     DRAFT_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
-    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR),
-    DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT);
+    DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT),
+    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
     private final HttpStatus httpStatus;
 
-    DraftBlockCommandErrorCode(String message, HttpStatus httpStatus) {
+    DraftErrorCode(String message, HttpStatus httpStatus) {
         this.message = message;
         this.httpStatus = httpStatus;
     }
@@ -32,32 +32,32 @@ public enum DraftBlockCommandErrorCode implements ErrorCode {
     }
 
     @Override
-    public DraftBlockCommandException exception() {
-        return new DraftBlockCommandException(this);
+    public DraftException exception() {
+        return new DraftException(this);
     }
 
     @Override
-    public DraftBlockCommandException exception(Throwable cause) {
-        return new DraftBlockCommandException(this, cause);
+    public DraftException exception(Throwable cause) {
+        return new DraftException(this, cause);
     }
 
     @Override
     public RuntimeException exception(Runnable runnable) {
-        return new DraftBlockCommandException(this, runnable);
+        return new DraftException(this, runnable);
     }
 
     @Override
     public RuntimeException exception(Runnable runnable, Throwable cause) {
-        return new DraftBlockCommandException(this, runnable, cause);
+        return new DraftException(this, runnable, cause);
     }
 
     @Override
     public RuntimeException exception(Supplier<Map<String, Object>> payload) {
-        return new DraftBlockCommandException(this, payload);
+        return new DraftException(this, payload);
     }
 
     @Override
     public RuntimeException exception(Supplier<Map<String, Object>> payload, Throwable cause) {
-        return new DraftBlockCommandException(this, payload, cause);
+        return new DraftException(this, payload, cause);
     }
 }

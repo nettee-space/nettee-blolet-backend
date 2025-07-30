@@ -8,5 +8,4 @@ import java.util.Optional;
 
 public interface DraftReadUseCase {
     Optional<DraftDetail> getDraft(String id);
-    Page<DraftSummary> getAllDraft(int size);
 }

@@ -26,5 +26,4 @@ public interface DraftEntityMapper {
     default Optional<DraftSummary> toOptionalDraftSummary(DraftEntity draftEntity) {
         return Optional.ofNullable(toDraftSummary(draftEntity));
     }
-
 }

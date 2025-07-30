@@ -10,10 +10,10 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static nettee.draft.exception.DraftCommandErrorCode.DEFAULT;
+import static nettee.draft.exception.DraftErrorCode.DEFAULT;
 
 public enum DraftEntityStatus {
-    DELETED(
+    REMOVED(
             StatusParameters.generate()
                     .generalPurposeFeatures(
                             GeneralPurposeFeatures.READ,
@@ -24,16 +24,17 @@ public enum DraftEntityStatus {
     ),
     PENDING(
             StatusParameters.generate()
+                    .generalPurposeFeatures(GeneralPurposeFeatures.ALL)
                     .categoryBits(0b0000_0000_0000_0001)
                     .instanceBits(0)
     ),
-    DRAFT(
+    UPDATED(
             StatusParameters.generate()
                     .generalPurposeFeatures(GeneralPurposeFeatures.ALL)
                     .categoryBits(0b0000_0000_0000_0010)
                     .instanceBits(0)
     ),
-    DONE(
+    PUBLISHED(
             StatusParameters.generate()
                     .generalPurposeFeatures(
                             GeneralPurposeFeatures.READ,
@@ -68,26 +69,26 @@ public enum DraftEntityStatus {
 
 
     public static DraftEntityStatus valueOf(DraftStatus draftStatus) {
-        assert Set.of(DraftStatus.DELETED, DraftStatus.PENDING, DraftStatus.DRAFT, DraftStatus.DONE)
+        assert Set.of(DraftStatus.REMOVED, DraftStatus.PENDING, DraftStatus.UPDATED, DraftStatus.PUBLISHED)
                 .containsAll(Arrays.stream(DraftStatus.values()).collect(Collectors.toSet()))
                 : "DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
-
         return switch (draftStatus) {
-            case DELETED -> DELETED;
+            case REMOVED -> REMOVED;
             case PENDING -> PENDING;
-            case DRAFT -> DRAFT;
-            case DONE -> DONE;
+            case UPDATED -> UPDATED;
+            case PUBLISHED -> PUBLISHED;
             default -> throw new Error("DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
         };
     }
 
     public static DraftEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> DELETED;
-            case 0b0__0000_0000_0000_0001__000_0000_0000_0000 -> PENDING;
-            case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> DRAFT;
-            case 0b1__0000_0000_0000_0100__000_0000_0000_0000 -> DONE;
-            default -> throw DEFAULT.exception();
+            case 0b0__100_1000_0000_0000_0000_0000_0000_0000 -> REMOVED;
+            case 0b0__110_1100_0000_0000_0000_0001_0000_0000 -> PENDING;
+            case 0b0__110_1100_0000_0000_0000_0010_0000_0000 -> UPDATED;
+            case 0b0__100_1000_0000_0000_0000_0100_0000_0000 -> PUBLISHED;
+            default -> {
+                throw DEFAULT.exception();}
         };
     }
 }

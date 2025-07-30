@@ -6,13 +6,11 @@ import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface DraftBlockQueryPort {
     Optional<DraftBlockDetail> findById(String id);
-    Page<DraftBlockSummary> findAll(Pageable pageable);
-
-    Page<DraftBlockSummary> findByStatuses(Set<DraftBlockStatus> statuses, Pageable pageable);
-
+    List<DraftBlockSummary> findByStatus(String articleId, DraftBlockStatus status);
 }

@@ -4,11 +4,11 @@ import java.util.EnumSet;
 import java.util.Set;
 
 public enum DraftBlockStatus {
-    DRAFT,
+    PENDING,
     PUBLISHED,
-    DELETED;
+    REMOVED;
 
-    public static final Set<DraftBlockStatus> GENERAL_QUERY_STATUS = EnumSet.of(DRAFT, PUBLISHED);
+    public static final Set<DraftBlockStatus> GENERAL_QUERY_STATUS = EnumSet.of(PENDING, PUBLISHED);
 
     public static java.util.Set<DraftBlockStatus> getGeneralQueryStatus() {
         return GENERAL_QUERY_STATUS;
