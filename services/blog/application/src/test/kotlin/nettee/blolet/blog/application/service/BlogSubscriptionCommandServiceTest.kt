@@ -6,6 +6,7 @@ import io.kotest.matchers.*
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort
 import nettee.blolet.blog.application.usecase.newsletter.BlogNewsletterSubscriptionUseCase
+import nettee.blolet.blog.application.usecase.newsletter.BlogNewsletterUnsubscriptionUseCase
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase
 import nettee.blolet.blog.application.usecase.subscription.BlogUnsubscriptionUseCase
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats
@@ -21,6 +22,7 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
     val service: BlogSubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
     val unsubscriptionUseCase: BlogUnsubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
     val newsletterSubscriptionUseCase: BlogNewsletterSubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
+    val newsletterUnsubscriptionUseCase: BlogNewsletterUnsubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
 
     beforeTest {
         clearMocks(commandPort, answers = true, recordedCalls = true)
@@ -224,6 +226,83 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
             exc.errorCode shouldBe ALREADY_SUBSCRIBED_BLOG_NEWSLETTER
 
             verify(exactly = 0) { commandPort.update(any()) }
+        }
+    }
+
+    "[unsubscribeBlogNewsletter] 뉴스레터 구독 취소 로직" - {
+        val userId = "USER-1"
+        val blogId = "BLOG-1"
+        val now = Instant.now()
+
+        val captured = mutableListOf<BlogSubscription>()
+
+        "🚧 구독 자체가 없는 경우에는 UNSUBSCRIBED_BLOG 예외가 발생한다" {
+            every { commandPort.findByUserIdAndBlogId(userId, blogId) } returns Optional.empty()
+
+            val ex = shouldThrow<CustomException> {
+                newsletterUnsubscriptionUseCase.unsubscribeBlogNewsletter(userId, blogId)
+            }
+            ex.errorCode shouldBe UNSUBSCRIBED_BLOG
+            verify(inverse = true) { commandPort.update(any()) }
+        }
+
+        "🚧 이미 뉴스레터 구독이 해제된 경우에는 UNSUBSCRIBED_BLOG_NEWSLETTER 예외가 발생한다" {
+            // notificationAllowed = false 인 경우
+            val alreadyUnsubscribed = BlogSubscription.builder()
+                .id("SUB-1")
+                .userId(userId)
+                .blogId(blogId)
+                .emailAllowed(true)
+                .notificationAllowed(false)
+                .createdAt(now)
+                .build()
+
+            every { commandPort.findByUserIdAndBlogId(userId, blogId) }
+                .returns(Optional.of(alreadyUnsubscribed))
+
+            val ex = shouldThrow<CustomException> {
+                newsletterUnsubscriptionUseCase.unsubscribeBlogNewsletter(userId, blogId)
+            }
+            ex.errorCode shouldBe UNSUBSCRIBED_BLOG_NEWSLETTER
+            verify(inverse = true) { commandPort.update(any()) }
+        }
+
+        "✅ 정상적으로 뉴스레터 구독을 취소하고 통계가 리턴된다" {
+            // notificationAllowed = true 인 원본 생성
+            val original = BlogSubscription.builder()
+                .id("SUB-2")
+                .userId(userId)
+                .blogId(blogId)
+                .emailAllowed(true)
+                .notificationAllowed(true)
+                .createdAt(now)
+                .build()
+
+            every { commandPort.findByUserIdAndBlogId(userId, blogId) }
+                .returns(Optional.of(original))
+            every { commandPort.update(capture(captured)) }
+                .answers { firstArg<BlogSubscription>() }
+            every { commandPort.countByUserId(userId) } returns 4
+            every { commandPort.countByBlogId(blogId) } returns 7
+
+            val stats: SubscriptionStats = newsletterUnsubscriptionUseCase.unsubscribeBlogNewsletter(userId, blogId)
+
+            // 상태 검증
+            stats.userSubscriptionCount shouldBe 4
+            stats.blogTotalSubscriberCount shouldBe 7
+
+            // 호출 순서 검증 (update 이후 count 호출 순서는 고정, countByUserId와 countByBlogId 사이 순서는 무관)
+            verifyOrder { // ≠ verifySequence
+                commandPort.update(any())
+                commandPort.countByUserId(userId)
+            }
+            verifyOrder {
+                commandPort.update(any())
+                commandPort.countByBlogId(blogId)
+            }
+
+            // 캡처된 객체의 newsletter 상태가 false 로 변경되었는지 검증
+            captured.first().emailAllowed shouldBe false
         }
     }
 })
