@@ -20,9 +20,9 @@ import java.util.Objects;
         schema = "blog"
 )
 public class BlogEntity extends SnowflakeBaseTimeEntity {
-    private Long userId;
-    private String name;
-    private String url;
+    public Long userId;
+    public String name;
+    public String url;
 
     // TODO enable this constructor since JPA core is fixed
 //    public BlogEntity(Long id, Long userId, String name, String url, Instant createdAt, Instant updatedAt) {
@@ -31,25 +31,6 @@ public class BlogEntity extends SnowflakeBaseTimeEntity {
 //        this.name = name;
 //        this.url = url;
 //    }
-
-    @Builder(
-            builderClassName = "DefaultBlogEntityUpdateBuilder",
-            builderMethodName = "prepareUpdate",
-            buildMethodName = "update"
-    )
-    public void update(String name, String url) {
-        Objects.requireNonNull(name, "Name must not be null");
-
-        this.name = name;
-        if (url != null) {
-            this.url = url;
-        }
-    }
-
-    public void updateUrl(String url) {
-        Objects.requireNonNull(url, "Url must not be null");
-        this.url = url;
-    }
 
     @Override
     public boolean equals(Object o) {
