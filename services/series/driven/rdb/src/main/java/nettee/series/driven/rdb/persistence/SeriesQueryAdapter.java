@@ -49,6 +49,7 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
                 ))
                 .from(seriesEntity)
                 .where(seriesEntity.blogId.eq(Long.valueOf(blogId)))
+                .orderBy(seriesEntity.displayOrder.asc())
                 .fetch();
     }
 }
