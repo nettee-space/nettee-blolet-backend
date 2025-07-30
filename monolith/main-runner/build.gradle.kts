@@ -16,7 +16,7 @@ dependencies {
     implementation(project(":rest-client"))
 
     // service
-//    api(project(series))
+    api(project(series))
     api(project(draft))
     api(project(article))
     api(project(blog))
