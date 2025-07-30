@@ -1,5 +1,7 @@
 package nettee.blolet.blog.rdb.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +14,11 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(
+        name = "blog",
+        schema = "blog"
+)
 public class BlogEntity extends SnowflakeBaseTimeEntity {
     private Long userId;
     private String name;
