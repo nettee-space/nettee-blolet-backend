@@ -6,15 +6,19 @@ import io.kotest.matchers.*
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase
+import nettee.blolet.blog.application.usecase.subscription.BlogUnsubscriptionUseCase
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats
 import nettee.blolet.blog.domain.BlogSubscription
 import nettee.blolet.blog.exception.BlogErrorCode.*
 import nettee.common.CustomException
+import java.time.Instant
+import java.util.*
 
 class BlogSubscriptionCommandServiceTest : FreeSpec({
 
     val commandPort = mockk<BlogSubscriptionCommandRepositoryPort>()
     val service: BlogSubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
+    val unsubscriptionUseCase: BlogUnsubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
 
     beforeTest {
         clearMocks(commandPort, answers = true, recordedCalls = true)
@@ -80,6 +84,51 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
                 commandPort.countByUserId(any())
                 commandPort.countByBlogId(any())
             }
+        }
+    }
+
+    "[UNSUBSCRIBE] 블로그 구독 취소 시" - {
+        val username = "user1"
+        val blogId = "blog-123"
+        val subscriptionId = "sub-1"
+        val now = Instant.now()
+        val subscription = BlogSubscription.builder()
+            .id(subscriptionId)
+            .userId(username)
+            .blogId(blogId)
+            .emailAllowed(false)
+            .notificationAllowed(false)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
+
+        "✅ 기존 구독이 존재하면 취소할 수 있다." {
+            // mock
+            every { commandPort.findByUserIdAndBlogId(username, blogId) } returns Optional.of(subscription)
+            every { commandPort.deleteById(subscriptionId) } just Runs
+
+            // action
+            unsubscriptionUseCase.unsubscribeBlog(username, blogId)
+
+            // verify 호출 순서 및 삭제
+            verifySequence {
+                commandPort.findByUserIdAndBlogId(username, blogId)
+                commandPort.deleteById(subscriptionId)
+            }
+        }
+
+        "🚧 구독이 존재하지 않으면 예외가 발생한다." {
+            // mock: 구독 없음
+            every { commandPort.findByUserIdAndBlogId(username, blogId) } returns Optional.empty()
+
+            // action & assert
+            val ex = shouldThrow<CustomException> {
+                unsubscriptionUseCase.unsubscribeBlog(username, blogId)
+            }
+            ex.errorCode shouldBe UNSUBSCRIBED_BLOG
+
+            // 삭제 호출 없어야 함
+            verify(inverse = true) { commandPort.deleteById(any()) }
         }
     }
 })
