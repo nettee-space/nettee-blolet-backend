@@ -40,7 +40,7 @@ public class AuthCommandService implements AuthSignUsecase {
     private static final int ACCESS_TOKEN_EXPIRATION = 600; // accessToken 유효 기간
 
     @Override
-    public void signUp(SignUpRequestModel model) {
+    public LoginTokenModel signUp(SignUpRequestModel model) {
         /**
          * TODO: 회원가입 이메일 인증을 정상적으로 수행했는지 검증
          * 사용자 이메일 인증이 완료되었음을 확인하는 토큰을 받을 수 있다.
@@ -77,6 +77,9 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 5. user 저장
         authCommandRepositoryPort.save(user);
+
+        // 6. 회원가입 성공 시, 자동 로그인 처리를 위해 accessToken & refreshToken 발급
+        return generateLoginToken(user);
     }
 
     @Override
