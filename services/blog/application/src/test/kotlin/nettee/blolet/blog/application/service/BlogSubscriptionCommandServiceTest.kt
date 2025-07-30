@@ -211,8 +211,8 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
                 .id("SUB-1")
                 .userId(userId)
                 .blogId(blogId)
-                .emailAllowed(false)
-                .notificationAllowed(true)
+                .emailAllowed(true)
+                .notificationAllowed(false)
                 .createdAt(now)
                 .build()
 
