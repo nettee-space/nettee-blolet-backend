@@ -6,6 +6,8 @@ public interface SeriesCommandRepositoryPort {
     
     boolean existsByBlogIdAndTitle(String blogId, String title);
     
+    long countByBlogId(String blogId);
+    
     Series save(Series series);
     
     Series update(Series series);

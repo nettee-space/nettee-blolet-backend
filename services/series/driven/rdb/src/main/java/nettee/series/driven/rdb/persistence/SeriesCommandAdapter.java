@@ -21,6 +21,11 @@ public class SeriesCommandAdapter implements SeriesCommandRepositoryPort {
     }
     
     @Override
+    public long countByBlogId(String blogId) {
+        return seriesJpaRepository.countByBlogId(Long.valueOf(blogId));
+    }
+    
+    @Override
     public Series save(Series series) {
         var seriesEntity = seriesEntityMapper.toEntity(series);
 

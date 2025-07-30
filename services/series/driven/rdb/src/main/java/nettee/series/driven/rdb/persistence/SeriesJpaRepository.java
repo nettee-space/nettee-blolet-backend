@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SeriesJpaRepository extends JpaRepository<SeriesEntity, Long> {
     
     boolean existsByBlogIdAndTitle(Long blogId, String title);
+    
+    long countByBlogId(Long blogId);
 }

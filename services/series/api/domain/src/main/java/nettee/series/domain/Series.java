@@ -8,7 +8,6 @@ import nettee.series.article.domain.SeriesArticle;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Builder
@@ -39,14 +38,17 @@ public class Series {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, Integer displayOrder, String description, String banner) {
-        Objects.requireNonNull(title, "Title cannot be null");
-        Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
+    public void update(String title, Integer displayOrder, String description, String banner, List<SeriesArticle> seriesArticleList) {
+        if (title != null) this.title = title;
         
-        this.title = title;
-        this.description = description;
-        this.banner = banner;
-        this.displayOrder = displayOrder;
+        if (displayOrder != null) this.displayOrder = displayOrder;
+        
+        if (description != null) this.description = description;
+        
+        if (banner != null) this.banner = banner;
+        
+        if (seriesArticleList != null) this.seriesArticleList = seriesArticleList;
+        
         this.updatedAt = Instant.now();
     }
 }

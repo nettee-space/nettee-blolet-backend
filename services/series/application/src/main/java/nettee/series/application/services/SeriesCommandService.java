@@ -7,15 +7,18 @@ import nettee.series.application.usecase.SeriesDeleteUseCase;
 import nettee.series.application.usecase.SeriesUpdateUseCase;
 import nettee.series.article.application.usecase.SeriesArticleCreateUseCase;
 import nettee.series.article.application.usecase.SeriesArticleDeleteUseCase;
+import nettee.series.article.domain.SeriesArticle;
 import nettee.series.domain.Series;
 import nettee.series.exception.SeriesException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static nettee.series.exception.SeriesErrorCode.SERIES_ALREADY_EXIST;
 
 @Service
 @RequiredArgsConstructor
-public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUseCase, SeriesDeleteUseCase {
+public class SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateUseCase, SeriesDeleteUseCase {
     
     private final SeriesCommandRepositoryPort commandRepositoryPort;
     private final SeriesArticleCreateUseCase seriesArticleCreateUseCase;
@@ -27,16 +30,29 @@ public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateU
         assert series.getTitle() != null;
         
         // 시리즈 제목 중복 체크
-        if(commandRepositoryPort.existsByBlogIdAndTitle(series.getBlogId(), series.getTitle())){
+        if (commandRepositoryPort.existsByBlogIdAndTitle(series.getBlogId(), series.getTitle())) {
             throw new SeriesException(SERIES_ALREADY_EXIST);
         }
-       
+        
+        // 시리즈 정렬순서 기본값 설정
+        if (series.getDisplayOrder() == null) {
+            var seriesCnt = commandRepositoryPort.countByBlogId(series.getBlogId());
+            
+            series.prepareUpdate()
+                    .displayOrder(Long.valueOf(seriesCnt).intValue() + 1)
+                    .update();
+        }
+        
         // 시리즈 저장
         Series newSeries = commandRepositoryPort.save(series);
-       
+        
         // 시리즈에 시리즈 게시글 목록이 존재할 경우 게시글 목록 저장
         if (series.getSeriesArticleList() != null && !series.getSeriesArticleList().isEmpty()) {
-            seriesArticleCreateUseCase.createSeriesArticleList(newSeries.getId(), series.getSeriesArticleList());
+            List<SeriesArticle> newSeriesArticleList = seriesArticleCreateUseCase.createSeriesArticleList(newSeries.getId(), series.getSeriesArticleList());
+            
+            newSeries.prepareUpdate()
+                    .seriesArticleList(newSeriesArticleList)
+                    .update();
         }
         
         return newSeries;
@@ -47,7 +63,7 @@ public class  SeriesCommandService implements SeriesCreateUseCase, SeriesUpdateU
         assert series.getTitle() != null;
         
         // 시리즈 제목 중복 체크
-        if(commandRepositoryPort.existsByBlogIdAndTitle(series.getBlogId(), series.getTitle())){
+        if (commandRepositoryPort.existsByBlogIdAndTitle(series.getBlogId(), series.getTitle())) {
             throw new SeriesException(SERIES_ALREADY_EXIST);
         }
         
