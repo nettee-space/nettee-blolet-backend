@@ -9,6 +9,7 @@ import nettee.blolet.blog.domain.BlogSubscription;
 import org.springframework.stereotype.Service;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.ALREADY_SUBSCRIBED_BLOG;
+import static nettee.blolet.blog.exception.BlogErrorCode.UNSUBSCRIBED_BLOG;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,8 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
 
     @Override
     public void unsubscribeBlog(String username, String blogId) {
-        throw new Error("Not implemented yet");
+        BlogSubscription subscription = commandRepository.findByUserIdAndBlogId(username, blogId)
+                .orElseThrow(UNSUBSCRIBED_BLOG::exception);
+        commandRepository.deleteById(subscription.getId());
     }
 }
