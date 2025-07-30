@@ -58,7 +58,7 @@ public class BlogSubscriptionCommandService
                 .orElseThrow(UNSUBSCRIBED_BLOG::exception);
 
         // Exception: 이미 뉴스레터를 구독 중
-        if (blogSubscription.getNotificationAllowed()) {
+        if (blogSubscription.getEmailAllowed()) {
             throw ALREADY_SUBSCRIBED_BLOG_NEWSLETTER.exception();
         }
 
