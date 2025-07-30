@@ -34,13 +34,7 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
         commandRepository.save(subscription);
 
         // 저장 후 통계 조회
-        int userCount = commandRepository.countByUserId(userId);
-        int blogCount = commandRepository.countByBlogId(blogId);
-
-        return SubscriptionStats.builder()
-                .userSubscriptionCount(userCount)
-                .blogTotalSubscriberCount(blogCount)
-                .build();
+        return subscriptionStats(userId, blogId);
     }
 
     @Override
@@ -48,5 +42,15 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
         BlogSubscription subscription = commandRepository.findByUserIdAndBlogId(userId, blogId)
                 .orElseThrow(UNSUBSCRIBED_BLOG::exception);
         commandRepository.deleteById(subscription.getId());
+    }
+
+    private SubscriptionStats subscriptionStats(String userId, String blogId) {
+        int userCount = commandRepository.countByUserId(userId);
+        int blogCount = commandRepository.countByBlogId(blogId);
+
+        return SubscriptionStats.builder()
+                .userSubscriptionCount(userCount)
+                .blogTotalSubscriberCount(blogCount)
+                .build();
     }
 }
