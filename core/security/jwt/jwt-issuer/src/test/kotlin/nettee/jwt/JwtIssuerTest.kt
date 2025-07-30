@@ -21,12 +21,11 @@ class JwtIssuerTest : FreeSpec({
         val issuer = JwtIssuer(
             "HMAC",
             secretKey,
-            null,
-            60L
+            null
         )
 
         // when
-        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+        val token = issuer.issue("sun", mapOf("role" to "USER"), 600)
         token.shouldNotBeBlank()
 
         // then
@@ -58,12 +57,11 @@ class JwtIssuerTest : FreeSpec({
         val issuer = JwtIssuer(
             "RSA",
             null,
-            privateKey,
-            60L
+            privateKey
         )
 
         // when
-        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+        val token = issuer.issue("sun", mapOf("role" to "USER"), 600)
         token.shouldNotBeBlank()
 
         // then

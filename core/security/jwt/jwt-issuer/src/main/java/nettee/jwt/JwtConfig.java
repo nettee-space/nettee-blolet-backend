@@ -13,7 +13,6 @@ public class JwtConfig {
         return new JwtIssuer(
                 properties.keyType(),
                 properties.secretKey(),
-                properties.privateKey(),
-                properties.accessTokenMaxAgeSeconds());
+                properties.privateKey());
     }
 }

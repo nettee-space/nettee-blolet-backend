@@ -17,8 +17,7 @@ class JwtParserTest : FreeSpec({
         val issuer = JwtIssuer(
             keyType,
             secretKey,
-            null,
-            60L
+            null
         )
         val parser = JwtParser(
             keyType,
@@ -26,7 +25,7 @@ class JwtParserTest : FreeSpec({
             null
         )
 
-        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+        val token = issuer.issue("sun", mapOf("role" to "USER"), 600)
 
         val claims: Claims = shouldNotThrowAny {
             parser.parseClaims(token)
@@ -50,7 +49,6 @@ class JwtParserTest : FreeSpec({
             keyType,
             null,         // secretKey는 null
             privateKey,
-            60L
         )
         val parser = JwtParser(
             keyType,
@@ -58,7 +56,7 @@ class JwtParserTest : FreeSpec({
             publicKey
         )
 
-        val token = issuer.issueAccessToken("sun", mapOf("role" to "USER"))
+        val token = issuer.issue("sun", mapOf("role" to "USER"), 600)
 
         val claims: Claims = shouldNotThrowAny {
             parser.parseClaims(token)

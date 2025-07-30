@@ -16,12 +16,11 @@ import java.util.Map;
 
 public class JwtIssuer {
 
-    private final long accessTokenMaxAgeSeconds;
     private final JwtBuilder jwtBuilder;
     private static final List<String> ASYMMETRIC_ALGORITHMS = Arrays.asList("RSA", "EC", "EdDSA");
 
     // JwtIusser 생성자
-    public JwtIssuer(String keyType, String secretKey, String privateKey, long accessTokenMaxAgeSeconds) {
+    public JwtIssuer(String keyType, String secretKey, String privateKey) {
 
         Key signingKey;
 
@@ -42,13 +41,8 @@ public class JwtIssuer {
             throw new IllegalArgumentException("지원하지 않는 keyType 입니다: " + keyType);
         }
 
-        this.accessTokenMaxAgeSeconds = accessTokenMaxAgeSeconds;
         this.jwtBuilder = Jwts.builder()
                 .signWith(signingKey);
-    }
-
-    public String issueAccessToken(String subject, Map<String, ?> claims) {
-        return issue(subject, claims, accessTokenMaxAgeSeconds);
     }
 
     public String issue(String subject, Map<String, ?> claims, long maxAgeSeconds) {

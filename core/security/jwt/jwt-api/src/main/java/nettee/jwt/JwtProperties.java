@@ -7,7 +7,6 @@ public record JwtProperties(
     String keyType,
     String secretKey,
     String privateKey,
-    String publicKey,
-    long accessTokenMaxAgeSeconds
+    String publicKey
 ) {
 }
