@@ -4,4 +4,5 @@ import nettee.article.domain.Article;
 
 public interface ArticleCommandPort {
     Article save(Article article);
+    Article update(Article article);
 }
