@@ -110,7 +110,7 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // refreshToken 발급
         String refreshToken = generateSecureRandom();
-        String hashedRefreshToken = hashSHA256(refreshToken);
+        String hashedRefreshToken = hashSha256(refreshToken);
         String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
 
         // refreshToken 저장
@@ -125,7 +125,7 @@ public class AuthCommandService implements AuthSignUsecase {
     /**
      * SHA-256 해시 함수를 사용하여 문자열을 해싱합니다.
      */
-    private String hashSHA256(String token) {
+    private String hashSha256(String token) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(token.getBytes(StandardCharsets.UTF_8));
