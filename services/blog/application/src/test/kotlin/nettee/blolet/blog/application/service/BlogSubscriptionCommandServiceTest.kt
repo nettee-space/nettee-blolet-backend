@@ -6,15 +6,19 @@ import io.kotest.matchers.*
 import io.mockk.*
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase
+import nettee.blolet.blog.application.usecase.subscription.BlogUnsubscriptionUseCase
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats
 import nettee.blolet.blog.domain.BlogSubscription
 import nettee.blolet.blog.exception.BlogErrorCode.*
 import nettee.common.CustomException
+import java.time.Instant
+import java.util.*
 
 class BlogSubscriptionCommandServiceTest : FreeSpec({
 
     val commandPort = mockk<BlogSubscriptionCommandRepositoryPort>()
     val service: BlogSubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
+    val unsubscriptionUseCase: BlogUnsubscriptionUseCase = BlogSubscriptionCommandService(commandPort)
 
     beforeTest {
         clearMocks(commandPort, answers = true, recordedCalls = true)
@@ -80,6 +84,59 @@ class BlogSubscriptionCommandServiceTest : FreeSpec({
                 commandPort.countByUserId(any())
                 commandPort.countByBlogId(any())
             }
+        }
+    }
+
+    "[UNSUBSCRIBE] 블로그 구독 취소 시" - {
+        val userId = "user1"
+        val blogId = "blog-123"
+        val subscriptionId = "sub-1"
+        val now = Instant.now()
+        val subscription = BlogSubscription.builder()
+            .id(subscriptionId)
+            .userId(userId)
+            .blogId(blogId)
+            .emailAllowed(false)
+            .notificationAllowed(false)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
+
+        "✅ 기존 구독이 존재하면 취소 후 최신 구독 통계를 반환한다." {
+            // mock: 구독 조회, 삭제, 통계 조회
+            every { commandPort.findByUserIdAndBlogId(userId, blogId) } returns Optional.of(subscription)
+            every { commandPort.deleteById(subscriptionId) } just runs
+            every { commandPort.countByUserId(userId) } returns 2
+            every { commandPort.countByBlogId(blogId) } returns 5
+
+            // action
+            val stats: SubscriptionStats = unsubscriptionUseCase.unsubscribeBlog(userId, blogId)
+
+            // assert: 반환된 통계 값
+            stats.userSubscriptionCount shouldBe 2
+            stats.blogTotalSubscriberCount shouldBe 5
+
+            // 호출 순서 검증
+            verifySequence {
+                commandPort.findByUserIdAndBlogId(userId, blogId)
+                commandPort.deleteById(subscriptionId)
+                commandPort.countByUserId(userId)
+                commandPort.countByBlogId(blogId)
+            }
+        }
+
+        "🚧 구독이 존재하지 않으면 예외가 발생한다." {
+            // mock: 구독 없음
+            every { commandPort.findByUserIdAndBlogId(userId, blogId) } returns Optional.empty()
+
+            // action & assert
+            val ex = shouldThrow<CustomException> {
+                unsubscriptionUseCase.unsubscribeBlog(userId, blogId)
+            }
+            ex.errorCode shouldBe UNSUBSCRIBED_BLOG
+
+            // 삭제 호출 없어야 함
+            verify(inverse = true) { commandPort.deleteById(any()) }
         }
     }
 })

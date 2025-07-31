@@ -9,6 +9,7 @@ import nettee.blolet.blog.domain.BlogSubscription;
 import org.springframework.stereotype.Service;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.ALREADY_SUBSCRIBED_BLOG;
+import static nettee.blolet.blog.exception.BlogErrorCode.UNSUBSCRIBED_BLOG;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,19 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
         commandRepository.save(subscription);
 
         // 저장 후 통계 조회
+        return subscriptionStats(userId, blogId);
+    }
+
+    @Override
+    public SubscriptionStats unsubscribeBlog(String userId, String blogId) {
+        BlogSubscription subscription = commandRepository.findByUserIdAndBlogId(userId, blogId)
+                .orElseThrow(UNSUBSCRIBED_BLOG::exception);
+        commandRepository.deleteById(subscription.getId());
+
+        return subscriptionStats(userId, blogId);
+    }
+
+    private SubscriptionStats subscriptionStats(String userId, String blogId) {
         int userCount = commandRepository.countByUserId(userId);
         int blogCount = commandRepository.countByBlogId(blogId);
 
@@ -40,10 +54,5 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
                 .userSubscriptionCount(userCount)
                 .blogTotalSubscriberCount(blogCount)
                 .build();
-    }
-
-    @Override
-    public void unsubscribeBlog(String username, String blogId) {
-        throw new Error("Not implemented yet");
     }
 }
