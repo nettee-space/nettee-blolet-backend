@@ -7,6 +7,7 @@ import nettee.article.port.ArticleCommandPort;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
+import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
 import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 @Repository
@@ -28,4 +29,16 @@ public class ArticleCommandAdapter implements ArticleCommandPort {
         }
     }
 
+    @Override
+    public Article update(Article article) {
+        var existingArticle = articleJpaRepository.findById(article.getId())
+                .orElseThrow(ARTICLE_NOT_FOUND::exception);
+
+        existingArticle.prepareArticleEntityUpdate()
+                .title(article.getTitle())
+                .content(article.getContent())
+                .update();;
+
+        return articleEntityMapper.toDomain(existingArticle);
+    }
 }
