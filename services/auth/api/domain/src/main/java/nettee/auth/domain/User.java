@@ -29,4 +29,8 @@ public class User {
             throw new IllegalArgumentException("필수 약관에 동의하지 않았습니다.");
         }
     }
+
+    public void updateStatus(UserStatus status) {
+        this.status = status;
+    }
 }
