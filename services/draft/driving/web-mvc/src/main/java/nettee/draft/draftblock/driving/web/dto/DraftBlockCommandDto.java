@@ -34,8 +34,6 @@ public final class DraftBlockCommandDto {
 
     @Builder
     public record DraftBlockUpdateCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            String id,
             String nextBlockId, // 순서/블록 연결성 변경시 사용
             @NotBlank(message = "블록 종류를 입력하십시오.")
             String type,

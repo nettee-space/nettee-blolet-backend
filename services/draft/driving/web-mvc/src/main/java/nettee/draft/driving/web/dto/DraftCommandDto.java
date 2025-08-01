@@ -29,8 +29,6 @@ public final class DraftCommandDto {
 
     @Builder
     public record DraftUpdateCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            String id,
             @NotBlank(message = "제목을 입력하십시오.")
             @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
             String title,
