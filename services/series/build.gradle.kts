@@ -5,5 +5,7 @@ val seriesWebMvcAdapter: String by project
 
 dependencies {
     api(project(seriesApi))
+    api(project(seriesApplication))
     api(project(seriesWebMvcAdapter))
+    api(project(seriesRdbAdapter))
 }

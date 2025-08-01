@@ -27,8 +27,8 @@ include(
     auth,
     authApi,
     authDomain,
-//    authException,
-//    authReadModel,
+    authException,
+    authReadModel,
     authApplication,
 //    authRdbAdapter,
     authWebMvcAdapter,
@@ -37,8 +37,8 @@ include(
 project(auth).projectDir = authDirectory("auth")
 project(authApi).projectDir = authDirectory("api")
 project(authDomain).projectDir = authDirectory("domain")
-//project(authException).projectDir = authDirectory("exception")
-//project(authReadModel).projectDir = authDirectory("readmodel")
+project(authException).projectDir = authDirectory("exception")
+project(authReadModel).projectDir = authDirectory("readmodel")
 project(authApplication).projectDir = authDirectory("application")
 //project(authRdbAdapter).projectDir = authDirectory("rdb")
 project(authWebMvcAdapter).projectDir = authDirectory("web-mvc")

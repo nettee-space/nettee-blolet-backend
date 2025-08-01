@@ -27,12 +27,18 @@ include(
     article,
     articleApi,
     articleDomain,
+    articleException,
     articleReadModel,
+    articleApplication,
+    articleRdbAdapter,
     articleWebMvcAdapter
 )
 
 project(article).projectDir = articleDirectory("article")
 project(articleApi).projectDir = articleDirectory("api")
 project(articleDomain).projectDir = articleDirectory("domain")
+project(articleException).projectDir = articleDirectory("exception")
 project(articleReadModel).projectDir = articleDirectory("readmodel")
+project(articleApplication).projectDir = articleDirectory("application")
+project(articleRdbAdapter).projectDir = articleDirectory("rdb")
 project(articleWebMvcAdapter).projectDir = articleDirectory("web-mvc")

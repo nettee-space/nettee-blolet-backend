@@ -5,5 +5,7 @@ val articleWebMvcAdapter: String by project
 
 dependencies {
     api(project(articleApi))
+    api(project(articleApplication))
+    api(project(articleRdbAdapter))
     api(project(articleWebMvcAdapter))
 }
