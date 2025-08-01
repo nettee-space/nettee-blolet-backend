@@ -37,11 +37,10 @@ public class RdbBlogCommandRepositoryAdapter implements BlogCommandRepositoryPor
         var entity = jpaRepository.findById(id)
                 .orElseThrow(BLOG_NOT_FOUND::exception);
 
-        entity.prepareUpdate()
-                .name(blog.getName())
-                .url(blog.getUrl())
-                .update();
-        return mapper.toDomain(jpaRepository.save(entity));
+        entity.name = blog.getName();
+        entity.url = blog.getUrl();
+
+        return mapper.toDomain(entity);
     }
 
     @Override
