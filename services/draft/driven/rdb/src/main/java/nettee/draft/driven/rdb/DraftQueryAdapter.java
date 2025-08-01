@@ -7,6 +7,7 @@ import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.persistence.mapper.DraftEntityMapper;
 import nettee.draft.application.port.DraftQueryPort;
 import nettee.draft.domain.type.DraftStatus;
+import nettee.draft.readmodel.DraftReadModels.DraftTitle;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +40,21 @@ public class DraftQueryAdapter extends QuerydslRepositorySupport implements Draf
                         .from(draftEntity)
                         .where(draftEntity.id.eq(longId))
                         .fetchOne()
+        );
+    }
+
+    @Override
+    public List<DraftTitle> findTitlesById(List<String> ids) {
+        List<Long> longIds = ids.stream()
+                .map(Long::parseLong)
+                .toList();
+
+        return draftEntityMapper.toListDraftTitle(
+                getQuerydsl().createQuery()
+                        .select(draftEntity)
+                        .from(draftEntity)
+                        .where(draftEntity.id.in(longIds))
+                        .fetch()
         );
     }
 
