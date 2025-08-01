@@ -4,16 +4,16 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
-
-import java.util.Objects;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(
         name = "blog",
@@ -31,19 +31,4 @@ public class BlogEntity extends SnowflakeBaseTimeEntity {
 //        this.name = name;
 //        this.url = url;
 //    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof BlogEntity blog)) return false;
-
-        return Objects.equals(getId(), blog.getId())
-                && Objects.equals(userId, blog.getUserId())
-                && Objects.equals(name, blog.getName())
-                && Objects.equals(url, blog.getUrl());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), userId, name, url);
-    }
 }
