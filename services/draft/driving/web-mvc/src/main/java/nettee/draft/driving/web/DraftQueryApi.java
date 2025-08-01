@@ -11,6 +11,7 @@ import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
 import nettee.draft.domain.type.DraftStatus;
+import nettee.draft.readmodel.DraftReadModels.DraftTitle;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,5 +54,16 @@ public class DraftQueryApi {
             @RequestParam(defaultValue = "false") Boolean ascending
             ) {
         return draftReadByStatusesUseCase.getDraftsByStatuses(blogId, statuses, sortBy, ascending);
+    }
+
+    @Operation(summary = "임시 아티클 제목 조회", description = "ID의 리스트를 받아 임시 아티클의 아이디와 제목을 반환합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
+    @GetMapping("/series-article")
+    public List<DraftTitle> getDraftTitlesByIds(
+            @RequestParam("ids") List<String> ids
+    ) {
+        return draftReadUseCase.getDraftTitlesByIds(ids);
     }
 }
