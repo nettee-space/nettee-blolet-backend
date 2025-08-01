@@ -44,13 +44,12 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     public DraftBlock update(DraftBlock draft) {
         var existDraftBlock = draftJpaRepository.findById(draft.getId())
                             .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
+        Long longNextBlockId = Long.parseLong(draft.getNextBlockId());
         existDraftBlock.prepareDraftBlockEntityUpdate()
-                .content(existDraftBlock.getContent())
-                .blogId(existDraftBlock.getBlogId())
-                .articleId(existDraftBlock.getArticleId())
-                .draftId(existDraftBlock.getDraftId())
-                .nextBlockId(existDraftBlock.getNextBlockId())
-                .type(existDraftBlock.getType())
+                .content(draft.getContent())
+                .nextBlockId(longNextBlockId)
+                .type(draft.getType())
+                .status(DraftBlockEntityStatus.valueOf(draft.getStatus()))
                 .update();
 
         return draftEntityMapper.toDomain(draftJpaRepository.save(existDraftBlock));
