@@ -62,16 +62,14 @@ public class DraftBlockCommandApi {
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DraftBlockCommandResponse updateDraftBlock(
-            @PathVariable("id") Long id,
+            @PathVariable("id") String id,
             @RequestBody @Valid DraftBlockUpdateCommand draftUpdateCommand
     ) {
-//        var draft = mapper.toDomain(id, draftUpdateCommand);
-//
-//        return DraftBlockCommandResponse.builder()
-//                .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
-//                .build();
+        var draft = mapper.toDomain(id, draftUpdateCommand);
 
-        return null;
+        return DraftBlockCommandResponse.builder()
+                .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
+                .build();
     }
 
     @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
@@ -80,8 +78,8 @@ public class DraftBlockCommandApi {
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBoard(@PathVariable("id") Long id) {
-//        draftDeleteUseCase.deleteDraftBlock(id);
+    public void deleteBoard(@PathVariable("id") String id) {
+        draftDeleteUseCase.deleteDraftBlock(id);
     }
 
 }
