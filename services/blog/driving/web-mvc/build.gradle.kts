@@ -3,4 +3,5 @@ val blogApplication: String by project
 
 dependencies {
     api(project(blogApi))
+    api(project(blogApplication))
 }
