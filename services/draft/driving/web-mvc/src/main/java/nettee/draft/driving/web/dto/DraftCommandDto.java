@@ -44,33 +44,6 @@ public final class DraftCommandDto {
     }
 
     @Builder
-    public record DraftUpdateTotalViewsCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            String id,
-            @NotNull(message = "총 조회수를 입력해주세요.")
-            Integer totalViews
-    ) {
-    }
-
-    @Builder
-    public record DraftUpdateTotalLikesCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            String id,
-            @NotNull(message = "총 좋아요 수를 입력해주세요.")
-            Integer totalLikes
-    ) {
-    }
-
-    @Builder
-    public record DraftUpdateTotalSharesCommand(
-            @NotNull(message = "id를 입력하십시오.")
-            String id,
-            @NotNull(message = "총 공유수를 입력해주세요.")
-            Integer totalShares
-    ) {
-    }
-
-    @Builder
     public record DraftCommandResponse(
             Draft draft
     ) {
