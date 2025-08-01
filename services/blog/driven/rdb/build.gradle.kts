@@ -5,6 +5,7 @@ dependencies {
     api(project(blogApi))
     api(project(blogApplication))
     api(project(":jpa-core"))
+    api(project(":snowflake-id-hibernate"))
 
     // mapstruct
     implementation("org.mapstruct:mapstruct:1.6.3")
