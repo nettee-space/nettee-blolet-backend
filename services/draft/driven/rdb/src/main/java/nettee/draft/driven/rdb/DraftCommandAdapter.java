@@ -48,6 +48,7 @@ public class DraftCommandAdapter implements DraftCommandPort {
                 .title(draft.getTitle())
                 .content(draft.getContent())
                 .path(draft.getPath())
+                .status(DraftEntityStatus.valueOf(draft.getStatus()))
                 .update();
 
         return draftEntityMapper.toDomain(draftJpaRepository.save(existDraft));
