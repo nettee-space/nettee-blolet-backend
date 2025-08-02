@@ -532,6 +532,65 @@ public final class Preconditions {
         performMaxValidation(value, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭────────────────────────────────────╮
+    //    collection: validateMax variants
+    // ╰────────────────────────────────────╯
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode
+    ) {
+        performMaxValidation(collection, max, errorCode::exception);
+    }
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performMaxValidation(collection, max, () -> errorCode.exception(cause));
+    }
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performMaxValidation(collection, max, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performMaxValidation(collection, max, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performMaxValidation(collection, max, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateMax(
+            Collection<?> collection,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performMaxValidation(collection, max, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
