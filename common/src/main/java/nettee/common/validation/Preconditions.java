@@ -414,6 +414,65 @@ public final class Preconditions {
         performMinValidation(value, min, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭────────────────────────────────────╮
+    //    collection: validateMin variants
+    // ╰────────────────────────────────────╯
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode
+    ) {
+        performMinValidation(collection, min, errorCode::exception);
+    }
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performMinValidation(collection, min, () -> errorCode.exception(cause));
+    }
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performMinValidation(collection, min, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performMinValidation(collection, min, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performMinValidation(collection, min, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateMin(
+            Collection<?> collection,
+            int min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performMinValidation(collection, min, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭────────────────────────────────╮
     //    String: validateMax variants
     // ╰────────────────────────────────╯
