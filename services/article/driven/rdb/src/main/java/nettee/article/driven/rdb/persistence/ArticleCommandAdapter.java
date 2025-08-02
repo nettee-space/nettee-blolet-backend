@@ -14,7 +14,7 @@ import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 @Repository
 @RequiredArgsConstructor
-public class ArticleCommandRepositoryAdapter implements ArticleCommandRepositoryPort {
+public class ArticleCommandAdapter implements ArticleCommandRepositoryPort {
 
     private final ArticleJpaRepository articleJpaRepository;
     private final ArticleEntityMapper articleEntityMapper;
