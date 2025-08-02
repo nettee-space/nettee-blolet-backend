@@ -663,6 +663,26 @@ public final class Preconditions {
         }
     }
 
+    private static void performMaxValidation(
+            Collection<?> collection,
+            int max,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        validateMaxArgument(max);
+
+        if (collection == null) {
+            return; // null은 크기 0으로 취급
+        }
+
+        if (collection.isEmpty()) {
+            return; // 항상 <= max (where max >= 0)
+        }
+
+        if (collection.size() > max) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void validateLengthArgument(String value, int min, int max) {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
