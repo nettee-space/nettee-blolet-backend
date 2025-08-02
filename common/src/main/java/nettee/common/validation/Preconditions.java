@@ -413,6 +413,26 @@ public final class Preconditions {
         }
     }
 
+    private static void performMaxValidation(
+            String value,
+            int max,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        validateMaxArgument(max);
+
+        if (value == null) {
+            return; // null은 길이 0으로 보고 항상 허용 (max >= 0 전제)
+        }
+
+        if (value.isEmpty()) {
+            return; // 길이 0 <= max
+        }
+
+        if (value.length() > max) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void validateLengthArgument(String value, int min, int max) {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
@@ -429,5 +449,9 @@ public final class Preconditions {
         if (value == null && min != 0) {
             throw new NullPointerException("String must not be null if min is not 0.");
         }
+    }
+
+    private static void validateMaxArgument(int max) {
+        assert max >= 0 : "max cannot be less than 0";
     }
 }
