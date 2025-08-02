@@ -240,4 +240,39 @@ public final class Preconditions {
     private static boolean isBlank(String value) {
         return value == null || value.isBlank();
     }
+
+    private static void performLengthValidation(
+            String value,
+            int min,
+            int max,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        validateLengthArgument(value, min, max);
+
+        if (value == null) {
+            if (min == 0) {
+                return; // null 허용: min이 0이면
+            }
+            throw new NullPointerException("String must not be null if min is not 0.");
+        }
+
+        if (value.isEmpty() && min == 0) {
+            return; // 빈 문자열도 min == 0이면 허용
+        }
+
+        int len = value.length();
+        if (len < min || len > max) {
+            throw exceptionSupplier.get();
+        }
+    }
+
+    private static void validateLengthArgument(String value, int min, int max) {
+        assert min >= 0 : "min cannot be less than 0";
+        assert max >= 0 : "max cannot be less than 0";
+        assert min <= max : "max must be greater than or equal to " + min;
+
+        if (value == null && min != 0) {
+            throw new NullPointerException("String must not be null if min is not 0.");
+        }
+    }
 }
