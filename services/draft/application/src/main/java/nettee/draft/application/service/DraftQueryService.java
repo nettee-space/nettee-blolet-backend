@@ -29,7 +29,9 @@ public class DraftQueryService implements DraftReadUseCase, DraftReadByStatusesU
     }
 
     @Override
-    public List<DraftTitle> getDraftTitlesByIds(List<String> ids) { return draftQueryPort.findTitlesById(ids); }
+    public List<DraftTitle> getDraftTitlesByIds(List<String> ids) {
+        return draftQueryPort.findTitlesById(ids);
+    }
 
     @Override
     public List<DraftSummary> getDraftsByStatuses(String blogId, Set<DraftStatus> statuses, String sortBy, boolean ascending) {
