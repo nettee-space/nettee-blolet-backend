@@ -15,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class DraftQueryService implements DraftReadUseCase, DraftReadByStatusesU
     }
 
     @Override
-    public List<DraftTitle> getDraftTitlesByIds(List<String> ids) {
+    public Map<String, DraftTitle> getDraftTitlesByIds(Set<String> ids) {
         return draftQueryPort.findTitlesById(ids);
     }
 
