@@ -349,6 +349,65 @@ public final class Preconditions {
         performMinValidation(value, min, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭────────────────────────────────╮
+    //    String: validateMax variants
+    // ╰────────────────────────────────╯
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode
+    ) {
+        performMaxValidation(value, max, errorCode::exception);
+    }
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performMaxValidation(value, max, () -> errorCode.exception(cause));
+    }
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performMaxValidation(value, max, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performMaxValidation(value, max, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performMaxValidation(value, max, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateMax(
+            String value,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performMaxValidation(value, max, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
