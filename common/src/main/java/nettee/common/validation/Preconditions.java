@@ -171,6 +171,60 @@ public final class Preconditions {
         }
     }
 
+    // ╭─────────────────────────────╮
+    //    validateNotBlank variants
+    // ╰─────────────────────────────╯
+
+    public static void validateNotBlank(String value, ErrorCode errorCode) {
+        if (isBlank(value)) {
+            throw errorCode.exception();
+        }
+    }
+
+    public static void validateNotBlank(String value, ErrorCode errorCode, Throwable cause) {
+        if (isBlank(value)) {
+            throw errorCode.exception(cause);
+        }
+    }
+
+    public static void validateNotBlank(String value, ErrorCode errorCode, Runnable runnable) {
+        if (isBlank(value)) {
+            throw errorCode.exception(runnable);
+        }
+    }
+
+    public static void validateNotBlank(
+            String value,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        if (isBlank(value)) {
+            throw errorCode.exception(runnable, cause);
+        }
+    }
+
+    public static void validateNotBlank(
+            String value,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        if (isBlank(value)) {
+            throw errorCode.exception(payloadSupplier);
+        }
+    }
+
+    public static void validateNotBlank(
+            String value,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        if (isBlank(value)) {
+            throw errorCode.exception(payloadSupplier, cause);
+        }
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
@@ -181,5 +235,9 @@ public final class Preconditions {
 
     private static boolean isEmpty(Collection<?> value) {
         return value == null || value.isEmpty();
+    }
+
+    private static boolean isBlank(String value) {
+        return value == null || value.isBlank();
     }
 }
