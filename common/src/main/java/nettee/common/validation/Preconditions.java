@@ -290,6 +290,65 @@ public final class Preconditions {
         performLengthValidation(value, min, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭────────────────────────────────╮
+    //    String: validateMin variants
+    // ╰────────────────────────────────╯
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode
+    ) {
+        performMinValidation(value, min, errorCode::exception);
+    }
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performMinValidation(value, min, () -> errorCode.exception(cause));
+    }
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performMinValidation(value, min, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performMinValidation(value, min, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performMinValidation(value, min, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateMin(
+            String value,
+            int min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performMinValidation(value, min, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
