@@ -40,4 +40,15 @@ public class ArticleEntity extends SnowflakeBaseTimeEntity {
         this.title = title;
         this.content = content;
     }
+
+    @Builder(
+            builderClassName = "updateStatusArticleEntityBuilder",
+            builderMethodName = "prepareArticleEntityStatusUpdate",
+            buildMethodName = "updateStatus"
+    )
+    public void updateStatus(ArticleEntityStatus status) {
+        Objects.requireNonNull(status, "status cannot be null");
+
+        this.status = status;
+    }
 }
