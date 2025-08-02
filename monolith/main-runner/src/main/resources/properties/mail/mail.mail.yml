@@ -1,0 +1,11 @@
+mail:
+  host: smtp.example.com
+  port: 587
+  username: ${BLOLET_MAIL_USERNAME}
+  password: ${BLOLET_MAIL_PASSWORD}
+  properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true

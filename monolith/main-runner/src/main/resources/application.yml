@@ -19,6 +19,7 @@ spring:
       - properties/persistence/main.snowflake.yml
       - properties/client/main.client.yml
       - properties/jwt/main.jwt.yml
+      - properties/mail/main.mail.yml
 
   flyway:
     baseline-on-migrate: true
