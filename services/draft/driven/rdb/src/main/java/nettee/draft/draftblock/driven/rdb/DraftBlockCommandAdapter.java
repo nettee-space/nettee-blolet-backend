@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nettee.draft.draftblock.application.port.DraftBlockCommandPort;
 import nettee.draft.draftblock.domain.DraftBlock;
 import nettee.draft.draftblock.domain.type.DraftBlockStatus;
+import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.persistence.mapper.DraftBlockEntityMapper;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
@@ -44,15 +45,12 @@ public class DraftBlockCommandAdapter implements DraftBlockCommandPort {
     public DraftBlock update(DraftBlock draft) {
         var existDraftBlock = draftBlockJpaRepository.findById(draft.getId())
                             .orElseThrow(DRAFT_BLOCK_NOT_FOUND::exception);
-        Long longNextBlockId = null;
-        if(draft.getNextBlockId() != null && !draft.getNextBlockId().isBlank()){
-            longNextBlockId = Long.parseLong(draft.getNextBlockId());
-        }
+        DraftBlockEntity converted = draftEntityMapper.toEntity(draft);
         existDraftBlock.prepareDraftBlockEntityUpdate()
-                .content(draft.getContent())
-                .nextBlockId(longNextBlockId)
-                .type(draft.getType())
-                .status(DraftBlockEntityStatus.valueOf(draft.getStatus()))
+                .content(converted.getContent())
+                .nextBlockId(converted.getNextBlockId())
+                .type(converted.getType())
+                .status(converted.getStatus())
                 .update();
 
         return draftEntityMapper.toDomain(draftBlockJpaRepository.save(existDraftBlock));
