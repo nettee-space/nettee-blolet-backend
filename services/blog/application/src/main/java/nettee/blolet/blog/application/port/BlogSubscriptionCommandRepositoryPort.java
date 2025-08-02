@@ -9,6 +9,8 @@ public interface BlogSubscriptionCommandRepositoryPort {
 
     BlogSubscription save(BlogSubscription blog);
 
+    BlogSubscription update(BlogSubscription blog);
+
     void deleteById(String id);
 
     Optional<BlogSubscription> findByUserIdAndBlogId(String userId, String blogId);

@@ -2,6 +2,7 @@ package nettee.blolet.blog.application.service;
 
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.blog.application.port.BlogSubscriptionCommandRepositoryPort;
+import nettee.blolet.blog.application.usecase.newsletter.BlogNewsletterSubscriptionUseCase;
 import nettee.blolet.blog.application.usecase.subscription.BlogSubscriptionUseCase;
 import nettee.blolet.blog.application.usecase.subscription.BlogUnsubscriptionUseCase;
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats;
@@ -9,11 +10,15 @@ import nettee.blolet.blog.domain.BlogSubscription;
 import org.springframework.stereotype.Service;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.ALREADY_SUBSCRIBED_BLOG;
+import static nettee.blolet.blog.exception.BlogErrorCode.ALREADY_SUBSCRIBED_BLOG_NEWSLETTER;
 import static nettee.blolet.blog.exception.BlogErrorCode.UNSUBSCRIBED_BLOG;
 
 @Service
 @RequiredArgsConstructor
-public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, BlogUnsubscriptionUseCase {
+public class BlogSubscriptionCommandService
+        implements BlogSubscriptionUseCase,
+        BlogUnsubscriptionUseCase,
+        BlogNewsletterSubscriptionUseCase {
 
     private final BlogSubscriptionCommandRepositoryPort commandRepository;
 
@@ -42,6 +47,23 @@ public class BlogSubscriptionCommandService implements BlogSubscriptionUseCase, 
         BlogSubscription subscription = commandRepository.findByUserIdAndBlogId(userId, blogId)
                 .orElseThrow(UNSUBSCRIBED_BLOG::exception);
         commandRepository.deleteById(subscription.getId());
+
+        return subscriptionStats(userId, blogId);
+    }
+
+    @Override
+    public SubscriptionStats subscribeBlogNewsletter(String userId, String blogId) {
+        // Prerequisite: 블로그를 구독 중이어야 뉴스레터를 구독할 수 있음.
+        BlogSubscription blogSubscription = commandRepository.findByUserIdAndBlogId(userId, blogId)
+                .orElseThrow(UNSUBSCRIBED_BLOG::exception);
+
+        // Exception: 이미 뉴스레터를 구독 중
+        if (blogSubscription.getEmailAllowed()) {
+            throw ALREADY_SUBSCRIBED_BLOG_NEWSLETTER.exception();
+        }
+
+        blogSubscription.subscribeNewsletter();
+        commandRepository.update(blogSubscription);
 
         return subscriptionStats(userId, blogId);
     }
