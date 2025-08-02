@@ -3,6 +3,7 @@ package nettee.auth.service;
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_ALREADY_EXIST;
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
+import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_MISMATCHED;
 
 import java.nio.charset.StandardCharsets;
@@ -18,6 +19,7 @@ import nettee.auth.exception.AuthException;
 import nettee.auth.port.AuthCommandRepositoryPort;
 import nettee.auth.port.AuthQueryRepositoryPort;
 import nettee.auth.port.AuthRedisPort;
+import nettee.auth.port.MailSender;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
@@ -36,8 +38,10 @@ public class AuthCommandService implements AuthSignUsecase {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtIssuer jwtIssuer;
+    private final MailSender mailSender;
 
     private static final int ACCESS_TOKEN_EXPIRATION = 600; // accessToken 유효 기간
+    private static final int OTP_LENGTH = 6; // OTP 길이
 
     @Override
     public LoginTokenModel signUp(SignUpRequestModel model) {
@@ -97,6 +101,39 @@ public class AuthCommandService implements AuthSignUsecase {
         return generateLoginToken(userEntity);
     }
 
+    @Override
+    public String sendOtp(String email) {
+        // otp & nonce 생성
+        String otp = generateOtp(OTP_LENGTH);
+        String nonce = generateSecureRandom(); // otp 전송을 요청한 클라이언트 구분 식별자
+
+        // redis 저장
+        // 이메일마다 하나의 otp만 유효하도록, 이메일을 key로 사용한다.
+        // otp, nonce 유효시간이 같으므로 함께 저장한다.
+        authRedisPort.save("otp:" + email, otp + nonce);
+
+        // 이메일 전송
+        mailSender.sendOtp(email, otp);
+        return nonce;
+    }
+
+    @Override
+    public String verifyOtp(String email, String otp, String nonce) {
+        // otp 조회
+        String storedOtp = authRedisPort.get("otp:" + email);
+
+        // otp 검증
+        if (storedOtp == null || !storedOtp.equals(otp + nonce)) {
+            throw new AuthException(AUTH_OTP_INVALID);
+        }
+        authRedisPort.delete(email);
+
+        // 이메일 인증 완료를 증명하는 임시 토큰
+        String emailVerificationToken = generateSecureRandom();
+        authRedisPort.save("email_verification:" + email, emailVerificationToken);
+        return emailVerificationToken;
+    }
+
     /**
      * 로그인 성공 시, accessToken과 refreshToken을 발급합니다.
      * accessToken은 JWT 형식으로 발급되며, refreshToken은 암호화된 형태로 Redis에 저장합니다.
@@ -114,7 +151,7 @@ public class AuthCommandService implements AuthSignUsecase {
         String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
 
         // refreshToken 저장
-        authRedisPort.saveRefreshToken(hashedRefreshTokenKey, hashedRefreshToken);
+        authRedisPort.save(hashedRefreshTokenKey, hashedRefreshToken);
 
         return LoginTokenModel.builder()
                 .accessToken(accessToken)
@@ -145,5 +182,18 @@ public class AuthCommandService implements AuthSignUsecase {
         secureRandom.nextBytes(randomBytes);
 
         return Base64.getUrlEncoder().withoutPadding().encodeToString(randomBytes);
+    }
+
+    /**
+     * n자리 OTP를 생성합니다.
+     */
+    private String generateOtp(int length) {
+        SecureRandom secureRandom = new SecureRandom();
+        StringBuilder otp = new StringBuilder(length);
+
+        for (int i = 0; i < length; i++) {
+            otp.append(secureRandom.nextInt(10));
+        }
+        return otp.toString();
     }
 }
