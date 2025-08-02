@@ -5,6 +5,8 @@ import nettee.common.ErrorCode;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Supplier;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 public final class Preconditions {
     private Preconditions() {}
@@ -742,6 +744,19 @@ public final class Preconditions {
         }
     }
 
+    private static void performRegexValidation(
+            String value,
+            String regexp,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        assert regexp != null : "Pattern must not be null.";
+        Pattern pattern = compileRegex(regexp);
+
+        if (!pattern.matcher(value).matches()) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void validateLengthArgument(String value, int min, int max) {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
@@ -779,5 +794,13 @@ public final class Preconditions {
 
     private static void validateMaxArgument(int max) {
         assert max >= 0 : "max cannot be less than 0";
+    }
+
+    private static Pattern compileRegex(String regex) {
+        try {
+            return Pattern.compile(regex);
+        } catch (PatternSyntaxException e) {
+            throw new IllegalArgumentException("Invalid regex: " + regex, e);
+        }
     }
 }
