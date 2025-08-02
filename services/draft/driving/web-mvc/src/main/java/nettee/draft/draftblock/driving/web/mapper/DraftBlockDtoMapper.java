@@ -12,6 +12,6 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface DraftBlockDtoMapper {
     DraftBlock toDomain(DraftBlockCreateCommand command);
-    DraftBlock toDomain(Long id, DraftBlockUpdateCommand command);
+    DraftBlock toDomain(String id, DraftBlockUpdateCommand command);
     DraftBlockDetailResponse toDtoDetail(Optional<DraftBlockDetail> board);
 }

@@ -5,12 +5,14 @@ import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public interface DraftBlockEntityMapper {
     DraftBlock toDomain(DraftBlockEntity draftEntity);
+    @Mapping(target = "nextBlockId", expression = "java(parseNextBlockId(draft.getNextBlockId()))")
     DraftBlockEntity toEntity(DraftBlock draft);
     DraftBlockDetail toDraftBlockDetail(DraftBlockEntity draftEntity);
     DraftBlockSummary toDraftBlockSummary(DraftBlockEntity draftEntity);
@@ -27,4 +29,8 @@ public interface DraftBlockEntityMapper {
         return Optional.ofNullable(toDraftBlockSummary(draftEntity));
     }
 
+    default Long parseNextBlockId(String raw) {
+        if (raw == null || raw.isBlank()) return null;
+        return Long.parseLong(raw);
+    }
 }
