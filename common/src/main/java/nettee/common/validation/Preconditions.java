@@ -593,6 +593,65 @@ public final class Preconditions {
         performMaxValidation(collection, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭──────────────────────────────────╮
+    //    String: validateRegex variants
+    // ╰──────────────────────────────────╯
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode
+    ) {
+        performRegexValidation(value, regex, errorCode::exception);
+    }
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performRegexValidation(value, regex, () -> errorCode.exception(cause));
+    }
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performRegexValidation(value, regex, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performRegexValidation(value, regex, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performRegexValidation(value, regex, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateRegex(
+            String value,
+            String regex,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performRegexValidation(value, regex, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
