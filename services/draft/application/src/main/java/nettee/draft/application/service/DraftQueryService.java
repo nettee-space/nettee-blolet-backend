@@ -7,6 +7,7 @@ import nettee.draft.application.port.DraftQueryPort;
 import nettee.draft.domain.type.DraftStatus;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
+import nettee.draft.readmodel.DraftReadModels.DraftTitle;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -25,6 +27,11 @@ public class DraftQueryService implements DraftReadUseCase, DraftReadByStatusesU
     @Override
     public Optional<DraftDetail> getDraft(String id) {
         return draftQueryPort.findById(id);
+    }
+
+    @Override
+    public Map<String, DraftTitle> getDraftTitlesByIds(Set<String> ids) {
+        return draftQueryPort.findTitlesById(ids);
     }
 
     @Override
