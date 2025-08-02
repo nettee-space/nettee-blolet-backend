@@ -449,6 +449,30 @@ public final class Preconditions {
         }
     }
 
+    private static void performLengthValidation(
+            Collection<?> collection,
+            int min,
+            int max,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        validateLengthArgument(collection, min, max);
+
+        if (collection == null) {
+            if (min == 0) {
+                return; // 허용: min이 0이면 null도 OK
+            }
+            throw new NullPointerException("Collection must not be null if min is not 0.");
+        }
+
+        if (collection.isEmpty() && min == 0) {
+            return;
+        }
+
+        if (collection.size() < min || collection.size() > max) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void performMinValidation(
             String value,
             int min,
@@ -499,6 +523,15 @@ public final class Preconditions {
 
         if (value == null && min != 0) {
             throw new NullPointerException("String must not be null if min is not 0.");
+        }
+    }
+
+    private static void validateLengthArgument(Collection<?> collection, int min, int max) {
+        assert min >= 0 && max >= 0 : "min, max cannot be less than or equal to 0";
+        assert min < max : "max must be greater than or equal to " + min;
+
+        if (collection == null && min != 0) {
+            throw new NullPointerException("Collection must not be null if min is not 0.");
         }
     }
 
