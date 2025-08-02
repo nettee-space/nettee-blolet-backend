@@ -290,6 +290,71 @@ public final class Preconditions {
         performLengthValidation(value, min, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭───────────────────────────────────────╮
+    //    collection: validateLength variants
+    // ╰───────────────────────────────────────╯
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode
+    ) {
+        performLengthValidation(collection, min, max, errorCode::exception);
+    }
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performLengthValidation(collection, min, max, () -> errorCode.exception(cause));
+    }
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performLengthValidation(collection, min, max, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performLengthValidation(collection, min, max, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performLengthValidation(collection, min, max, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateLength(
+            Collection<?> collection,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performLengthValidation(collection, min, max, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭────────────────────────────────╮
     //    String: validateMin variants
     // ╰────────────────────────────────╯
