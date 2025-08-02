@@ -331,10 +331,41 @@ public final class Preconditions {
         }
     }
 
+    private static void performMinValidation(
+            String value,
+            int min,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        validateMinArgument(value, min);
+
+        if (value == null) {
+            if (min == 0) {
+                return; // null 허용: min이 0이면
+            }
+            throw new NullPointerException("String must not be null if min is not 0.");
+        }
+
+        if (value.isEmpty() && min == 0) {
+            return;
+        }
+
+        if (value.length() < min) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void validateLengthArgument(String value, int min, int max) {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
         assert min <= max : "max must be greater than or equal to " + min;
+
+        if (value == null && min != 0) {
+            throw new NullPointerException("String must not be null if min is not 0.");
+        }
+    }
+
+    private static void validateMinArgument(String value, int min) {
+        assert min >= 0 : "min cannot be less than 0";
 
         if (value == null && min != 0) {
             throw new NullPointerException("String must not be null if min is not 0.");
