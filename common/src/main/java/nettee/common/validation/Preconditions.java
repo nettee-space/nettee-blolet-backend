@@ -225,6 +225,71 @@ public final class Preconditions {
         }
     }
 
+    // ╭───────────────────────────────────╮
+    //    String: validateLength variants
+    // ╰───────────────────────────────────╯
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode
+    ) {
+        performLengthValidation(value, min, max, errorCode::exception);
+    }
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performLengthValidation(value, min, max, () -> errorCode.exception(cause));
+    }
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performLengthValidation(value, min, max, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performLengthValidation(value, min, max, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performLengthValidation(value, min, max, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateLength(
+            String value,
+            int min,
+            int max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performLengthValidation(value, min, max, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭──────────────────╮
     //    Helper Methods
     // ╰──────────────────╯
