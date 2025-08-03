@@ -35,4 +35,11 @@ public final class DraftReadModels {
             Instant updatedAt
     ) {
     }
+
+    @Builder
+    public record DraftTitle(
+            String id,
+            String title
+    ) {
+    }
 }

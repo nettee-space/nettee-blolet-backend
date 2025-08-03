@@ -6,11 +6,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
+import nettee.draft.driving.web.dto.DraftQueryDto.DraftTitleResponse;
 import nettee.draft.readmodel.DraftReadModels.DraftDetail;
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
 import nettee.draft.application.usecase.DraftReadUseCase;
 import nettee.draft.domain.type.DraftStatus;
+import nettee.draft.readmodel.DraftReadModels.DraftTitle;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
@@ -53,5 +56,17 @@ public class DraftQueryApi {
             @RequestParam(defaultValue = "false") Boolean ascending
             ) {
         return draftReadByStatusesUseCase.getDraftsByStatuses(blogId, statuses, sortBy, ascending);
+    }
+
+    @Operation(summary = "임시 아티클 제목 조회", description = "ID의 리스트를 받아 임시 아티클의 아이디와 제목을 반환합니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공")
+    })
+    @GetMapping("/series-article")
+    public DraftTitleResponse getDraftTitlesByIds(
+            @RequestParam("ids") Set<String> ids
+    ) {
+        Map<String, DraftTitle> draftTitle = draftReadUseCase.getDraftTitlesByIds(ids);
+        return new DraftTitleResponse(draftTitle);
     }
 }

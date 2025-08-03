@@ -9,6 +9,8 @@ public interface BlogCommandRepositoryPort {
 
     Blog save(Blog blog);
 
+    Blog update(Blog blog);
+
     void deleteById(String id);
 
     Optional<Blog> findById(String id);

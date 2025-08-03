@@ -1,5 +1,7 @@
 package nettee.blolet.blog.application.usecase.newsletter;
 
+import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats;
+
 public interface BlogNewsletterUnsubscriptionUseCase {
-    void unsubscribeBlogNewsletter(String username, String blogId);
+    SubscriptionStats unsubscribeBlogNewsletter(String userId, String blogId);
 }
