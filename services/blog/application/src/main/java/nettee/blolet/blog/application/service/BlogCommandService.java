@@ -61,7 +61,7 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
                 .url(url)
                 .update();
 
-        return commandRepository.save(entity);
+        return commandRepository.update(entity);
     }
 
     @Override
