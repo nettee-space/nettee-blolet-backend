@@ -4,12 +4,14 @@ package nettee.blolet.blog.web;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.blog.application.usecase.BlogUpdateUseCase;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterSubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterUnsubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogSubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUnsubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateCommand;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateResponse;
+import nettee.blolet.blog.web.mapper.BlogDtoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,10 +28,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Blog", description = "Blog API")
 public class BlogCommandApi {
 
-//    @GetMapping("/user/{username}/blogs")
-//    public List<Void> findAllByUserId(@PathVariable("username") String username) {
-//        throw new Error("아직 다중 블로그 제공이 기획되지 않음.");
-//    }
+    private final BlogUpdateUseCase updateUseCase;
+    private final BlogDtoMapper mapper;
 
     @PutMapping("/{blogId}")
     @Operation(
@@ -37,7 +37,8 @@ public class BlogCommandApi {
             description = "사용자가 소유한 블로그 정보를 수정합니다."
     )
     public BlogUpdateResponse updateBlog(@PathVariable("blogId") String blogId, @RequestBody BlogUpdateCommand dto) {
-        return null;
+        var domain = mapper.toDomain(blogId, dto);
+        return mapper.toResponse(updateUseCase.update(domain));
     }
 
     /**
