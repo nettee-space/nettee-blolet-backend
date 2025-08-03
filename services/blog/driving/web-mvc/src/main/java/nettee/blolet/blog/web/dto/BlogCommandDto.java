@@ -10,7 +10,9 @@ public final class BlogCommandDto {
     @Builder
     public record BlogUpdateCommand(
             @Schema(description = "블로그 이름", example = "Sun☀️ 好 Moon🌙")
-            String name
+            String name,
+            @Schema(description = "블로그 주소 식별자", example = "wch-os")
+            String url
     ) {}
 
     @Builder
