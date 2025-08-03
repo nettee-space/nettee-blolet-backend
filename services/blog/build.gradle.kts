@@ -5,4 +5,5 @@ val blogWebMvcAdapter: String by project
 
 dependencies {
     api(project(blogWebMvcAdapter))
+    api(project(blogRdbAdapter))
 }

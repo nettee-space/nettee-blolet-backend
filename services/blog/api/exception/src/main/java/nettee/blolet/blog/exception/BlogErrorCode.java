@@ -13,6 +13,14 @@ public enum BlogErrorCode implements ErrorCode {
     BLOG_COMMAND_FORBIDDEN("이 블로그를 수정하거나 삭제할 수 없습니다.", HttpStatus.FORBIDDEN),
     BLOG_SUSPENDED("일시정지 된 블로그입니다.", HttpStatus.FORBIDDEN),
 
+    // input validation
+    BLOG_OWNER_ID_REQUIRED("블로그 사용자 식별 값이 필요합니다.", HttpStatus.BAD_REQUEST),
+    BLOG_NAME_REQUIRED("블로그 이름은 필수 입력입니다.", HttpStatus.BAD_REQUEST),
+    BLOG_NAME_INVALID_LENGTH("블로그 이름의 길이는 3글자 이상 30글자 이하입니다.", HttpStatus.BAD_REQUEST),
+    BLOG_URL_REQUIRED("블로그 주소 이름은 필수 입력입니다.", HttpStatus.BAD_REQUEST),
+    BLOG_URL_INVALID_FORMAT("블로그 주소 이름은 영숫자, 하이픈(-), 밑줄(_)만 입력할 수 있습니다.", HttpStatus.BAD_REQUEST),
+    BLOG_URL_INVALID_LENGTH("블로그 주소 이름은 3글자 이상 15글자 이하입니다.", HttpStatus.BAD_REQUEST),
+
     // subscription
     ALREADY_SUBSCRIBED_BLOG("이미 구독하였습니다.", HttpStatus.CONFLICT),
     UNSUBSCRIBED_BLOG("이미 구독 취소하거나 아직 구독하지 않은 블로그입니다.", HttpStatus.CONFLICT),
