@@ -34,10 +34,6 @@ public final class ArticleCommandDto {
 
     @Builder
     public record ArticleUpdateCommand(
-            @NotBlank(message = "블로그 ID를 입력하십시오.")
-            @Schema(description = "블로그 ID", example = "1")
-            String blogId,
-
             @NotBlank(message = "제목을 입력하십시오.")
             @Size(max = 255, message = "제목은 255자 이내로 입력하세요.")
             @Schema(description = "아티클 제목", example = "아티클 예시")

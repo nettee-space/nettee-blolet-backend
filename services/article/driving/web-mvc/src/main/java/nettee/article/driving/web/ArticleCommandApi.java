@@ -67,10 +67,9 @@ public class ArticleCommandApi {
     }
 
     @Operation(summary = "좋아요 증가", description = "블로그와 아티클 ID에 해당하는 아티클의 좋아요를 증가시킵니다.")
-    @PostMapping("/{blogId}/{id}/like")
+    @PostMapping("/{id}/like")
     @ResponseStatus(HttpStatus.OK)
     public ArticleCommandResponse increaseLike(
-            @PathVariable("blogId") String blogId,
             @PathVariable("id") String id
     ) {
         // ...
@@ -78,10 +77,9 @@ public class ArticleCommandApi {
     }
 
     @Operation(summary = "좋아요 감소", description = "블로그와 아티클 ID에 해당하는 아티클의 좋아요를 감소시킵니다.")
-    @DeleteMapping("/{blogId}/{id}/like")
+    @DeleteMapping("/{id}/like")
     @ResponseStatus(HttpStatus.OK)
     public ArticleCommandResponse decreaseLike(
-            @PathVariable("blogId") String blogId,
             @PathVariable("id") String id
     ) {
         // ...
