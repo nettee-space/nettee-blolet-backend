@@ -1,5 +1,8 @@
 package nettee.auth.port;
 
 public interface AuthRedisPort {
-    void saveRefreshToken(String refreshTokenKey, String refreshToken);
+    void save(String key, String value);
+    String get(String key);
+
+    void delete(String key);
 }
