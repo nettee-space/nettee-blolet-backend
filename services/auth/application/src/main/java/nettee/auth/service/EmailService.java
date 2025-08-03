@@ -5,6 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import java.text.MessageFormat;
 import lombok.RequiredArgsConstructor;
 import nettee.auth.port.MailSender;
+import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,9 @@ public class EmailService implements MailSender {
             helper.setText(htmlContent, true);
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            throw new RuntimeException("이메일 전송에 실패했습니다.");
+            throw new RuntimeException("메시지 생성 중 오류가 발생했습니다.", e);
+        } catch (MailException e) {
+            throw new RuntimeException("메일 전송 중 오류가 발생했습니다.", e);
         }
     }
 }
