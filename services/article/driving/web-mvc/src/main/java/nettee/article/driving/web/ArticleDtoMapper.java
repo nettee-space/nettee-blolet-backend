@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ArticleDtoMapper {
-    Article toDomain(String blogId, ArticleCreateCommand articleCreateCommand);
-    Article toDomain(String id, String blogId, ArticleUpdateCommand articleUpdateCommand);
+    Article toDomain(ArticleCreateCommand articleCreateCommand);
+    Article toDomain(String id, ArticleUpdateCommand articleUpdateCommand);
 }

@@ -2,8 +2,10 @@ package nettee.article.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
 import nettee.article.domain.Article;
+import nettee.article.domain.ArticleStatus;
+import nettee.article.driven.rdb.entity.type.builder.ArticleEntityStatus;
 import nettee.article.driven.rdb.persistence.mapper.ArticleEntityMapper;
-import nettee.article.port.ArticleCommandPort;
+import nettee.article.port.ArticleCommandRepositoryPort;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +14,7 @@ import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 @Repository
 @RequiredArgsConstructor
-public class ArticleCommandAdapter implements ArticleCommandPort {
+public class ArticleCommandAdapter implements ArticleCommandRepositoryPort {
 
     private final ArticleJpaRepository articleJpaRepository;
     private final ArticleEntityMapper articleEntityMapper;
@@ -40,5 +42,15 @@ public class ArticleCommandAdapter implements ArticleCommandPort {
                 .update();;
 
         return articleEntityMapper.toDomain(existingArticle);
+    }
+
+    @Override
+    public void updateStatus(String id, ArticleStatus articleStatus) {
+        var existingArticle = articleJpaRepository.findById(Long.valueOf(id))
+                .orElseThrow(ARTICLE_NOT_FOUND::exception);
+
+        existingArticle.prepareArticleEntityStatusUpdate()
+                .status(ArticleEntityStatus.valueOf(articleStatus))
+                .updateStatus();
     }
 }
