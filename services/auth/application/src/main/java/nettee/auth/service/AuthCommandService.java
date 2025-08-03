@@ -3,9 +3,14 @@ package nettee.auth.service;
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_ALREADY_EXIST;
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
+import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
+import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_MISMATCHED;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -42,6 +47,7 @@ public class AuthCommandService implements AuthSignUsecase {
 
     private static final int ACCESS_TOKEN_EXPIRATION = 600; // accessToken 유효 기간
     private static final int OTP_LENGTH = 6; // OTP 길이
+    private final ObjectMapper objectMapper;
 
     @Override
     public LoginTokenModel signUp(SignUpRequestModel model) {
@@ -110,7 +116,12 @@ public class AuthCommandService implements AuthSignUsecase {
         // redis 저장
         // 이메일마다 하나의 otp만 유효하도록, 이메일을 key로 사용한다.
         // otp, nonce 유효시간이 같으므로 함께 저장한다.
-        authRedisPort.save("otp:" + email, otp + nonce);
+        try {
+            String otpJson = objectMapper.writeValueAsString(Map.of("otp", otp, "nonce", nonce));
+            authRedisPort.save("otp:" + email, otpJson);
+        } catch (JsonProcessingException e) {
+            throw new AuthException(AUTH_OTP_SERIALIZE_FAILED);
+        }
 
         // 이메일 전송
         mailSender.sendOtp(email, otp);
@@ -120,13 +131,26 @@ public class AuthCommandService implements AuthSignUsecase {
     @Override
     public String verifyOtp(String email, String otp, String nonce) {
         // otp 조회
-        String storedOtp = authRedisPort.get("otp:" + email);
+        String storedOtpJson = authRedisPort.get("otp:" + email);
 
         // otp 검증
-        if (storedOtp == null || !storedOtp.equals(otp + nonce)) {
+        if (storedOtpJson == null) {
             throw new AuthException(AUTH_OTP_INVALID);
         }
-        authRedisPort.delete(email);
+
+        try {
+            JsonNode jsonNode = objectMapper.readTree(storedOtpJson);
+            String storedOtp = jsonNode.get("otp").asText();
+            String storedNonce = jsonNode.get("nonce").asText();
+
+            if (!storedOtp.equals(otp) || !storedNonce.equals(nonce)) {
+                throw new AuthException(AUTH_OTP_INVALID);
+            }
+
+            authRedisPort.delete("otp:" + email);
+        } catch (JsonProcessingException e) {
+            throw new AuthException(AUTH_OTP_DESERIALIZE_FAILED);
+        }
 
         // 이메일 인증 완료를 증명하는 임시 토큰
         String emailVerificationToken = generateSecureRandom();
