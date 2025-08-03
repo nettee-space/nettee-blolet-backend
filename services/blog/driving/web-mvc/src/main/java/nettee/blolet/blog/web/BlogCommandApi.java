@@ -4,6 +4,7 @@ package nettee.blolet.blog.web;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.blog.application.usecase.BlogDeleteUseCase;
 import nettee.blolet.blog.application.usecase.BlogUpdateUseCase;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterSubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogNewsletterUnsubscribeResponse;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BlogCommandApi {
 
     private final BlogUpdateUseCase updateUseCase;
+    private final BlogDeleteUseCase deleteUseCase;
     private final BlogDtoMapper mapper;
 
     @PutMapping("/{blogId}")
@@ -52,7 +54,10 @@ public class BlogCommandApi {
             summary = "블로그 삭제",
             description = "사용자가 소유한 블로그 중 하나를 삭제합니다."
     )
-    public void deleteBlog(@PathVariable("blogId") String blogId) {}
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteBlog(@PathVariable("blogId") String blogId) {
+        deleteUseCase.deleteById(blogId);
+    }
 
     @PostMapping("/{blogId}/subscribe")
     @Operation(
