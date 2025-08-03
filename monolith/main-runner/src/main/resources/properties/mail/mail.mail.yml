@@ -1,5 +1,5 @@
 mail:
-  host: smtp.example.com
+  host: smtp.gmail.com
   port: 587
   username: ${BLOLET_MAIL_USERNAME}
   password: ${BLOLET_MAIL_PASSWORD}
