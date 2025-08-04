@@ -39,6 +39,12 @@ public class BlogQueryApi {
         return null;
     }
 
+    /**
+     * TODO 예상되는 정책 또는 논의 (블로그 상세 조회)
+     * <ul>
+     *     <li>Q. 사용자는 최소 하나의 블로그를 갖고 있어야 할까요?</li>
+     * </ul>
+     */
     @GetMapping("/{blogId}")
     @Operation(
             summary = "블로그 상세 조회",
