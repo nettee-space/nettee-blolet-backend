@@ -70,16 +70,21 @@ public class BlogQueryApi {
             @RequestParam(value = "profileId", required = false) String profileId,
             @RequestParam(value = "userId", required = false) String userId
     ) {
-        String ownerId = profileId != null ? profileId : userId;
+        boolean usesProfileId = profileId != null;
+        String ownerId = usesProfileId ? profileId : userId;
 
-        // profileId 또는 userId가 필요함.
+        // Exception: profileId 또는 userId가 필요함.
         if (ownerId == null) {
             var cause = new NullPointerException("사용자의 `profileId` 또는 `userId`가 필요합니다.");
             throw BLOG_OWNER_ID_REQUIRED.exception(cause);
         }
 
+        boolean isOwner = usesProfileId ?
+                verifyOwnershipUseCase.verifyOwnershipByProfileId(userId, blogId) :
+                verifyOwnershipUseCase.verifyOwnershipByUserId(userId, blogId);
+
         return BlogOwnershipVerifyResponse.builder()
-                .isOwner(verifyOwnershipUseCase.verifyOwnershipByUserId(userId, blogId))
+                .isOwner(isOwner)
                 .build();
     }
 }
