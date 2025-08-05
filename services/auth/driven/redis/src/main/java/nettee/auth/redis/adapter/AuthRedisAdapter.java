@@ -12,10 +12,9 @@ public class AuthRedisAdapter implements AuthRedisPort {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    // TODO: ttl 추가 필요
     @Override
     public void save(String key, String value, Duration ttl) {
-        stringRedisTemplate.opsForValue().set(key, value);
+        stringRedisTemplate.opsForValue().set(key, value, ttl);
     }
 
     @Override
