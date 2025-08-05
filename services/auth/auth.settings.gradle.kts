@@ -30,7 +30,7 @@ include(
     authException,
     authReadModel,
     authApplication,
-//    authRdbAdapter,
+    authRdbAdapter,
     authWebMvcAdapter,
 )
 
@@ -40,5 +40,5 @@ project(authDomain).projectDir = authDirectory("domain")
 project(authException).projectDir = authDirectory("exception")
 project(authReadModel).projectDir = authDirectory("readmodel")
 project(authApplication).projectDir = authDirectory("application")
-//project(authRdbAdapter).projectDir = authDirectory("rdb")
+project(authRdbAdapter).projectDir = authDirectory("rdb")
 project(authWebMvcAdapter).projectDir = authDirectory("web-mvc")
