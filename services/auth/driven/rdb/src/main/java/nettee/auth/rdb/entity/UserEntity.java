@@ -38,4 +38,7 @@ public class UserEntity extends SnowflakeBaseTimeEntity {
 
     @Column(name = "locked_until")
     private Instant lockedUntil;
+
+    @Column(name = "status")
+    private UserEntityStatus status;
 }
