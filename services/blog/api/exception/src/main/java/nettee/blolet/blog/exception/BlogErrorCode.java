@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum BlogErrorCode implements ErrorCode {
+    BLOG_API_NOT_IMPLEMENTED("아직 제공하지 않는 API 엔드포인트입니다.", HttpStatus.NOT_IMPLEMENTED),
+
     BLOG_MAXIMUM_EXCEEDED("사용자당 개설할 수 있는 최대 블로그 개수를 초과했습니다.", HttpStatus.CONFLICT),
     BLOG_NOT_FOUND("블로그를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     BLOG_NAME_CANNOT_BE_BLANK("블로그 이름은 비워 둘 수 없습니다.", HttpStatus.BAD_REQUEST),
