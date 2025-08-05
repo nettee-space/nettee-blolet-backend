@@ -37,10 +37,10 @@ public class BlogQueryApi {
             summary = "블로그 목록 조회 (여러 사용자)",
             description = "선택한 사용자별 블로그 목록을 조회합니다."
     )
-    public BlogListViewResponse findAllByUsernames(
+    public BlogListViewResponse findAllByProfileIds(
             @RequestParam
             @Schema(description = "사용자 프로필 일련번호 목록", example = "1,2,3")
-            List<String> userProfileIds
+            List<String> profileIds
     ) {
         return null;
     }
