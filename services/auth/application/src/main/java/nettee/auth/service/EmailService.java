@@ -32,7 +32,7 @@ public class EmailService implements MailSender {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
 
         MessageFormat messageFormat = otpHtmlFormat.get();
-        String htmlContent = messageFormat.format(otp);
+        String htmlContent = messageFormat.format(new Object[]{otp});
 
         try {
             helper.setTo(email);
