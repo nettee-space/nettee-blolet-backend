@@ -6,5 +6,6 @@ val authWebMvcAdapter: String by project
 dependencies {
     api(project(authApi))
     api(project(authApplication))
+    api(project(authRdbAdapter))
     api(project(authWebMvcAdapter))
 }
