@@ -1,7 +1,7 @@
 jwt:
   keyType: "HMAC"
-  secretKey: "nettee-blolet-jwt-secret-key-extend"
-  privateKey: "nettee-blolet-jwt-private-key-extend"
-  publicKey: "nettee-blolet-jwt-public-key-extend"
+  secretKey: ${JWT_SECRET_KEY}
+  privateKey: ${JWT_PRIVATE_KEY}
+  publicKey: ${JWT_PUBLIC_KEY}
   accessTokenMaxAgeSeconds: 1800      # 30 minutes
   refreshTokenMaxAgeSeconds: 1209600  # 14 days
