@@ -18,8 +18,8 @@ public class AuthQueryRepositoryAdapter implements AuthQueryRepositoryPort {
 
     @Override
     public Optional<User> findByLoginId(String loginId) {
-        UserEntity userEntity = authJpaRepository.findByLoginId(loginId);
-        return Optional.ofNullable(mapper.toDomain(userEntity));
+        Optional<UserEntity> userEntity = authJpaRepository.findByLoginId(loginId);
+        return userEntity.map(mapper::toDomain);
     }
 
     @Override
