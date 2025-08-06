@@ -5,6 +5,7 @@ val authException: String by settings
 val authReadModel: String by settings
 val authApplication: String by settings
 val authRdbAdapter: String by settings
+val authRedisAdapter: String by settings
 val authWebMvcAdapter: String by settings
 
 fun getDirectories(vararg names: String): (String) -> File {
@@ -31,6 +32,7 @@ include(
     authReadModel,
     authApplication,
     authRdbAdapter,
+    authRedisAdapter,
     authWebMvcAdapter,
 )
 
@@ -41,4 +43,5 @@ project(authException).projectDir = authDirectory("exception")
 project(authReadModel).projectDir = authDirectory("readmodel")
 project(authApplication).projectDir = authDirectory("application")
 project(authRdbAdapter).projectDir = authDirectory("rdb")
+project(authRedisAdapter).projectDir = authDirectory("redis")
 project(authWebMvcAdapter).projectDir = authDirectory("web-mvc")
