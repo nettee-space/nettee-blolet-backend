@@ -16,6 +16,7 @@ public class User {
     private String id;
     private String loginId;
     private String encodedPassword;
+    private String username;
     private String nickname;
     private String email;
     private UserStatus status;

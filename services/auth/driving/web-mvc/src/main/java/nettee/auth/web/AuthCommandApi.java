@@ -2,7 +2,9 @@ package nettee.auth.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
+import nettee.auth.usecase.AuthSignUsecase;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifySendRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginRequest;
@@ -10,6 +12,12 @@ import nettee.auth.web.dto.AuthCommandDto.LoginResponse;
 import nettee.auth.web.dto.AuthCommandDto.PasswordResetRequest;
 import nettee.auth.web.dto.AuthCommandDto.PasswordVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.SignUpRequest;
+import nettee.auth.web.mapper.AuthDtoMapper;
+import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
+import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +31,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthCommandApi {
 
+    private final AuthSignUsecase authSignUsecase;
+    private final AuthDtoMapper mapper;
+
     @PostMapping("/sign-up")
     @Operation(
             summary = "회원가입",
             description = "일반 사용자를 등록합니다."
     )
-    public void signUp(@RequestBody SignUpRequest signUpRequest) {
+    public ResponseEntity<LoginResponse> signUp(@RequestBody SignUpRequest signUpRequest) {
         // 회원 가입 로직 구현
+        SignUpRequestModel requestModel = mapper.toModel(signUpRequest);
+        LoginTokenModel responseModel = authSignUsecase.signUp(requestModel);
+        LoginResponse result = mapper.toDto(responseModel);
+
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", responseModel.refreshToken())
+                .httpOnly(true)
+                .secure(true) // HTTPS에서만 전송
+                .path("/")
+                .maxAge(Duration.ofDays(30)) // 30일
+                .sameSite("Strict") // CSRF 방지
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(result);
     }
 
     @PostMapping("/log-in")
@@ -42,7 +68,8 @@ public class AuthCommandApi {
     )
     public LoginResponse logIn(@RequestBody LoginRequest loginRequest) {
         // 로그인 로직 구현
-        return null;
+        LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.loginId(), loginRequest.password());
+        return mapper.toDto(responseModel);
     }
 
     @PostMapping("/log-out")
@@ -66,8 +93,8 @@ public class AuthCommandApi {
             summary = "이메일 인증코드 전송",
             description = "사용자의 이메일로 인증코드를 전송합니다."
     )
-    public void sendEmailVerification(@RequestBody EmailVerifySendRequest emailVerifySendRequest) {
-        // 이메일 인증 코드 전송 로직 구현
+    public String sendEmailVerification(@RequestBody EmailVerifySendRequest request) {
+        return authSignUsecase.sendOtp(request.email());
     }
 
     @PostMapping("/email/verification/check")
@@ -75,8 +102,9 @@ public class AuthCommandApi {
             summary = "이메일 인증코드 확인",
             description = "사용자가 이메일 인증코드를 확인합니다."
     )
-    public void verifyEmail(@RequestBody EmailVerifyRequest emailVerifyRequest) {
+    public String verifyEmail(@RequestBody EmailVerifyRequest request) {
         // 이메일 인증 코드 확인 로직 구현
+        return authSignUsecase.verifyOtp(request.email(), request.otp(), request.nonce());
     }
 
     // TODO: 비밀번호 변경 전 재인증 & 비밀번호 변경을 함께 진행할 수도 있음
