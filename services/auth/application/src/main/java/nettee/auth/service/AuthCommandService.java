@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -45,8 +46,11 @@ public class AuthCommandService implements AuthSignUsecase {
     private final JwtIssuer jwtIssuer;
     private final MailSender mailSender;
 
-    private static final int ACCESS_TOKEN_EXPIRATION = 600; // accessToken 유효 기간
-    private static final int OTP_LENGTH = 6; // OTP 길이
+    private static final int ACCESS_TOKEN_EXPIRATION = 600;             // accessToken 유효 기간 (10분)
+    private static final int REFRESH_TOKEN_EXPIRATION = 30;             // refreshToken 유효 기간 (30일)
+    private static final int OTP_EXPIRATION = 5;                        // otp 유효 기간 (5분)
+    private static final int OTP_LENGTH = 6;                            // otp 길이
+    private static final int EMAIL_VERIFICATION_TOKEN_EXPIRATION = 10;  // 이메일 인증 클라이언트 검증 토큰 유효 기간 (10분)
     private final ObjectMapper objectMapper;
 
     @Override
@@ -80,16 +84,17 @@ public class AuthCommandService implements AuthSignUsecase {
         User user = User.builder()
                 .loginId(model.loginId())
                 .encodedPassword(encodedPassword)
+                .username(model.username())
                 .nickname(model.nickname())
                 .email(model.email())
                 .status(UserStatus.ACTIVE) // 기본 상태는 ACTIVE
                 .build();
 
         // 5. user 저장
-        authCommandRepositoryPort.save(user);
+        User userEntity = authCommandRepositoryPort.save(user);
 
         // 6. 회원가입 성공 시, 자동 로그인 처리를 위해 accessToken & refreshToken 발급
-        return generateLoginToken(user);
+        return generateLoginToken(userEntity);
     }
 
     @Override
@@ -118,7 +123,7 @@ public class AuthCommandService implements AuthSignUsecase {
         // otp, nonce 유효시간이 같으므로 함께 저장한다.
         try {
             String otpJson = objectMapper.writeValueAsString(Map.of("otp", otp, "nonce", nonce));
-            authRedisPort.save("otp:" + email, otpJson);
+            authRedisPort.save("otp:" + email, otpJson, Duration.ofMinutes(OTP_EXPIRATION));
         } catch (JsonProcessingException e) {
             throw new AuthException(AUTH_OTP_SERIALIZE_FAILED);
         }
@@ -154,7 +159,7 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 이메일 인증 완료를 증명하는 임시 토큰
         String emailVerificationToken = generateSecureRandom();
-        authRedisPort.save("email_verification:" + email, emailVerificationToken);
+        authRedisPort.save("email_verification:" + email, emailVerificationToken, Duration.ofMinutes(EMAIL_VERIFICATION_TOKEN_EXPIRATION));
         return emailVerificationToken;
     }
 
@@ -175,7 +180,7 @@ public class AuthCommandService implements AuthSignUsecase {
         String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
 
         // refreshToken 저장
-        authRedisPort.save(hashedRefreshTokenKey, hashedRefreshToken);
+        authRedisPort.save(hashedRefreshTokenKey, hashedRefreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRATION));
 
         return LoginTokenModel.builder()
                 .accessToken(accessToken)
