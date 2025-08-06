@@ -14,11 +14,11 @@ import java.time.Instant;
 @AllArgsConstructor
 public class Article {
 
-    private Long id;
+    private String id;
 
-    private Long blogId;
+    private String blogId;
 
-    private Long entryBlockId;
+    private String entryBlockId;
 
     private String title;
 
