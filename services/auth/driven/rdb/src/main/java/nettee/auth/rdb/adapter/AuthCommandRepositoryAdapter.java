@@ -7,6 +7,7 @@ import nettee.auth.rdb.entity.UserEntity;
 import nettee.auth.rdb.mapper.UserEntityMapper;
 import nettee.auth.rdb.repository.AuthJpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
     private final UserEntityMapper mapper;
 
     @Override
+    @Transactional
     public void transactional(Runnable runnable) {
         runnable.run();
     }

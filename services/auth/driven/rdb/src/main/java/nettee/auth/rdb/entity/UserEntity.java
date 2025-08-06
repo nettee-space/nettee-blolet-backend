@@ -34,7 +34,7 @@ public class UserEntity extends SnowflakeBaseTimeEntity {
     private String encodedPassword;
 
     @Column(name = "login_retry_count")
-    private Integer loginRetryCount;
+    private Integer loginRetryCount = 0;
 
     @Column(name = "locked_until")
     private Instant lockedUntil;
