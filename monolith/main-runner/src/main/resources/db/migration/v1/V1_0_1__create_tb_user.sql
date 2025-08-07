@@ -3,14 +3,14 @@ CREATE SCHEMA IF NOT EXISTS "auth";
 CREATE TABLE IF NOT EXISTS "auth"."user" (
     "id"	            BIGINT          ,
     -- 인증
-    "username"	        VARCHAR(255)   ,
-    "password"	        VARCHAR(255)   ,
+    "username"	        VARCHAR(255)    ,
+    "password"	        VARCHAR(255)    ,
     -- 보호
     "login_retry_count"	INT	            DEFAULT 0,
     "locked_until"	    TIMESTAMP       ,
     -- 프로필 비정규화
-    "nickname"	        VARCHAR(255)   ,
-    "email"	            VARCHAR(255)   ,
+    "nickname"	        VARCHAR(255)    ,
+    "email"	            VARCHAR(255)    ,
     -- 공통 컬럼
     "status"	        VARCHAR	        DEFAULT 'ACTIVE'    ,
     "created_at"	    TIMESTAMP		DEFAULT NOW()       NOT NULL,
@@ -20,11 +20,12 @@ CREATE TABLE IF NOT EXISTS "auth"."user" (
 COMMENT ON COLUMN "auth"."user"."id"                  IS '사용자 테이블 PK';
 COMMENT ON COLUMN "auth"."user"."username"            IS '사용자의실명';
 COMMENT ON COLUMN "auth"."user"."password"            IS '로그인 비밀번호';
-COMMENT ON COLUMN "auth"."user"."login_retry_count"   IS '로그인 실패 횟수 (추가)';
-COMMENT ON COLUMN "auth"."user"."locked_until"        IS '계정 잠금 해제 예정 시각, 잠금 시 사용 (추가)';
+COMMENT ON COLUMN "auth"."user"."login_retry_count"   IS '로그인 실패 횟수';
+COMMENT ON COLUMN "auth"."user"."locked_until"        IS '계정 잠금 해제 예정 시각, 잠금 시 사용';
 COMMENT ON COLUMN "auth"."user"."nickname"            IS '사용자닉네임';
 COMMENT ON COLUMN "auth"."user"."email"               IS '사용자의 이메일 주소';
-COMMENT ON COLUMN "auth"."user"."status"              IS '사용자 계정 상태: ACTIVE(활동), DORMANT(휴먼), WITHDRAWAL(탈퇴)';
+COMMENT ON COLUMN "auth"."user"."status"              IS
+        '사용자 계정 상태: PENDING(가입 대기), ACTIVE(활동), SUSPENDED(정지), PROTECTED(보호), REMOVED(탈퇴)';
 COMMENT ON COLUMN "auth"."user"."created_at"          IS '생성일자';
 COMMENT ON COLUMN "auth"."user"."updated_at"          IS '수정일자';
 
