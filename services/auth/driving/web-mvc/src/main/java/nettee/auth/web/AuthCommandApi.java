@@ -66,10 +66,22 @@ public class AuthCommandApi {
                 리프레시 토큰(refreshToken)은 HttpOnly 쿠키로 반환합니다.
             """
     )
-    public LoginResponse logIn(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> logIn(@RequestBody LoginRequest loginRequest) {
         // 로그인 로직 구현
         LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.loginId(), loginRequest.password());
-        return mapper.toDto(responseModel);
+        LoginResponse result = mapper.toDto(responseModel);
+
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", responseModel.refreshToken())
+                .httpOnly(true)
+                .secure(true) // HTTPS에서만 전송
+                .path("/")
+                .maxAge(Duration.ofDays(30)) // 30일
+                .sameSite("Strict") // CSRF 방지
+                .build();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(result);
     }
 
     @PostMapping("/log-out")
