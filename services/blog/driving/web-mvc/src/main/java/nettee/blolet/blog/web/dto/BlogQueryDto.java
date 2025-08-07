@@ -17,4 +17,9 @@ public final class BlogQueryDto {
     public record BlogDetailViewResponse(
             BlogDetail blog
     ) {}
+
+    @Builder
+    public record BlogOwnershipVerifyResponse(
+            Boolean isOwner
+    ) {}
 }
