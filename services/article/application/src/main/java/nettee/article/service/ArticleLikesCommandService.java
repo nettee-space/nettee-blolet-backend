@@ -10,18 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class ArticleLikesCommandService implements ArticleLikeCreateUseCase, ArticleLikeDeleteUseCase {
 
     private final ArticleLikesCommandRepositoryPort articleLikesCommandRepository;
 
     @Override
-    public ArticleLike createArticleLike(String userId, String profileId, String articleId) {
-        return articleLikesCommandRepository.save(userId, profileId, articleId);
+    public ArticleLike createArticleLike(String profileId, String articleId) {
+        return articleLikesCommandRepository.save(profileId, articleId);
     }
 
     @Override
-    public void deleteArticleLike(String userId, String profileId, String articleId) {
-        articleLikesCommandRepository.delete(userId, profileId, articleId);
+    public void deleteArticleLike(String profileId, String articleId) {
+        articleLikesCommandRepository.delete(profileId, articleId);
     }
 }
