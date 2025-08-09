@@ -38,7 +38,7 @@ public class RdbBlogCommandRepositoryAdapter implements BlogCommandRepositoryPor
                 .orElseThrow(BLOG_NOT_FOUND::exception);
 
         entity.name = blog.getName();
-        entity.url = blog.getUrlIdentifier();
+        entity.urlIdentifier = blog.getUrlIdentifier();
 
         return mapper.toDomain(entity);
     }
