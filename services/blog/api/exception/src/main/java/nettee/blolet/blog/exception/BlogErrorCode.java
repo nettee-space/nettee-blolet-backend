@@ -15,6 +15,8 @@ public enum BlogErrorCode implements ErrorCode {
     BLOG_COMMAND_FORBIDDEN("이 블로그를 수정하거나 삭제할 수 없습니다.", HttpStatus.FORBIDDEN),
     BLOG_SUSPENDED("일시정지 된 블로그입니다.", HttpStatus.FORBIDDEN),
 
+    BLOG_NOT_IMPLEMENTED_FEATURE("아직 제공되지 않는 기능입니다.", HttpStatus.NOT_IMPLEMENTED),
+
     // user input validation
     BLOG_ID_REQUIRED("블로그 식별값이 필요합니다.", HttpStatus.BAD_REQUEST),
     BLOG_OWNER_ID_REQUIRED("블로그 '사용자 계정'의 식별 값이 필요합니다.", HttpStatus.BAD_REQUEST),
