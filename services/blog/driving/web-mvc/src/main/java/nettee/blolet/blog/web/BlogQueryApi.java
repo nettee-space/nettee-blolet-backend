@@ -2,6 +2,7 @@ package nettee.blolet.blog.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.blog.application.usecase.BlogOwnershipVerifyUseCase;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_API_NOT_IMPLEMENTED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
 
 @RestController
@@ -27,22 +29,25 @@ public class BlogQueryApi {
     private final BlogOwnershipVerifyUseCase verifyOwnershipUseCase;
 
     /**
-     * TODO 예상되는 정책 또는 논의 (블로그 목록 조회)
-     * <ul>
-     *     <li>Q. 사용자는 여러 블로그를 가질 수 있을까요?</li>
-     * </ul>
+     * 사용자가 여러 블로그를 갖게 될 때 구현
      */
     @GetMapping
     @Operation(
-            summary = "블로그 목록 조회 (여러 사용자)",
-            description = "선택한 사용자별 블로그 목록을 조회합니다."
+            summary = "[Unsupported] 블로그 목록 조회 (여러 사용자)",
+            description = "선택한 사용자별 블로그 목록을 조회합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "501",
+                            description = "Not implemented"
+                    )
+            }
     )
-    public BlogListViewResponse findAllByUsernames(
+    public BlogListViewResponse findAllByProfileIds(
             @RequestParam
             @Schema(description = "사용자 프로필 일련번호 목록", example = "1,2,3")
-            List<String> userProfileIds
+            List<String> profileIds
     ) {
-        return null;
+        throw BLOG_API_NOT_IMPLEMENTED.exception();
     }
 
     /**
