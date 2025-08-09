@@ -41,7 +41,7 @@ public class BlogCommandApi {
     )
     public BlogUpdateResponse updateBlog(@PathVariable("blogId") String blogId, @RequestBody BlogUpdateCommand dto) {
         var domain = mapper.toDomain(blogId, dto);
-        return mapper.toResponse(updateUseCase.update(domain));
+        return mapper.toUpdateResponse(updateUseCase.update(domain));
     }
 
     @DeleteMapping("/{blogId}")

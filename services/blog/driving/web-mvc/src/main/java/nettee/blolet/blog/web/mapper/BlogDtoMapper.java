@@ -11,6 +11,6 @@ import org.mapstruct.Mapping;
 public interface BlogDtoMapper {
     @Mapping(target = "id", source = "blogId")
     Blog toDomain(String blogId, BlogUpdateCommand dto);
-    BlogUpdateResponse toResponse(Blog blog);
+    BlogUpdateResponse toUpdateResponse(Blog blog);
     BlogDetail toDetail(Blog blog);
 }
