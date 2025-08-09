@@ -70,7 +70,11 @@ public class BlogQueryApi {
             description = "블로그 정보를 조회합니다."
     )
     public BlogDetailViewResponse findByBlogId(@PathVariable("blogId") String blogId) {
-        return null;
+        var blog = readUseCase.findById(blogId);
+
+        return BlogDetailViewResponse.builder()
+                .blog(mapper.toDetail(blog))
+                .build();
     }
 
     @GetMapping("/{blogId}/ownership")
