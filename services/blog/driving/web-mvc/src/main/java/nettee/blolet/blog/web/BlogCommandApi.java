@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_API_NOT_IMPLEMENTED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_IMPLEMENTED_FEATURE;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,7 +60,7 @@ public class BlogCommandApi {
             description = "블로그를 구독합니다."
     )
     public BlogSubscribeResponse subscribeBlog(@PathVariable("blogId") String blogId) {
-        throw BLOG_API_NOT_IMPLEMENTED.exception();
+        throw BLOG_NOT_IMPLEMENTED_FEATURE.exception();
     }
 
     @DeleteMapping("/{blogId}/subscribe")
@@ -69,7 +69,7 @@ public class BlogCommandApi {
             description = "구독한 블로그의 구독을 취소합니다. (TODO 정책 논의: 아마도 뉴스레터 구독도 함께 취소될 것입니다.)"
     )
     public BlogUnsubscribeResponse unsubscribeBlog(@PathVariable("blogId") String blogId) {
-        throw BLOG_API_NOT_IMPLEMENTED.exception();
+        throw BLOG_NOT_IMPLEMENTED_FEATURE.exception();
     }
 
     @PostMapping("/{blogId}/newsletter")
@@ -78,7 +78,7 @@ public class BlogCommandApi {
             description = "블로그의 뉴스레터 수신을 동의합니다. (TODO 정책 논의: 아직 구독하지 않은 블로그라면 아마도 구독도 함께 될 것입니다.)"
     )
     public BlogNewsletterSubscribeResponse subscribeNewsletter(@PathVariable("blogId") String blogId) {
-        throw BLOG_API_NOT_IMPLEMENTED.exception();
+        throw BLOG_NOT_IMPLEMENTED_FEATURE.exception();
     }
 
     @DeleteMapping("/{blogId}/newsletter")
@@ -87,6 +87,6 @@ public class BlogCommandApi {
             description = "블로그의 뉴스레터 수신 동의를 철회합니다."
     )
     public BlogNewsletterUnsubscribeResponse unsubscribeNewsletter(@PathVariable("blogId") String blogId) {
-        throw BLOG_API_NOT_IMPLEMENTED.exception();
+        throw BLOG_NOT_IMPLEMENTED_FEATURE.exception();
     }
 }
