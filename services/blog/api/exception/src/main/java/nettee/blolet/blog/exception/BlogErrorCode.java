@@ -16,7 +16,9 @@ public enum BlogErrorCode implements ErrorCode {
     BLOG_SUSPENDED("일시정지 된 블로그입니다.", HttpStatus.FORBIDDEN),
 
     // user input validation
-    BLOG_OWNER_ID_REQUIRED("블로그 사용자 식별 값이 필요합니다.", HttpStatus.BAD_REQUEST),
+    BLOG_ID_REQUIRED("블로그 식별값이 필요합니다.", HttpStatus.BAD_REQUEST),
+    BLOG_OWNER_ID_REQUIRED("블로그 '사용자 계정'의 식별 값이 필요합니다.", HttpStatus.BAD_REQUEST),
+    BLOG_PROFILE_ID_REQUIRED("블로그 '사용자 프로필'의 식별 값이 필요합니다.", HttpStatus.BAD_REQUEST),
     BLOG_NAME_REQUIRED("블로그 이름은 필수 입력입니다.", HttpStatus.BAD_REQUEST),
     BLOG_NAME_INVALID_LENGTH("블로그 이름의 길이는 3글자 이상 30글자 이하입니다.", HttpStatus.BAD_REQUEST),
     BLOG_URL_REQUIRED("블로그 주소 이름은 필수 입력입니다.", HttpStatus.BAD_REQUEST),
