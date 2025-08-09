@@ -24,15 +24,15 @@ public final class BlogValidator {
             case ID ->
                 validateNotNull(value, BLOG_ID_REQUIRED);
             case USER_ID -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
             case PROFILE_ID -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
             case NAME -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
                 // 앞뒤 공백 문자를 제거 후 유효성 확인
@@ -40,7 +40,7 @@ public final class BlogValidator {
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
             case URL_IDENTIFIER -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
                 // 앞뒤 공백 문자를 제거 후 유효성 확인
@@ -49,14 +49,20 @@ public final class BlogValidator {
                 validateLength(str, 3, 15, BLOG_URL_INVALID_LENGTH);
             }
             case USERNAME -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
             case NICKNAME -> {
-                String str = (String) value;
+                String str = castToString(value);
                 validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
         }
+    }
+
+    private static String castToString(Object value) {
+        assert value == null || value instanceof String :
+                "value must be a string or null but is " + value.getClass();
+        return (String) value;
     }
 
     public enum BlogValidationTarget {
