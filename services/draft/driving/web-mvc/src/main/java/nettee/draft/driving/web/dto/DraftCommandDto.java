@@ -16,13 +16,17 @@ public final class DraftCommandDto {
     public record DraftCreateCommand(
             @NotNull(message = "블로그ID를 입력하십시오.")
             String blogId,
+            // TODO remove `articleId` from `DraftCreateCommand`
             String articleId,
+            // TODO remove `title` from `DraftCreateCommand`
             @NotBlank(message = "제목을 입력하십시오.")
             @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
             String title,
+            // TODO remove `content` from `DraftCreateCommand`
             @NotBlank(message = "본문을 입력하십시오")
             @Size(min = 3, message = "본문은 세 글자 이상 입력하세요.")
             String content,
+            // TODO remove `path` from `DraftCreateCommand`
             String path
     ) {
     }
