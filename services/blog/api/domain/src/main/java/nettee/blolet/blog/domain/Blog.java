@@ -46,21 +46,13 @@ public class Blog {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String name, String url) {
+    public void update(String name, String url, String username, String nickname) {
         Objects.requireNonNull(name, "Name must not be null");
 
         this.name = name;
         if (url != null) {
             this.urlIdentifier = url;
         }
-    }
-
-    @Builder(
-            builderClassName = "BlogUserProfileUpdateBuilder",
-            builderMethodName = "prepareUserProfileUpdate",
-            buildMethodName = "update"
-    )
-    public void updateUserProfile(String username, String nickname) {
         if (username != null) {
             this.username = username;
         }
