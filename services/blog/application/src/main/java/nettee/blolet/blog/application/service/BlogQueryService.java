@@ -38,9 +38,8 @@ public class BlogQueryService implements BlogReadUseCase, BlogOwnershipVerifyUse
 
     @Override
     public boolean verifyOwnershipByProfileId(String profileId, String blogId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-//        var blog = repository.findById(blogId)
-//                .orElseThrow(BLOG_NOT_FOUND::exception);
-//        return Objects.equals(profileId,blog.getProfileId());
+        var blog = repository.findById(blogId)
+                .orElseThrow(BLOG_NOT_FOUND::exception);
+        return Objects.equals(profileId,blog.getProfileId());
     }
 }
