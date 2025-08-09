@@ -44,6 +44,18 @@ public class RdbBlogCommandRepositoryAdapter implements BlogCommandRepositoryPor
     }
 
     @Override
+    public Blog updateUserProfile(String id, String username, String nickname) {
+        Long longId = Long.parseLong(id);
+        var entity = jpaRepository.findById(longId)
+                .orElseThrow(BLOG_NOT_FOUND::exception);
+
+        entity.username = username;
+        entity.nickname = nickname;
+
+        return mapper.toDomain(entity);
+    }
+
+    @Override
     public void deleteById(String id) {
         jpaRepository.deleteById(Long.parseLong(id));
     }
