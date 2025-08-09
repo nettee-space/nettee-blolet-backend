@@ -3,6 +3,7 @@ package nettee.blolet.blog.application.validation;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_ID_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NICKNAME_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_PROFILE_ID_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_FORMAT;
@@ -23,16 +24,15 @@ public final class BlogValidator {
             case ID ->
                 validateNotNull(value, BLOG_ID_REQUIRED);
             case USER_ID -> {
-                if (!(value instanceof String str)) return;
+                String str = (String) value;
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
             case PROFILE_ID -> {
-                if (!(value instanceof String str)) return;
+                String str = (String) value;
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
             case NAME -> {
-                if (!(value instanceof String str)) return;
-
+                String str = (String) value;
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
                 // 앞뒤 공백 문자를 제거 후 유효성 확인
@@ -40,8 +40,7 @@ public final class BlogValidator {
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
             case URL_IDENTIFIER -> {
-                if (!(value instanceof String str)) return;
-
+                String str = (String) value;
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
                 // 앞뒤 공백 문자를 제거 후 유효성 확인
@@ -50,12 +49,12 @@ public final class BlogValidator {
                 validateLength(str, 3, 15, BLOG_URL_INVALID_LENGTH);
             }
             case USERNAME -> {
-                if (!(value instanceof String str)) return;
+                String str = (String) value;
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
             case NICKNAME -> {
-                if (!(value instanceof String str)) return;
-                validateNotBlank(str, BLOG_NAME_REQUIRED);
+                String str = (String) value;
+                validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
         }
     }
