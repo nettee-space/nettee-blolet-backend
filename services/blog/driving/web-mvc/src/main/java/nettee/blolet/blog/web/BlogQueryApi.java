@@ -85,8 +85,8 @@ public class BlogQueryApi {
         }
 
         boolean isOwner = usesProfileId ?
-                verifyOwnershipUseCase.verifyOwnershipByProfileId(userId, blogId) :
-                verifyOwnershipUseCase.verifyOwnershipByUserId(userId, blogId);
+                verifyOwnershipUseCase.verifyOwnershipByProfileId(ownerId, blogId) :
+                verifyOwnershipUseCase.verifyOwnershipByUserId(ownerId, blogId);
 
         return BlogOwnershipVerifyResponse.builder()
                 .isOwner(isOwner)
