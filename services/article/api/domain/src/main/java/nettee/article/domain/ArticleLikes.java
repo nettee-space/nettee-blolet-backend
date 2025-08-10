@@ -1,6 +1,5 @@
 package nettee.article.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -16,32 +15,29 @@ import java.time.Instant;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Article {
+public class ArticleLikes {
 
     private String id;
 
-    private String blogId;
+    private String userId;
 
-    private String entryBlockId;
+    private String profileId;
 
-    private String title;
+    private String articleId;
 
-    private String content;
+    private Integer count;
 
-    private String path;
-
-    @Builder.Default
-    private Integer totalViews = 0;
-
-    @Builder.Default
-    private Integer totalLikes = 0;
-
-    @Builder.Default
-    private Integer totalShares = 0;
-
-    private ArticleStatus status;
+    private ArticleLikesStatus status;
 
     private Instant createdAt;
 
     private Instant updatedAt;
+
+    public void increaseCount(int amount) {
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be positive.");
+        }
+
+        this.count += amount;
+    }
 }
