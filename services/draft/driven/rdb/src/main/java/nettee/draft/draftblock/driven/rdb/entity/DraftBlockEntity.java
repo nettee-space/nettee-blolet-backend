@@ -2,29 +2,20 @@ package nettee.draft.draftblock.driven.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatusConverter;
-import nettee.jpa.support.LongBaseTimeEntity;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
-import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.Instant;
 import java.util.Objects;
 
 @Getter
-@DynamicUpdate
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft_block")
@@ -39,19 +30,8 @@ public class DraftBlockEntity extends SnowflakeBaseTimeEntity {
     @Convert(converter = DraftBlockEntityStatusConverter.class)
     public DraftBlockEntityStatus status;
 
-    @Builder
-    public DraftBlockEntity(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
-        this.content = content;
-        this.blogId = blogId;
-        this.draftId = draftId;
-        this.articleId = articleId;
-        this.nextBlockId = nextBlockId;
-        this.status = status;
-        this.type = type;
-    }
-
     @Builder(
-            builderClassName = "updateDraftBlockEntityBuilder",
+            builderClassName = "UpdateDraftBlockEntityBuilder",
             builderMethodName = "prepareDraftBlockEntityUpdate",
             buildMethodName = "update"
     )
@@ -69,7 +49,7 @@ public class DraftBlockEntity extends SnowflakeBaseTimeEntity {
     }
 
     @Builder(
-            builderClassName = "updateStatusDraftBlockEntityBuilder",
+            builderClassName = "UpdateStatusDraftBlockEntityBuilder",
             builderMethodName = "prepareDraftBlockEntityStatusUpdate",
             buildMethodName = "updateStatus"
     )
