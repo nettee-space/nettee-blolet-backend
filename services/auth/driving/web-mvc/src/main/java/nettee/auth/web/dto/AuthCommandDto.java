@@ -4,12 +4,15 @@ import static nettee.auth.exception.AuthErrorCode.AUTH_EMAIL_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_LOGIN_ID_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_NONCE_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_REQUIRED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_INVALID_FORMAT;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_INVALID_LENGTH;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_USERNAME_REQUIRED;
+import static nettee.common.validation.Preconditions.validateLength;
 import static nettee.common.validation.Preconditions.validateNotBlank;
+import static nettee.common.validation.Preconditions.validateRegex;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Email;
 
 public final class AuthCommandDto {
     private AuthCommandDto() {
@@ -23,7 +26,6 @@ public final class AuthCommandDto {
             String username,
             @Schema(description = "비밀번호", example = "Blolet1225!")
             String password,
-            @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
             @Schema(description = "이메일", example = "sun@gmail.com")
             String email,
             @Schema(description = "이용 약관 동의 여부", example = "true")
@@ -32,6 +34,7 @@ public final class AuthCommandDto {
             boolean agreedPrivacy
     ) {
         public SignUpRequest {
+            // 필수 값 검증
             validateNotBlank(loginId, AUTH_LOGIN_ID_REQUIRED);
             validateNotBlank(username, AUTH_USERNAME_REQUIRED);
             validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
@@ -41,6 +44,15 @@ public final class AuthCommandDto {
             username = username.strip();
             password = password.strip();
             email = email.strip();
+
+            // 정규식 검증
+            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
+            validateRegex(email, EMAIL_REGEX, AUTH_EMAIL_REQUIRED);
+
+            // 비밀번호 길이 검증
+            validateLength(password, 8, 64, AUTH_PASSWORD_INVALID_LENGTH);
         }
     }
 
@@ -52,17 +64,21 @@ public final class AuthCommandDto {
             String password
     ) {
         public LoginRequest {
+            // 필수 값 검증
             validateNotBlank(loginId, AUTH_LOGIN_ID_REQUIRED);
             validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
 
             loginId = loginId.strip();
             password = password.strip();
+
+            // 비밀번호 정규식 검증
+            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
         }
     }
 
     @Schema(description = "이메일 인증코드 전송 요청")
     public record EmailVerifySendRequest(
-            @Email(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}$")
             @Schema(description = "이메일", example = "sun@gmail.com")
             String email
     ) {

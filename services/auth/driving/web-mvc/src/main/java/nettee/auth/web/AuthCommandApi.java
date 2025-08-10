@@ -105,8 +105,9 @@ public class AuthCommandApi {
             summary = "이메일 인증코드 전송",
             description = "사용자의 이메일로 인증코드를 전송합니다."
     )
-    public String sendEmailVerification(@RequestBody EmailVerifySendRequest request) {
-        return authSignUsecase.sendOtp(request.email());
+    public ResponseEntity<String> sendEmailVerification(@RequestBody EmailVerifySendRequest request) {
+        String token = authSignUsecase.sendOtp(request.email());
+        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/email/verification/check")
@@ -114,9 +115,10 @@ public class AuthCommandApi {
             summary = "이메일 인증코드 확인",
             description = "사용자가 이메일 인증코드를 확인합니다."
     )
-    public String verifyEmail(@RequestBody EmailVerifyRequest request) {
+    public ResponseEntity<String> verifyEmail(@RequestBody EmailVerifyRequest request) {
         // 이메일 인증 코드 확인 로직 구현
-        return authSignUsecase.verifyOtp(request.email(), request.otp(), request.nonce());
+        String token = authSignUsecase.verifyOtp(request.email(), request.otp(), request.nonce());
+        return ResponseEntity.ok(token);
     }
 
     // TODO: 비밀번호 변경 전 재인증 & 비밀번호 변경을 함께 진행할 수도 있음

@@ -11,7 +11,10 @@ public enum AuthErrorCode implements ErrorCode {
     AUTH_LOGIN_ID_REQUIRED("로그인 ID는 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_USERNAME_REQUIRED("사용자 이름은 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_PASSWORD_REQUIRED("비밀번호는 필수입니다.", HttpStatus.BAD_REQUEST),
+    AUTH_PASSWORD_INVALID_FORMAT("비밀번호 형식이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
+    AUTH_PASSWORD_INVALID_LENGTH("비밀번호는 8자 이상 64자 이하로 입력해주세요.", HttpStatus.BAD_REQUEST),
     AUTH_EMAIL_REQUIRED("이메일은 필수입니다.", HttpStatus.BAD_REQUEST),
+    AUTH_EMAIL_INVALID_FORMAT("이메일 형식이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
     AUTH_OTP_REQUIRED("이메일 OTP 코드는 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_NONCE_REQUIRED("nonce 토큰은 필수입니다.", HttpStatus.BAD_REQUEST),
 
