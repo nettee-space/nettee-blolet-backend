@@ -4,12 +4,16 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import nettee.jpa.support.LongBaseTimeEntity;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "series", schema = "series")
+@SuperBuilder
+@NoArgsConstructor
 public class SeriesEntity extends LongBaseTimeEntity {
     
     @Column(nullable = false)
