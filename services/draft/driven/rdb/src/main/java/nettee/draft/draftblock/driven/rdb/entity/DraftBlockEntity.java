@@ -10,12 +10,10 @@ import lombok.NoArgsConstructor;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatusConverter;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
-import org.hibernate.annotations.DynamicUpdate;
 
 import java.util.Objects;
 
 @Getter
-@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft_block")
