@@ -3,13 +3,19 @@ package nettee.article.driven.rdb.entity;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import nettee.article.driven.rdb.entity.type.builder.ArticleEntityStatus;
 import nettee.article.driven.rdb.entity.type.builder.ArticleEntityStatusConverter;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
 
 import java.util.Objects;
 
+@SuperBuilder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(schema = "article", name = "article")
 public class ArticleEntity extends SnowflakeBaseTimeEntity {
