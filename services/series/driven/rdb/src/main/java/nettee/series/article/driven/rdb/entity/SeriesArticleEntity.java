@@ -3,17 +3,17 @@ package nettee.series.article.driven.rdb.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Builder;
-import nettee.jpa.support.LongBaseTimeEntity;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import nettee.jpa.support.SnowflakeBaseTimeEntity;
 
 import java.util.Objects;
 
 @Entity
 @Table(name = "series_article", schema = "series")
-public class SeriesArticleEntity extends LongBaseTimeEntity {
 @SuperBuilder
 @NoArgsConstructor
+public class SeriesArticleEntity extends SnowflakeBaseTimeEntity {
     
     public Long seriesId;
     
