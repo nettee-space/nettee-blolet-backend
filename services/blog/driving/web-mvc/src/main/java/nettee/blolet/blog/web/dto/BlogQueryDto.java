@@ -4,13 +4,13 @@ import lombok.Builder;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 import nettee.blolet.blog.readmodel.BlogReadModels.UserProfileBlogs;
 
-import java.util.List;
+import java.util.Map;
 
 public final class BlogQueryDto {
 
     @Builder
     public record BlogListViewResponse(
-            List<UserProfileBlogs> owners
+            Map<String, UserProfileBlogs> ownerProfiles
     ) {}
 
     @Builder

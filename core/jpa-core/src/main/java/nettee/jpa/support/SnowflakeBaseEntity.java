@@ -3,10 +3,14 @@ package nettee.jpa.support;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import nettee.hibenate.annotation.SnowflakeGenerated;
 
 import java.io.Serializable;
 
+@SuperBuilder
+@NoArgsConstructor
 @Getter
 @MappedSuperclass
 public abstract class SnowflakeBaseEntity implements Serializable {

@@ -25,8 +25,11 @@ class BlogCommandServiceTest : FreeSpec({
         val item = Blog.builder()
             .id(null)
             .userId("USER-1")
+            .profileId("PROFILE-1")
+            .username("username")
+            .nickname("nickname")
             .name("A Blog")
-            .url("")
+            .urlIdentifier("")
             .createdAt(now)
             .updatedAt(now)
             .build()
@@ -34,7 +37,7 @@ class BlogCommandServiceTest : FreeSpec({
             .id(item.id ?: "1")
             .userId(item.userId)
             .name(item.name)
-            .url(item.url)
+            .urlIdentifier(item.urlIdentifier)
             .createdAt(item.createdAt)
             .updatedAt(item.createdAt)
             .build()
@@ -53,7 +56,7 @@ class BlogCommandServiceTest : FreeSpec({
                     .id(inputtedBlog.id ?: "1")
                     .userId(inputtedBlog.userId)
                     .name(inputtedBlog.name)
-                    .url(inputtedBlog.url)
+                    .urlIdentifier(inputtedBlog.urlIdentifier)
                     .createdAt(inputtedBlog.createdAt)
                     .updatedAt(inputtedBlog.createdAt)
                     .build()
@@ -82,7 +85,7 @@ class BlogCommandServiceTest : FreeSpec({
                     .id(inputtedBlog.id ?: "1")
                     .userId(inputtedBlog.userId)
                     .name(inputtedBlog.name)
-                    .url(inputtedBlog.url)
+                    .urlIdentifier(inputtedBlog.urlIdentifier)
                     .createdAt(inputtedBlog.createdAt)
                     .updatedAt(inputtedBlog.createdAt)
                     .build()
@@ -107,7 +110,7 @@ class BlogCommandServiceTest : FreeSpec({
             .id(targetId)
             .userId("USER-1")
             .name("A Blog")
-            .url("https://old.blolet.com")
+            .urlIdentifier("https://old.blolet.com")
             .createdAt(now)
             .updatedAt(now)
             .build()
@@ -124,7 +127,7 @@ class BlogCommandServiceTest : FreeSpec({
                     .id(input.id!!)
                     .userId(input.userId)
                     .name(input.name)
-                    .url(input.url)
+                    .urlIdentifier(input.urlIdentifier)
                     .createdAt(input.createdAt)
                     .updatedAt(Instant.now())
                     .build()
@@ -133,13 +136,18 @@ class BlogCommandServiceTest : FreeSpec({
 
         "✅ 존재하는 아이템을 수정할 수 있다." {
             // action
-            val updated: Blog = commandService.update(targetId, newName, newUrl)
+            val updatingBlog = Blog.builder()
+                .id(targetId)
+                .name(newName)
+                .urlIdentifier(newUrl)
+                .build()
+            val updated: Blog = commandService.update(updatingBlog)
 
             // assert
             updated.id shouldBe targetId
             updated.userId shouldBe original.userId
             updated.name shouldBe newName
-            updated.url shouldBe newUrl
+            updated.urlIdentifier shouldBe newUrl
 
             // 호출 순서 확인
             verifySequence {
@@ -150,8 +158,13 @@ class BlogCommandServiceTest : FreeSpec({
 
         "🚧 name은 null이어선 안 된다." {
             // action & assert
+            val updatingBlog = Blog.builder()
+                .id(targetId)
+                .name(null)
+                .urlIdentifier(newUrl)
+                .build()
             val exception = shouldThrow<CustomException> {
-                commandService.update(targetId, null, newUrl)
+                commandService.update(updatingBlog)
             }
             exception.errorCode shouldBe BLOG_NAME_CANNOT_BE_BLANK
             verify(inverse = true) { commandPort.save(any()) }
@@ -161,11 +174,16 @@ class BlogCommandServiceTest : FreeSpec({
 
         "✅ 입력 URL이 null이면 URL은 수정되지 않는다." {
             // action
-            val updated: Blog = commandService.update(targetId, newName, null)
+            val updatingBlog = Blog.builder()
+                .id(targetId)
+                .name(newName)
+                .urlIdentifier(null)
+                .build()
+            val updated: Blog = commandService.update(updatingBlog)
 
             // assert
             updated.name shouldBe newName
-            updated.url shouldBe original.url // URL 변경 없음
+            updated.urlIdentifier shouldBe original.urlIdentifier // URL 변경 없음
 
             verifySequence {
                 commandPort.findById(targetId)
@@ -184,7 +202,7 @@ class BlogCommandServiceTest : FreeSpec({
             .id(targetId)
             .userId("USER-1")
             .name("A Blog")
-            .url(oldUrl)
+            .urlIdentifier(oldUrl)
             .createdAt(now)
             .updatedAt(now)
             .build()
@@ -202,7 +220,7 @@ class BlogCommandServiceTest : FreeSpec({
                     .id(input.id ?: (capturedItems.size + 1).toString())
                     .userId(input.userId)
                     .name(input.name)
-                    .url(input.url)
+                    .urlIdentifier(input.urlIdentifier)
                     .createdAt(input.createdAt)
                     .updatedAt(Instant.now())
                     .build()
@@ -217,9 +235,9 @@ class BlogCommandServiceTest : FreeSpec({
             val updated = commandService.updateUrl(targetId, newUrl)
 
             // assert: URL이 바뀌었는지, 반환 객체가 save 호출된 엔티티와 동일한지
-            updated.url shouldBeEqual newUrl
+            updated.urlIdentifier shouldBeEqual newUrl
             verify(exactly = 1) { commandPort.findById(targetId) }
-            verify(exactly = 1) { commandPort.save(match { it.url == newUrl }) }
+            verify(exactly = 1) { commandPort.save(match { it.urlIdentifier == newUrl }) }
             verifySequence {
                 commandPort.findById(targetId)
                 commandPort.save(any())
@@ -266,7 +284,7 @@ class BlogCommandServiceTest : FreeSpec({
             .id("1")
             .userId("USER-1")
             .name("A Blog")
-            .url("")
+            .urlIdentifier("")
             .createdAt(now)
             .updatedAt(now)
             .build()

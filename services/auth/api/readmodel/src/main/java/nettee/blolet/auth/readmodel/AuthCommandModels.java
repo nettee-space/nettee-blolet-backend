@@ -6,6 +6,7 @@ public final class AuthCommandModels {
 
     public record SignUpRequestModel(
             String loginId,
+            String username,
             String password,
             String nickname,
             String email,

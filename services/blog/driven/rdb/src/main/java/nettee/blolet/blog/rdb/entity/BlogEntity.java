@@ -21,6 +21,9 @@ import nettee.jpa.support.SnowflakeBaseTimeEntity;
 )
 public class BlogEntity extends SnowflakeBaseTimeEntity {
     public Long userId;
+    public Long profileId;
+    public String username;
+    public String nickname;
     public String name;
-    public String url;
+    public String urlIdentifier;
 }
