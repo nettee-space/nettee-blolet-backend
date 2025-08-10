@@ -5,6 +5,7 @@ spring:
   config:
     import:
       - properties/web/main.cors.yml
+      - properties/web/main.cookie.yml
       - properties/persistence/main.snowflake.yml
       - properties/client/main.client.yml
       - properties/jwt/main.jwt.yml
