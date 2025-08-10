@@ -45,7 +45,7 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
         Objects.requireNonNull(blog, "Blog cannot be null");
         String blogId = Objects.requireNonNull(blog.getId(), "blogId cannot be null");
         String name = Objects.requireNonNull(blog.getName(), "blog name cannot be null");
-        String url = Objects.requireNonNull(blog.getUrl(), "blog url identifier cannot be null");
+        String url = Objects.requireNonNull(blog.getUrlIdentifier(), "blog url identifier cannot be null");
 
         if (name.isBlank()) {
             throw BLOG_NAME_CANNOT_BE_BLANK.exception();

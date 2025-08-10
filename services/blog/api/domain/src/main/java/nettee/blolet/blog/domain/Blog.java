@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.Objects;
 
+import static nettee.common.validation.Preconditions.validateNotBlank;
+
 @Getter
 @Builder
 @NoArgsConstructor
@@ -15,15 +17,28 @@ import java.util.Objects;
 public class Blog {
     private String id;
     private String userId;
+    private String profileId;
+    private String username;
+    private String nickname;
     private String name;
-    private String url;
+    private String urlIdentifier;
     private Instant createdAt;
     private Instant updatedAt;
 
-    public Blog(String userId, String name, String url) {
+    public Blog(
+            String userId,
+            String profileId,
+            String username,
+            String nickname,
+            String name,
+            String urlIdentifier
+    ) {
         this.userId = userId;
+        this.profileId = profileId;
+        this.username = username;
+        this.nickname = nickname;
         this.name = name;
-        this.url = url;
+        this.urlIdentifier = urlIdentifier;
     }
 
     @Builder(
@@ -31,18 +46,24 @@ public class Blog {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String name, String url) {
+    public void update(String name, String url, String username, String nickname) {
         Objects.requireNonNull(name, "Name must not be null");
 
         this.name = name;
         if (url != null) {
-            this.url = url;
+            this.urlIdentifier = url;
+        }
+        if (username != null) {
+            this.username = username;
+        }
+        if (nickname != null) {
+            this.nickname = nickname;
         }
     }
 
-    public void updateUrl(String url) {
-        Objects.requireNonNull(url, "Url must not be null");
-        this.url = url;
+    public void updateUrl(String urlIdentifier) {
+        Objects.requireNonNull(urlIdentifier, "Url must not be null");
+        this.urlIdentifier = urlIdentifier;
     }
 
     @Override
@@ -51,12 +72,13 @@ public class Blog {
 
         return Objects.equals(id, blog.id)
                 && Objects.equals(userId, blog.userId)
+                && Objects.equals(profileId, blog.profileId)
                 && Objects.equals(name, blog.name)
-                && Objects.equals(url, blog.url);
+                && Objects.equals(urlIdentifier, blog.urlIdentifier);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userId, name, url);
+        return Objects.hash(id, userId, profileId, name, urlIdentifier);
     }
 }

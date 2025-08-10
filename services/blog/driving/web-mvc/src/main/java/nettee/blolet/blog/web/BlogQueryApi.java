@@ -2,20 +2,24 @@ package nettee.blolet.blog.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.blog.application.usecase.BlogOwnershipVerifyUseCase;
+import nettee.blolet.blog.application.usecase.BlogReadUseCase;
 import nettee.blolet.blog.web.dto.BlogQueryDto.BlogDetailViewResponse;
 import nettee.blolet.blog.web.dto.BlogQueryDto.BlogListViewResponse;
 import nettee.blolet.blog.web.dto.BlogQueryDto.BlogOwnershipVerifyResponse;
+import nettee.blolet.blog.web.mapper.BlogDtoMapper;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_IMPLEMENTED_FEATURE;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
 
 @RestController
@@ -24,25 +28,34 @@ import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
 @Tag(name = "Blog")
 public class BlogQueryApi {
 
+    private final BlogReadUseCase readUseCase;
     private final BlogOwnershipVerifyUseCase verifyOwnershipUseCase;
+    private final BlogDtoMapper mapper;
 
     /**
-     * TODO 예상되는 정책 또는 논의 (블로그 목록 조회)
-     * <ul>
-     *     <li>Q. 사용자는 여러 블로그를 가질 수 있을까요?</li>
-     * </ul>
+     * 사용자가 여러 블로그를 갖게 될 때 구현
      */
     @GetMapping
     @Operation(
-            summary = "블로그 목록 조회 (여러 사용자)",
-            description = "선택한 사용자별 블로그 목록을 조회합니다."
+            summary = "[Unsupported] 블로그 목록 조회 (여러 사용자)",
+            description = "선택한 사용자별 블로그 목록을 조회합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "501",
+                            description = "Not implemented"
+                    )
+            }
     )
-    public BlogListViewResponse findAllByUsernames(
+    public BlogListViewResponse findAllByProfileIds(
             @RequestParam
-            @Schema(description = "사용자 프로필 일련번호 목록", example = "1,2,3")
-            List<String> userProfileIds
+            @Schema(description = "사용자 프로필 ID", example = "43876800000000001,43876800000000002,43876800000000003")
+            Set<String> userProfileIds
     ) {
-        return null;
+        throw BLOG_NOT_IMPLEMENTED_FEATURE.exception();
+//        Map<String, UserProfileBlogs> ownerProfiles = readUseCase.findByUserProfileIds(userProfileIds);
+//        return BlogListViewResponse.builder()
+//                .ownerProfiles(ownerProfiles)
+//                .build();
     }
 
     /**
@@ -57,7 +70,11 @@ public class BlogQueryApi {
             description = "블로그 정보를 조회합니다."
     )
     public BlogDetailViewResponse findByBlogId(@PathVariable("blogId") String blogId) {
-        return null;
+        var blog = readUseCase.findById(blogId);
+
+        return BlogDetailViewResponse.builder()
+                .blog(mapper.toDetail(blog))
+                .build();
     }
 
     @GetMapping("/{blogId}/ownership")
@@ -80,8 +97,8 @@ public class BlogQueryApi {
         }
 
         boolean isOwner = usesProfileId ?
-                verifyOwnershipUseCase.verifyOwnershipByProfileId(userId, blogId) :
-                verifyOwnershipUseCase.verifyOwnershipByUserId(userId, blogId);
+                verifyOwnershipUseCase.verifyOwnershipByProfileId(ownerId, blogId) :
+                verifyOwnershipUseCase.verifyOwnershipByUserId(ownerId, blogId);
 
         return BlogOwnershipVerifyResponse.builder()
                 .isOwner(isOwner)

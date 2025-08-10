@@ -5,6 +5,7 @@ import nettee.blolet.blog.application.port.BlogQueryRepositoryPort;
 import nettee.blolet.blog.domain.Blog;
 import nettee.blolet.blog.rdb.mapper.BlogEntityMapper;
 import nettee.blolet.blog.rdb.repository.BlogQueryJpaRepository;
+import nettee.blolet.blog.readmodel.BlogReadModels.UserProfileBlogs;
 import org.springframework.stereotype.Repository;
 
 import java.util.Map;
@@ -26,7 +27,7 @@ public class RdbBlogQueryRepositoryAdapter implements BlogQueryRepositoryPort {
     }
 
     @Override
-    public Map<String, Blog> findAllByProfileIdIn(Set<String> userIds) {
+    public Map<String, UserProfileBlogs> findAllByProfileIdIn(Set<String> userIds) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

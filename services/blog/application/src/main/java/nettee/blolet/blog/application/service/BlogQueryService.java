@@ -5,6 +5,7 @@ import nettee.blolet.blog.application.port.BlogQueryRepositoryPort;
 import nettee.blolet.blog.application.usecase.BlogReadUseCase;
 import nettee.blolet.blog.application.usecase.BlogOwnershipVerifyUseCase;
 import nettee.blolet.blog.domain.Blog;
+import nettee.blolet.blog.readmodel.BlogReadModels.UserProfileBlogs;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -25,7 +26,7 @@ public class BlogQueryService implements BlogReadUseCase, BlogOwnershipVerifyUse
     }
 
     @Override
-    public Map<String, Blog> findByUserProfileIds(Set<String> profileIds) {
+    public Map<String, UserProfileBlogs> findByUserProfileIds(Set<String> profileIds) {
         return repository.findAllByProfileIdIn(profileIds);
     }
 
@@ -38,9 +39,8 @@ public class BlogQueryService implements BlogReadUseCase, BlogOwnershipVerifyUse
 
     @Override
     public boolean verifyOwnershipByProfileId(String profileId, String blogId) {
-        throw new UnsupportedOperationException("Not supported yet.");
-//        var blog = repository.findById(blogId)
-//                .orElseThrow(BLOG_NOT_FOUND::exception);
-//        return Objects.equals(profileId,blog.getProfileId());
+        var blog = repository.findById(blogId)
+                .orElseThrow(BLOG_NOT_FOUND::exception);
+        return Objects.equals(profileId,blog.getProfileId());
     }
 }

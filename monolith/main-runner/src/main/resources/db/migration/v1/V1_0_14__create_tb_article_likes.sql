@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS "article"."article_likes" (
     "profile_id"   BIGINT,
     "article_id"   BIGINT,
 
-    "count"        VARCHAR(255),
+    "count"        INTEGER,
 
-    "status"       VARCHAR(255),
+    "status"       INTEGER,
     "created_at"   TIMESTAMP      DEFAULT NOW()   NOT NULL,
     "updated_at"   TIMESTAMP      DEFAULT NOW()   NOT NULL,
 
