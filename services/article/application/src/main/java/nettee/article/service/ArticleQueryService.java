@@ -7,6 +7,7 @@ import nettee.article.readmodel.ArticleQueryModels.ArticleSummary;
 import nettee.article.usecase.ArticleReadUseCase;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
@@ -26,9 +27,11 @@ public class ArticleQueryService implements ArticleReadUseCase {
     }
 
     @Override
-    public List<ArticleSummary> getArticleList(String blogId) {
-        assert blogId != null;
+    public List<ArticleSummary> getArticleList(String blogId, Instant lastCreatedAt, int size) {
+        assert blogId != null : "blogId must not be null";
+        assert lastCreatedAt != null : "lastCreatedAt must not be null";
+        assert size > 0 : "size must be greater than 0";
 
-        return articleQueryRepository.findAllByBlogId(blogId);
+        return articleQueryRepository.findAllByBlogId(blogId, lastCreatedAt, size);
     }
 }
