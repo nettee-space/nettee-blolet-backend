@@ -28,17 +28,6 @@ public class DraftBlockEntity extends SnowflakeBaseTimeEntity {
     @Convert(converter = DraftBlockEntityStatusConverter.class)
     public DraftBlockEntityStatus status;
 
-    @Builder
-    public DraftBlockEntity(String content, Long blogId, Long draftId, Long articleId, Long nextBlockId, String type, DraftBlockEntityStatus status) {
-        this.content = content;
-        this.blogId = blogId;
-        this.draftId = draftId;
-        this.articleId = articleId;
-        this.nextBlockId = nextBlockId;
-        this.status = status;
-        this.type = type;
-    }
-
     @Builder(
             builderClassName = "updateDraftBlockEntityBuilder",
             builderMethodName = "prepareDraftBlockEntityUpdate",
