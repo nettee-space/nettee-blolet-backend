@@ -2,6 +2,15 @@ spring:
   application:
     name: main
 
+  config:
+    import:
+      - properties/web/main.cors.yml
+      - properties/persistence/main.snowflake.yml
+      - properties/client/main.client.yml
+      - properties/jwt/main.jwt.yml
+      - properties/mail/main.mail.yml
+      - optional:file:.env[.properties]
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${BOARD_POSTGRESQL_URL}
@@ -13,19 +22,13 @@ spring:
       host: ${REDIS_URL}
       port: ${REDIS_PORT}
 
-  config:
-    import:
-      - properties/web/main.cors.yml
-      - properties/persistence/main.snowflake.yml
-      - properties/client/main.client.yml
-      - properties/jwt/main.jwt.yml
-      - properties/mail/main.mail.yml
-      - optional:file:.env[.properties]
-
   flyway:
     baseline-on-migrate: true
     locations:
       - db/migration/v1
+
+  jackson:
+    default-property-inclusion: non_null
 
 springdoc:
   swagger-ui:
