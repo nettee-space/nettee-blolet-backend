@@ -38,7 +38,19 @@ public class RdbBlogCommandRepositoryAdapter implements BlogCommandRepositoryPor
                 .orElseThrow(BLOG_NOT_FOUND::exception);
 
         entity.name = blog.getName();
-        entity.url = blog.getUrl();
+        entity.urlIdentifier = blog.getUrlIdentifier();
+
+        return mapper.toDomain(entity);
+    }
+
+    @Override
+    public Blog updateUserProfile(String id, String username, String nickname) {
+        Long longId = Long.parseLong(id);
+        var entity = jpaRepository.findById(longId)
+                .orElseThrow(BLOG_NOT_FOUND::exception);
+
+        entity.username = username;
+        entity.nickname = nickname;
 
         return mapper.toDomain(entity);
     }

@@ -11,6 +11,8 @@ public interface BlogCommandRepositoryPort {
 
     Blog update(Blog blog);
 
+    Blog updateUserProfile(String id, String username, String nickname);
+
     void deleteById(String id);
 
     Optional<Blog> findById(String id);
