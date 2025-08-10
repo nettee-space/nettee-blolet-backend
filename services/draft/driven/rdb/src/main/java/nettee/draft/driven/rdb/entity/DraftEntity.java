@@ -29,7 +29,7 @@ public class DraftEntity extends SnowflakeBaseTimeEntity {
     public DraftEntityStatus status;
 
     @Builder(
-            builderClassName = "updateDraftEntityBuilder",
+            builderClassName = "UpdateDraftEntityBuilder",
             builderMethodName = "prepareDraftEntityUpdate",
             buildMethodName = "update"
     )
@@ -48,7 +48,7 @@ public class DraftEntity extends SnowflakeBaseTimeEntity {
     }
 
     @Builder(
-            builderClassName = "updateStatusDraftEntityBuilder",
+            builderClassName = "UpdateStatusDraftEntityBuilder",
             builderMethodName = "prepareDraftEntityStatusUpdate",
             buildMethodName = "updateStatus"
     )
