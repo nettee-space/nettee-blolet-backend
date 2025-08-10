@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
 import nettee.draft.driven.rdb.entity.type.DraftEntityStatusConverter;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
@@ -14,6 +15,7 @@ import nettee.jpa.support.SnowflakeBaseTimeEntity;
 import java.util.Objects;
 
 @Getter
+@SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(schema = "article", name = "draft")
