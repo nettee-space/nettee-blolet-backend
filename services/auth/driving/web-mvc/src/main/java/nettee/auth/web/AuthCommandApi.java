@@ -2,9 +2,9 @@ package nettee.auth.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import nettee.auth.usecase.AuthSignUsecase;
+import nettee.auth.util.CookieUtil;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifySendRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginRequest;
@@ -33,6 +33,7 @@ public class AuthCommandApi {
 
     private final AuthSignUsecase authSignUsecase;
     private final AuthDtoMapper mapper;
+    private final CookieUtil cookieUtil;
 
     @PostMapping("/sign-up")
     @Operation(
@@ -45,13 +46,7 @@ public class AuthCommandApi {
         LoginTokenModel responseModel = authSignUsecase.signUp(requestModel);
         LoginResponse result = mapper.toDto(responseModel);
 
-        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", responseModel.refreshToken())
-                .httpOnly(true)
-                .secure(true) // HTTPS에서만 전송
-                .path("/")
-                .maxAge(Duration.ofDays(30)) // 30일
-                .sameSite("Strict") // CSRF 방지
-                .build();
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(responseModel.refreshToken());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
@@ -71,13 +66,7 @@ public class AuthCommandApi {
         LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.loginId(), loginRequest.password());
         LoginResponse result = mapper.toDto(responseModel);
 
-        ResponseCookie refreshTokenCookie = ResponseCookie.from("refreshToken", responseModel.refreshToken())
-                .httpOnly(true)
-                .secure(true) // HTTPS에서만 전송
-                .path("/")
-                .maxAge(Duration.ofDays(30)) // 30일
-                .sameSite("Strict") // CSRF 방지
-                .build();
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(responseModel.refreshToken());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
