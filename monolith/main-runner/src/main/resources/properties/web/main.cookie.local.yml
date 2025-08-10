@@ -1,0 +1,8 @@
+app:
+  cookie:
+    refresh-token:
+      http-only: true
+      secure: false
+      path: "/"
+      max-age: 30
+      same-site: "Lax"
