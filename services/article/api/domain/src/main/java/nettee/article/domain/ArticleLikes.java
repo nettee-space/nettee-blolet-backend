@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.Instant;
-import java.util.Objects;
 
 @ToString(callSuper = true)
 @EqualsAndHashCode
@@ -16,7 +15,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleLike {
+public class ArticleLikes {
 
     private String id;
 
@@ -28,7 +27,7 @@ public class ArticleLike {
 
     private Integer count;
 
-    private ArticleLikeStatus status;
+    private ArticleLikesStatus status;
 
     private Instant createdAt;
 

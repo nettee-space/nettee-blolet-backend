@@ -1,26 +1,25 @@
 package nettee.article.service;
 
 import lombok.RequiredArgsConstructor;
-import nettee.article.domain.ArticleLike;
+import nettee.article.domain.ArticleLikes;
 import nettee.article.port.ArticleLikesCommandRepositoryPort;
-import nettee.article.usecase.ArticleLikeCreateUseCase;
-import nettee.article.usecase.ArticleLikeDeleteUseCase;
+import nettee.article.usecase.ArticleLikesUpdateUseCase;
+import nettee.article.usecase.ArticleLikesDeleteUseCase;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class ArticleLikesCommandService implements ArticleLikeCreateUseCase, ArticleLikeDeleteUseCase {
+public class ArticleLikesCommandService implements ArticleLikesUpdateUseCase, ArticleLikesDeleteUseCase {
 
     private final ArticleLikesCommandRepositoryPort articleLikesCommandRepository;
 
     @Override
-    public ArticleLike createArticleLike(String profileId, String articleId) {
-        return articleLikesCommandRepository.save(profileId, articleId);
+    public ArticleLikes updateArticleLikes(ArticleLikes articleLikes) {
+        return articleLikesCommandRepository.save(articleLikes);
     }
 
     @Override
-    public void deleteArticleLike(String profileId, String articleId) {
-        articleLikesCommandRepository.delete(profileId, articleId);
+    public void deleteArticleLikes(String profileId, String articleId) {
+        articleLikesCommandRepository.deleteByProfileIdAndArticleId(profileId, articleId);
     }
 }

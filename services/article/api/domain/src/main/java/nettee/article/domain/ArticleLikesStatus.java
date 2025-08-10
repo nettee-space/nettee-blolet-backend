@@ -1,6 +1,6 @@
 package nettee.article.domain;
 
-public enum ArticleLikeStatus {
+public enum ArticleLikesStatus {
     ACTIVE,
     SUSPENDED,
     DELETED

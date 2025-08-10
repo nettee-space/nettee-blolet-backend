@@ -1,10 +1,10 @@
 package nettee.article.port;
 
-import nettee.article.domain.ArticleLike;
+import nettee.article.domain.ArticleLikes;
 
 public interface ArticleLikesCommandRepositoryPort {
 
-    ArticleLike save(String profileId, String articleId);
+    ArticleLikes save(ArticleLikes articleLikes);
 
-    void delete(String profileId, String articleId);
+    void deleteByProfileIdAndArticleId(String profileId, String articleId);
 }
