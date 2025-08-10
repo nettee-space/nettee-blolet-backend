@@ -2,11 +2,10 @@ package nettee.auth.service;
 
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_ALREADY_EXIST;
-import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
+import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_LOGIN_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
-import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_MISMATCHED;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -101,11 +100,11 @@ public class AuthCommandService implements AuthSignUsecase {
     public LoginTokenModel signIn(String loginId, String rawPassword) throws AuthException {
         // 1. login ID로 사용자 조회
         User userEntity = authQueryRepositoryPort.findByLoginId(loginId)
-                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_LOGIN_FAILED));
 
         // 2. 비밀번호 검증
         if (!passwordEncoder.matches(rawPassword, userEntity.getEncodedPassword())) {
-            throw new AuthException(AUTH_PASSWORD_MISMATCHED);
+            throw new AuthException(AUTH_ACCOUNT_LOGIN_FAILED);
         }
 
         // 3. 사용자 인증 성공 시, accessToken & refreshToken 발급

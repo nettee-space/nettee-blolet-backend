@@ -18,7 +18,7 @@ public enum AuthErrorCode implements ErrorCode {
     // domain 비즈니스 관련 오류
     AUTH_ACCOUNT_ALREADY_EXIST("이미 존재하는 계정입니다.", HttpStatus.CONFLICT),
     AUTH_ACCOUNT_NOT_FOUND("사용자 계정을 찾을 수 없습니다.", HttpStatus.LOCKED),
-    AUTH_PASSWORD_MISMATCHED("사용자 비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
+    AUTH_ACCOUNT_LOGIN_FAILED("로그인에 실패하였습니다. 로그인 ID 또는 비밀번호를 확인해주세요.", HttpStatus.UNAUTHORIZED),
     AUTH_OTP_INVALID("유효하지 않은 OTP 입니다.", HttpStatus.UNAUTHORIZED),
     AUTH_OTP_SERIALIZE_FAILED("OTP 직렬화에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     AUTH_OTP_DESERIALIZE_FAILED("OTP 역직렬화에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
