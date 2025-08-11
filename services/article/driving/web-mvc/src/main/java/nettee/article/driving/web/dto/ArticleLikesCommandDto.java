@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import nettee.article.domain.ArticleLikes;
 
+import static nettee.article.exception.ArticleErrorCode.ARTICLE_INVALID_ID_SPEC;
+
 public final class ArticleLikesCommandDto {
 
     private ArticleLikesCommandDto() {}
@@ -21,7 +23,13 @@ public final class ArticleLikesCommandDto {
             @Min(value = 1, message = "좋아요 수는 1 이상이어야 합니다.")
             @Schema(description = "좋아요 수", example = "1")
             Integer count
-    ) {}
+    ) {
+        public ArticleLikesCreateCommand {
+            if (count > 1) {
+                throw ARTICLE_INVALID_ID_SPEC.exception();
+            }
+        }
+    }
 
     @Builder
     public record ArticleLikesCommandResponse(

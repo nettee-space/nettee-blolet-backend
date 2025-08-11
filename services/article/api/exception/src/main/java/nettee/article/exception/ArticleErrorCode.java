@@ -12,6 +12,10 @@ public enum ArticleErrorCode implements ErrorCode {
             "요청 시 필요 정보가 서버의 데이터와 일치하지 않습니다. 문제가 지속되면 고객센터에 문의해주세요.",
             HttpStatus.CONFLICT
     ),
+    ARTICLE_LIKES_EXCEED_LIMIT(
+            "좋아요는 최대 1개만 누를수 있습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
     DEFAULT("아티클 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
