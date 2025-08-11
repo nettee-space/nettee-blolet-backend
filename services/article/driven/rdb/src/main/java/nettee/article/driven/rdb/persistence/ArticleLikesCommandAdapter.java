@@ -23,9 +23,10 @@ public class ArticleLikesCommandAdapter implements ArticleLikesCommandRepository
     public ArticleLikes save(ArticleLikes domain) {
         ArticleLikesEntity targetEntity;
 
-        // 도메인의 ID가 존재하지 않으면 새로 생성, 존재하면 업데이트
+        // 도메인의 ID가 존재하지 않으면 DB에서 조회해서 생성 또는 업데이트, ID가 존재하면 업데이트
         if (domain.getId() == null) {
-            targetEntity = mapper.toEntity(domain);
+            targetEntity = jpaRepository.findByProfileIdAndArticleId(domain.getProfileId(), domain.getArticleId())
+                    .orElseGet(() -> mapper.toEntity(domain));
         } else {
             targetEntity = jpaRepository.findByProfileIdAndArticleId(domain.getProfileId(), domain.getArticleId())
                     .orElseThrow(ARTICLE_NOT_FOUND::exception);
