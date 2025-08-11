@@ -2,13 +2,14 @@ package nettee.article.port;
 
 import nettee.article.readmodel.ArticleQueryModels.ArticleDetail;
 import nettee.article.readmodel.ArticleQueryModels.ArticleSummary;
+import org.springframework.data.domain.Slice;
 
-import java.util.List;
+import java.time.Instant;
 import java.util.Optional;
 
 public interface ArticleQueryRepositoryPort {
 
     Optional<ArticleDetail> findByArticleId(String articleId);
 
-    List<ArticleSummary> findAllByBlogId(String blogId);
+    Slice<ArticleSummary> findAllByBlogId(String blogId, Instant lastCreatedAt, int size);
 }

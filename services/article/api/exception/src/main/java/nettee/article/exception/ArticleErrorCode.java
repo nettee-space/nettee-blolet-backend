@@ -8,6 +8,10 @@ import java.util.function.Supplier;
 
 public enum ArticleErrorCode implements ErrorCode {
     ARTICLE_NOT_FOUND("아티클을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    ARTICLE_INVALID_ID_SPEC(
+            "요청 시 필요 정보가 서버의 데이터와 일치하지 않습니다. 문제가 지속되면 고객센터에 문의해주세요.",
+            HttpStatus.CONFLICT
+    ),
     DEFAULT("아티클 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;

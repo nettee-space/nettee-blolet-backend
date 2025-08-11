@@ -33,7 +33,7 @@ public class ArticleCommandAdapter implements ArticleCommandRepositoryPort {
 
     @Override
     public Article update(Article article) {
-        var existingArticle = articleJpaRepository.findById(article.getId())
+        var existingArticle = articleJpaRepository.findById(Long.valueOf(article.getId()))
                 .orElseThrow(ARTICLE_NOT_FOUND::exception);
 
         existingArticle.prepareArticleEntityUpdate()
