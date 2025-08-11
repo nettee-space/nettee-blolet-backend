@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS "article"."article_likes" (
     "created_at"   TIMESTAMP      DEFAULT NOW()   NOT NULL,
     "updated_at"   TIMESTAMP      DEFAULT NOW()   NOT NULL,
 
-    CONSTRAINT "pk_article_likes" PRIMARY KEY ("id")
+    CONSTRAINT "pk_article_likes" PRIMARY KEY ("id"),
+    CONSTRAINT "uq_article_likes_profileid_articleid" UNIQUE ("article_id", "profile_id")
 );
 
 COMMENT ON COLUMN "article"."article_likes"."id"         IS '블록 테이블 PK';
