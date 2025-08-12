@@ -44,8 +44,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         // 2. JWT 토큰이 없으면 401 Unauthorized 응답
         if (jwtToken == null) {
-            log.warn("JWT 토큰이 없습니다. [{}]: {}", method, requestURI);
-            sendUnauthorizedResponse(response, "JWT 토큰이 없습니다.", "Authorization 헤더에 JWT 토큰이 없습니다.");
+            log.warn("JWT 토큰이 존재하지 않습니다. [{}]: {}", method, requestURI);
+            sendUnauthorizedResponse(response, "JWT 토큰이 존재하지 않습니다.", "Authorization 헤더에 JWT 토큰이 존재하지 않습니다.");
             return;
         }
 
@@ -85,7 +85,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        // 특정 조건에서 필터를 건너뛰고 싶은 경우 여기서 처리
+
         return filterConfig.getExcludePaths().stream()
                 .anyMatch(requestURI::startsWith);
     }
