@@ -1,6 +1,7 @@
 package nettee.jwt.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import nettee.jwt.annotation.AuthUser;
 import nettee.jwt.annotation.AuthorizedUser;
@@ -31,7 +32,12 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
                                   WebDataBinderFactory binderFactory) {
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        return (AuthorizedUser) request.getAttribute("authUser");
+
+        String userId = (String) request.getAttribute("userId");
+        List<String> roles = (List<String>) request.getAttribute("roles");
+        List<String> profileIds = (List<String>) request.getAttribute("profileIds");
+
+        return new AuthorizedUser(userId, roles, profileIds);
     }
 }
 

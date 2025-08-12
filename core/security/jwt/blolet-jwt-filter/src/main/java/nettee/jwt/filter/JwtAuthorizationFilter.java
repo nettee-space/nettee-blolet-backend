@@ -8,13 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Instant;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nettee.jwt.JwtParser;
-import nettee.jwt.annotation.AuthorizedUser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -53,22 +50,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             // 3. JWT 토큰 검증 및 파싱
             var claims = jwtParser.parseClaims(jwtToken);
 
-
             // 4. JWT 토큰에서 사용자 정보 추출
-            // 런타임에 제네릭 타입 정보가 지워지면서, JWT Claim의 roles와 profileIds List 타입을 알 수가 없어 나오는 경고
-            // JWT 생성 시, List<String> 타입을 보장하기 때문에 @SuppressWarnings("unchecked") 사용
-            @SuppressWarnings("unchecked")
-            var authUser = AuthorizedUser.builder()
-                    .userId(claims.getSubject())
-                    .roles(Optional.ofNullable((List<String>) claims.get("roles", List.class))
-                            .orElse(Collections.emptyList()))
-                    .profileIds(Optional.ofNullable((List<String>) claims.get("profileIds", List.class))
-                            .orElse(Collections.emptyList()))
-                    .build();
-            request.setAttribute("authUser", authUser);
+            request.setAttribute("userId", claims.getSubject());
+            request.setAttribute("roles", claims.get("roles", List.class));
+            request.setAttribute("profileIds", claims.get("profileIds", List.class));
 
             filterChain.doFilter(request, response);
-            
         } catch (ExpiredJwtException e) {
             log.warn("JWT 토큰이 만료되었습니다.");
             sendUnauthorizedResponse(response, "JWT 토큰이 만료되었습니다.", e.getMessage());
