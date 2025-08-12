@@ -8,6 +8,7 @@ import nettee.article.port.ArticleLikesCommandRepositoryPort;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static nettee.article.exception.ArticleErrorCode.ARTICLE_INVALID_ID_SPEC;
 import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
@@ -18,6 +19,15 @@ public class ArticleLikesCommandAdapter implements ArticleLikesCommandRepository
 
     private final ArticleLikesJpaRepository jpaRepository;
     private final ArticleLikesEntityMapper mapper;
+
+    @Override
+    public Optional<ArticleLikes> findByProfileIdAndArticleId(String profileId, String articleId) {
+        Long profileIdLong = Long.valueOf(profileId);
+        Long articleIdLong = Long.valueOf(articleId);
+
+        return jpaRepository.findByProfileIdAndArticleId(profileIdLong, articleIdLong)
+                .map(mapper::toDomain);
+    }
 
     @Override
     public ArticleLikes save(ArticleLikes domain) {
