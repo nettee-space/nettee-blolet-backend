@@ -75,9 +75,9 @@ public class ArticleCommandApi {
     }
 
     @Operation(summary = "좋아요 증가", description = "프로필 ID와 아티클 ID에 해당하는 아티클 좋아요를 수정합니다.")
-    @PutMapping("/{articleId}/like")
+    @PutMapping("/{articleId}/likes")
     @ResponseStatus(HttpStatus.OK)
-    public ArticleLikesCommandResponse updateLike(
+    public ArticleLikesCommandResponse updateLikes(
             @RequestBody @Valid ArticleLikesCreateCommand articleLikesCreateCommand,
             // TODO 추후 인가 필터 작업 완료시 userId 제거
             @RequestParam("userId") String userId,
@@ -91,9 +91,9 @@ public class ArticleCommandApi {
     }
 
     @Operation(summary = "좋아요 감소", description = "프로필 ID와 아티클 ID에 해당하는 아티클 좋아요를 삭제합니다.")
-    @DeleteMapping("/{articleId}/like")
+    @DeleteMapping("/{articleId}/likes")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteLike(
+    public void deleteLikes(
             @RequestParam("profileId") String profileId,
             @PathVariable("articleId") String articleId
     ) {
