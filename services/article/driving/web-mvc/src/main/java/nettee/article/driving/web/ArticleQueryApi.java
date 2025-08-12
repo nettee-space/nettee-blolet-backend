@@ -34,7 +34,7 @@ public class ArticleQueryApi {
                 .build();
     }
 
-    @Operation(summary = "아티클 단건 조회", description = "아티클 ID에 해당하는 아티클 정보를 조회합니다.")
+    @Operation(summary = "(제외 예정) 아티클 단건 조회", description = "아티클 ID에 해당하는 아티클 정보를 조회합니다.")
     @GetMapping("/articles/{articleId}")
     public ArticleDetailViewResponse getArticle(
             @PathVariable("articleId") String articleId
