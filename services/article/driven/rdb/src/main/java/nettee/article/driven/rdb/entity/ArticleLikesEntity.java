@@ -17,11 +17,11 @@ import nettee.jpa.support.SnowflakeBaseTimeEntity;
 @Table(schema = "article", name = "article_likes")
 public class ArticleLikesEntity extends SnowflakeBaseTimeEntity {
 
-    private String userId;
+    private Long userId;
 
-    private String profileId;
+    private Long profileId;
 
-    private String articleId;
+    private Long articleId;
 
     private Integer count;
 

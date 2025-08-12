@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ArticleLikesJpaRepository extends JpaRepository<ArticleLikesEntity, Long> {
 
-    Optional<ArticleLikesEntity> findByProfileIdAndArticleId(String profileId, String articleId);
+    Optional<ArticleLikesEntity> findByProfileIdAndArticleId(Long profileId, Long articleId);
 
-    void deleteByProfileIdAndArticleId(String profileId, String articleId);
+    void deleteByProfileIdAndArticleId(Long profileId, Long articleId);
 }

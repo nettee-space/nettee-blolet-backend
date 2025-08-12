@@ -23,12 +23,15 @@ public class ArticleLikesCommandAdapter implements ArticleLikesCommandRepository
     public ArticleLikes save(ArticleLikes domain) {
         ArticleLikesEntity targetEntity;
 
+        Long profileId = Long.valueOf(domain.getProfileId());
+        Long articleId = Long.valueOf(domain.getArticleId());
+
         // 도메인의 ID가 존재하지 않으면 DB에서 조회해서 생성 또는 업데이트, ID가 존재하면 업데이트
         if (domain.getId() == null) {
-            targetEntity = jpaRepository.findByProfileIdAndArticleId(domain.getProfileId(), domain.getArticleId())
+            targetEntity = jpaRepository.findByProfileIdAndArticleId(profileId, articleId)
                     .orElseGet(() -> mapper.toEntity(domain));
         } else {
-            targetEntity = jpaRepository.findByProfileIdAndArticleId(domain.getProfileId(), domain.getArticleId())
+            targetEntity = jpaRepository.findByProfileIdAndArticleId(profileId, articleId)
                     .orElseThrow(ARTICLE_NOT_FOUND::exception);
 
             // 요청받은 ID와 DB에서 조회한 데이터(targetEntity)의 ID가 일치하는지 확인
@@ -47,6 +50,6 @@ public class ArticleLikesCommandAdapter implements ArticleLikesCommandRepository
 
     @Override
     public void deleteByProfileIdAndArticleId(String profileId, String articleId) {
-        jpaRepository.deleteByProfileIdAndArticleId(profileId, articleId);
+        jpaRepository.deleteByProfileIdAndArticleId(Long.valueOf(profileId), Long.valueOf(articleId));
     }
 }
