@@ -6,7 +6,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import nettee.article.domain.ArticleLikesStatus;
+import nettee.article.driven.rdb.entity.type.builder.ArticleLikesEntityStatus;
 import nettee.article.driven.rdb.entity.type.builder.ArticleLikesEntityStatusConverter;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
 
@@ -26,5 +26,5 @@ public class ArticleLikesEntity extends SnowflakeBaseTimeEntity {
     private Integer count;
 
     @Convert(converter = ArticleLikesEntityStatusConverter.class)
-    private ArticleLikesStatus status;
+    private ArticleLikesEntityStatus status;
 }
