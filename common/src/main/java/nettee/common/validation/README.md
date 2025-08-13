@@ -67,32 +67,32 @@ public final class BlogValidator {
 
     public static void validate(BlogValidationTarget field, Object value) {
         switch (field) {
-            case ID ->
+            case BLOG_ID ->
                     validateNotNull(value, BLOG_ID_REQUIRED);
-            case USER_ID -> {
+            case BLOG_USER_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
-            case PROFILE_ID -> {
+            case BLOG_PROFILE_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
-            case USERNAME -> {
+            case BLOG_USERNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
-            case NICKNAME -> {
+            case BLOG_NICKNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
-            case NAME -> {
+            case BLOG_NAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
                 str = str.strip();
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
-            case URL_IDENTIFIER -> {
+            case BLOG_URL_IDENTIFIER -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
@@ -114,13 +114,13 @@ public final class BlogValidator {
     }
 
     public enum BlogValidationTarget {
-        ID,
-        USER_ID,
-        PROFILE_ID,
-        NAME,
-        URL_IDENTIFIER,
-        USERNAME,
-        NICKNAME
+        BLOG_ID,
+        BLOG_USER_ID,
+        BLOG_PROFILE_ID,
+        BLOG_NAME,
+        BLOG_URL_IDENTIFIER,
+        BLOG_USERNAME,
+        BLOG_NICKNAME
     }
 }
 ```
@@ -194,32 +194,32 @@ public final class BlogValidator {
 
     public static void validate(BlogValidationTarget field, Object value) {
         switch (field) {
-            case ID ->
+            case BLOG_ID ->
                     validateNotNull(value, BLOG_ID_REQUIRED);
-            case USER_ID -> {
+            case BLOG_USER_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
-            case PROFILE_ID -> {
+            case BLOG_PROFILE_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
-            case USERNAME -> {
+            case BLOG_USERNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
-            case NICKNAME -> {
+            case BLOG_NICKNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
-            case NAME -> {
+            case BLOG_NAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
                 str = str.strip();
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
-            case URL_IDENTIFIER -> {
+            case BLOG_URL_IDENTIFIER -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
@@ -241,13 +241,13 @@ public final class BlogValidator {
     }
 
     public enum BlogValidationTarget {
-        ID,
-        USER_ID,
-        PROFILE_ID,
-        NAME,
-        URL_IDENTIFIER,
-        USERNAME,
-        NICKNAME
+        BLOG_ID,
+        BLOG_USER_ID,
+        BLOG_PROFILE_ID,
+        BLOG_NAME,
+        BLOG_URL_IDENTIFIER,
+        BLOG_USERNAME,
+        BLOG_NICKNAME
     }
 }
 ```
@@ -321,32 +321,32 @@ public final class BlogValidator {
 
     public static void validate(BlogValidationTarget field, Object value) {
         switch (field) {
-            case ID ->
+            case BLOG_ID ->
                     validateNotNull(value, BLOG_ID_REQUIRED);
-            case USER_ID -> {
+            case BLOG_USER_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
-            case PROFILE_ID -> {
+            case BLOG_PROFILE_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
-            case USERNAME -> {
+            case BLOG_USERNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
-            case NICKNAME -> {
+            case BLOG_NICKNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
-            case NAME -> {
+            case BLOG_NAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
                 str = str.strip();
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
-            case URL_IDENTIFIER -> {
+            case BLOG_URL_IDENTIFIER -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
@@ -368,13 +368,13 @@ public final class BlogValidator {
     }
 
     public enum BlogValidationTarget {
-        ID,
-        USER_ID,
-        PROFILE_ID,
-        NAME,
-        URL_IDENTIFIER,
-        USERNAME,
-        NICKNAME
+        BLOG_ID,
+        BLOG_USER_ID,
+        BLOG_PROFILE_ID,
+        BLOG_NAME,
+        BLOG_URL_IDENTIFIER,
+        BLOG_USERNAME,
+        BLOG_NICKNAME
     }
 }
 ```
