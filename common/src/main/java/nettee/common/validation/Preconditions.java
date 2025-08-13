@@ -357,6 +357,71 @@ public final class Preconditions {
         performLengthValidation(collection, min, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭──────────────────────────────────────────╮
+    //    numeric types: validateMinMax variants
+    // ╰──────────────────────────────────────────╯
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode
+    ) {
+        performMinMaxValidation(value, min, max, errorCode::exception);
+    }
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        performMinMaxValidation(value, min, max, () -> errorCode.exception(cause));
+    }
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        performMinMaxValidation(value, min, max, () -> errorCode.exception(runnable));
+    }
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        performMinMaxValidation(value, min, max, () -> errorCode.exception(runnable, cause));
+    }
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        performMinMaxValidation(value, min, max, () -> errorCode.exception(payloadSupplier));
+    }
+
+    public static void validateMinMax(
+            double value,
+            double min,
+            double max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        performMinMaxValidation(value, min, max, () -> errorCode.exception(payloadSupplier, cause));
+    }
+
     // ╭────────────────────────────────╮
     //    String: validateMin variants
     // ╰────────────────────────────────╯
