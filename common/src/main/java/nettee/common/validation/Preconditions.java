@@ -422,6 +422,78 @@ public final class Preconditions {
         performMinMaxValidation(value, min, max, () -> errorCode.exception(payloadSupplier, cause));
     }
 
+    // ╭──────────────────────────────────────╮
+    //    number types: validateMin variants
+    // ╰──────────────────────────────────────╯
+
+
+    public static void validateMin(
+            double value,
+            double min,
+            ErrorCode errorCode
+    ) {
+        if (value < min) {
+            throw errorCode.exception();
+        }
+    }
+
+    public static void validateMin(
+            double value,
+            double min,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        if (value < min) {
+            throw errorCode.exception(cause);
+        }
+    }
+
+    public static void validateMin(
+            double value,
+            double min,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        if (value < min) {
+            throw errorCode.exception(runnable);
+        }
+    }
+
+    public static void validateMinM(
+            double value,
+            double min,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        if (value < min) {
+            throw errorCode.exception(runnable, cause);
+        }
+    }
+
+    public static void validateMin(
+            double value,
+            double min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        if (value < min) {
+            throw errorCode.exception(payloadSupplier);
+        }
+    }
+
+    public static void validateMin(
+            double value,
+            double min,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        if (value < min) {
+            throw errorCode.exception(payloadSupplier, cause);
+        }
+    }
+
     // ╭────────────────────────────────╮
     //    String: validateMin variants
     // ╰────────────────────────────────╯
