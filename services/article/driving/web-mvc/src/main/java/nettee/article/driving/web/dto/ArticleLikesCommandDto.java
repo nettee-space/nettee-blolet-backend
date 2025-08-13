@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import nettee.article.domain.ArticleLikes;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_INVALID_ID_SPEC;
+import static nettee.article.exception.ArticleErrorCode.ARTICLE_LIKES_EXCEED_LIMIT;
 
 public final class ArticleLikesCommandDto {
 
@@ -26,7 +26,7 @@ public final class ArticleLikesCommandDto {
     ) {
         public ArticleLikesCreateCommand {
             if (count > 1) {
-                throw ARTICLE_INVALID_ID_SPEC.exception();
+                throw ARTICLE_LIKES_EXCEED_LIMIT.exception();
             }
         }
     }
