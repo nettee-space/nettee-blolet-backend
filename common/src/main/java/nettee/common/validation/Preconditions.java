@@ -494,6 +494,79 @@ public final class Preconditions {
         }
     }
 
+    // ╭──────────────────────────────────────╮
+    //    number types: validateMax variants
+    // ╰──────────────────────────────────────╯
+
+
+    public static void validateMax(
+            double value,
+            double max,
+            ErrorCode errorCode
+    ) {
+        if (value > max) {
+            throw errorCode.exception();
+        }
+    }
+
+    public static void validateMax(
+            double value,
+            double max,
+            ErrorCode errorCode,
+            Throwable cause
+    ) {
+        if (value > max) {
+            throw errorCode.exception(cause);
+        }
+    }
+
+    public static void validateMax(
+            double value,
+            double max,
+            ErrorCode errorCode,
+            Runnable runnable
+    ) {
+        if (value > max) {
+            throw errorCode.exception(runnable);
+        }
+    }
+
+    public static void validateMiax(
+            double value,
+            double max,
+            ErrorCode errorCode,
+            Runnable runnable,
+            Throwable cause
+    ) {
+        if (value > max) {
+            throw errorCode.exception(runnable, cause);
+        }
+    }
+
+    public static void validateMax(
+            double value,
+            double max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier
+    ) {
+        if (value > max) {
+            throw errorCode.exception(payloadSupplier);
+        }
+    }
+
+    public static void validateMax(
+            double value,
+            double max,
+            ErrorCode errorCode,
+            Supplier<Map<String, Object>> payloadSupplier,
+            Throwable cause
+    ) {
+        if (value > max) {
+            throw errorCode.exception(payloadSupplier, cause);
+        }
+    }
+
+
     // ╭────────────────────────────────╮
     //    String: validateMin variants
     // ╰────────────────────────────────╯
