@@ -125,6 +125,21 @@ public final class BlogValidator {
 }
 ```
 
+```java
+@Builder
+public record BlogUpdateCommand(
+        @Schema(description = "블로그 이름", example = "Sun☀️ Moon🌙")
+        String name,
+        @Schema(description = "블로그 주소 식별자", example = "wch-os")
+        String urlIdentifier
+) {
+    public BlogUpdateCommand {
+        validate(NAME, name);
+        validate(URL_IDENTIFIER, urlIdentifier);
+    }
+}
+```
+
 <br />
 
 ---
@@ -252,6 +267,21 @@ public final class BlogValidator {
 }
 ```
 
+```java
+@Builder
+public record BlogUpdateCommand(
+        @Schema(description = "Blog name", example = "Sun☀️ Moon🌙")
+        String name,
+        @Schema(description = "Blog URL identifier", example = "wch-os")
+        String urlIdentifier
+) {
+    public BlogUpdateCommand {
+        validate(NAME, name);
+        validate(URL_IDENTIFIER, urlIdentifier);
+    }
+}
+```
+
 <br />
 
 ---
@@ -375,6 +405,21 @@ public final class BlogValidator {
         BLOG_URL_IDENTIFIER,
         BLOG_USERNAME,
         BLOG_NICKNAME
+    }
+}
+```
+
+```java
+@Builder
+public record BlogUpdateCommand(
+        @Schema(description = "ブログ名", example = "Sun☀️ Moon🌙")
+        String name,
+        @Schema(description = "ブログのURL識別子", example = "wch-os")
+        String urlIdentifier
+) {
+    public BlogUpdateCommand {
+        validate(NAME, name);
+        validate(URL_IDENTIFIER, urlIdentifier);
     }
 }
 ```
