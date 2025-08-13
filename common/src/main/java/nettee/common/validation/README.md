@@ -134,6 +134,124 @@ public final class BlogValidator {
 - ▶⠀⠀English
 - ⠀⠀⠀[Japanese](#ja)
 
+> Last updated: 2025-08-14 07:00 AM
+
+# Validation
+
+- `Preconditions`: Validate preconditions. Despite the name, it can also be used for postcondition checks.
+
+## Supported Features
+
+**Supported Target Types**
+
+- `Object`: `validateNotNull`
+- `String`: `validateNotNull`, `validateNotEmpty`, `validateNotBlank`, `validateLength`, `validateMin`, `validateMax`,  
+  `validateRegex`
+- `Collection`: `validateNotNull`, `validateNotEmpty`, `validateLength`, `validateMin`, `validateMax`
+- Number types (`≤ 8 Bytes`): `validateMinMax`, `validateMin`, `validateMax`
+
+### Quick Example
+
+- This project allows static imports of validation-related methods; please keep that in mind when reading the examples.
+
+```java
+// Example: validating inside a compact constructor
+public Example {
+    // [1] Whitespace check: `title` must not be `null`, `""`, or consist only of whitespace such as `" "`.
+    validateNotBlank(title, TITLE_REQUIRED);
+    
+    // [2] Preprocessing: You may trim leading and trailing whitespace from `title` and then continue validation.
+    title = title.strip();
+
+    // [3] Length check: the length of `title` must be between 3 and 100 (inclusive).
+    validateMin(title, 3, TITLE_TOO_SHORT);
+    validateMax(title, 100, TITLE_TOO_LONG);
+}
+```
+
+### Proposed Structure
+
+```java
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_ID_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_INPUT_TYPE_MISMATCHED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NICKNAME_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_PROFILE_ID_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_FORMAT;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_LENGTH;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_USERNAME_REQUIRED;
+import static nettee.common.validation.Preconditions.validateLength;
+import static nettee.common.validation.Preconditions.validateNotBlank;
+import static nettee.common.validation.Preconditions.validateNotNull;
+import static nettee.common.validation.Preconditions.validateRegex;
+
+public final class BlogValidator {
+
+    private BlogValidator() {}
+
+    public static void validate(BlogValidationTarget field, Object value) {
+        switch (field) {
+            case ID ->
+                    validateNotNull(value, BLOG_ID_REQUIRED);
+            case USER_ID -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
+            }
+            case PROFILE_ID -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
+            }
+            case USERNAME -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_USERNAME_REQUIRED);
+            }
+            case NICKNAME -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
+            }
+            case NAME -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_NAME_REQUIRED);
+
+                str = str.strip();
+                validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
+            }
+            case URL_IDENTIFIER -> {
+                String str = castToString(value);
+                validateNotBlank(str, BLOG_URL_REQUIRED);
+
+                str = str.strip();
+                validateRegex(str, "^[A-Za-z0-9_-]+$", BLOG_URL_INVALID_FORMAT);
+                validateLength(str, 3, 15, BLOG_URL_INVALID_LENGTH);
+            }
+        }
+    }
+
+    private static String castToString(Object value) {
+        if (value == null) return null;
+
+        if (!(value instanceof String str)) {
+            throw BLOG_INPUT_TYPE_MISMATCHED.exception();
+        }
+
+        return str;
+    }
+
+    public enum BlogValidationTarget {
+        ID,
+        USER_ID,
+        PROFILE_ID,
+        NAME,
+        URL_IDENTIFIER,
+        USERNAME,
+        NICKNAME
+    }
+}
+```
+
 <br />
 
 ---
