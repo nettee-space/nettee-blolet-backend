@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 
+import static nettee.article.exception.ArticleErrorCode.ARTICLE_QUERY_SIZE_LIMIT_EXCEEDED;
+
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Article", description = "Article API")
@@ -27,6 +29,10 @@ public class ArticleQueryApi {
             @RequestParam("lastCreatedAt") Instant lastCreatedAt,
             @RequestParam("size") int size
     ) {
+        if (size > 50) {
+            throw ARTICLE_QUERY_SIZE_LIMIT_EXCEEDED.exception();
+        }
+
         var articles = articleReadUseCase.getArticleList(blogId, lastCreatedAt, size);
         return ArticleListViewsResponse.builder()
                 .articles(articles.getContent())
