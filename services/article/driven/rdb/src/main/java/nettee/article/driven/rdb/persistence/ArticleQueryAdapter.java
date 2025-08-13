@@ -23,7 +23,7 @@ public class ArticleQueryAdapter implements ArticleQueryRepositoryPort {
     @Override
     public Optional<ArticleDetail> findByArticleId(String articleId) {
         return articleJpaRepository.findDetailById(Long.valueOf(articleId))
-                .map(mapper::toQueryModel);
+                .map(mapper::toSummary);
     }
 
     @Override
@@ -31,6 +31,6 @@ public class ArticleQueryAdapter implements ArticleQueryRepositoryPort {
         Pageable pageable = PageRequest.of(0, size);
         return articleJpaRepository
                 .findByBlogIdAndCreatedAtBeforeOrderByCreatedAtDesc(Long.valueOf(blogId), lastCreatedAt, pageable)
-                .map(mapper::toQueryModel);
+                .map(mapper::toSummary);
     }
 }

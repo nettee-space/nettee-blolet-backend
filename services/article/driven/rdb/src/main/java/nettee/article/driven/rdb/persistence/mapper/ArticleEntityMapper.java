@@ -13,6 +13,6 @@ public interface ArticleEntityMapper {
 
     Article toDomain(ArticleEntity articleEntity);
     ArticleEntity toEntity(Article article);
-    ArticleDetail toQueryModel(ArticleDetailProjection articleDetailProjection);
-    ArticleSummary toQueryModel(ArticleSummaryProjection articleSummaryProjection);
+    ArticleDetail toSummary(ArticleDetailProjection articleDetailProjection);
+    ArticleSummary toSummary(ArticleSummaryProjection articleSummaryProjection);
 }
