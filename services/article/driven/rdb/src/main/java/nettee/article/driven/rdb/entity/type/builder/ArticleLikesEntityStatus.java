@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import static nettee.article.exception.ArticleErrorCode.DEFAULT;
 
 public enum ArticleLikesEntityStatus {
-    DELETED(
+    REMOVED(
         ArticleLikesStatusParameters.builder()
                 .canRead(false)
                 .classifyingBits(0b0000_0000_0000_0000)
@@ -62,7 +62,7 @@ public enum ArticleLikesEntityStatus {
                 : "ArticleLikesStatus 중 일부가 ArticleLikesEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 
         return switch (articleLikesStatus) {
-            case DELETED -> DELETED;
+            case REMOVED -> REMOVED;
             case ACTIVE -> ACTIVE;
             case SUSPENDED -> SUSPENDED;
             default -> throw new Error("ArticleLikesStatus 중 일부가 ArticleLikesEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
@@ -71,7 +71,7 @@ public enum ArticleLikesEntityStatus {
 
     public static ArticleLikesEntityStatus valueOf(int value) {
         return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> DELETED;
+            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> REMOVED;
             case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> ACTIVE;
             case 0b1__0000_0000_0000_0100__000_0000_0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();

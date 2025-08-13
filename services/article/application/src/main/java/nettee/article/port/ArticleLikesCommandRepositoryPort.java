@@ -2,7 +2,11 @@ package nettee.article.port;
 
 import nettee.article.domain.ArticleLikes;
 
+import java.util.Optional;
+
 public interface ArticleLikesCommandRepositoryPort {
+
+    Optional<ArticleLikes> findByProfileIdAndArticleId(String profileId, String articleId);
 
     ArticleLikes save(ArticleLikes articleLikes);
 
