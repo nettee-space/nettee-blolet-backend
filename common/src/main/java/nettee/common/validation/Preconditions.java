@@ -717,6 +717,20 @@ public final class Preconditions {
         }
     }
 
+    private static void performMinMaxValidation(
+            double value,
+            double min,
+            double max,
+            Supplier<? extends RuntimeException> exceptionSupplier
+    ) {
+        assert min >= 0 && max >= 0 : "min, max cannot be less than or equal to 0";
+        assert min < max : "max must be greater than or equal to " + min;
+
+        if (value < min || value > max) {
+            throw exceptionSupplier.get();
+        }
+    }
+
     private static void performMinValidation(
             String value,
             int min,
