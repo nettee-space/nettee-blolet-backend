@@ -6,6 +6,8 @@ import nettee.blolet.blog.application.usecase.BlogCreateUseCase;
 import nettee.blolet.blog.web.admin.dto.BlogAdminCommandDto.BlogCreateCommand;
 import nettee.blolet.blog.web.admin.dto.BlogAdminCommandDto.BlogCreateResponse;
 import nettee.blolet.blog.web.admin.mapper.BlogAdminDtoMapper;
+import nettee.jwt.annotation.AuthUser;
+import nettee.jwt.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,8 +25,11 @@ public class BlogAdminCommandApi {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BlogCreateResponse create(@RequestBody @Valid BlogCreateCommand requestBody) {
-        var blog = mapper.toDomain(requestBody);
+    public BlogCreateResponse create(
+            @RequestBody @Valid BlogCreateCommand requestBody,
+            @AuthUser AuthorizedUser user
+    ) {
+        var blog = mapper.toDomain(user.userId(), requestBody);
         return mapper.toResponse(
                 createUseCase.save(blog)
         );
