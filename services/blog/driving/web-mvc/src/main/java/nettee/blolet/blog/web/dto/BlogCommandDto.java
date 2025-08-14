@@ -3,9 +3,10 @@ package nettee.blolet.blog.web.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats;
-import nettee.blolet.blog.application.validation.BlogValidator.BlogValidationTarget;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 
+import static nettee.blolet.blog.application.validation.BlogValidator.BlogValidationTarget.BLOG_NAME;
+import static nettee.blolet.blog.application.validation.BlogValidator.BlogValidationTarget.BLOG_URL_IDENTIFIER;
 import static nettee.blolet.blog.application.validation.BlogValidator.validate;
 
 public final class BlogCommandDto {
@@ -18,8 +19,8 @@ public final class BlogCommandDto {
             String urlIdentifier
     ) {
         public BlogUpdateCommand {
-            validate(BlogValidationTarget.BLOG_NAME, name);
-            validate(BlogValidationTarget.BLOG_URL_IDENTIFIER, urlIdentifier);
+            validate(BLOG_NAME, name);
+            validate(BLOG_URL_IDENTIFIER, urlIdentifier);
         }
     }
 
