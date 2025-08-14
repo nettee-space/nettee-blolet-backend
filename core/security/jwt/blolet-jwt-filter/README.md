@@ -25,7 +25,7 @@ JWT 토큰을 사용한 인가 처리를 위한 필터 모듈입니다. </br>
 public class ExampleController {
     
     @GetMapping("/user-info")
-    public ResponseEntity<String> getUserInfo(@AuthUser AuthenticatedUser user) {
+    public ResponseEntity<String> getUserInfo(@AuthUser AuthorizedUser user) {
         // user 객체에 JWT 정보가 자동으로 주입됨
         String userId = user.getUserId();
         List<String> profileIds = user.getProfileIds();
@@ -50,7 +50,7 @@ JWT 토큰 검증 실패 시 다음과 같은 응답을 반환합니다.
 ```json
 {
   "error": "JWT 토큰이 만료되었습니다.",
-  "message": "Token has expired",
+  "message": "JWT has expired",
   "timestamp": "2025-01-01T00:00:00Z"
 }
 ```
