@@ -73,8 +73,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
 
-        return filterConfig.getExcludePaths().stream()
-                .anyMatch(requestURI::startsWith);
+        return filterConfig.getExcludePaths().contains(requestURI);
     }
 
     /**

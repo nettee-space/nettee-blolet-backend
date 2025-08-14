@@ -1,6 +1,6 @@
 package nettee.jwt.filter;
 
-import java.util.List;
+import java.util.Set;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ public class JwtFilterConfig {
     /**
      * JWT 토큰 검증이 필요하지 않은 경로들
      */
-    private final List<String> excludePaths = List.of(
+    private final Set<String> excludePaths = Set.of(
         "/auth/signup",
         "/auth/login",
         "/auth/email/verification/send",
