@@ -13,7 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 /**
- * @AuthUser 어노테이션이 붙은 파라미터를 처리하여 AuthenticatedUser 객체를 주입하는 ArgumentResolver
+ * @AuthUser 어노테이션이 붙은 파라미터를 처리하여 AuthorizedUser 객체를 주입하는 ArgumentResolver
  */
 @Component
 @RequiredArgsConstructor
