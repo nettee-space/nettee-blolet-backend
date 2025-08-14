@@ -62,7 +62,6 @@ INSERT INTO "blog"."blog" (
     current_setting('dummy.USER_ID')::bigint,
     current_setting('dummy.PROFILE_ID')::bigint,
     current_setting('dummy.USERNAME')::varchar,
-    -- raw password: Blolet1225!
     '동굴',
     '동굴',
     current_setting('dummy.USERNAME')::varchar
