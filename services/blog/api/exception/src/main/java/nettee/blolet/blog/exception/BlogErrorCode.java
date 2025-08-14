@@ -39,6 +39,8 @@ public enum BlogErrorCode implements ErrorCode {
     ALREADY_SUBSCRIBED_BLOG_NEWSLETTER("이미 뉴스레터를 구독하였습니다.", HttpStatus.CONFLICT),
     UNSUBSCRIBED_BLOG_NEWSLETTER("이미 구독 취소하거나 아직 구독하지 않은 뉴스레터입니다.", HttpStatus.CONFLICT),
 
+    BLOG_INPUT_TYPE_MISMATCHED(
+        "입력값의 타입 불일치가 발생했습니다. 문제가 지속되면 고객센터에 문의해 주세요.", HttpStatus.INTERNAL_SERVER_ERROR),
     DEFAULT("블로그 API 오류", HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
