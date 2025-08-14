@@ -80,11 +80,16 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
     }
 
     @Override
-    public Blog updateUrl(String blogId, String url) {
+    public Blog updateUrl(String userId, String blogId, String url) {
         Objects.requireNonNull(blogId, "blogId cannot be null");
         Objects.requireNonNull(url, "url cannot be null");
         var entity = commandRepository.findById(blogId)
                 .orElseThrow(BLOG_NOT_FOUND::exception);
+
+        // validate ownership
+        if (!Objects.equals(userId, entity.getUserId())) {
+            throw BLOG_COMMAND_FORBIDDEN.exception();
+        }
 
         entity.updateUrl(url);
 
