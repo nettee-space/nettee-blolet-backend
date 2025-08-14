@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.Keys
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.shouldNotBeBlank
+import nettee.jwt.issuer.JwtIssuer
 import java.security.KeyPairGenerator
 import java.security.SecureRandom
 import java.util.*

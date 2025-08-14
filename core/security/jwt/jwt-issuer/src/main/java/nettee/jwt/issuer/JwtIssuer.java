@@ -1,4 +1,4 @@
-package nettee.jwt;
+package nettee.jwt.issuer;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;

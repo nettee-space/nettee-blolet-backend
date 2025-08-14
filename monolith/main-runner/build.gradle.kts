@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":jpa-core"))
     implementation(project(":cors-webmvc"))
     implementation(project(":rest-client"))
+    implementation(project(":security-blolet-jwt-filter"))
 
     // service
     api(project(series))

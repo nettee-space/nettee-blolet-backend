@@ -1,4 +1,4 @@
-package nettee.jwt;
+package nettee.jwt.parser;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

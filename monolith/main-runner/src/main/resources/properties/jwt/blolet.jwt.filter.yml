@@ -1,0 +1,10 @@
+blolet:
+  jwt:
+    filter:
+      exclude-paths:
+        - /auth/signup
+        - /auth/login
+        - /auth/email/verification/send
+        - /auth/email/verification/check
+        - /auth/token/refresh
+        - /swagger-ui

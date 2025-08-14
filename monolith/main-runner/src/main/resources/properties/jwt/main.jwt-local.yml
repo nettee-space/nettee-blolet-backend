@@ -1,0 +1,5 @@
+jwt:
+  keyType: "HMAC"
+  secretKey: ${JWT_SECRET_KEY:bmV0dGVlLWJsb2xldC1qd3Qtc2VjcmV0LWtleS1leHRlbmQ}
+  accessTokenMaxAgeSeconds: 1_800       # 30 minutes
+  refreshTokenMaxAgeSeconds: 1_209_600  # 14 days

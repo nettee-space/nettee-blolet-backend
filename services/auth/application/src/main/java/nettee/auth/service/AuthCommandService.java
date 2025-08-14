@@ -28,7 +28,7 @@ import nettee.auth.port.MailSender;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
-import nettee.jwt.JwtIssuer;
+import nettee.jwt.issuer.JwtIssuer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
