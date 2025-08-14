@@ -9,6 +9,7 @@ spring:
       - properties/persistence/main.snowflake.yml
       - properties/client/main.client.yml
       - properties/jwt/main.jwt.yml
+      - properties/jwt/blolet.jwt.filter.yml
       - properties/mail/main.mail.yml
       - optional:file:.env[.properties]
 
