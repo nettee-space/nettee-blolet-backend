@@ -18,8 +18,8 @@ public final class BlogCommandDto {
             String urlIdentifier
     ) {
         public BlogUpdateCommand {
-            validate(BlogValidationTarget.NAME, name);
-            validate(BlogValidationTarget.URL_IDENTIFIER, urlIdentifier);
+            validate(BlogValidationTarget.BLOG_NAME, name);
+            validate(BlogValidationTarget.BLOG_URL_IDENTIFIER, urlIdentifier);
         }
     }
 
