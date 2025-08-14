@@ -101,6 +101,7 @@ class BlogCommandServiceTest : FreeSpec({
 
     "[UPDATE] 블로그 수정 시" - {
         val targetId = "1"
+        val userId = "USER-1"
         val newName = "new blog name"
         val newUrl = "https://user1.blolet.com"
 
@@ -121,7 +122,7 @@ class BlogCommandServiceTest : FreeSpec({
             // 조회 시 원본 반환
             every { commandPort.findById(targetId) } returns Optional.of(original)
             // 저장 시 capture 후, updatedAt만 갱신된 새 객체 반환
-            every { commandPort.save(capture(captured)) } answers {
+            every { commandPort.update(capture(captured)) } answers {
                 val input: Blog = firstArg()
                 Blog.builder()
                     .id(input.id!!)
@@ -138,6 +139,7 @@ class BlogCommandServiceTest : FreeSpec({
             // action
             val updatingBlog = Blog.builder()
                 .id(targetId)
+                .userId(userId)
                 .name(newName)
                 .urlIdentifier(newUrl)
                 .build()
@@ -150,9 +152,9 @@ class BlogCommandServiceTest : FreeSpec({
             updated.urlIdentifier shouldBe newUrl
 
             // 호출 순서 확인
-            verifySequence {
+            verifyOrder {
                 commandPort.findById(targetId)
-                commandPort.save(any())
+                commandPort.update(any())
             }
         }
 
@@ -160,6 +162,7 @@ class BlogCommandServiceTest : FreeSpec({
             // action & assert
             val updatingBlog = Blog.builder()
                 .id(targetId)
+                .userId(userId)
                 .name(null)
                 .urlIdentifier(newUrl)
                 .build()
@@ -176,6 +179,7 @@ class BlogCommandServiceTest : FreeSpec({
             // action
             val updatingBlog = Blog.builder()
                 .id(targetId)
+                .userId(userId)
                 .name(newName)
                 .urlIdentifier(null)
                 .build()
@@ -185,9 +189,9 @@ class BlogCommandServiceTest : FreeSpec({
             updated.name shouldBe newName
             updated.urlIdentifier shouldBe original.urlIdentifier // URL 변경 없음
 
-            verifySequence {
+            verifyOrder {
                 commandPort.findById(targetId)
-                commandPort.save(any())
+                commandPort.update(any())
             }
         }
     }
@@ -198,9 +202,10 @@ class BlogCommandServiceTest : FreeSpec({
         val oldUrl = "https://old.url"
         val newUrl = "https://new.url"
         val now = Instant.now()
+        val userId = "USER-1"
         val originalBlog = Blog.builder()
             .id(targetId)
-            .userId("USER-1")
+            .userId(userId)
             .name("A Blog")
             .urlIdentifier(oldUrl)
             .createdAt(now)
@@ -232,7 +237,7 @@ class BlogCommandServiceTest : FreeSpec({
         "✅ 존재하는 블로그의 URL이 정상적으로 업데이트되어 저장된다" {
 
             // action
-            val updated = commandService.updateUrl(targetId, newUrl)
+            val updated = commandService.updateUrl(userId, targetId, newUrl)
 
             // assert: URL이 바뀌었는지, 반환 객체가 save 호출된 엔티티와 동일한지
             updated.urlIdentifier shouldBeEqual newUrl
@@ -246,7 +251,7 @@ class BlogCommandServiceTest : FreeSpec({
 
         "🚧 blogId가 null이면 NPE를 던진다" {
             shouldThrow<NullPointerException> {
-                commandService.updateUrl(null, "https://any.url")
+                commandService.updateUrl(userId, null, "https://any.url")
             }
 
             verify(inverse = true) { commandPort.save(any()) }
@@ -255,7 +260,7 @@ class BlogCommandServiceTest : FreeSpec({
         "🚧 존재하지 않는 블로그 ID로 조회 시 BLOG_NOT_FOUND 예외를 던진다" {
 
             val ex = shouldThrow<CustomException> {
-                commandService.updateUrl(wrongId, "https://any.url")
+                commandService.updateUrl(userId, wrongId, "https://any.url")
             }
             ex.errorCode shouldBeEqual BLOG_NOT_FOUND
 
@@ -267,7 +272,7 @@ class BlogCommandServiceTest : FreeSpec({
             every { commandPort.findById(targetId) } returns Optional.of(originalBlog)
 
             shouldThrow<NullPointerException> {
-                commandService.updateUrl(targetId, null)
+                commandService.updateUrl(userId, targetId, null)
             }
 
             verify(inverse = true) { commandPort.save(any()) }
