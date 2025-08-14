@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_COMMAND_FORBIDDEN;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_MAXIMUM_EXCEEDED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_CANNOT_BE_BLANK;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_FOUND;
@@ -54,6 +55,11 @@ public class BlogCommandService implements BlogCreateUseCase, BlogUpdateUseCase,
         // Exception when BLOG_NOT_FOUND
         var entity = commandRepository.findById(blogId)
                 .orElseThrow(BLOG_NOT_FOUND::exception);
+
+        // validate ownership
+        if (!Objects.equals(userId, entity.getUserId())) {
+            throw BLOG_COMMAND_FORBIDDEN.exception();
+        }
 
         // update
         entity.prepareUpdate()

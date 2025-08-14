@@ -10,7 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface BlogDtoMapper {
     @Mapping(target = "id", source = "blogId")
-    Blog toDomain(String blogId, BlogUpdateCommand dto);
+    Blog toDomain(String userId, String blogId, BlogUpdateCommand dto);
     BlogUpdateResponse toUpdateResponse(Blog blog);
     BlogDetail toDetail(Blog blog);
 }
