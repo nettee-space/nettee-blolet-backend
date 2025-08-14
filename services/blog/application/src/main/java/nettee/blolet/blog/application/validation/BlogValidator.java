@@ -1,6 +1,7 @@
 package nettee.blolet.blog.application.validation;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_ID_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_INPUT_TYPE_MISMATCHED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NICKNAME_REQUIRED;
@@ -58,9 +59,13 @@ public final class BlogValidator {
     }
 
     private static String castToString(Object value) {
-        assert value == null || value instanceof String :
-                "value must be a string or null but is " + value.getClass();
-        return (String) value;
+        if (value == null) return null;
+
+        if (!(value instanceof String str)) {
+            throw BLOG_INPUT_TYPE_MISMATCHED.exception();
+        }
+
+        return str;
     }
 
     public enum BlogValidationTarget {
