@@ -35,7 +35,6 @@ public final class BlogValidator {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
-                // 앞뒤 공백 문자를 제거 후 유효성 확인
                 str = str.strip();
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
@@ -43,7 +42,6 @@ public final class BlogValidator {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
-                // 앞뒤 공백 문자를 제거 후 유효성 확인
                 str = str.strip();
                 validateRegex(str, "^[A-Za-z0-9_-]+$", BLOG_URL_INVALID_FORMAT);
                 validateLength(str, 3, 15, BLOG_URL_INVALID_LENGTH);
