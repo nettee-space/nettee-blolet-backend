@@ -24,3 +24,27 @@ INSERT INTO "auth"."user" (
     '동굴',
     'sun@gmail.com'
 );
+
+INSERT INTO "profile"."profile" (
+    "id",
+    "user_id",
+    "nickname",
+    "gender",
+    "birth",
+    "profile_url",
+    "bio",
+    "tel",
+    "occupation",
+    "interest"
+) VALUES (
+    current_setting('dummy.PROFILE_ID')::bigint,
+    current_setting('dummy.USER_ID')::bigint,
+    '동굴',
+    'NOT_THAT_SIMPLE',
+    '2025-08-15'::date,
+    'https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-2228-622f-a21e-41f365335041/raw',
+    '매너 있고 다정한 ^^;;; 젊은 남자 개발자입니다. 여친 있음 ^^;',
+    '010-1234-1234',
+    '백엔드 엔지니어',
+    '서울 데이트 코스,공부하기 좋은 카페,느좋카'
+);
