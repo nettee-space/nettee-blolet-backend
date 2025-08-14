@@ -48,3 +48,22 @@ INSERT INTO "profile"."profile" (
     '백엔드 엔지니어',
     '서울 데이트 코스,공부하기 좋은 카페,느좋카'
 );
+
+INSERT INTO "blog"."blog" (
+    "id",
+    "user_id",
+    "profile_id",
+    "username",
+    "nickname",
+    "name",
+    "url_identifier"
+) VALUES (
+    current_setting('dummy.BLOG_ID')::bigint,
+    current_setting('dummy.USER_ID')::bigint,
+    current_setting('dummy.PROFILE_ID')::bigint,
+    current_setting('dummy.USERNAME')::varchar,
+    -- raw password: Blolet1225!
+    '동굴',
+    '동굴',
+    current_setting('dummy.USERNAME')::varchar
+);
