@@ -40,4 +40,16 @@ public class ArticleLikes {
 
         this.count += amount;
     }
+
+    public void activate() {
+        status = ArticleLikesStatus.ACTIVE;
+    }
+
+    public void suspend() {
+        status = ArticleLikesStatus.SUSPENDED;
+    }
+
+    public void softDelete() {
+        status = ArticleLikesStatus.REMOVED;
+    }
 }

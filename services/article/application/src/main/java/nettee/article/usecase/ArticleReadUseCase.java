@@ -2,11 +2,13 @@ package nettee.article.usecase;
 
 import nettee.article.readmodel.ArticleQueryModels.ArticleDetail;
 import nettee.article.readmodel.ArticleQueryModels.ArticleSummary;
+import org.springframework.data.domain.Slice;
 
-import java.util.List;
+import java.time.Instant;
 
 public interface ArticleReadUseCase {
 
     ArticleDetail getArticle(String articleId);
-    List<ArticleSummary> getArticleList(String blogId);
+
+    Slice<ArticleSummary> getArticleList(String blogId, Instant lastCreatedAt, int size);
 }

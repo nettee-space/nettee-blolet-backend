@@ -1,6 +1,7 @@
 package nettee.blolet.blog.application.validation;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_ID_REQUIRED;
+import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_INPUT_TYPE_MISMATCHED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NICKNAME_REQUIRED;
@@ -21,38 +22,36 @@ public final class BlogValidator {
 
     public static void validate(BlogValidationTarget field, Object value) {
         switch (field) {
-            case ID ->
+            case BLOG_ID ->
                 validateNotNull(value, BLOG_ID_REQUIRED);
-            case USER_ID -> {
+            case BLOG_USER_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_OWNER_ID_REQUIRED);
             }
-            case PROFILE_ID -> {
+            case BLOG_PROFILE_ID -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_PROFILE_ID_REQUIRED);
             }
-            case NAME -> {
+            case BLOG_NAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NAME_REQUIRED);
 
-                // 앞뒤 공백 문자를 제거 후 유효성 확인
                 str = str.strip();
                 validateLength(str, 3, 30, BLOG_NAME_INVALID_LENGTH);
             }
-            case URL_IDENTIFIER -> {
+            case BLOG_URL_IDENTIFIER -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_URL_REQUIRED);
 
-                // 앞뒤 공백 문자를 제거 후 유효성 확인
                 str = str.strip();
                 validateRegex(str, "^[A-Za-z0-9_-]+$", BLOG_URL_INVALID_FORMAT);
                 validateLength(str, 3, 15, BLOG_URL_INVALID_LENGTH);
             }
-            case USERNAME -> {
+            case BLOG_USERNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_USERNAME_REQUIRED);
             }
-            case NICKNAME -> {
+            case BLOG_NICKNAME -> {
                 String str = castToString(value);
                 validateNotBlank(str, BLOG_NICKNAME_REQUIRED);
             }
@@ -60,18 +59,22 @@ public final class BlogValidator {
     }
 
     private static String castToString(Object value) {
-        assert value == null || value instanceof String :
-                "value must be a string or null but is " + value.getClass();
-        return (String) value;
+        if (value == null) return null;
+
+        if (!(value instanceof String str)) {
+            throw BLOG_INPUT_TYPE_MISMATCHED.exception();
+        }
+
+        return str;
     }
 
     public enum BlogValidationTarget {
-        ID,
-        USER_ID,
-        PROFILE_ID,
-        NAME,
-        URL_IDENTIFIER,
-        USERNAME,
-        NICKNAME
+        BLOG_ID,
+        BLOG_USER_ID,
+        BLOG_PROFILE_ID,
+        BLOG_NAME,
+        BLOG_URL_IDENTIFIER,
+        BLOG_USERNAME,
+        BLOG_NICKNAME
     }
 }

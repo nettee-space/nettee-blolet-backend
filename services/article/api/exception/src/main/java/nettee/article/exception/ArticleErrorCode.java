@@ -8,6 +8,19 @@ import java.util.function.Supplier;
 
 public enum ArticleErrorCode implements ErrorCode {
     ARTICLE_NOT_FOUND("아티클을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    ARTICLE_INVALID_ID_SPEC(
+            "요청 시 필요 정보가 서버의 데이터와 일치하지 않습니다. 문제가 지속되면 고객센터에 문의 해주세요.",
+            HttpStatus.CONFLICT
+    ),
+    ARTICLE_QUERY_SIZE_LIMIT_EXCEEDED(
+            "아티클 조회 시 size는 최대 50까지 허용됩니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    ARTICLE_LIKES_EXCEED_LIMIT(
+            "좋아요는 최대 1개만 누를 수 있습니다.",
+            HttpStatus.BAD_REQUEST
+    ),
+    ARTICLE_LIKE_SUSPENDED("비정상적인 활동이 감지되어서 좋아요를 누를 수 없습니다.", HttpStatus.FORBIDDEN),
     DEFAULT("아티클 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
