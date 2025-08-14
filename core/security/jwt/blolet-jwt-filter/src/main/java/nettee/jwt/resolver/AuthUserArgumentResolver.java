@@ -34,8 +34,8 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         String userId = (String) request.getAttribute("userId");
-        List<String> roles = (List<String>) request.getAttribute("roles");
-        List<String> profileIds = (List<String>) request.getAttribute("profileIds");
+        @SuppressWarnings("unchecked") List<String> roles = (List<String>) request.getAttribute("roles");
+        @SuppressWarnings("unchecked") List<String> profileIds = (List<String>) request.getAttribute("profileIds");
 
         return new AuthorizedUser(userId, roles, profileIds);
     }
