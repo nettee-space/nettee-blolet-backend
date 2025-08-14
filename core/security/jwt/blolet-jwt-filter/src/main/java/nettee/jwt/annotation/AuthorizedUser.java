@@ -14,6 +14,18 @@ public record AuthorizedUser(
         List<String> roles,
         List<String> profileIds) {
 
+    public AuthorizedUser {
+        if (userId == null) {
+            userId = "";
+        }
+        if (roles == null) {
+            roles = List.of();
+        }
+        if (profileIds == null) {
+            profileIds = List.of();
+        }
+    }
+
     // 사용자가 인증되었는지 확인
     public boolean hasUserId() {
         return userId != null && !userId.isEmpty();
@@ -21,17 +33,11 @@ public record AuthorizedUser(
 
     // 사용자가 특정 역할을 가지고 있는지 확인
     public boolean hasRoles(String role) {
-        if (roles == null || roles.isEmpty()) {
-            return false;
-        }
         return roles.contains(role);
     }
 
     // 사용자가 특정 프로필 ID를 가지고 있는지 확인
     public boolean hasProfileId(String profileId) {
-        if (profileIds == null || profileIds.isEmpty()) {
-            return false;
-        }
         return profileIds.contains(profileId);
     }
 }
