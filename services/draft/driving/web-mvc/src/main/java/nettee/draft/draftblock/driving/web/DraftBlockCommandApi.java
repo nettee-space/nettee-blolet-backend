@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import nettee.draft.draftblock.application.usecase.DraftBlockCreateUseCase;
 import nettee.draft.draftblock.application.usecase.DraftBlockDeleteUseCase;
 import nettee.draft.draftblock.application.usecase.DraftBlockUpdateUseCase;
-import nettee.draft.draftblock.domain.DraftBlock;
+import nettee.draft.draftblock.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCommandResponse;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
@@ -35,15 +35,8 @@ public class DraftBlockCommandApi {
     @Operation(summary = "블록 생성", description = "블록을 생성합니다.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand draftBlockCreateCommand) {
-        var draft = DraftBlock.of(
-                draftBlockCreateCommand.blogId(),
-                draftBlockCreateCommand.draftId(),
-                draftBlockCreateCommand.articleId(),
-                draftBlockCreateCommand.type(),
-                draftBlockCreateCommand.content(),
-                draftBlockCreateCommand.style()
-        );
+    public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand dto) {
+        var draft = mapper.toDomain(dto, DraftBlockStatus.PENDING);
 
         return DraftBlockCommandResponse.builder()
                 .draftblock(draftCreateUseCase.createDraftBlock(draft))
