@@ -4,6 +4,7 @@ val draftApplication: String by project
 dependencies {
     api(project(draftApi))
     api(project(draftApplication))
+    compileOnly(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
