@@ -27,8 +27,8 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
     }
 
     @Override
-    public void deleteDraft(String userId, String id) {
+    public void deleteDraft(String userId, String draftId) {
         // TODO check if this user owns the blog
-        draftCommandPort.updateStatus(id, DraftStatus.REMOVED);
+        draftCommandPort.updateStatus(draftId, DraftStatus.REMOVED);
     }
 }
