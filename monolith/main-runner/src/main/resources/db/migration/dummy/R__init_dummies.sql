@@ -1,7 +1,7 @@
 -- Namespaced session variables
---   네임스페이스 사용 필수 (ex: dummy.~)
--- Use:
---  current_setting('dummy.USERID')::bigint
+--  네임스페이스 사용 필수 (ex: dummy.~)
+--  Use:
+--    current_setting('dummy.USERID')::bigint
 
 -- USER 1
 SET dummy.USER_ID               = '33333333310000003';
