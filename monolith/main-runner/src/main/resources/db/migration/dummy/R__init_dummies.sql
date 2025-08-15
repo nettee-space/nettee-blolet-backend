@@ -104,3 +104,8 @@ INSERT INTO "blog"."blog" (
     '침착 너구리의 블로그',
     current_setting('dummy.USERNAME2')::varchar
 );
+
+-- statistics
+--  "auth"."user":          2 rows
+--  "profile"."profile":    2 rows
+--  "blog"."blog":          2 rows
