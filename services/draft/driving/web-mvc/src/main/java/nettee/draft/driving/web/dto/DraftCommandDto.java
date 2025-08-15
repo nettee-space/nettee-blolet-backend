@@ -20,6 +20,13 @@ public final class DraftCommandDto {
             @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
             String title
     ) {
+        public DraftCreateCommand {
+            if (title == null) {
+                title = "";
+            }
+
+            title = title.strip();
+        }
     }
 
     @Builder
