@@ -1,8 +1,6 @@
 package nettee.draft.draftblock.driving.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +33,6 @@ public class DraftBlockCommandApi {
     private final DraftBlockDtoMapper mapper;
 
     @Operation(summary = "블록 생성", description = "블록을 생성합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공")
-    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand draftBlockCreateCommand) {
@@ -56,9 +51,6 @@ public class DraftBlockCommandApi {
     }
 
     @Operation(summary = "블록 수정", description = "블록을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
-    })
     @PutMapping("/{draftBlockId}")
     @ResponseStatus(HttpStatus.OK)
     public DraftBlockCommandResponse updateDraftBlock(
@@ -73,9 +65,6 @@ public class DraftBlockCommandApi {
     }
 
     @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "성공")
-    })
     @DeleteMapping("/{draftBlockId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("draftBlockId") String draftBlockId) {
