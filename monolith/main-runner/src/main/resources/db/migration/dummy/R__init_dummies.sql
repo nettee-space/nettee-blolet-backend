@@ -19,7 +19,6 @@ INSERT INTO "auth"."user" (
     current_setting('dummy.USER_ID')::bigint,
     'sun123',
     current_setting('dummy.USERNAME')::varchar,
-    -- raw password: Blolet1225!
     current_setting('dummy.USER_ENCODED_PASSWORD')::varchar,
     '동굴',
     'sun@gmail.com'
