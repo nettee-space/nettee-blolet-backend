@@ -44,7 +44,7 @@ public class DraftBlockCommandApi {
         var draft = mapper.toDomain(dto, DraftBlockStatus.PENDING);
 
         return DraftBlockCommandResponse.builder()
-                .draftblock(draftCreateUseCase.createDraftBlock(user.userId(), draft))
+                .draftblock(draftCreateUseCase.create(user.userId(), draft))
                 .build();
     }
 
@@ -59,7 +59,7 @@ public class DraftBlockCommandApi {
         var draft = mapper.toDomain(draftBlockId, draftUpdateCommand);
 
         return DraftBlockCommandResponse.builder()
-                .draftblock(draftUpdateUseCase.updateDraftBlock(user.userId(), draft))
+                .draftblock(draftUpdateUseCase.update(user.userId(), draft))
                 .build();
     }
 
@@ -70,7 +70,7 @@ public class DraftBlockCommandApi {
             @PathVariable("draftBlockId") String draftBlockId,
             @AuthUser AuthorizedUser user
     ) {
-        draftDeleteUseCase.deleteDraftBlock(user.userId(), draftBlockId);
+        draftDeleteUseCase.delete(user.userId(), draftBlockId);
     }
 
 }

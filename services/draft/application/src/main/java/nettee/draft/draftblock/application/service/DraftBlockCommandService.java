@@ -15,19 +15,19 @@ public class DraftBlockCommandService implements DraftBlockCreateUseCase, DraftB
     private final DraftBlockCommandPort draftblockCommandPort;
 
     @Override
-    public DraftBlock createDraftBlock(String userId, DraftBlock draft) {
+    public DraftBlock create(String userId, DraftBlock draft) {
         // TODO validate if this user owns the blog
         return draftblockCommandPort.save(draft);
     }
 
     @Override
-    public DraftBlock updateDraftBlock(String userId, DraftBlock draft) {
+    public DraftBlock update(String userId, DraftBlock draft) {
         // TODO validate if this user owns the blog
         return draftblockCommandPort.update(draft);
     }
 
     @Override
-    public void deleteDraftBlock(String userId, String draftBlockId) {
+    public void delete(String userId, String draftBlockId) {
         // TODO validate if this user owns the blog
         draftblockCommandPort.updateStatus(draftBlockId, DraftBlockStatus.REMOVED);
     }
