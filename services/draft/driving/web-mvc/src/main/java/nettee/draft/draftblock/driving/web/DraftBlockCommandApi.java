@@ -16,7 +16,6 @@ import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUp
 import nettee.draft.draftblock.driving.web.mapper.DraftBlockDtoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,13 +59,13 @@ public class DraftBlockCommandApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "성공")
     })
-    @PutMapping("/{id}")
+    @PutMapping("/{draftBlockId}")
     @ResponseStatus(HttpStatus.OK)
     public DraftBlockCommandResponse updateDraftBlock(
-            @PathVariable("id") String id,
+            @PathVariable("draftBlockId") String draftBlockId,
             @RequestBody @Valid DraftBlockUpdateCommand draftUpdateCommand
     ) {
-        var draft = mapper.toDomain(id, draftUpdateCommand);
+        var draft = mapper.toDomain(draftBlockId, draftUpdateCommand);
 
         return DraftBlockCommandResponse.builder()
                 .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
@@ -77,10 +76,10 @@ public class DraftBlockCommandApi {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "성공")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{draftBlockId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBoard(@PathVariable("id") String id) {
-        draftDeleteUseCase.deleteDraftBlock(id);
+    public void deleteBoard(@PathVariable("draftBlockId") String draftBlockId) {
+        draftDeleteUseCase.deleteDraftBlock(draftBlockId);
     }
 
 }
