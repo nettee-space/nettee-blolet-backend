@@ -53,20 +53,24 @@ public class DraftCommandApi {
     @ResponseStatus(HttpStatus.OK)
     public DraftCommandResponse updateDraft(
             @PathVariable("id") String id,
-            @RequestBody @Valid DraftUpdateCommand draftUpdateCommand
+            @RequestBody @Valid DraftUpdateCommand draftUpdateCommand,
+            @AuthUser AuthorizedUser user
     ) {
         var draft = mapper.toDomain(id, draftUpdateCommand);
 
         return DraftCommandResponse.builder()
-                .draft(draftUpdateUseCase.updateDraft(draft))
+                .draft(draftUpdateUseCase.updateDraft(user.userId(), draft))
                 .build();
     }
 
     @Operation(summary = "임시 아티클 삭제", description = "임시아티클 ID로 임시 아티클을 삭제합니다.")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBoard(@PathVariable("id") String id) {
-        draftDeleteUseCase.deleteDraft(id);
+    public void deleteBoard(
+            @PathVariable("id") String id,
+            @AuthUser AuthorizedUser user
+    ) {
+        draftDeleteUseCase.deleteDraft(user.userId(), id);
     }
 
 }
