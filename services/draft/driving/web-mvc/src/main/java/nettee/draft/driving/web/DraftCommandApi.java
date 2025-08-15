@@ -1,8 +1,6 @@
 package nettee.draft.driving.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,10 +34,7 @@ public class DraftCommandApi {
     private final DraftDeleteUseCase draftDeleteUseCase;
     private final DraftDtoMapper mapper;
 
-    @Operation(summary = "임시 아티클 생성", description = "임시 아티클을 생성합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "성공")
-    })
+    @Operation(summary = "임시 아티클(드래프트) 생성", description = "임시 아티클을 생성합니다.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DraftCommandResponse create(
@@ -54,9 +49,6 @@ public class DraftCommandApi {
     }
 
     @Operation(summary = "임시 아티클 수정", description = "임시아티클 ID로 임시 아티클을 수정합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공")
-    })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public DraftCommandResponse updateDraft(
@@ -71,9 +63,6 @@ public class DraftCommandApi {
     }
 
     @Operation(summary = "임시 아티클 삭제", description = "임시아티클 ID로 임시 아티클을 삭제합니다.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "성공")
-    })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBoard(@PathVariable("id") String id) {

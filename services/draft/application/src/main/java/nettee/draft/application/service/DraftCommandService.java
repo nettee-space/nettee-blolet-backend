@@ -15,8 +15,8 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
     private final DraftCommandPort draftCommandPort;
 
     @Override
-    public Draft createDraft(Draft draft) {
     public Draft createDraft(String userId, Draft draft) {
+        // TODO check if this user owns the blog
         return draftCommandPort.save(draft);
     }
 
