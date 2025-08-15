@@ -12,6 +12,8 @@ import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCo
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
 import nettee.draft.draftblock.driving.web.mapper.DraftBlockDtoMapper;
+import nettee.jwt.annotation.AuthUser;
+import nettee.jwt.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +37,14 @@ public class DraftBlockCommandApi {
     @Operation(summary = "블록 생성", description = "블록을 생성합니다.")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public DraftBlockCommandResponse create(@RequestBody @Valid DraftBlockCreateCommand dto) {
+    public DraftBlockCommandResponse create(
+            @RequestBody @Valid DraftBlockCreateCommand dto,
+            @AuthUser AuthorizedUser user
+    ) {
         var draft = mapper.toDomain(dto, DraftBlockStatus.PENDING);
 
         return DraftBlockCommandResponse.builder()
-                .draftblock(draftCreateUseCase.createDraftBlock(draft))
+                .draftblock(draftCreateUseCase.createDraftBlock(user.userId(), draft))
                 .build();
     }
 
@@ -48,20 +53,24 @@ public class DraftBlockCommandApi {
     @ResponseStatus(HttpStatus.OK)
     public DraftBlockCommandResponse updateDraftBlock(
             @PathVariable("draftBlockId") String draftBlockId,
-            @RequestBody @Valid DraftBlockUpdateCommand draftUpdateCommand
+            @RequestBody @Valid DraftBlockUpdateCommand draftUpdateCommand,
+            @AuthUser AuthorizedUser user
     ) {
         var draft = mapper.toDomain(draftBlockId, draftUpdateCommand);
 
         return DraftBlockCommandResponse.builder()
-                .draftblock(draftUpdateUseCase.updateDraftBlock(draft))
+                .draftblock(draftUpdateUseCase.updateDraftBlock(user.userId(), draft))
                 .build();
     }
 
     @Operation(summary = "블록 삭제", description = "블록을 삭제합니다.")
     @DeleteMapping("/{draftBlockId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBoard(@PathVariable("draftBlockId") String draftBlockId) {
-        draftDeleteUseCase.deleteDraftBlock(draftBlockId);
+    public void deleteBoard(
+            @PathVariable("draftBlockId") String draftBlockId,
+            @AuthUser AuthorizedUser user
+    ) {
+        draftDeleteUseCase.deleteDraftBlock(user.userId(), draftBlockId);
     }
 
 }
