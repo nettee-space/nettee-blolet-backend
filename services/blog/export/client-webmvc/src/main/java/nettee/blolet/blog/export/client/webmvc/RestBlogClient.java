@@ -2,6 +2,7 @@ package nettee.blolet.blog.export.client.webmvc;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import nettee.blolet.blog.export.client.api.BlogClient;
 import nettee.blolet.blog.export.client.api.BlogClientDto.BlogOwnershipVerifyResponse;
 import nettee.client.request.NetteeRequest;
 import nettee.restclient.NetteeClient;
@@ -10,21 +11,24 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-public final class BlogClient {
+public final class RestBlogClient implements BlogClient {
     private final NetteeClient customClient;
     private final Map<BlogRequestType, Cache<Object, Object>> cacheMap;
 
-    public BlogClient(NetteeClient customClient) {
+    public RestBlogClient(NetteeClient customClient) {
         this.customClient = customClient;
         this.cacheMap = new ConcurrentHashMap<>();
     }
 
     /**
+     * 사용자가 블로그의 소유자인지 확인합니다.
+     * 조회 결과를 10분 동안 캐싱합니다.
      *
      * @param userId
      * @param blogId
-     * @return
+     * @return { isOwner : Boolean }
      */
+    @Override
     public BlogOwnershipVerifyResponse verifyOwnership(String userId, String blogId) {
         var cache = cacheMap.computeIfAbsent(
                 BlogRequestType.VERIFY_OWNERSHIP,
@@ -45,11 +49,14 @@ public final class BlogClient {
     }
 
     /**
+     * 사용자가 블로그의 소유자인지 확인합니다.
+     * 조회 결과를 10분 동안 캐싱됩니다.
      *
      * @param profileId
      * @param blogId
-     * @return
+     * @return { isOwner : Boolean }
      */
+    @Override
     public BlogOwnershipVerifyResponse verifyOwnershipByProfileId(String profileId, String blogId) {
         var cache = cacheMap.computeIfAbsent(
                 BlogRequestType.VERIFY_OWNERSHIP,
@@ -70,13 +77,13 @@ public final class BlogClient {
     }
 
     /**
-     * 캐시를 무시하고 조회합니다.
-     * 단, 조회한 결과를 새롭게 캐싱합니다.
+     * 캐시를 무시하고 조회합니다. (이 메서드는 캐시를 재사용하지 않고, 캐시에 저장만 합니다.)
      *
      * @param userId
      * @param blogId
-     * @return
+     * @return { isOwner : Boolean }
      */
+    @Override
     public BlogOwnershipVerifyResponse verifyOwnershipFresh(String userId, String blogId) {
         var cache = cacheMap.computeIfAbsent(
                 BlogRequestType.VERIFY_OWNERSHIP,
@@ -94,13 +101,13 @@ public final class BlogClient {
     }
 
     /**
-     * 캐시를 무시하고 조회합니다.
-     * 단, 조회한 결과를 새롭게 캐싱합니다.
+     * 캐시를 갱신하며 조회합니다. (이 메서드는 캐시를 재사용하지 않고, 캐시에 저장만 합니다.)
      *
      * @param profileId
      * @param blogId
-     * @return
+     * @return { isOwner : Boolean }
      */
+    @Override
     public BlogOwnershipVerifyResponse verifyOwnershipByProfileIdFresh(String profileId, String blogId) {
         var cache = cacheMap.computeIfAbsent(
                 BlogRequestType.VERIFY_OWNERSHIP,
