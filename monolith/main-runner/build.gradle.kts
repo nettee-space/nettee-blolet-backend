@@ -6,6 +6,8 @@ val article: String by project
 val blog: String by project
 val auth: String by project
 
+val blogClientWebMvc: String by project
+
 version = "0.0.1-SNAPSHOT"
 
 dependencies {
@@ -22,6 +24,9 @@ dependencies {
     api(project(article))
     api(project(blog))
     api(project(auth))
+
+    // client modules
+    api(project(blogClientWebMvc))
 
     // webmvc
     implementation("org.springframework.boot:spring-boot-starter-web")
