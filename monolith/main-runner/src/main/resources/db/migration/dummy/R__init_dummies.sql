@@ -95,4 +95,12 @@ INSERT INTO "blog"."blog" (
     '동굴',
     '동굴',
     current_setting('dummy.USERNAME')::varchar
+), (
+    current_setting('dummy.BLOG_ID2')::bigint,
+    current_setting('dummy.USER_ID2')::bigint,
+    current_setting('dummy.PROFILE_ID2')::bigint,
+    current_setting('dummy.USERNAME2')::varchar,
+    '침착너구리',
+    '침착 너구리의 블로그',
+    current_setting('dummy.USERNAME2')::varchar
 );
