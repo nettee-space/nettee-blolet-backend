@@ -1,12 +1,24 @@
--- 네임스페이스 사용 필수 (ex: dummy.~)
-SET dummy.USER_ID               = '33333333310000000';
-SET dummy.PROFILE_ID            = '33333333320000000';
-SET dummy.BLOG_ID               = '33333333330000000';
+-- Namespaced session variables
+--   네임스페이스 사용 필수 (ex: dummy.~)
+-- Use:
+--  current_setting('dummy.USERID')::bigint
+
+-- USER 1
+SET dummy.USER_ID               = '33333333310000003';
+SET dummy.PROFILE_ID            = '33333333310000004';
+SET dummy.BLOG_ID               = '33333333310000005';
 SET dummy.USERNAME              = 'sun';
+
+-- USER 2
+SET dummy.USER_ID2              = '33333333320000006';
+SET dummy.PROFILE_ID2           = '33333333320000007';
+SET dummy.BLOG_ID2              = '33333333320000008';
+SET dummy.USERNAME2             = 'moon';
+
+-- 비밀번호
 SET dummy.USER_RAW_PASSWORD     = 'Blolet1225!';
 SET dummy.USER_ENCODED_PASSWORD =
     '$argon2id$v=19$m=32768,t=4,p=1$y2CjGj9VT7FUmmRu1brflw$h9MfPg2iT2Doh9w/J1ORBpmOE0/ZWVa2q4kMIPlmqc8';
--- current_setting('dummy.USERID')::bigint
 
 INSERT INTO "auth"."user" (
     "id",
