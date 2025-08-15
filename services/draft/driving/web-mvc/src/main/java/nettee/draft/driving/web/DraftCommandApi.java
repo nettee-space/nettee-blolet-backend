@@ -46,9 +46,10 @@ public class DraftCommandApi {
             @RequestBody @Valid DraftCreateCommand draftCreateCommand,
             @AuthUser AuthorizedUser user
     ) {
-        var draft = mapper.toDomain(user.userId(), draftCreateCommand, DraftStatus.PENDING);
+        var draft = mapper.toDomain(draftCreateCommand, DraftStatus.PENDING);
+
         return DraftCommandResponse.builder()
-                .draft(draftCreateUseCase.createDraft(draft))
+                .draft(draftCreateUseCase.createDraft(user.userId(), draft))
                 .build();
     }
 

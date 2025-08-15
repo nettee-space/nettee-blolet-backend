@@ -14,7 +14,7 @@ import java.util.Optional;
 @Mapper(componentModel = "spring")
 public interface DraftDtoMapper {
     @Mapping(target = "id", source = "userId")
-    Draft toDomain(String userId, DraftCreateCommand command, DraftStatus status);
+    Draft toDomain(DraftCreateCommand command, DraftStatus status);
     Draft toDomain(String id, DraftUpdateCommand command);
     DraftDetailResponse toDtoDetail(Optional<DraftDetail> board);
 }
