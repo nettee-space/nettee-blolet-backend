@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BlogAdminDtoMapper {
-    Blog toDomain(BlogCreateCommand dto);
+    Blog toDomain(String userId, BlogCreateCommand dto);
 
     BlogCreateResponse toResponse(Blog blog);
 }

@@ -12,6 +12,8 @@ import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUnsubscribeResponse;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateCommand;
 import nettee.blolet.blog.web.dto.BlogCommandDto.BlogUpdateResponse;
 import nettee.blolet.blog.web.mapper.BlogDtoMapper;
+import nettee.jwt.annotation.AuthUser;
+import nettee.jwt.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,8 +41,12 @@ public class BlogCommandApi {
             summary = "블로그 정보 수정",
             description = "사용자가 소유한 블로그 정보를 수정합니다."
     )
-    public BlogUpdateResponse updateBlog(@PathVariable("blogId") String blogId, @RequestBody BlogUpdateCommand dto) {
-        var domain = mapper.toDomain(blogId, dto);
+    public BlogUpdateResponse updateBlog(
+            @PathVariable("blogId") String blogId,
+            @RequestBody BlogUpdateCommand dto,
+            @AuthUser AuthorizedUser user
+    ) {
+        var domain = mapper.toDomain(user.userId(), blogId, dto);
         return mapper.toUpdateResponse(updateUseCase.update(domain));
     }
 

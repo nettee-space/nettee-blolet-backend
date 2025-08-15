@@ -5,7 +5,6 @@ import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_OWNER_ID_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_FORMAT;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_LENGTH;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_REQUIRED;
@@ -18,12 +17,10 @@ public final class BlogAdminCommandDto {
 
     @Builder
     public record BlogCreateCommand(
-            String userId,
             String name,
             String url
     ) {
         public BlogCreateCommand {
-            validateNotBlank(userId, BLOG_OWNER_ID_REQUIRED);
             validateNotBlank(name, BLOG_NAME_REQUIRED);
             validateNotBlank(url, BLOG_URL_REQUIRED);
 
