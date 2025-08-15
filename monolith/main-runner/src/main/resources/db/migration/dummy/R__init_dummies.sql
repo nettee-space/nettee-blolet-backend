@@ -66,6 +66,17 @@ INSERT INTO "profile"."profile" (
     '010-1234-1234',
     '백엔드 엔지니어',
     '서울 데이트 코스,공부하기 좋은 카페,느좋카'
+), (
+    current_setting('dummy.PROFILE_ID2')::bigint,
+    current_setting('dummy.USER_ID2')::bigint,
+    '침착너구리',
+    '안드로진뭐시기',
+    '2025-08-15'::date,
+    'https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-2228-622f-a21e-41f365335041/raw',
+    '젊은 남자 개발자입니다. 남친 있음 ^^;',
+    '010-1234-1235',
+    '프론트엔드 엔지니어',
+    '전국 데이트 코스,공부하기 좋은 카페,느좋카'
 );
 
 INSERT INTO "blog"."blog" (
