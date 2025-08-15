@@ -1,4 +1,4 @@
-package nettee.blolet.blog.export.client;
+package nettee.blolet.blog.export.client.api;
 
 import lombok.Builder;
 

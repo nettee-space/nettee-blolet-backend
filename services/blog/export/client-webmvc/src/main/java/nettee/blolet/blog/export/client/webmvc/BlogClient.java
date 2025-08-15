@@ -1,8 +1,8 @@
-package nettee.blolet.blog.export.client;
+package nettee.blolet.blog.export.client.webmvc;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import nettee.blolet.blog.export.client.BlogClientDto.BlogOwnershipVerifyResponse;
+import nettee.blolet.blog.export.client.api.BlogClientDto.BlogOwnershipVerifyResponse;
 import nettee.client.request.NetteeRequest;
 import nettee.restclient.NetteeClient;
 

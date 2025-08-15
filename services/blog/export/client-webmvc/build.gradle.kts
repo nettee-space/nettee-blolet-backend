@@ -1,7 +1,9 @@
 val blogApi: String by project
+val blogClientApi: String by project
 
 dependencies {
     api(project(blogApi))
+    api(project(blogClientApi))
     implementation(project(":rest-client"))
 
     // cache

@@ -6,7 +6,8 @@ val blogReadModel: String by settings
 val blogApplication: String by settings
 val blogRdbAdapter: String by settings
 val blogWebMvcAdapter: String by settings
-val blogClient: String by settings
+val blogClientApi: String by settings
+val blogClientWebMvc: String by settings
 
 fun getDirectories(vararg names: String): (String) -> File {
     var dir = rootDir
@@ -33,7 +34,8 @@ include(
     blogApplication,
     blogRdbAdapter,
     blogWebMvcAdapter,
-    blogClient,
+    blogClientApi,
+    blogClientWebMvc,
 )
 
 project(blog).projectDir = blogDirectory("blog")
@@ -44,4 +46,5 @@ project(blogReadModel).projectDir = blogDirectory("readmodel")
 project(blogApplication).projectDir = blogDirectory("application")
 project(blogRdbAdapter).projectDir = blogDirectory("rdb")
 project(blogWebMvcAdapter).projectDir = blogDirectory("web-mvc")
-project(blogClient).projectDir = blogDirectory("client")
+project(blogClientApi).projectDir = blogDirectory("client-api")
+project(blogClientWebMvc).projectDir = blogDirectory("client-webmvc")
