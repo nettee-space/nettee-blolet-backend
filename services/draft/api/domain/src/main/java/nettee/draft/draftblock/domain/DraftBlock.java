@@ -1,4 +1,5 @@
 package nettee.draft.draftblock.domain;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,20 +26,6 @@ public class DraftBlock {
     private DraftBlockStatus status;
     private Instant createdAt;
     private Instant updatedAt;
-
-    public static DraftBlock of(String blogId, String draftId, String articleId, String type, String content, Map<String, Object> style) {
-        return DraftBlock.builder()
-                .blogId(blogId)
-                .draftId(draftId)
-                .articleId(articleId)
-                .type(type)
-                .content(content)
-                .style(style)
-                .status(DraftBlockStatus.PENDING)
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .build();
-    }
 
     @Builder(
             builderClassName = "UpdateDraftBlockBuilder",

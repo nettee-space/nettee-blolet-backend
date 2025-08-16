@@ -7,6 +7,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum DraftErrorCode implements ErrorCode {
+    // user input
+    DRAFT_BLOG_ID_REQUIRED("블로그 ID를 반드시 제공해야 합니다.", HttpStatus.BAD_REQUEST),
+    DRAFT_TITLE_MIN_LENGTH("블로그 제목은 반드시 3글자 이상입니다.", HttpStatus.BAD_REQUEST),
+
+    // blog status
     DRAFT_NOT_FOUND("임시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
     DRAFT_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),

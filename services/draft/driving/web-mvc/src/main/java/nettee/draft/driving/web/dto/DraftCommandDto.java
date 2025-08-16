@@ -7,6 +7,11 @@ import lombok.Builder;
 import nettee.draft.domain.Draft;
 import nettee.draft.domain.type.DraftStatus;
 
+import static nettee.common.validation.Preconditions.validateMin;
+import static nettee.common.validation.Preconditions.validateNotBlank;
+import static nettee.draft.exception.DraftErrorCode.DRAFT_BLOG_ID_REQUIRED;
+import static nettee.draft.exception.DraftErrorCode.DRAFT_TITLE_MIN_LENGTH;
+
 public final class DraftCommandDto {
     private DraftCommandDto() {
 
@@ -14,21 +19,18 @@ public final class DraftCommandDto {
 
     @Builder
     public record DraftCreateCommand(
-            @NotNull(message = "블로그ID를 입력하십시오.")
             String blogId,
-            // TODO remove `articleId` from `DraftCreateCommand`
-            String articleId,
-            // TODO remove `title` from `DraftCreateCommand`
-            @NotBlank(message = "제목을 입력하십시오.")
-            @Size(min = 3, message = "제목은 세 글자 이상 입력하세요.")
-            String title,
-            // TODO remove `content` from `DraftCreateCommand`
-            @NotBlank(message = "본문을 입력하십시오")
-            @Size(min = 3, message = "본문은 세 글자 이상 입력하세요.")
-            String content,
-            // TODO remove `path` from `DraftCreateCommand`
-            String path
+            String title
     ) {
+        public DraftCreateCommand {
+            validateNotBlank(blogId, DRAFT_BLOG_ID_REQUIRED);
+            if (title == null) {
+                title = "";
+            }
+
+            title = title.strip();
+            validateMin(title, 3, DRAFT_TITLE_MIN_LENGTH);
+        }
     }
 
     @Builder

@@ -25,19 +25,6 @@ public class Draft {
     private Instant createdAt;
     private Instant updatedAt;
 
-    public static Draft of(String blogId, String articleId, String title, String content, String path) {
-        return Draft.builder()
-                .blogId(blogId)
-                .articleId(articleId)
-                .title(title)
-                .content(content)
-                .path(path)
-                .status(DraftStatus.PENDING) // 기본 상태 설정
-                .createdAt(Instant.now())
-                .updatedAt(Instant.now())
-                .build();
-    }
-
     @Builder(
             builderClassName = "UpdateDraftBuilder",
             builderMethodName = "prepareDraftUpdate",

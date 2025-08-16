@@ -15,17 +15,20 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
     private final DraftCommandPort draftCommandPort;
 
     @Override
-    public Draft createDraft(Draft draft) {
+    public Draft createDraft(String userId, Draft draft) {
+        // TODO check if this user owns the blog
         return draftCommandPort.save(draft);
     }
 
     @Override
-    public Draft updateDraft(Draft draft) {
+    public Draft updateDraft(String userId, Draft draft) {
+        // TODO check if this user owns the blog
         return draftCommandPort.update(draft);
     }
 
     @Override
-    public void deleteDraft(String id) {
-        draftCommandPort.updateStatus(id, DraftStatus.REMOVED);
+    public void deleteDraft(String userId, String draftId) {
+        // TODO check if this user owns the blog
+        draftCommandPort.updateStatus(draftId, DraftStatus.REMOVED);
     }
 }
