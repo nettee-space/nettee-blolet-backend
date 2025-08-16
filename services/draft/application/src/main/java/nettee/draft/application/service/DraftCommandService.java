@@ -11,6 +11,7 @@ import nettee.draft.application.usecase.DraftUpdateUseCase;
 import org.springframework.stereotype.Service;
 
 import static nettee.draft.exception.DraftErrorCode.DRAFT_FORBIDDEN;
+import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +33,11 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
 
     @Override
     public void deleteDraft(String userId, String draftId) {
-        // TODO check if this user owns the blog
+        var blogId = draftCommandPort.findById(draftId)
+                .orElseThrow(DRAFT_NOT_FOUND::exception)
+                .blogId();
+        validateOwnership(userId, blogId);
+
         draftCommandPort.updateStatus(draftId, DraftStatus.REMOVED);
     }
 
