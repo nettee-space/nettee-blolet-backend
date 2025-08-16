@@ -125,12 +125,9 @@ public final class RestBlogClient implements BlogClient {
     }
 
     private Cache<Object, Object> createCacheStorage(BlogRequestType type) {
-        return cacheMap.computeIfAbsent(
-                type,
-                ignore -> Caffeine.newBuilder()
-                        .expireAfterAccess(6000, TimeUnit.SECONDS)
-                        .build()
-        );
+        return Caffeine.newBuilder()
+                .expireAfterAccess(6000, TimeUnit.SECONDS)
+                .build();
     }
 
     private enum BlogRequestType {
