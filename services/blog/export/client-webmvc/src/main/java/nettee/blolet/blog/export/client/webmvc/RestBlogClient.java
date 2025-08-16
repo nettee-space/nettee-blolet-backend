@@ -39,8 +39,10 @@ public final class RestBlogClient implements BlogClient {
                 "userId=%s,blogId=%s".formatted(userId, blogId),
                 (key) -> {
                     var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                            .domain("board")
-                            .path("/%s/ownership?userId=%s".formatted(blogId, userId))
+                            .domain("blog")
+                            .path("/blogs/{id}/ownership?userId=%s".formatted(userId))
+                            .uriVariables(new Object[] { blogId })
+                            .responseType(BlogOwnershipVerifyResponse.class)
                             .build();
 
                     return customClient.get(request);
@@ -67,8 +69,8 @@ public final class RestBlogClient implements BlogClient {
                 "profileId=%s,blogId=%s".formatted(profileId, blogId),
                 (key) -> {
                     var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                            .domain("board")
-                            .path("/%s/ownership?profileId=%s".formatted(blogId, profileId))
+                            .domain("blog")
+                            .path("/blogs/%s/ownership?profileId=%s".formatted(blogId, profileId))
                             .build();
 
                     return customClient.get(request);
@@ -90,8 +92,8 @@ public final class RestBlogClient implements BlogClient {
                 this::createCacheStorage
         );
         var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                .domain("board")
-                .path("/%s/ownership?userId=%s".formatted(blogId, userId))
+                .domain("blog")
+                .path("/blogs/%s/ownership?userId=%s".formatted(blogId, userId))
                 .build();
 
         var response = customClient.get(request);
@@ -114,8 +116,8 @@ public final class RestBlogClient implements BlogClient {
                 this::createCacheStorage
         );
         var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                .domain("board")
-                .path("/%s/ownership?profileId=%s".formatted(blogId, profileId))
+                .domain("blog")
+                .path("/blogs/%s/ownership?profileId=%s".formatted(blogId, profileId))
                 .build();
 
         var response = customClient.get(request);
