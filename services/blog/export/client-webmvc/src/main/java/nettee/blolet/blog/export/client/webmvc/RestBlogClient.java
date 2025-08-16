@@ -38,13 +38,7 @@ public final class RestBlogClient implements BlogClient {
         return (BlogOwnershipVerifyResponse) cache.get(
                 "userId=%s,blogId=%s".formatted(userId, blogId),
                 (key) -> {
-                    var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                            .domain("blog")
-                            .path("/blogs/{id}/ownership?userId=%s".formatted(userId))
-                            .uriVariables(new Object[] { blogId })
-                            .responseType(BlogOwnershipVerifyResponse.class)
-                            .build();
-
+                    var request = generateBlogOwnershipRequest(userId, blogId);
                     return customClient.get(request);
                 }
         );
@@ -68,18 +62,15 @@ public final class RestBlogClient implements BlogClient {
         return (BlogOwnershipVerifyResponse) cache.get(
                 "profileId=%s,blogId=%s".formatted(profileId, blogId),
                 (key) -> {
-                    var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                            .domain("blog")
-                            .path("/blogs/%s/ownership?profileId=%s".formatted(blogId, profileId))
-                            .build();
-
+                    var request = generateBlogOwnershipRequestByProfileId(profileId, blogId);
                     return customClient.get(request);
                 }
         );
     }
 
     /**
-     * 캐시를 무시하고 조회합니다. (이 메서드는 캐시를 재사용하지 않고, 캐시에 저장만 합니다.)
+     * 기존 캐시를 무시하고 조회합니다.
+     * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
      *
      * @param userId
      * @param blogId
@@ -91,11 +82,7 @@ public final class RestBlogClient implements BlogClient {
                 BlogRequestType.VERIFY_OWNERSHIP,
                 this::createCacheStorage
         );
-        var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                .domain("blog")
-                .path("/blogs/%s/ownership?userId=%s".formatted(blogId, userId))
-                .build();
-
+        var request = generateBlogOwnershipRequest(userId, blogId);
         var response = customClient.get(request);
         cache.put("userId=%s,blogId=%s".formatted(userId, blogId), response);
 
@@ -103,7 +90,8 @@ public final class RestBlogClient implements BlogClient {
     }
 
     /**
-     * 캐시를 갱신하며 조회합니다. (이 메서드는 캐시를 재사용하지 않고, 캐시에 저장만 합니다.)
+     * 기존 캐시를 무시하고 조회합니다.
+     * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
      *
      * @param profileId
      * @param blogId
@@ -115,11 +103,7 @@ public final class RestBlogClient implements BlogClient {
                 BlogRequestType.VERIFY_OWNERSHIP,
                 this::createCacheStorage
         );
-        var request = NetteeRequest.<BlogOwnershipVerifyResponse>builder()
-                .domain("blog")
-                .path("/blogs/%s/ownership?profileId=%s".formatted(blogId, profileId))
-                .build();
-
+        var request = generateBlogOwnershipRequestByProfileId(profileId, blogId);
         var response = customClient.get(request);
         cache.put("profileId=%s,blogId=%s".formatted(profileId, blogId), response);
 
@@ -129,6 +113,25 @@ public final class RestBlogClient implements BlogClient {
     private Cache<Object, Object> createCacheStorage(BlogRequestType type) {
         return Caffeine.newBuilder()
                 .expireAfterAccess(6000, TimeUnit.SECONDS)
+                .build();
+    }
+
+    private NetteeRequest<BlogOwnershipVerifyResponse> generateBlogOwnershipRequest(String userId, String blogId) {
+        return NetteeRequest.<BlogOwnershipVerifyResponse>builder()
+                .domain("blog")
+                .path("/blogs/{id}/ownership?userId=%s".formatted(userId))
+                .uriVariables(new Object[] { blogId })
+                .responseType(BlogOwnershipVerifyResponse.class)
+                .build();
+    }
+
+    private NetteeRequest<BlogOwnershipVerifyResponse> generateBlogOwnershipRequestByProfileId(
+            String profileId, String blogId) {
+        return NetteeRequest.<BlogOwnershipVerifyResponse>builder()
+                .domain("blog")
+                .path("/blogs/{id}/ownership?profileId=%s".formatted(profileId))
+                .uriVariables(new Object[] { blogId })
+                .responseType(BlogOwnershipVerifyResponse.class)
                 .build();
     }
 
