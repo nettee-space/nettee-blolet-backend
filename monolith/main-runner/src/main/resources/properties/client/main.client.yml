@@ -1,5 +1,5 @@
 app:
   client:
-    base-url: "http://localhost:5000"
+    base-url: "http://localhost:8080"
     url:
-      board: "http://localhost:5000"
+      blog: "http://localhost:8080"
