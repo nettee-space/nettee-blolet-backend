@@ -5,6 +5,8 @@ dependencies {
     api(project(blogApi))
     api(project(blogApplication))
 
+    compileOnly(project(":security-blolet-jwt-filter"))
+
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
     compileOnly("jakarta.annotation:jakarta.annotation-api")
