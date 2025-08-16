@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS "auth"."user" (
     "nickname"	        VARCHAR(255)   ,
     "email"	            VARCHAR(255)   ,
     -- 공통 컬럼
-    "status"	        INT	            DEFAULT 20    ,
+    "status"	        INT	            DEFAULT 20          NOT NULL,
     "created_at"	    TIMESTAMP		DEFAULT NOW()       NOT NULL,
     "updated_at"	    TIMESTAMP		DEFAULT NOW()       NOT NULL
 );
