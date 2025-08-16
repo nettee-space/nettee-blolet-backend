@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "blolet.jwt.filter.exclude-paths")
+@ConfigurationProperties(prefix = "blolet.jwt.filter")
 public class JwtFilterConfig {
     /**
      * JWT 토큰 검증이 필요하지 않은 경로들
