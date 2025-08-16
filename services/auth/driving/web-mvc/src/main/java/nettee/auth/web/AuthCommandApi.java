@@ -35,7 +35,7 @@ public class AuthCommandApi {
     private final AuthDtoMapper mapper;
     private final CookieUtil cookieUtil;
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     @Operation(
             summary = "회원가입",
             description = "일반 사용자를 등록합니다."
@@ -53,7 +53,7 @@ public class AuthCommandApi {
                 .body(result);
     }
 
-    @PostMapping("/log-in")
+    @PostMapping("/login")
     @Operation(
             summary = "로그인",
             description = """
@@ -73,7 +73,7 @@ public class AuthCommandApi {
                 .body(result);
     }
 
-    @PostMapping("/log-out")
+    @PostMapping("/logout")
     @Operation(summary = "로그아웃", description = "사용자가 로그아웃합니다.")
     public void logOut() {
         // 로그아웃 로직 구현
