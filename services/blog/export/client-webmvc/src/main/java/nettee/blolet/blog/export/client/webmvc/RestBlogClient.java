@@ -45,7 +45,7 @@ public final class RestBlogClient implements BlogClient {
     }
 
     /**
-     * 기존 캐시를 무시하고 조회합니다.
+     * 캐시를 우회하여 직접 조회합니다.
      * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
      *
      * @param userId
@@ -90,7 +90,7 @@ public final class RestBlogClient implements BlogClient {
     }
 
     /**
-     * 기존 캐시를 무시하고 조회합니다.
+     * 캐시를 우회하여 직접 조회합니다.
      * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
      *
      * @param profileId
