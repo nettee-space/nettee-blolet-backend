@@ -78,6 +78,8 @@ flowchart LR
 - 프로필 PK 기반 블로그 소유권 확인
   - `verifyOwnershipByProfileId(profileId, blogId)`
   - `verifyOwnershipByProfileIdFresh(profileId, blogId)` (캐시 무시)
+- 블로그 생성
+  - `create(dto)`
 
 **제한 사항**
 
