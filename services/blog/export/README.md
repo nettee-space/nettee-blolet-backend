@@ -17,7 +17,7 @@
 ---
 title: Blog Client Modules
 config:
-theme: dark
+  theme: dark
 ---
 flowchart LR
     %% 선언 declare
