@@ -4,7 +4,7 @@ import nettee.blolet.blog.export.client.api.BlogClientDto.BlogOwnershipVerifyRes
 
 public interface BlogClient {
     BlogOwnershipVerifyResponse verifyOwnership(String userId, String blogId);
-    BlogOwnershipVerifyResponse verifyOwnershipByProfileId(String profileId, String blogId);
     BlogOwnershipVerifyResponse verifyOwnershipFresh(String userId, String blogId);
+    BlogOwnershipVerifyResponse verifyOwnershipByProfileId(String profileId, String blogId);
     BlogOwnershipVerifyResponse verifyOwnershipByProfileIdFresh(String profileId, String blogId);
 }

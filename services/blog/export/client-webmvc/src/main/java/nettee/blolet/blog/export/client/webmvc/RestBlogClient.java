@@ -45,6 +45,27 @@ public final class RestBlogClient implements BlogClient {
     }
 
     /**
+     * 기존 캐시를 무시하고 조회합니다.
+     * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
+     *
+     * @param userId
+     * @param blogId
+     * @return { isOwner : Boolean }
+     */
+    @Override
+    public BlogOwnershipVerifyResponse verifyOwnershipFresh(String userId, String blogId) {
+        var cache = cacheMap.computeIfAbsent(
+                BlogRequestType.VERIFY_OWNERSHIP,
+                this::createCacheStorage
+        );
+        var request = generateBlogOwnershipRequest(userId, blogId);
+        var response = customClient.get(request);
+        cache.put("userId=%s,blogId=%s".formatted(userId, blogId), response);
+
+        return response;
+    }
+
+    /**
      * 사용자가 블로그의 소유자인지 확인합니다.
      * 조회 결과를 10분 동안 캐싱됩니다.
      *
@@ -66,27 +87,6 @@ public final class RestBlogClient implements BlogClient {
                     return customClient.get(request);
                 }
         );
-    }
-
-    /**
-     * 기존 캐시를 무시하고 조회합니다.
-     * 이 메서드는 캐시를 재사용하지 않지만, 캐시를 갱신합니다.
-     *
-     * @param userId
-     * @param blogId
-     * @return { isOwner : Boolean }
-     */
-    @Override
-    public BlogOwnershipVerifyResponse verifyOwnershipFresh(String userId, String blogId) {
-        var cache = cacheMap.computeIfAbsent(
-                BlogRequestType.VERIFY_OWNERSHIP,
-                this::createCacheStorage
-        );
-        var request = generateBlogOwnershipRequest(userId, blogId);
-        var response = customClient.get(request);
-        cache.put("userId=%s,blogId=%s".formatted(userId, blogId), response);
-
-        return response;
     }
 
     /**
