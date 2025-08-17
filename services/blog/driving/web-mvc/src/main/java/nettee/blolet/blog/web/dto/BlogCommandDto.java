@@ -5,9 +5,9 @@ import lombok.Builder;
 import nettee.blolet.blog.application.usecase.subscription.data.SubscriptionStats;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 
-import static nettee.blolet.blog.application.validation.BlogValidator.BlogValidationTarget.BLOG_NAME;
-import static nettee.blolet.blog.application.validation.BlogValidator.BlogValidationTarget.BLOG_URL_IDENTIFIER;
-import static nettee.blolet.blog.application.validation.BlogValidator.validate;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_NAME;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_URL_IDENTIFIER;
+import static nettee.blolet.blog.api.validation.BlogValidator.validate;
 
 public final class BlogCommandDto {
 
