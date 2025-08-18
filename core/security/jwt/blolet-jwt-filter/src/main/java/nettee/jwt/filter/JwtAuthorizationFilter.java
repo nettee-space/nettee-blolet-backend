@@ -2,6 +2,7 @@ package nettee.jwt.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,9 +13,12 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nettee.jwt.parser.JwtParser;
+import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.util.pattern.PathPattern;
+import org.springframework.web.util.pattern.PathPatternParser;
 
 /**
  * JWT 인가 필터
@@ -27,7 +31,27 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtParser jwtParser;
     private final JwtFilterConfig filterConfig;
+    private final PathPatternParser patternParser;
 
+    private List<PathPattern> excludePathPatterns;
+
+    /**
+     * 필터 초기화 메서드
+     * filter 제외 경로 패턴들을 미리 파싱하여 저장
+     */
+    @PostConstruct
+    public void init() {
+        var excludedPaths = filterConfig.getExcludePaths();
+        assert excludedPaths != null : "Excluded paths cannot be null.";
+
+        this.excludePathPatterns = excludedPaths.stream()
+                .map(patternParser::parse)
+                .toList();
+    }
+
+    /**
+     * HTTP 요청을 필터링합니다.
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
@@ -72,8 +96,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
+        PathContainer pathContainer = PathContainer.parsePath(requestURI);
 
-        return filterConfig.getExcludePaths().contains(requestURI);
+        // pattern 매칭을 통해 필터링 제외 경로인지 확인
+        return excludePathPatterns.stream()
+                .anyMatch(pattern -> pattern.matches(pathContainer));
     }
 
     /**
