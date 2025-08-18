@@ -22,6 +22,8 @@ include(
     ":redis-api",
     ":redis-template",
     ":redis-cache",
+    ":upload-image-api",
+    ":upload-image-local",
 )
 
 project(":time-util").projectDir = core["time-util"]!!
@@ -41,3 +43,5 @@ project(":rest-client").projectDir = core["nettee-rest-client"]!!
 project(":redis-api").projectDir = core["nettee-redis-api"]!!
 project(":redis-template").projectDir = core["nettee-redis-template"]!!
 project(":redis-cache").projectDir = core["nettee-redis-cache"]!!
+project(":upload-image-api").projectDir = core["upload-image-api"]!!
+project(":upload-image-local").projectDir = core["upload-image-local"]!!
