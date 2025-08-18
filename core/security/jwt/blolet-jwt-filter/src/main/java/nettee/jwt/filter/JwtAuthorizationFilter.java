@@ -41,7 +41,10 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      */
     @PostConstruct
     public void init() {
-        this.excludePathPatterns = filterConfig.getExcludePaths().stream()
+        var excludedPaths = filterConfig.getExcludePaths();
+        assert excludedPaths != null : "Excluded paths cannot be null.";
+
+        this.excludePathPatterns = excludedPaths.stream()
                 .map(patternParser::parse)
                 .toList();
     }
