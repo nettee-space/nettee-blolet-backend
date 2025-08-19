@@ -4,6 +4,7 @@ val authApplication: String by project
 dependencies {
     api(project(authApi))
     api(project(authApplication))
+    implementation(project(":security-blolet-jwt-filter"))
 
     implementation("org.springframework.boot:spring-boot-starter-web")
 

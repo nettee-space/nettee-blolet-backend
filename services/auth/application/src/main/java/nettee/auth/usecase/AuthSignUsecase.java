@@ -9,4 +9,7 @@ public interface AuthSignUsecase {
 
     String sendOtp(String email);
     String verifyOtp(String email, String otp, String nonce);
+
+    void logout(String userId, String refreshToken);
+    void withdraw(String userId, String refreshToken);
 }
