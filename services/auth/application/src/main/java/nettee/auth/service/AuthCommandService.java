@@ -162,8 +162,24 @@ public class AuthCommandService implements AuthSignUsecase {
         return emailVerificationToken;
     }
 
+
+    @Override
+    public void logout(String userId, String refreshToken) {
+        // redis에 저장된 refreshToken 삭제
+        String hashedRefreshToken = hashSha256(refreshToken);
+        String hashedRefreshTokenKey = userId + ":" + hashedRefreshToken;
+        authRedisPort.delete(hashedRefreshTokenKey);
+
+    }
+
+    @Override
+    public void withdraw(String userId, String refreshToken) {
+        logout(userId, refreshToken);
+        authCommandRepositoryPort.deleteById(userId);
+    }
+
     /**
-     * 로그인 성공 시, accessToken과 refreshToken을 발급합니다.
+     * accessToken과 refreshToken을 발급합니다.
      * accessToken은 JWT 형식으로 발급되며, refreshToken은 암호화된 형태로 Redis에 저장합니다.
      */
     private LoginTokenModel generateLoginToken(User userEntity) {
