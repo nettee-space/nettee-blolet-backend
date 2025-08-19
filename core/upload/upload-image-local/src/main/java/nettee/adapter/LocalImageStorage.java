@@ -1,7 +1,7 @@
 package nettee.adapter;
 
 import jakarta.annotation.PostConstruct;
-import nettee.upload.port.ImageStoragePort;
+import nettee.upload.port.ImageStorage;
 import nettee.upload.properties.ImageUploadProperties;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -18,12 +18,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public class ImageStorageAdapter implements ImageStoragePort {
+public class LocalImageStorage implements ImageStorage {
 
     private final ImageUploadProperties imageUploadProperties;
     private final Map<String, Path> targetLocations = new ConcurrentHashMap<>();
 
-    public ImageStorageAdapter(ImageUploadProperties imageUploadProperties) {
+    public LocalImageStorage(ImageUploadProperties imageUploadProperties) {
         this.imageUploadProperties = imageUploadProperties;
     }
 
