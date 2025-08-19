@@ -1,5 +1,5 @@
 dependencies {
     api(project(":upload-image-api"))
 
-    annotationProcessor("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("jakarta.annotation:jakarta.annotation-api")
 }
