@@ -2,11 +2,11 @@
 
 # User Guide
 # - 권한 부여
-#   chmod +x compose-monolith
+#   chmod +x monolith-compose
 # - 실행 예시
-#   ./compose-monolith up -d
+#   ./monolith-compose up -d
 
-# docker-compose-monolith.yml 파일이 현재 디렉토리에 있는지 확인
+# docker-monolith-compose.yml 파일이 현재 디렉토리에 있는지 확인
 if [ -f "$(pwd)/docker-compose-monolith.yml" ]; then
   compose_file="docker-compose-monolith.yml"
 elif [ -f "$(pwd)/docker-compose-monolith.yaml" ]; then
