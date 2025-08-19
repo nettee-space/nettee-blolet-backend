@@ -17,6 +17,7 @@ dependencies {
     implementation(project(":cors-webmvc"))
     implementation(project(":rest-client"))
     implementation(project(":security-blolet-jwt-filter"))
+    implementation(project((":upload-image-local")))
 
     // service
     api(project(series))
