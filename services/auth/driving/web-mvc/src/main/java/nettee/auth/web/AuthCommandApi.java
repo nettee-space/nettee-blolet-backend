@@ -15,6 +15,8 @@ import nettee.auth.web.dto.AuthCommandDto.SignUpRequest;
 import nettee.auth.web.mapper.AuthDtoMapper;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
+import nettee.jwt.annotation.AuthUser;
+import nettee.jwt.annotation.AuthorizedUser;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -61,7 +63,7 @@ public class AuthCommandApi {
                 리프레시 토큰(refreshToken)은 HttpOnly 쿠키로 반환합니다.
             """
     )
-    public ResponseEntity<LoginResponse> logIn(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         // 로그인 로직 구현
         LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.loginId(), loginRequest.password());
         LoginResponse result = mapper.toDto(responseModel);
@@ -75,18 +77,33 @@ public class AuthCommandApi {
 
     @PostMapping("/logout")
     @Operation(summary = "로그아웃", description = "사용자가 로그아웃합니다.")
-    public void logOut() {
-        // 로그아웃 로직 구현
+    public ResponseEntity<Void> logout(@AuthUser AuthorizedUser authorizedUser,
+                                       @CookieValue("refreshToken") String refreshToken) {
+        String userId = authorizedUser.userId();
+        authSignUsecase.logout(userId, refreshToken);
+
+        ResponseCookie refreshTokenCookie = cookieUtil.deleteRefreshTokenCookie();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .build();
     }
 
-    // TODO: loginId가 Unique 하며 NOT NULL 일 시, loginId로 회원 탈퇴를 진행할 수 있도록 변경 가능
-    @DeleteMapping("/auth/withdraw")
+    @DeleteMapping("/withdraw")
     @Operation(
             summary = "회원탈퇴",
             description = "사용자가 탈퇴합니다."
     )
-    public void withdraw(String userId) {
-        // 회원 탈퇴 구현
+    public ResponseEntity<Void> withdraw(@AuthUser AuthorizedUser authorizedUser,
+                                           @CookieValue("refreshToken") String refreshToken) {
+        String userId = authorizedUser.userId();
+        authSignUsecase.withdraw(userId, refreshToken);
+
+        ResponseCookie refreshTokenCookie = cookieUtil.deleteRefreshTokenCookie();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .build();
     }
 
     @PostMapping("/email/verification/send")

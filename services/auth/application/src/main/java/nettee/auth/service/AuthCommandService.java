@@ -16,7 +16,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.Duration;
 import java.util.Base64;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import nettee.auth.domain.User;
 import nettee.auth.domain.UserStatus;
@@ -162,8 +164,42 @@ public class AuthCommandService implements AuthSignUsecase {
         return emailVerificationToken;
     }
 
+
+    @Override
+    public void logout(String userId, String refreshToken) {
+        // refreshToken 삭제
+        String hashedRefreshToken = hashSha256(refreshToken);
+        String hashedRefreshTokenKey = userId + ":" + hashedRefreshToken;
+        authRedisPort.delete(hashedRefreshTokenKey);
+
+        // 사용자별 토큰 관리 Set에서 해당 refreshToken 해시값 삭제
+        String userSetKey = "user_tokens:" + userId;
+        authRedisPort.removeFromSet(userSetKey, hashedRefreshToken);
+    }
+
+    @Override
+    public void withdraw(String userId, String refreshToken) {
+        // 사용자의 모든 refreshToken 해시값을 Set에서 조회
+        String userSetKey = "user_tokens:" + userId;
+        Set<String> hashedRefreshTokens = authRedisPort.getSetMembers(userSetKey);
+
+        // 모든 refreshToken 삭제
+        if (hashedRefreshTokens != null && !hashedRefreshTokens.isEmpty()) {
+            List<String> deleteKeys = hashedRefreshTokens.stream()
+                    .map(hash -> userId + ":" + hash)
+                    .toList();
+            authRedisPort.deleteAll(deleteKeys);
+        }
+
+        // 사용자 토큰 Set 자체를 삭제
+        authRedisPort.delete(userSetKey);
+
+        // DB에서 사용자 정보 삭제
+        authCommandRepositoryPort.deleteById(userId);
+    }
+
     /**
-     * 로그인 성공 시, accessToken과 refreshToken을 발급합니다.
+     * accessToken과 refreshToken을 발급합니다.
      * accessToken은 JWT 형식으로 발급되며, refreshToken은 암호화된 형태로 Redis에 저장합니다.
      */
     private LoginTokenModel generateLoginToken(User userEntity) {
@@ -176,10 +212,14 @@ public class AuthCommandService implements AuthSignUsecase {
         // refreshToken 발급
         String refreshToken = generateSecureRandom();
         String hashedRefreshToken = hashSha256(refreshToken);
-        String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
 
         // refreshToken 저장
+        String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
         authRedisPort.save(hashedRefreshTokenKey, hashedRefreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRATION));
+
+        // 사용자별 토큰 관리를 위해 해시값을 Set에 저장
+        String userSetKey = "user_tokens:" + userEntity.getId();
+        authRedisPort.addToSet(userSetKey, hashedRefreshToken);
 
         return LoginTokenModel.builder()
                 .accessToken(accessToken)

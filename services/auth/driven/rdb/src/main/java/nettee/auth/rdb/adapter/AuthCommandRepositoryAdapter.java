@@ -27,4 +27,9 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
         UserEntity entity = mapper.toEntity(user);
         return mapper.toDomain(authJpaRepository.save(entity));
     }
+
+    @Override
+    public void deleteById(String userId) {
+        authJpaRepository.deleteById(Long.valueOf(userId));
+    }
 }
