@@ -14,6 +14,7 @@ docker image inspect gradle:8.10.1-jdk21 >/dev/null 2>&1 || docker pull gradle:8
 
 if [[ ! -f monolith/main-runner/build/libs/main-runner-0.0.1-SNAPSHOT.jar ]]; then
   echo "main-runner JAR이 없어 빌드합니다..."
+  ./gradlew --version
   docker run --rm \
     -v "$PWD":/workspace \
     -v "$HOME/.gradle":/home/gradle/.gradle \
