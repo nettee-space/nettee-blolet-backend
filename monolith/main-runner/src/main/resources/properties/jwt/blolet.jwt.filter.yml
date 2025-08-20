@@ -3,6 +3,9 @@ blolet:
     filter:
       exclude-paths:
         - /actuator/health
+        # Docs 등 static
+        - /swagger-ui/**
+        - /v3/api-docs/**
         - /auth/signup
         - /auth/login
         - /auth/email/verification/send
