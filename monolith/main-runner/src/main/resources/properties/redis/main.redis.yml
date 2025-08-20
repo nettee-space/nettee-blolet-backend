@@ -1,0 +1,5 @@
+app.redis:
+  use-cluster-mode: false
+  nodes:
+    - ${SPRING_DATA_REDIS_HOST:127.0.0.1}:${SPRING_DATA_REDIS_PORT:6379}
+#  cache:

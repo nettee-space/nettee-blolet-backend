@@ -1,0 +1,42 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: monolith-local:latest
+    container_name: monolith-app
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      # Spring 표준 환경변수
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://demo_postgres14:5432/demo"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+      # Redis
+      SPRING_DATA_REDIS_HOST: demo_redis
+      SPRING_DATA_REDIS_PORT: "6379"
+    restart: on-failure
+    # ⚠️ `depends_on` 대신 스크립트에서 health로 보장합니다.
+
+#  gradle-cache:
+#    image: busybox   # 최소 이미지
+#    volumes:
+#      - gradle-cache:/home/gradle/.gradle
+#    command: tail -f /dev/null   # 계속 살아있게 유지
+#
+#  app-builder:
+#    image: gradle:8.10.1-jdk21
+#    working_dir: /workspace
+#    volumes:
+#      - .:/workspace
+#      - gradle-cache:/home/gradle/.gradle
+#
+#volumes:
+#  gradle-cache:

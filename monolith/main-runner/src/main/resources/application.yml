@@ -12,6 +12,7 @@ spring:
       - properties/jwt/blolet.jwt.filter.yml
       - properties/mail/main.mail.yml
       - optional:file:.env[.properties]
+      - properties/redis/main.redis.yml
 
   datasource:
     driver-class-name: org.postgresql.Driver

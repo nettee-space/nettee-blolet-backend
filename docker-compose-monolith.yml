@@ -10,17 +10,29 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_INITDB_ARGS: '--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
     ports:
-      - 5433:5432
+      - "5433:5432"
     restart: on-failure
     volumes:
       - sticky_volume_demo_postgres14:/var/lib/postgresql/data
       - ./db/initdb.d:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
 
   demo_redis:
     image: redis:7.4
     ports:
-      - 6379:6379
+      - "6379:6379"
     restart: on-failure
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
 
 volumes:
   sticky_volume_demo_postgres14:
