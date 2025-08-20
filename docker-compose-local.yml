@@ -8,8 +8,10 @@ services:
     container_name: monolith-app
     ports:
       - "8080:8080"
+    env_file:
+      - .env
     environment:
-#      # Spring 표준 환경변수 예시 (필요에 맞게 조정)
+      # Spring 표준 환경변수
       SPRING_PROFILES_ACTIVE: local
       SPRING_DATASOURCE_URL: "jdbc:postgresql://demo_postgres14:5432/demo"
       SPRING_DATASOURCE_USERNAME: "root"
