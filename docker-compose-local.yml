@@ -6,6 +6,9 @@ services:
       dockerfile: Dockerfile
     image: monolith-local:latest
     container_name: monolith-app
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     ports:
       - "8080:8080"
     env_file:
