@@ -10,7 +10,17 @@ fi
 # 0) Base image 사전 준비
 echo "Base image 확인 중..."
 docker image inspect openjdk:21-slim >/dev/null 2>&1 || docker pull openjdk:21-slim
-#docker image inspect gradle:8.10.1-jdk21 >/dev/null 2>&1 || docker pull gradle:8.10.1-jdk21
+docker image inspect gradle:8.10.1-jdk21 >/dev/null 2>&1 || docker pull gradle:8.10.1-jdk21
+
+if [[ ! -f monolith/main-runner/build/libs/main-runner-0.0.1-SNAPSHOT.jar ]]; then
+  echo "main-runner JAR이 없어 빌드합니다..."
+  docker run --rm \
+    -v "$PWD":/workspace \
+    -v "$HOME/.gradle":/home/gradle/.gradle \
+    -w /workspace \
+    gradle:8.10.1-jdk21 \
+    ./gradlew :main-runner:bootJar --no-daemon
+fi
 
 # 1) 인프라 기동
 ./monolith-compose up -d
