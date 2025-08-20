@@ -47,4 +47,28 @@ done
 
 # 3) 앱 기동
 docker compose -f docker-compose-local.yml up -d --build
-echo "로컬 앱 기동 완료: http://localhost:8080"
+echo "🚃 로컬 앱 부트 시작: http://localhost:8080"
+
+echo "앱 헬스체크 대기 중..."
+tries=0
+response=""
+while [[ -z "$response" ]]; do
+  response=$(curl -s http://localhost:8080/actuator/health || true)
+  tries=$((tries+1))
+  if (( tries > 180 )); then
+    echo "시간 초과(≈3분). 상태를 확인하세요."
+    exit 1
+  fi
+  sleep 1
+done
+
+# status 값 추출
+status=$(echo "$response" | grep -o '"status":"[^"]*"' | cut -d'"' -f4 || echo "UNKNOWN")
+
+case "$status" in
+  UP)    presentation="✅ 정상 기동";;
+  DOWN)  presentation="❌ 일부 기능 작동하지 않음";;
+  *)     presentation="⚠️ 기타";;
+esac
+
+echo "✅ 로컬 앱 기동 완료: http://localhost:8080 (상태: $presentation)"
