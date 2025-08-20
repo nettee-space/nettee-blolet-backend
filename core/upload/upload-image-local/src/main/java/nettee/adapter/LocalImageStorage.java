@@ -1,8 +1,11 @@
 package nettee.adapter;
 
 import jakarta.annotation.PostConstruct;
+import nettee.common.image.ImageFormatDetector;
+import nettee.common.image.ImageFormatDetector.ImageFormat;
 import nettee.upload.port.ImageStorage;
 import nettee.upload.properties.ImageUploadProperties;
+import nettee.upload.properties.ImageUploadProperties.Target;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -59,22 +62,18 @@ public class LocalImageStorage implements ImageStorage {
             throw new RuntimeException("원본 파일 이름이 비어있습니다.");
         }
 
-        // 파일 확장자를 추출하기 위한 초기화
-        String extension = "";
-
-        // 파일 이름에서 마지막 점(.) 위치를 찾음
-        int dotIndex = originalFileName.lastIndexOf('.');
-
-        // 마지막 점(.)이 파일 이름 중간에 있는 경우에만 확장자를 추출
-        if (dotIndex > 0 && dotIndex < originalFileName.length() - 1) {
-            extension = originalFileName.substring(dotIndex);
+        ImageFormat format;
+        try {
+            format = ImageFormatDetector.detect(file);
+        } catch (Exception e) {
+            throw new RuntimeException("이미지 타입을 판별할 수 없습니다.", e);
         }
 
-        String storedFileName = UUID.randomUUID() + extension;
+        String storedFileName = UUID.randomUUID() + format.getExtension();
 
-        try {
+        try (var inputStream = file.getInputStream()) {
             Path destination = targetLocation.resolve(storedFileName);
-            Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
             return storedFileName;
         } catch (IOException ex) {
             throw new RuntimeException("파일을 저장할 수 없습니다. 파일 이름: " + storedFileName, ex);
@@ -94,7 +93,7 @@ public class LocalImageStorage implements ImageStorage {
      * 저장된 파일에 접근할 수 있는 전체 URL을 생성합니다.
      */
     public String getFileUrl(String storedFileName, String targetName) {
-        ImageUploadProperties.Target targetProps = imageUploadProperties.targets().get(targetName);
+        Target targetProps = imageUploadProperties.targets().get(targetName);
         if (targetProps == null) {
             throw new IllegalArgumentException("URL 생성을 위한 대상이 유효하지 않습니다: " + targetName);
         }
