@@ -1,0 +1,21 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: monolith-local:latest
+    container_name: monolith-app
+    ports:
+      - "8080:8080"
+    environment:
+#      # Spring 표준 환경변수 예시 (필요에 맞게 조정)
+      SPRING_PROFILES_ACTIVE: local
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://demo_postgres14:5432/demo"
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+      # Redis
+      SPRING_DATA_REDIS_HOST: demo_redis
+      SPRING_DATA_REDIS_PORT: "6379"
+    restart: on-failure
+    # ⚠️ `depends_on` 대신 스크립트에서 health로 보장합니다.
