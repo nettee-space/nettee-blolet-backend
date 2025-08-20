@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+chmod +x ./monolith-compose ./gradlew
 
 # 파일 확인
 if [[ ! -f "docker-compose-local.yml" ]]; then
