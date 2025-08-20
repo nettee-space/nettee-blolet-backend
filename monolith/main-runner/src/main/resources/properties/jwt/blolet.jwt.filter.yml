@@ -2,6 +2,7 @@ blolet:
   jwt:
     filter:
       exclude-paths:
+        - /actuator/health
         - /auth/signup
         - /auth/login
         - /auth/email/verification/send
