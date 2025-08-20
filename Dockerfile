@@ -2,7 +2,7 @@
 FROM openjdk:21-slim
 
 # 2. 환경 변수로 local 프로필 지정
-ENV SPRING_PROFILES_ACTIVE=local
+#ENV SPRING_PROFILES_ACTIVE=local
 
 # 3. 작업 디렉토리 설정
 WORKDIR /app
