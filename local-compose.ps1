@@ -56,4 +56,37 @@ foreach ($s in $services) {
 docker compose -f docker-compose-local.yml up -d --build
 if ($LASTEXITCODE -ne 0) { exit 1 }
 
-Write-Host "로컬 앱 기동 완료: http://localhost:8080"
+Write-Output "🚃 로컬 앱 부트 시작: http://localhost:8080"
+
+Write-Output "앱 헬스체크 대기 중..."
+$tries = 0
+$response = ""
+
+while ([string]::IsNullOrEmpty($response)) {
+    try {
+        $response = curl -s http://localhost:8080/actuator/health | Out-String
+    } catch {
+        $response = ""
+    }
+    $tries++
+    if ($tries -gt 180) {
+        Write-Output "시간 초과(≈3분). 상태를 확인하세요."
+        exit 1
+    }
+    Start-Sleep -Seconds 1
+}
+
+# status 값 추출 (정규식 사용)
+if ($response -match '"status":"([^"]*)"') {
+    $status = $matches[1]
+} else {
+    $status = "UNKNOWN"
+}
+
+switch ($status) {
+    "UP"   { $presentation = "✅ 정상 기동" }
+    "DOWN" { $presentation = "❌ 일부 기능 작동하지 않음" }
+    default { $presentation = "⚠️ 기타" }
+}
+
+Write-Output "✅ 로컬 앱 기동 완료: http://localhost:8080 (상태: $presentation)"
