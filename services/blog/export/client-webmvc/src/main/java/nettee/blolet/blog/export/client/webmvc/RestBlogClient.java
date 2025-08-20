@@ -3,6 +3,8 @@ package nettee.blolet.blog.export.client.webmvc;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import nettee.blolet.blog.export.client.api.BlogClient;
+import nettee.blolet.blog.export.client.api.BlogClientDto.BlogCreateResponse;
+import nettee.blolet.blog.export.client.api.BlogClientDto.BlogInternalCreateCommand;
 import nettee.blolet.blog.export.client.api.BlogClientDto.BlogOwnershipVerifyResponse;
 import nettee.client.request.NetteeRequest;
 import nettee.restclient.NetteeClient;
@@ -110,6 +112,18 @@ public final class RestBlogClient implements BlogClient {
         return response;
     }
 
+    /**
+     *
+     * @param dto Request body
+     * @return BlogCreateResponse { "blog" : {...} }
+     */
+    @Override
+    public BlogCreateResponse create(BlogInternalCreateCommand dto) {
+        var request = generateBlogCreateRequest(dto);
+
+        return customClient.post(request);
+    }
+
     private Cache<Object, Object> createCacheStorage(BlogRequestType type) {
         return Caffeine.newBuilder()
                 .expireAfterAccess(6000, TimeUnit.SECONDS)
@@ -135,8 +149,18 @@ public final class RestBlogClient implements BlogClient {
                 .build();
     }
 
+    private NetteeRequest<BlogCreateResponse> generateBlogCreateRequest(BlogInternalCreateCommand dto) {
+        return NetteeRequest.<BlogCreateResponse>builder()
+                .domain("blog")
+                .path("/internal/blogs")
+                .responseType(BlogCreateResponse.class)
+                .build();
+
+    }
+
     private enum BlogRequestType {
         VERIFY_OWNERSHIP,
+        BLOG_CREATE,
     }
 }
 

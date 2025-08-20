@@ -1,4 +1,4 @@
-package nettee.blolet.blog.application.validation;
+package nettee.blolet.blog.api.validation;
 
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_ID_REQUIRED;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_INPUT_TYPE_MISMATCHED;

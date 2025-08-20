@@ -1,0 +1,3 @@
+app.redis:
+  nodes:
+    - ${SPRING_DATA_REDIS_HOST:127.0.0.1}:${SPRING_DATA_REDIS_PORT:6379}

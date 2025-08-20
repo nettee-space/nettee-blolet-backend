@@ -3,34 +3,49 @@ package nettee.blolet.blog.web.admin.dto;
 import lombok.Builder;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_INVALID_LENGTH;
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NAME_REQUIRED;
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_FORMAT;
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_INVALID_LENGTH;
-import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_URL_REQUIRED;
-import static nettee.common.validation.Preconditions.validateLength;
-import static nettee.common.validation.Preconditions.validateNotBlank;
-import static nettee.common.validation.Preconditions.validateRegex;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_NAME;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_NICKNAME;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_PROFILE_ID;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_URL_IDENTIFIER;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_USERNAME;
+import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_USER_ID;
+import static nettee.blolet.blog.api.validation.BlogValidator.validate;
 
 public final class BlogAdminCommandDto {
     private BlogAdminCommandDto() {}
 
     @Builder
     public record BlogCreateCommand(
+            String profileId,
             String name,
-            String url
+            String url,
+            String username,
+            String nickname
     ) {
         public BlogCreateCommand {
-            validateNotBlank(name, BLOG_NAME_REQUIRED);
-            validateNotBlank(url, BLOG_URL_REQUIRED);
+            validate(BLOG_NAME, name);
+            validate(BLOG_URL_IDENTIFIER, url);
+            validate(BLOG_USERNAME, username);
+            validate(BLOG_NICKNAME, nickname);
+        }
+    }
 
-            // 앞뒤 공백 문자를 제거 후 유효성 확인
-            name = name.strip();
-            url = url.strip();
-
-            validateLength(name, 3, 30, BLOG_NAME_INVALID_LENGTH);
-            validateRegex(url, "^[A-Za-z0-9_-]+$", BLOG_URL_INVALID_FORMAT);
-            validateLength(url, 3, 15, BLOG_URL_INVALID_LENGTH);
+    @Builder
+    public record BlogInternalCreateCommand(
+            String userId,
+            String profileId,
+            String name,
+            String url,
+            String username,
+            String nickname
+    ) {
+        public BlogInternalCreateCommand {
+            validate(BLOG_USER_ID, userId);
+            validate(BLOG_PROFILE_ID, profileId);
+            validate(BLOG_USERNAME, username);
+            validate(BLOG_NICKNAME, nickname);
+            validate(BLOG_NAME, name);
+            validate(BLOG_URL_IDENTIFIER, url);
         }
     }
 
