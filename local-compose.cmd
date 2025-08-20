@@ -14,6 +14,19 @@ if errorlevel 1 (
 )
 REM docker image inspect gradle:8.10.1-jdk21 >nul 2>&1 || docker pull gradle:8.10.1-jdk21
 
+REM main-runner JAR 확인 및 빌드
+if not exist "monolith\main-runner\build\libs\main-runner-0.0.1-SNAPSHOT.jar" (
+    echo main-runner JAR이 없어 빌드합니다...
+    call .\gradlew --version
+    docker run --rm ^
+        -v "%cd%":/workspace ^
+        -v "%USERPROFILE%\.gradle":/home/gradle/.gradle ^
+        -w /workspace ^
+        gradle:8.10.1-jdk21 ^
+        ./gradlew :main-runner:bootJar --no-daemon
+    if errorlevel 1 exit /b 1
+)
+
 rem 1) 인프라 기동
 call .\monolith-compose up -d
 if errorlevel 1 exit /b 1
