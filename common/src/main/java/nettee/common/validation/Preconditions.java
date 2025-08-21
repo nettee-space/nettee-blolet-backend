@@ -886,15 +886,8 @@ public final class Preconditions {
     ) {
         validateLengthArgument(value, min, max);
 
-        if (value == null) {
-            if (min == 0) {
-                return; // null 허용: min이 0이면
-            }
-            throw new NullPointerException("String must not be null if min is not 0.");
-        }
-
-        if (value.isEmpty() && min == 0) {
-            return; // 빈 문자열도 min == 0이면 허용
+        if (value == null || value.isEmpty()) {
+            return;
         }
 
         int len = value.length();
@@ -911,14 +904,7 @@ public final class Preconditions {
     ) {
         validateLengthArgument(collection, min, max);
 
-        if (collection == null) {
-            if (min == 0) {
-                return; // 허용: min이 0이면 null도 OK
-            }
-            throw new NullPointerException("Collection must not be null if min is not 0.");
-        }
-
-        if (collection.isEmpty() && min == 0) {
+        if (collection == null || collection.isEmpty()) {
             return;
         }
 
@@ -948,14 +934,7 @@ public final class Preconditions {
     ) {
         validateMinArgument(value, min);
 
-        if (value == null) {
-            if (min == 0) {
-                return; // null 허용: min이 0이면
-            }
-            throw new NullPointerException("String must not be null if min is not 0.");
-        }
-
-        if (value.isEmpty() && min == 0) {
+        if (value == null || value.isEmpty()) {
             return;
         }
 
@@ -971,15 +950,8 @@ public final class Preconditions {
     ) {
         validateMinArgument(collection, min);
 
-        if (collection == null) {
-            if (min == 0) {
-                return; // 허용: min이 0이면 null도 OK
-            }
-            throw new NullPointerException("Collection must not be null if min is not 0.");
-        }
-
-        if (collection.isEmpty() && min == 0) {
-            return; // 빈 컬렉션도 min == 0이면 허용
+        if (collection == null || collection.isEmpty()) {
+            return;
         }
 
         if (collection.size() < min) {
@@ -994,12 +966,8 @@ public final class Preconditions {
     ) {
         validateMaxArgument(max);
 
-        if (value == null) {
-            return; // null은 길이 0으로 보고 항상 허용 (max >= 0 전제)
-        }
-
-        if (value.isEmpty()) {
-            return; // 길이 0 <= max
+        if (value == null || value.isEmpty()) {
+            return;
         }
 
         if (value.length() > max) {
@@ -1014,12 +982,8 @@ public final class Preconditions {
     ) {
         validateMaxArgument(max);
 
-        if (collection == null) {
-            return; // null은 크기 0으로 취급
-        }
-
-        if (collection.isEmpty()) {
-            return; // 항상 <= max (where max >= 0)
+        if (collection == null || collection.isEmpty()) {
+            return;
         }
 
         if (collection.size() > max) {
@@ -1035,6 +999,10 @@ public final class Preconditions {
         assert regexp != null : "Pattern must not be null.";
         Pattern pattern = compileRegex(regexp);
 
+        if (value == null || value.isEmpty()) {
+            return;
+        }
+
         if (!pattern.matcher(value).matches()) {
             throw exceptionSupplier.get();
         }
@@ -1044,35 +1012,19 @@ public final class Preconditions {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
         assert min <= max : "max must be greater than or equal to " + min;
-
-        if (value == null && min != 0) {
-            throw new NullPointerException("String must not be null if min is not 0.");
-        }
     }
 
     private static void validateLengthArgument(Collection<?> collection, int min, int max) {
         assert min >= 0 && max >= 0 : "min, max cannot be less than or equal to 0";
         assert min < max : "max must be greater than or equal to " + min;
-
-        if (collection == null && min != 0) {
-            throw new NullPointerException("Collection must not be null if min is not 0.");
-        }
     }
 
     private static void validateMinArgument(String value, int min) {
         assert min >= 0 : "min cannot be less than 0";
-
-        if (value == null && min != 0) {
-            throw new NullPointerException("String must not be null if min is not 0.");
-        }
     }
 
     private static void validateMinArgument(Collection<?> collection, int min) {
         assert min >= 0 : "min cannot be less than 0";
-
-        if (collection == null && min != 0) {
-            throw new NullPointerException("Collection must not be null if min is not 0.");
-        }
     }
 
     private static void validateMaxArgument(int max) {
