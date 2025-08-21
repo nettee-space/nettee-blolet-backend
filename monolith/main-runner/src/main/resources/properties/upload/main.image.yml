@@ -1,0 +1,10 @@
+app.upload.image:
+  targets:
+    blog:
+      # 이미지가 실제로 저장될 물리적 디렉터리 경로
+      directory: "uploads/images/blog"
+      # 이미지를 외부에서 접근할 때 사용할 기본 URL
+      base-url: "${IMAGE_UPLOAD_BASE_URL}/images/blog"
+    profile:
+      directory: "uploads/images/profile"
+      base-url: "${IMAGE_UPLOAD_BASE_URL}/images/profile"

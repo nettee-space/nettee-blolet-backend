@@ -4,13 +4,14 @@ spring:
 
   config:
     import:
-      - properties/web/main.cors.yml
-      - properties/web/main.cookie.yml
-      - properties/persistence/main.snowflake.yml
       - properties/client/main.client.yml
-      - properties/jwt/main.jwt.yml
       - properties/jwt/blolet.jwt.filter.yml
+      - properties/jwt/main.jwt.yml
       - properties/mail/main.mail.yml
+      - properties/persistence/main.snowflake.yml
+      - properties/upload/main.image.yml
+      - properties/web/main.cookie.yml
+      - properties/web/main.cors.yml
       - optional:file:.env[.properties]
       - properties/redis/main.redis.yml
 
