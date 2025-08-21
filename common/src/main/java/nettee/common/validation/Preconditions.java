@@ -884,7 +884,7 @@ public final class Preconditions {
             int max,
             Supplier<? extends RuntimeException> exceptionSupplier
     ) {
-        validateLengthArgument(value, min, max);
+        validateLengthArgument(min, max);
 
         if (value == null || value.isEmpty()) {
             return;
@@ -902,7 +902,7 @@ public final class Preconditions {
             int max,
             Supplier<? extends RuntimeException> exceptionSupplier
     ) {
-        validateLengthArgument(collection, min, max);
+        validateLengthArgument(min, max);
 
         if (collection == null || collection.isEmpty()) {
             return;
@@ -932,7 +932,7 @@ public final class Preconditions {
             int min,
             Supplier<? extends RuntimeException> exceptionSupplier
     ) {
-        validateMinArgument(value, min);
+        validateMinArgument(min);
 
         if (value == null || value.isEmpty()) {
             return;
@@ -948,7 +948,7 @@ public final class Preconditions {
             int min,
             Supplier<? extends RuntimeException> exceptionSupplier
     ) {
-        validateMinArgument(collection, min);
+        validateMinArgument(min);
 
         if (collection == null || collection.isEmpty()) {
             return;
@@ -1008,22 +1008,13 @@ public final class Preconditions {
         }
     }
 
-    private static void validateLengthArgument(String value, int min, int max) {
+    private static void validateLengthArgument(int min, int max) {
         assert min >= 0 : "min cannot be less than 0";
         assert max >= 0 : "max cannot be less than 0";
         assert min <= max : "max must be greater than or equal to " + min;
     }
 
-    private static void validateLengthArgument(Collection<?> collection, int min, int max) {
-        assert min >= 0 && max >= 0 : "min, max cannot be less than or equal to 0";
-        assert min < max : "max must be greater than or equal to " + min;
-    }
-
-    private static void validateMinArgument(String value, int min) {
-        assert min >= 0 : "min cannot be less than 0";
-    }
-
-    private static void validateMinArgument(Collection<?> collection, int min) {
+    private static void validateMinArgument(int min) {
         assert min >= 0 : "min cannot be less than 0";
     }
 
