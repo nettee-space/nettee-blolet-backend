@@ -1,4 +1,4 @@
-package nettee.jwt.filter;
+package nettee.blolet.jwt.filter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

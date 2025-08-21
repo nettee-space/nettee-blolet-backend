@@ -1,4 +1,4 @@
-package nettee.jwt.filter;
+package nettee.blolet.jwt.filter.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

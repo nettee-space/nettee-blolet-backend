@@ -1,4 +1,4 @@
-package nettee.jwt.filter;
+package nettee.blolet.jwt.filter.exception;
 
 import nettee.common.CustomException;
 import nettee.common.ErrorCode;

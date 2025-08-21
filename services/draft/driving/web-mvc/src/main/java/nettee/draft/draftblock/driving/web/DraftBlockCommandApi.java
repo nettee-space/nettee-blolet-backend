@@ -12,8 +12,8 @@ import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCo
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
 import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
 import nettee.draft.draftblock.driving.web.mapper.DraftBlockDtoMapper;
-import nettee.jwt.annotation.AuthUser;
-import nettee.jwt.annotation.AuthorizedUser;
+import nettee.blolet.jwt.filter.annotation.AuthUser;
+import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;

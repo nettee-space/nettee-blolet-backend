@@ -1,10 +1,10 @@
-package nettee.jwt.resolver;
+package nettee.blolet.jwt.filter.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import nettee.jwt.annotation.AuthUser;
-import nettee.jwt.annotation.AuthorizedUser;
+import nettee.blolet.jwt.filter.annotation.AuthUser;
+import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;

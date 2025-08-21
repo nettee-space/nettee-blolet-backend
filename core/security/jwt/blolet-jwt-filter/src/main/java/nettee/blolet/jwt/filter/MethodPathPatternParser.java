@@ -1,6 +1,7 @@
-package nettee.jwt.filter;
+package nettee.blolet.jwt.filter;
 
-import nettee.jwt.filter.AuthorizationFilterProperties.PathFilterProperties;
+import nettee.blolet.jwt.filter.properties.AuthorizationFilterProperties;
+import nettee.blolet.jwt.filter.properties.AuthorizationFilterProperties.PathFilterProperties;
 import org.springframework.web.util.pattern.PathPattern;
 import org.springframework.web.util.pattern.PathPatternParser;
 
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static nettee.jwt.filter.AuthorizationFilterProperties.ALL_METHOD_SIGN;
+import static nettee.blolet.jwt.filter.properties.AuthorizationFilterProperties.ALL_METHOD_SIGN;
 
 /**
  * 인가 필터에서 HTTP 메서드별 경로 패턴을 파싱하고 관리하는 클래스입니다.
