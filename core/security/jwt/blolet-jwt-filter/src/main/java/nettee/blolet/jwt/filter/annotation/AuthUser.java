@@ -1,4 +1,4 @@
-package nettee.jwt.annotation;
+package nettee.blolet.jwt.filter.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

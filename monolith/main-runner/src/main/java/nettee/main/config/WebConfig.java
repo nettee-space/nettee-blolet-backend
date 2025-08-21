@@ -1,7 +1,7 @@
 package nettee.main.config;
 
 import lombok.RequiredArgsConstructor;
-import nettee.jwt.resolver.AuthUserArgumentResolver;
+import nettee.blolet.jwt.filter.resolver.AuthUserArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

@@ -1,14 +1,34 @@
-blolet:
-  jwt:
+app:
+  auth:
     filter:
       exclude-paths:
-        - /actuator/health
+        # 서버 간
+        - path: "/actuator/health"
+          methods: "*"
+          description: "Spring Boot Actuator가 제공하는 헬스 체크 경로"
+        - path: "/internal/**"
+          methods: "*"
+          description: "내부 API 경로"
         # Docs 등 static
-        - /swagger-ui/**
-        - /v3/api-docs/**
-        - /auth/signup
-        - /auth/login
-        - /auth/email/verification/send
-        - /auth/email/verification/check
-        - /auth/token/refresh
-        - /swagger-ui
+        - path: /swagger-ui/**
+          methods: "*"
+        - path: /v3/api-docs/**
+          methods: "*"
+        # Auth
+        - path: /auth/signup
+          methods: "*"
+        - path: /auth/login
+          methods: "*"
+        - path: /auth/email/verification/send
+          methods: "*"
+        - path: /auth/email/verification/check
+          methods: "*"
+        - path: /auth/token/refresh
+          methods: "*"
+        # Blog
+        - path: "/blogs/*/ownership"
+          methods: "*"
+          description: 블로그 소유권 확인
+        - path: "/blogs/*"
+          methods: "get"
+          description: 블로그 단건 조회
