@@ -20,12 +20,12 @@ public enum PathFilterErrorCode implements ErrorCode {
 
     @Override
     public String message() {
-        return "";
+        return message;
     }
 
     @Override
     public HttpStatus httpStatus() {
-        return null;
+        return httpStatus;
     }
 
     @Override

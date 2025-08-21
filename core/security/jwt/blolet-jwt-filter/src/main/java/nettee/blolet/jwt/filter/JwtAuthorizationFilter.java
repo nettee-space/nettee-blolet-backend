@@ -81,7 +81,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         String method = request.getMethod();
 
         // pattern 매칭을 통해 필터링 제외 경로인지 확인
-        return methodPathPatternParser.getExcludePathsByMethod(method).stream()
+        var patternSet = methodPathPatternParser.getExcludePathsByMethod(method);
+        assert patternSet != null;
+        return patternSet.stream()
                 .anyMatch(pattern -> pattern.matches(pathContainer));
     }
 

@@ -110,6 +110,7 @@ public class AuthorizationFilterProperties {
                 continue;
             }
 
+            assert wildcardMethodPaths != null;
             set.addAll(wildcardMethodPaths);
             excludePathsMap.put(key, Set.copyOf(set));
         }
