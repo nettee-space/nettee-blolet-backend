@@ -14,7 +14,7 @@ app:
           methods: "*"
         - path: /v3/api-docs/**
           methods: "*"
-        # 일반 목적 API
+        # Auth
         - path: /auth/signup
           methods: "*"
         - path: /auth/login
@@ -25,5 +25,10 @@ app:
           methods: "*"
         - path: /auth/token/refresh
           methods: "*"
-        - path: /blogs/*/ownership
+        # Blog
+        - path: "/blogs/*/ownership"
           methods: "*"
+          description: 블로그 소유권 확인
+        - path: "/blogs/*"
+          methods: "get"
+          description: 블로그 단건 조회
