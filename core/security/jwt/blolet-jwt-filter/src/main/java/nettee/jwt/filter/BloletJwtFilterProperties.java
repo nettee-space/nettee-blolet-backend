@@ -4,10 +4,10 @@ import java.util.Set;
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+@ConfigurationProperties(prefix = "app.auth.filter")
 
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "blolet.jwt.filter")
 public class JwtFilterConfig {
     /**
      * JWT 토큰 검증이 필요하지 않은 경로들
