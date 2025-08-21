@@ -56,7 +56,6 @@ public class AuthorizationFilterProperties {
      * @param method 조회할 HTTP 메서드 (예: "get", "post", "put"...)
      * @return 해당 메서드의 인가 우회 경로 집합.
      *         해당 메서드가 없을 경우 "*" 와일드카드에 해당하는 경로 집합을 반환합니다.
-     *         (둘 다 없으면 {@code null} 반환 가능)
      */
     public Set<PathFilterProperties> getExcludePathsByMethod(String method) {
         Set<PathFilterProperties> set = excludePathsMap.get(method);
