@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @ConfigurationProperties(prefix = "app.auth.filter")
-public class BloletJwtFilterProperties {
+public class AuthorizationFilterProperties {
 
     public static final String ALL_METHOD_SIGN = "*";
 
@@ -19,7 +19,7 @@ public class BloletJwtFilterProperties {
      *
      * @param excludePaths JWT 토큰 검증을 우회하는
      */
-    public BloletJwtFilterProperties(Set<PathFilterProperties> excludePaths) {
+    public AuthorizationFilterProperties(Set<PathFilterProperties> excludePaths) {
         this.excludePathsMap = groupByMethod(excludePaths);
     }
 
