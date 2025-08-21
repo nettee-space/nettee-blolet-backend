@@ -58,7 +58,7 @@ public class AuthorizationFilterProperties {
      *         해당 메서드가 없을 경우 "*" 와일드카드에 해당하는 경로 집합을 반환합니다.
      */
     public Set<PathFilterProperties> getExcludePathsByMethod(String method) {
-        Set<PathFilterProperties> set = excludePathsMap.get(method);
+        Set<PathFilterProperties> set = excludePathsMap.get(method.toLowerCase());
 
         return set != null ?
                 set :
