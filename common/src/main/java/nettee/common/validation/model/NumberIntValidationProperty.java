@@ -46,11 +46,11 @@ public record NumberIntValidationProperty(
             messages.put(REQUIRED, "필수 입력 항목입니다.");
         }
 
-        if (min != null && messages.containsKey(MIN)) {
+        if (min != null && !messages.containsKey(MIN)) {
             messages.put(MIN, min + " 이상을 입력해야 합니다.");
         }
 
-        if (max != null && messages.containsKey(MAX)) {
+        if (max != null && !messages.containsKey(MAX)) {
             messages.put(MAX, "최대 " + max + "까지 입력할 수 있습니다.");
         }
 
