@@ -22,6 +22,14 @@ public interface BaseValidationProperty {
         public static final String MAX = "max";
         public static final String INCLUSIVE = "inclusive";
 
+        // duration
+        public static final String MIN_DURATION = "minDuration";
+        public static final String MAX_DURATION = "maxDuration";
+
+        // step
+        public static final String STEP = "step";
+        public static final String STEP_EPOCH = "stepEpoch";
+        
         private ReservedFieldNames() {}
     }
 
