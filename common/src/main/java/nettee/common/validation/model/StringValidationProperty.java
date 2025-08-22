@@ -53,16 +53,16 @@ public record StringValidationProperty(
             messages.put(REQUIRED, "필수 입력 항목입니다.");
         }
 
-        if (regexp != null && !regexp.isBlank() && messages.containsKey(REGEXP)) {
+        if (regexp != null && !regexp.isBlank() && !messages.containsKey(REGEXP)) {
             log.warn("정규표현식의 안내 메시지가 필요합니다.");
             messages.put(REGEXP, "올바른 입력 양식이 아닙니다.");
         }
 
-        if (minLength != null && messages.containsKey(MIN_LENGTH)) {
+        if (minLength != null && !messages.containsKey(MIN_LENGTH)) {
             messages.put(MIN_LENGTH, minLength + "글자 이상을 입력해야 합니다.");
         }
 
-        if (maxLength != null && messages.containsKey(MAX_LENGTH)) {
+        if (maxLength != null && !messages.containsKey(MAX_LENGTH)) {
             messages.put(MAX_LENGTH, "최대 " + maxLength + "글자까지 입력할 수 있습니다.");
         }
 
