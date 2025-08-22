@@ -29,6 +29,9 @@ public interface BaseValidationProperty {
         // step
         public static final String STEP = "step";
         public static final String STEP_EPOCH = "stepEpoch";
+
+        // regexp
+        public static final String REGEXP = "regexp";
         
         private ReservedFieldNames() {}
     }
