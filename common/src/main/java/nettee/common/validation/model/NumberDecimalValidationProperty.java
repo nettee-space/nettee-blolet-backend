@@ -23,17 +23,17 @@ public record NumberDecimalValidationProperty(
         Map<String, String> messages
 ) implements InclusiveValueBoundedValidationProperty {
     public NumberDecimalValidationProperty {
-        assert type == null || type.isBlank() || "number:int".equals(type)
-                : "type must be 'number:int'. If new spec types are added, update this assertion accordingly.\n" +
-                "type 속성은 반드시 'number:int'이어야 합니다. 만약 새로운 값을 추가한다면 이 assert 구문을 함께 고쳐야 합니다.";
+        assert type == null || type.isBlank() || "number:decimal".equals(type)
+                : "type must be 'number:decimal'. If new spec types are added, update this assertion accordingly.\n" +
+                "type 속성은 반드시 'number:decimal'이어야 합니다. 만약 새로운 값을 추가한다면 이 assert 구문을 함께 고쳐야 합니다.";
         assert min == null || max == null || (min >= 0 && max >= 0 && min <= max)
                 : "Invalid length bounds: min must be >= 0, max must be >= 0, and min <= max.";
         assert inclusive == null || inclusive.size() == 2
                 : "Invalid inclusive size: inclusive.size() == 2";
 
-        // type을 지정하지 않았다면 "number:int"로 초기화합니다.
+        // type을 지정하지 않았다면 "number:decimal"로 초기화합니다.
         if (type == null || type.isBlank()) {
-            type = "number:int";
+            type = "number:decimal";
         }
 
         // 스펙상 `required`는 생략 시 `false`로 취급합니다. (생략해도 되지만, 명시적으로 전달하기 위해 초기화함.)

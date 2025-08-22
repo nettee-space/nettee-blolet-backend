@@ -35,7 +35,7 @@ public record NumberBigDecimalValidationProperty(
         assert inclusive == null || inclusive.size() == 2
                 : "Invalid inclusive size: inclusive.size() == 2";
 
-        // type을 지정하지 않았다면 "number:int"로 초기화합니다.
+        // type을 지정하지 않았다면 "number:bigdecimal"로 초기화합니다.
         if (type == null || type.isBlank()) {
             type = "number:bigdecimal";
         }
