@@ -1,5 +1,6 @@
 package nettee.common.validation.model;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -15,6 +16,11 @@ public final class RegExpFlagBuilder {
 
     public RegExpFlagBuilder add(RegexpFlag flag) {
         flags.add(flag);
+        return this;
+    }
+
+    public RegExpFlagBuilder addAll(Collection<RegexpFlag> flags) {
+        this.flags.addAll(flags);
         return this;
     }
 
