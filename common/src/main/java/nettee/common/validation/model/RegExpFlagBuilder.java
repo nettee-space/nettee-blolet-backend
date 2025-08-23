@@ -24,6 +24,11 @@ public final class RegExpFlagBuilder {
         return this;
     }
 
+    public RegExpFlagBuilder remove(RegexpFlag flag) {
+        flags.remove(flag);
+        return this;
+    }
+
     public String build() {
         return String.join("", flags.stream()
                 .map(RegexpFlag::value)
