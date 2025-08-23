@@ -1,10 +1,13 @@
 package nettee.blolet.draft.api.validation;
 
 import nettee.blolet.draft.api.validation.context.DraftContextValidationSupplier;
+import nettee.common.validation.model.RegExpFlagBuilder;
+import nettee.common.validation.model.RegExpFlagBuilder.RegexpFlag;
 import nettee.common.validation.model.StringValidationProperty;
 import nettee.common.validation.model.ValidationMapBuilder;
 import nettee.common.validation.model.ValidationResponseModel;
 import nettee.common.validation.model.interfaces.BaseValidationProperty;
+import nettee.common.validation.model.interfaces.RegexpSpec;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -19,6 +22,7 @@ import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.T
 import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_TITLE;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.MAX_LENGTH;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.MIN_LENGTH;
+import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.REGEXP;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.REQUIRED;
 
 // NOTE: 정책의 DB 의존성 등 동적인 갱신 필요성 여부에 따른 아키텍처
@@ -50,6 +54,14 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
     private static final int TITLE_MIN_LENGTH = 3;
     private static final int TITLE_MAX_LENGTH = 100;
     private static final int PATH_MAX_LENGTH = 2000; // cuz' 레거시 호환성: 2083글자
+    private static final RegexpSpec PATH_REGEXP = RegexpSpec.builder()
+            .pattern("^[\\p{L}\\p{N}\\p{M}\\p{S}](?:[\\p{L}\\p{N}\\p{M}\\p{S}_-]*[\\p{L}\\p{N}\\p{M}\\p{S}])?$")
+            .flags(
+                    RegExpFlagBuilder.builder()
+                            .add(RegexpFlag.U)
+                            .build()
+            )
+            .build();
 
     /**
      * 유효성을 마지막으로 수정한 시각(고정값)입니다.
@@ -83,11 +95,17 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
         var pathCreateValidation = StringValidationProperty.builder()
                 .required(false)
                 .maxLength(PATH_MAX_LENGTH)
-                .messages(Map.of(MAX_LENGTH, "URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다."))
+                .regexp(PATH_REGEXP)
+                .messages(Map.of(
+                        MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다.",
+                        REGEXP, "게시물 URL은 문자(한글·영문 등), 숫자, 기호(이모지 포함), 밑줄(_)과 하이픈(-)을 포함할 수 있습니다. "
+                                + "단, 시작과 끝에는 밑줄(_)이나 하이픈(-)이 올 수 없습니다."
+                ))
                 .build();
         var pathPatchValidation = StringValidationProperty.builder()
                 .required(true)
                 .maxLength(PATH_MAX_LENGTH)
+                .regexp(PATH_REGEXP)
                 .messages(Map.of(
                         REQUIRED, "게시물의 URL 경로를 입력하세요.",
                         MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다."
