@@ -3,6 +3,7 @@ package nettee.common.validation.model;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 import nettee.common.validation.model.interfaces.LengthValidationProperty;
+import nettee.common.validation.model.interfaces.RegexpSpec;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import static nettee.common.validation.model.interfaces.BaseValidationProperty.R
 public record StringValidationProperty(
         String type,
         Boolean required,
-        String regexp,
+        RegexpSpec regexp,
         Integer minLength,
         Integer maxLength,
         Map<String, String> messages
@@ -36,11 +37,6 @@ public record StringValidationProperty(
             required = false;
         }
 
-        // empty (or blank) to null
-        if (regexp != null && regexp.isBlank()) {
-            regexp = null;
-        }
-
         // 둘 다 존재한다면 min < max (where, 둘 다 음수가 아님.)
         assert minLength == null || maxLength == null || (minLength >= 0 && maxLength >= 0 && minLength <= maxLength)
                 : "Invalid length bounds: minLength must be >= 0, maxLength must be >= 0, and minLength <= maxLength.";
@@ -53,7 +49,7 @@ public record StringValidationProperty(
             messages.put(REQUIRED, "필수 입력 항목입니다.");
         }
 
-        if (regexp != null && !regexp.isBlank() && !messages.containsKey(REGEXP)) {
+        if (regexp != null && !messages.containsKey(REGEXP)) {
             log.warn("정규표현식의 안내 메시지가 필요합니다.");
             messages.put(REGEXP, "올바른 입력 양식이 아닙니다.");
         }
