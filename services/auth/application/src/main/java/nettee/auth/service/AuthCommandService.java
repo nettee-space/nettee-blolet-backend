@@ -6,6 +6,7 @@ import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_LOGIN_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_REFRESH_TOKEN_NOT_FOUND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -95,7 +96,7 @@ public class AuthCommandService implements AuthSignUsecase {
         User userEntity = authCommandRepositoryPort.save(user);
 
         // 6. 회원가입 성공 시, 자동 로그인 처리를 위해 accessToken & refreshToken 발급
-        return generateLoginToken(userEntity);
+        return generateLoginToken(userEntity.getId());
     }
 
     @Override
@@ -110,7 +111,7 @@ public class AuthCommandService implements AuthSignUsecase {
         }
 
         // 3. 사용자 인증 성공 시, accessToken & refreshToken 발급
-        return generateLoginToken(userEntity);
+        return generateLoginToken(userEntity.getId());
     }
 
     @Override
@@ -198,33 +199,55 @@ public class AuthCommandService implements AuthSignUsecase {
         authCommandRepositoryPort.deleteById(userId);
     }
 
+    @Override
+    public String refreshAccessToken(String userId, String refreshToken) {
+        String hashedRefreshToken = hashSha256(refreshToken);
+        String hashedRefreshTokenKey = userId + ":" + hashedRefreshToken;
+        if (!authRedisPort.hasKey(hashedRefreshTokenKey)) {
+            throw new AuthException(AUTH_REFRESH_TOKEN_NOT_FOUND);
+        }
+
+        // refreshToken 유효기간 연장
+        authRedisPort.updateTTL(hashedRefreshTokenKey, Duration.ofDays(REFRESH_TOKEN_EXPIRATION));
+
+        // refreshToken 유효한 경우, 새로운 accessToken 발급
+        return generateAccessToken(userId);
+    }
+
     /**
      * accessToken과 refreshToken을 발급합니다.
      * accessToken은 JWT 형식으로 발급되며, refreshToken은 암호화된 형태로 Redis에 저장합니다.
      */
-    private LoginTokenModel generateLoginToken(User userEntity) {
+    private LoginTokenModel generateLoginToken(String userId) {
         // accessToken 발급
-        Map<String, Object> claims = Map.of(
-                "userId", userEntity.getId()
-        );
-        String accessToken = jwtIssuer.issue(userEntity.getId(), claims, ACCESS_TOKEN_EXPIRATION);
+        String accessToken = generateAccessToken(userId);
 
         // refreshToken 발급
         String refreshToken = generateSecureRandom();
         String hashedRefreshToken = hashSha256(refreshToken);
 
         // refreshToken 저장
-        String hashedRefreshTokenKey = userEntity.getId() + ":" + hashedRefreshToken;
+        String hashedRefreshTokenKey = userId + ":" + hashedRefreshToken;
         authRedisPort.save(hashedRefreshTokenKey, hashedRefreshToken, Duration.ofDays(REFRESH_TOKEN_EXPIRATION));
 
         // 사용자별 토큰 관리를 위해 해시값을 Set에 저장
-        String userSetKey = "user_tokens:" + userEntity.getId();
+        String userSetKey = "user_tokens:" + userId;
         authRedisPort.addToSet(userSetKey, hashedRefreshToken);
 
         return LoginTokenModel.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    /**
+     * JWT 형식의 accessToken을 발급합니다.
+     */
+    private String generateAccessToken(String userId) {
+        Map<String, Object> claims = Map.of(
+                "userId", userId
+        );
+        return jwtIssuer.issue(userId, claims, ACCESS_TOKEN_EXPIRATION);
     }
 
     /**

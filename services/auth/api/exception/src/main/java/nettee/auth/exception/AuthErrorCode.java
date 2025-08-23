@@ -25,6 +25,7 @@ public enum AuthErrorCode implements ErrorCode {
     AUTH_OTP_INVALID("유효하지 않은 OTP 입니다.", HttpStatus.UNAUTHORIZED),
     AUTH_OTP_SERIALIZE_FAILED("OTP 직렬화에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     AUTH_OTP_DESERIALIZE_FAILED("OTP 역직렬화에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    AUTH_REFRESH_TOKEN_NOT_FOUND("리프레시 토큰을 찾을 수 없습니다.", HttpStatus.UNAUTHORIZED),
 
     // rdb 관련 오류
     AUTH_USER_STATUS_INVALID("유효하지 않는 유저 상태입니다.", HttpStatus.BAD_REQUEST),
