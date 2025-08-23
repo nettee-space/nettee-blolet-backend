@@ -21,6 +21,10 @@ import static nettee.common.validation.model.interfaces.BaseValidationProperty.R
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.MIN_LENGTH;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.REQUIRED;
 
+// NOTE: 정책의 DB 의존성 등 동적인 갱신 필요성 여부에 따른 아키텍처
+//  도메인중심적으로 정책 제공 시(재배포를 통해서만 제공 시) API 모듈이 가장 적합해 보이고,
+//  DB 의존 시 application(port)-adapter 구조가 적합할 수도 있음.
+//  (DB에서 직접 조회해서 주는 것이 아니더라도, DB 갱신 시 객체가 새 정책을 주입받을 수 있어야 함.)
 /**
  * 임시 글(Draft)의 작성(create) 및 수정(patch) 시 필요한 유효성 검증 규칙을
  * 서버에서 정적으로 제공하는 컴포넌트입니다.
