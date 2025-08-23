@@ -25,6 +25,8 @@ public interface BaseValidationProperty {
         // duration
         public static final String MIN_DURATION = "minDuration";
         public static final String MAX_DURATION = "maxDuration";
+        public static final String SINCE = "since";
+        public static final String UNTIL = "until";
 
         // step
         public static final String STEP = "step";
