@@ -62,10 +62,10 @@ public record RelativeDateTimeValidationProperty(
         if (required && !messages.containsKey(REQUIRED)) {
             messages.put(REQUIRED, "필수 입력 항목입니다.");
         }
-        if (minDuration != null && messages.containsKey(MIN_DURATION)) {
+        if (minDuration != null && !messages.containsKey(MIN_DURATION)) {
             messages.put(MIN_DURATION, minDuration.offset() + " 이후만 선택할 수 있습니다.");
         }
-        if (maxDuration != null && messages.containsKey(MAX_DURATION)) {
+        if (maxDuration != null && !messages.containsKey(MAX_DURATION)) {
             messages.put(MAX_DURATION, "최대 " + maxDuration.offset() + " 이전까지만 선택할 수 있습니다.");
         }
 

@@ -54,10 +54,10 @@ public record AbsoluteDateTimeValidationProperty(
         if (required && !messages.containsKey(REQUIRED)) {
             messages.put(REQUIRED, "필수 입력 항목입니다.");
         }
-        if (since != null && messages.containsKey(SINCE)) {
+        if (since != null && !messages.containsKey(SINCE)) {
             messages.put(SINCE, since + " 이후만 선택할 수 있습니다.");
         }
-        if (until != null && messages.containsKey(UNTIL)) {
+        if (until != null && !messages.containsKey(UNTIL)) {
             messages.put(UNTIL, "최대 " + until + "까지 선택할 수 있습니다.");
         }
 
