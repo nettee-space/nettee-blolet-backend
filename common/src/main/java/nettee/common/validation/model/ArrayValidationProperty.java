@@ -21,13 +21,13 @@ public record ArrayValidationProperty(
         Map<String, String> messages
 ) implements LengthValidationProperty {
     public ArrayValidationProperty {
-        assert type == null || type.isBlank() || "string".equals(type)
-                : "type must be 'string'. If new spec types are added, update this assertion accordingly.\n" +
-                "type 속성은 반드시 'string'이어야 합니다. 만약 새로운 값을 추가한다면 이 assert 구문을 함께 고쳐야 합니다.";
+        assert type == null || type.isBlank() || "array".equals(type)
+                : "type must be 'array'. If new spec types are added, update this assertion accordingly.\n" +
+                "type 속성은 반드시 'array'이어야 합니다. 만약 새로운 값을 추가한다면 이 assert 구문을 함께 고쳐야 합니다.";
 
         if (type == null || type.isBlank()) {
-            log.warn("StringValidationProperty had a blank 'type' property. Setting 'type' to 'string'.");
-            type = "string";
+            log.warn("ArrayValidationProperty had a blank 'type' property. Setting 'type' to 'array'.");
+            type = "array";
         }
 
         if (required == null) {
