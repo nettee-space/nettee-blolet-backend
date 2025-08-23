@@ -17,7 +17,8 @@ public record DurationValidationSpec(
                                 .map(Enum::name)
                                 .<String>reduce((acc, cur) -> acc + ", " + cur) +
                         ", or " + RESOURCE_FIELD_REF_PREFIX + "<fieldName> instead." ;
-        assert offset.matches("^P(?!$)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$")
+        assert offset.matches("^P(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)W)?(?:(\\d+)D)" +
+                "?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:(\\d+(?:\\.\\d+)?)S)?)?$")
                 : "step must be a valid ISO-8601 duration (e.g. PT5M, P1D, P2W, P3M)";
 
     }
