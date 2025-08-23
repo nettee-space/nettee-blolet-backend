@@ -50,4 +50,15 @@ public class AuthRedisAdapter implements AuthRedisPort {
     public Set<String> getSetMembers(String userSetKey) {
         return stringRedisTemplate.opsForSet().members(userSetKey);
     }
+
+    @Override
+    public Boolean hasKey(String key) {
+        return stringRedisTemplate.hasKey(key);
+    }
+
+    @Override
+    public void updateTTL(String key, Duration ttl) {
+        stringRedisTemplate.expire(key, ttl);
+    }
+
 }
