@@ -37,6 +37,11 @@ public class AuthRedisAdapter implements AuthRedisPort {
     }
 
     @Override
+    public Boolean hasKey(String key) {
+        return stringRedisTemplate.hasKey(key);
+    }
+
+    @Override
     public void addToSet(String setKey, String value) {
         stringRedisTemplate.opsForSet().add(setKey, value);
     }

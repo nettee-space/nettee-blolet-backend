@@ -1,5 +1,6 @@
 package nettee.blolet.jwt.filter;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
@@ -37,15 +38,15 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                   HttpServletResponse response,
                                   FilterChain filterChain) throws IOException, ServletException {
-        
+
         String requestURI = request.getRequestURI();
         String method = request.getMethod();
-        
+
         // 1. Authorization 헤더에서 JWT 토큰 추출
         String jwtToken = extractJwtToken(request);
 
         // 2. JWT 토큰이 없으면 401 Unauthorized 응답
-        if (jwtToken == null) {
+        if (!StringUtils.hasText(jwtToken)) {
             log.warn("JWT 토큰이 존재하지 않습니다. [{}]: {}", method, requestURI);
             sendUnauthorizedResponse(response, "JWT 토큰이 존재하지 않습니다.", "Authorization 헤더에 JWT 토큰이 존재하지 않습니다.");
             return;
@@ -56,19 +57,32 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             var claims = jwtParser.parseClaims(jwtToken);
 
             // 4. JWT 토큰에서 사용자 정보 추출
-            request.setAttribute("userId", claims.getSubject());
-            request.setAttribute("roles", claims.get("roles", List.class));
-            request.setAttribute("profileIds", claims.get("profileIds", List.class));
+            setRequestAttribute(request, claims);
 
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
-            log.warn("JWT 토큰이 만료되었습니다.");
-            sendUnauthorizedResponse(response, "JWT 토큰이 만료되었습니다.", e.getMessage());
-
+            // 토큰이 만료된 경우, 리프레시 토큰 요청 경로는 통과
+            if (requestURI.equals("/auth/token/refresh")) {
+                var claims = e.getClaims();
+                setRequestAttribute(request, claims);
+                filterChain.doFilter(request, response);
+            } else {
+                log.warn("JWT 토큰이 만료되었습니다.");
+                sendUnauthorizedResponse(response, "JWT 토큰이 만료되었습니다.", e.getMessage());
+            }
         } catch (JwtException e) {
             log.error("JWT 토큰이 유효하지 않습니다.");
             sendUnauthorizedResponse(response, "JWT 토큰이 유효하지 않습니다.", e.getMessage());
         }
+    }
+
+    /**
+     * JWT 토큰에서 사용자 정보를 추출하여 요청 속성에 설정합니다.
+     */
+    private void setRequestAttribute(HttpServletRequest request, Claims claims) {
+        request.setAttribute("userId", claims.getSubject());
+        request.setAttribute("roles", claims.get("roles", List.class));
+        request.setAttribute("profileIds", claims.get("profileIds", List.class));
     }
 
     /**

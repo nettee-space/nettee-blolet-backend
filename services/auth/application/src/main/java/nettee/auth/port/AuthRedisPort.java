@@ -8,8 +8,11 @@ public interface AuthRedisPort {
     // Key-Value operations
     void save(String key, String value, Duration ttl);
     String get(String key);
+
     void delete(String key);
     void deleteAll(List<String> keys);
+
+    Boolean hasKey(String key);
 
     // Set operations
     void addToSet(String userSetKey, String hashedRefreshToken);

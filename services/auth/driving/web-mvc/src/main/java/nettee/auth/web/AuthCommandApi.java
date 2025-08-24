@@ -151,9 +151,16 @@ public class AuthCommandApi {
             summary = "액세스 토큰 재발급",
             description = "리프레시 토큰(HttpOnly 쿠키)을 이용해 새로운 액세스 토큰을 발급받습니다."
     )
-    public LoginResponse refreshAccessToken(@CookieValue("refreshToken") String refreshToken) {
-        // 액세스 토큰 재발급 로직 구현
-        return null;
+    public ResponseEntity<LoginResponse> refreshAccessToken(@AuthUser AuthorizedUser authorizedUser,
+                                            @CookieValue("refreshToken") String refreshToken) {
+        LoginTokenModel responseModel = authSignUsecase.refreshAccessToken(authorizedUser.userId(), refreshToken);
+        LoginResponse result = mapper.toDto(responseModel);
+
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(responseModel.refreshToken());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(result);
     }
 
     // TODO: 아이디/비밀번호 찾기 추가 기능 구현 가능성 있음
