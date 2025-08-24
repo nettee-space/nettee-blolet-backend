@@ -6,6 +6,7 @@ import nettee.common.image.ImageFormatDetector.ImageFormat;
 import nettee.upload.port.ImageStorage;
 import nettee.upload.properties.ImageUploadProperties;
 import nettee.upload.properties.ImageUploadProperties.Target;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -21,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
+@Component
 public class LocalImageStorage implements ImageStorage {
 
     private final ImageUploadProperties imageUploadProperties;
