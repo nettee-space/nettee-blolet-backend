@@ -106,7 +106,9 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 .regexp(PATH_REGEXP)
                 .messages(Map.of(
                         REQUIRED, "게시물의 URL 경로를 입력하세요.",
-                        MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다."
+                        MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다.",
+                        REGEXP, "게시물 URL은 각국 언어, 각국 숫자, 기호(이모지 포함) 및 밑줄(_)과 하이픈(-)을 포함할 수 있습니다. "
+                                + "단, 시작과 끝에는 밑줄(_)이나 하이픈(-)이 올 수 없습니다."
                 ))
                 .build();
         var entryBlockIdPatchValidation = StringValidationProperty.builder()
