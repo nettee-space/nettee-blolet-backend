@@ -88,6 +88,7 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 .minLength(TITLE_MIN_LENGTH)
                 .maxLength(TITLE_MAX_LENGTH)
                 .messages(Map.of(
+                        REQUIRED, "제목을 입력하세요.",
                         MIN_LENGTH, "제목은 " + TITLE_MIN_LENGTH + "글자 이상이어야 합니다.",
                         MAX_LENGTH, "제목은 최대 " + TITLE_MAX_LENGTH + "글자 이하로 입력하여야 합니다."
                 ))
