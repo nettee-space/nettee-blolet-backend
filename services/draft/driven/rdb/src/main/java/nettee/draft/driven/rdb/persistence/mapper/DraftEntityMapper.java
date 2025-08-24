@@ -18,9 +18,11 @@ public interface DraftEntityMapper {
 
     Draft toDomain(DraftEntity draftEntity);
     DraftEntity toEntity(Draft draft);
+
     DraftDetail toDraftDetail(DraftEntity draftEntity);
     DraftSummary toDraftSummary(DraftEntity draftEntity);
     DraftTitle toDraftTitle(DraftEntity draftEntity);
+
     DraftImage toDomain(DraftImageEntity draftImageEntity);
     DraftImageEntity toEntity(DraftImage draftImage);
 
