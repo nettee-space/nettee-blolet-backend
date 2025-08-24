@@ -39,7 +39,6 @@ import static nettee.common.validation.model.interfaces.BaseValidationProperty.R
  *
  * <br />모든 ValidationProperty는 불변 맵(unmodifiable map)으로 제공합니다.
  * {@link #get(String)} 메서드 호출 시 context 값에 따라 올바른 규칙 집합을 반환합니다.
- *
  * <br />지원하지 않는 context를 입력하면 {@link AssertionError} 또는 {@link Error}를 발생시킵니다.
  *
  * @author merge-simpson
@@ -75,7 +74,6 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 .messages(Map.of(REQUIRED, "블로그 식별 값이 필요합니다. 문제가 지속되면 문의하시기 바랍니다."))
                 .build();
         var titleCreateValidation = StringValidationProperty.builder()
-                .required(false)
                 .minLength(TITLE_MIN_LENGTH)
                 .maxLength(TITLE_MAX_LENGTH)
                 .messages(Map.of(
@@ -94,7 +92,6 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 ))
                 .build();
         var pathCreateValidation = StringValidationProperty.builder()
-                .required(false)
                 .maxLength(PATH_MAX_LENGTH)
                 .regexp(PATH_REGEXP)
                 .messages(Map.of(
