@@ -39,7 +39,6 @@ import static nettee.common.validation.model.interfaces.BaseValidationProperty.R
  *
  * <br />모든 ValidationProperty는 불변 맵(unmodifiable map)으로 제공합니다.
  * {@link #get(String)} 메서드 호출 시 context 값에 따라 올바른 규칙 집합을 반환합니다.
- *
  * <br />지원하지 않는 context를 입력하면 {@link AssertionError} 또는 {@link Error}를 발생시킵니다.
  *
  * @author merge-simpson
@@ -75,7 +74,6 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 .messages(Map.of(REQUIRED, "블로그 식별 값이 필요합니다. 문제가 지속되면 문의하시기 바랍니다."))
                 .build();
         var titleCreateValidation = StringValidationProperty.builder()
-                .required(false)
                 .minLength(TITLE_MIN_LENGTH)
                 .maxLength(TITLE_MAX_LENGTH)
                 .messages(Map.of(
@@ -94,7 +92,6 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 ))
                 .build();
         var pathCreateValidation = StringValidationProperty.builder()
-                .required(false)
                 .maxLength(PATH_MAX_LENGTH)
                 .regexp(PATH_REGEXP)
                 .messages(Map.of(
@@ -109,7 +106,9 @@ public final class StaticDraftValidationSupplier implements DraftContextValidati
                 .regexp(PATH_REGEXP)
                 .messages(Map.of(
                         REQUIRED, "게시물의 URL 경로를 입력하세요.",
-                        MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다."
+                        MAX_LENGTH, "게시물 URL 경로의 최대 길이는 " + PATH_MAX_LENGTH + " 글자입니다.",
+                        REGEXP, "게시물 URL은 각국 언어, 각국 숫자, 기호(이모지 포함) 및 밑줄(_)과 하이픈(-)을 포함할 수 있습니다. "
+                                + "단, 시작과 끝에는 밑줄(_)이나 하이픈(-)이 올 수 없습니다."
                 ))
                 .build();
         var entryBlockIdPatchValidation = StringValidationProperty.builder()
