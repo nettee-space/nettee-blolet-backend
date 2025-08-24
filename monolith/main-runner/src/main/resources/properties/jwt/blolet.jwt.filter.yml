@@ -11,11 +11,13 @@ app:
           methods: "*"
           description: |
             내부 API 경로
-        # Docs 등 static
+        # Docs 등
         - path: "/swagger-ui/**"
           methods: "*"
         - path: "/v3/api-docs/**"
           methods: "*"
+        - path: "/api/validations/**"
+          methods: "get"
         # Auth
         - path: "/auth/signup"
           methods: "*"
