@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Builder
 @Getter
@@ -17,5 +17,5 @@ public class DraftImage {
 
     private String imageUrl;
 
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

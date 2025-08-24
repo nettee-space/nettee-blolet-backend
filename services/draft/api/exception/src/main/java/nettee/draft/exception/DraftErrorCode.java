@@ -11,6 +11,9 @@ public enum DraftErrorCode implements ErrorCode {
     DRAFT_BLOG_ID_REQUIRED("블로그 ID를 반드시 제공해야 합니다.", HttpStatus.BAD_REQUEST),
     DRAFT_TITLE_MIN_LENGTH("블로그 제목은 반드시 3글자 이상입니다.", HttpStatus.BAD_REQUEST),
 
+    // image status
+    DRAFT_IMAGE_SAVE_FAILED("임시글 이미지를 저장하는 데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     // blog status
     DRAFT_NOT_FOUND("임시글을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
