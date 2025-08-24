@@ -1,7 +1,6 @@
 package nettee.draft.application.service;
 
 import lombok.RequiredArgsConstructor;
-import nettee.adapter.LocalImageStorage;
 import nettee.blolet.blog.export.client.api.BlogClient;
 import nettee.draft.application.port.DraftCommandPort;
 import nettee.draft.application.usecase.DraftImageCreateUseCase;
@@ -11,6 +10,7 @@ import nettee.draft.domain.type.DraftStatus;
 import nettee.draft.application.usecase.DraftCreateUseCase;
 import nettee.draft.application.usecase.DraftDeleteUseCase;
 import nettee.draft.application.usecase.DraftUpdateUseCase;
+import nettee.upload.port.ImageStorage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +22,7 @@ import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCase, DraftDeleteUseCase, DraftImageCreateUseCase {
     private final DraftCommandPort draftCommandPort;
     private final BlogClient blogClient;
-    private final LocalImageStorage localImageStorage;
+    private final ImageStorage imageStorage;
 
     @Override
     public Draft createDraft(String userId, Draft draft) {
@@ -48,9 +48,9 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
 
     @Override
     public DraftImage createDraftImage(MultipartFile file, String targetName) {
-        var storedFileName = localImageStorage.store(file, targetName);
+        var storedFileName = imageStorage.store(file, targetName);
 
-        var imageUrl = localImageStorage.getFileUrl(storedFileName, targetName);
+        var imageUrl = imageStorage.getFileUrl(storedFileName, targetName);
 
         var draftImage = DraftImage.builder()
                 .imageUrl(imageUrl)
