@@ -6,10 +6,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nettee.draft.application.usecase.DraftCreateUseCase;
 import nettee.draft.application.usecase.DraftDeleteUseCase;
+import nettee.draft.application.usecase.DraftImageCreateUseCase;
 import nettee.draft.application.usecase.DraftUpdateUseCase;
 import nettee.draft.domain.type.DraftStatus;
 import nettee.draft.driving.web.dto.DraftCommandDto.DraftCommandResponse;
 import nettee.draft.driving.web.dto.DraftCommandDto.DraftCreateCommand;
+import nettee.draft.driving.web.dto.DraftCommandDto.DraftImageCreateResponse;
 import nettee.draft.driving.web.dto.DraftCommandDto.DraftUpdateCommand;
 import nettee.draft.driving.web.mapper.DraftDtoMapper;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
@@ -21,17 +23,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("drafts")
 @RequiredArgsConstructor
 @Tag(name = "Draft", description = "Draft API")
 public class DraftCommandApi {
+
     private final DraftCreateUseCase draftCreateUseCase;
     private final DraftUpdateUseCase draftUpdateUseCase;
     private final DraftDeleteUseCase draftDeleteUseCase;
+    private final DraftImageCreateUseCase draftImageCreateUseCase;
     private final DraftDtoMapper mapper;
 
     @Operation(summary = "임시 아티클(드래프트) 생성", description = "임시 아티클을 생성합니다.")
@@ -73,4 +79,16 @@ public class DraftCommandApi {
         draftDeleteUseCase.deleteDraft(user.userId(), draftId);
     }
 
+    @Operation(summary = "임시 아티클 이미지 업로드", description = "임시 아티클에 첨부할 이미지를 업로드합니다.")
+    @PostMapping("/{draftId}/images")
+    @ResponseStatus(HttpStatus.CREATED)
+    public DraftImageCreateResponse uploadImage(
+            @PathVariable("draftId") String draftId,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("targetName") String targetName,
+            @AuthUser AuthorizedUser user
+    ) {
+        var draftImage = draftImageCreateUseCase.createDraftImage(user.userId(), draftId, file, targetName);
+        return mapper.toCreateResponse(draftImage);
+    }
 }
