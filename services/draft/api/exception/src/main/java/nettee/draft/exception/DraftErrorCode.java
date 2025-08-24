@@ -16,7 +16,10 @@ public enum DraftErrorCode implements ErrorCode {
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
     DRAFT_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
     DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT),
-    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    // image status
+    DRAFT_IMAGE_SAVE_FAILED("임시글 이미지를 저장하는 데 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
     private final HttpStatus httpStatus;
