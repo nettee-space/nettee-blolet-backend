@@ -200,18 +200,21 @@ public class AuthCommandService implements AuthSignUsecase {
     }
 
     @Override
-    public String refreshAccessToken(String userId, String refreshToken) {
+    public LoginTokenModel refreshAccessToken(String userId, String refreshToken) {
         String hashedRefreshToken = hashSha256(refreshToken);
         String hashedRefreshTokenKey = userId + ":" + hashedRefreshToken;
         if (!authRedisPort.hasKey(hashedRefreshTokenKey)) {
             throw new AuthException(AUTH_REFRESH_TOKEN_NOT_FOUND);
         }
 
-        // refreshToken 유효기간 연장
-        authRedisPort.updateTTL(hashedRefreshTokenKey, Duration.ofDays(REFRESH_TOKEN_EXPIRATION));
+        // 기존 refreshToken 삭제
+        authRedisPort.delete(hashedRefreshTokenKey);
 
-        // refreshToken 유효한 경우, 새로운 accessToken 발급
-        return generateAccessToken(userId);
+        String userSetKey = "user_tokens:" + userId;
+        authRedisPort.removeFromSet(userSetKey, hashedRefreshToken);
+
+        // 새로운 accessToken, refreshToken 발급
+        return generateLoginToken(userId);
     }
 
     /**

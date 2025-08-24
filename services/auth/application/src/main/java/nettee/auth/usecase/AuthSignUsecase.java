@@ -13,5 +13,5 @@ public interface AuthSignUsecase {
     void logout(String userId, String refreshToken);
     void withdraw(String userId, String refreshToken);
 
-    String refreshAccessToken(String userId, String refreshToken);
+    LoginTokenModel refreshAccessToken(String userId, String refreshToken);
 }

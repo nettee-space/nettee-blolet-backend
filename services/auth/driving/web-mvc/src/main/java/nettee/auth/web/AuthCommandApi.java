@@ -153,10 +153,10 @@ public class AuthCommandApi {
     )
     public ResponseEntity<LoginResponse> refreshAccessToken(@AuthUser AuthorizedUser authorizedUser,
                                             @CookieValue("refreshToken") String refreshToken) {
-        String accessToken = authSignUsecase.refreshAccessToken(authorizedUser.userId(), refreshToken);
-        LoginResponse result = new LoginResponse(accessToken);
+        LoginTokenModel responseModel = authSignUsecase.refreshAccessToken(authorizedUser.userId(), refreshToken);
+        LoginResponse result = mapper.toDto(responseModel);
 
-        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(refreshToken); // 리프레시 토큰 유효기간 갱신
+        ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(responseModel.refreshToken());
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())

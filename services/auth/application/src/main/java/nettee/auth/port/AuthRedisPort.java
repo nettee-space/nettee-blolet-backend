@@ -12,11 +12,10 @@ public interface AuthRedisPort {
     void delete(String key);
     void deleteAll(List<String> keys);
 
+    Boolean hasKey(String key);
+
     // Set operations
     void addToSet(String userSetKey, String hashedRefreshToken);
     void removeFromSet(String userSetKey, String hashedRefreshToken);
     Set<String> getSetMembers(String userSetKey);
-
-    Boolean hasKey(String key);
-    void updateTTL(String key, Duration ttl);
 }
