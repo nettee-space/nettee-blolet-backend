@@ -57,7 +57,7 @@ public enum ArticleLikesEntityStatus {
     public int getCode() { return code; }
 
     public static ArticleLikesEntityStatus valueOf(ArticleLikesStatus articleLikesStatus) {
-        assert Set.of(ArticleStatus.DELETED, ArticleStatus.PENDING, ArticleStatus.ACTIVE, ArticleStatus.SUSPENDED)
+        assert Set.of(ArticleStatus.REMOVED, ArticleStatus.PENDING, ArticleStatus.ACTIVE, ArticleStatus.SUSPENDED)
                 .containsAll(Arrays.stream(ArticleStatus.values()).collect(Collectors.toSet()))
                 : "ArticleLikesStatus 중 일부가 ArticleLikesEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 

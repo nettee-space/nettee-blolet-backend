@@ -8,7 +8,6 @@ import nettee.article.usecase.ArticleCreateUseCase;
 import nettee.article.usecase.ArticleDeleteUseCase;
 import nettee.article.usecase.ArticleUpdateUseCase;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +27,6 @@ public class ArticleCommandService implements ArticleCreateUseCase, ArticleUpdat
 
     @Override
     public void deleteArticle(String id) {
-        articleCommandRepository.updateStatus(id, ArticleStatus.DELETED);
+        articleCommandRepository.updateStatus(id, ArticleStatus.REMOVED);
     }
 }
