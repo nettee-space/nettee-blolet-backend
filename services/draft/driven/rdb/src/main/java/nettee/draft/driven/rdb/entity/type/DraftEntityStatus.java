@@ -31,12 +31,12 @@ public enum DraftEntityStatus {
     ),
     UPDATED(StatusParameters.generate()
             .generalPurposeFeatures(ALL)
-            .categoryBits(0b0000_0000_0000_0100)
-            .instanceBits(0)
+            .categoryBits(0b0000_0000_0000_0010)
+            .instanceBits(0b0001_0000)
     ),
     SUSPENDED(StatusParameters.generate()
             .generalPurposeFeatures(UPDATE, SUBITEM_READ)
-            .categoryBits(0b0000_0000_0000_1000)
+            .categoryBits(0b0000_0000_0000_0100)
             .instanceBits(0)
     ),
     ;
@@ -74,12 +74,14 @@ public enum DraftEntityStatus {
     }
 
     public static DraftEntityStatus valueOf(int value) {
-        return switch (value) {
-            case 0b0__000_0000__0000_0000_0000_0000__0000_0000 -> REMOVED;
-            case 0b0__110_1100__0000_0000_0000_0001__0000_0000 -> PENDING;
-            case 0b0__110_1100__0000_0000_0000_0010__0000_0000 -> PUBLISHED;
-            case 0b0__110_1100__0000_0000_0000_0100__0000_0000 -> UPDATED;
-            case 0b0__010_1000__0000_0000_0000_1000__0000_0000 -> SUSPENDED;
+        int categoryInstanceBits = 0xFFFFFF & value;
+
+        return switch (categoryInstanceBits) {
+            case 0b0__000_0000____0000_0000_0000_0000____0000_0000 -> REMOVED;
+            case 0b0__000_0000____0000_0000_0000_0001____0000_0000 -> PENDING;
+            case 0b0__000_0000____0000_0000_0000_0010____0000_0000 -> PUBLISHED;
+            case 0b0__000_0000____0000_0000_0000_0010____0001_0000 -> UPDATED;
+            case 0b0__000_0000____0000_0000_0000_0100____0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();
         };
     }

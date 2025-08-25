@@ -27,7 +27,7 @@ public enum ArticleEntityStatus {
     ),
     ACTIVE(StatusParameters.generate()
             .generalPurposeFeatures(ALL)
-            .categoryBits(0b0000_0000_0000_0100)
+            .categoryBits(0b0000_0000_0000_0010)
             .instanceBits(0)
     ),
     SUSPENDED(StatusParameters.generate()
@@ -73,11 +73,13 @@ public enum ArticleEntityStatus {
     }
 
     public static ArticleEntityStatus valueOf(int value) {
-        return switch (value) {
-            case 0b0__000_1000__0000_0000_0000_0000__0000_0000 -> REMOVED;
-            case 0b0__110_1100__0000_0000_0000_0001__0000_0000 -> PENDING;
-            case 0b0__110_1100__0000_0000_0000_0010__0000_0000 -> ACTIVE;
-            case 0b0__010_1000__0000_0000_0000_1000__0000_0000 -> SUSPENDED;
+        int categoryInstanceBits = 0xFFFFFF & value;
+
+        return switch (categoryInstanceBits) {
+            case 0b0__000_0000____0000_0000_0000_0000____0000_0000 -> REMOVED;
+            case 0b0__000_0000____0000_0000_0000_0001____0000_0000 -> PENDING;
+            case 0b0__000_0000____0000_0000_0000_0010____0000_0000 -> ACTIVE;
+            case 0b0__000_0000____0000_0000_0000_1000____0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();
         };
     }
