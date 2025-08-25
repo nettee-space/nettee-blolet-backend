@@ -69,6 +69,7 @@ public enum DraftEntityStatus {
             case PENDING -> PENDING;
             case UPDATED -> UPDATED;
             case PUBLISHED -> PUBLISHED;
+            case SUSPENDED -> SUSPENDED;
             default -> throw new Error("DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
         };
     }
