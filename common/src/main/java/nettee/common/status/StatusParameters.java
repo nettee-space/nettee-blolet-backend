@@ -70,7 +70,7 @@ public class StatusParameters<
         return instanceBits;
     }
 
-    public int getAsInt(ToIntFunction<StatusParameters<Present, Present>> converter) {
+    public int encode(ToIntFunction<StatusParameters<Present, Present>> converter) {
         assert isCategoryFilledRuntime && isInstanceFilledRuntime : "카테고리 및 인스턴스 비트를 설정해야 합니다.";
 
         @SuppressWarnings("unchecked")

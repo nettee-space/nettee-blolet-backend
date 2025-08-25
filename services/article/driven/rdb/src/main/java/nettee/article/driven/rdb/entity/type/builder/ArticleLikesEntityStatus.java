@@ -47,7 +47,7 @@ public enum ArticleLikesEntityStatus {
     }
 
     ArticleLikesEntityStatus(StatusParameters<Present, Present> statusParameters) {
-        this(statusParameters.getAsInt(StatusCodeUtil::getAsInt));
+        this(statusParameters.encode(StatusCodeUtil::encode));
     }
 
     ArticleLikesEntityStatus(int code) {

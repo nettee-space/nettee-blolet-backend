@@ -49,7 +49,7 @@ public enum ArticleEntityStatus {
     }
 
     ArticleEntityStatus(StatusParameters<Present, Present> statusParameters) {
-        this(statusParameters.getAsInt(StatusCodeUtil::getAsInt));
+        this(statusParameters.encode(StatusCodeUtil::encode));
     }
 
     ArticleEntityStatus(int code) {

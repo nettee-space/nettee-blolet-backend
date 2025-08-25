@@ -53,7 +53,7 @@ public enum DraftBlockEntityStatus {
 
     DraftBlockEntityStatus(StatusParameters<Present, Present> articleStatusParameters) {
         this(
-                StatusCodeUtil.getAsInt(articleStatusParameters)
+                StatusCodeUtil.encode(articleStatusParameters)
         );
     }
 

@@ -53,7 +53,7 @@ public enum DraftEntityStatus {
     }
 
     DraftEntityStatus(StatusParameters<Present, Present> statusParameters) {
-        this(statusParameters.getAsInt(StatusCodeUtil::getAsInt));
+        this(statusParameters.encode(StatusCodeUtil::encode));
     }
 
     DraftEntityStatus(int code) { this.code = code; }
