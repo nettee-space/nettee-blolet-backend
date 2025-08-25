@@ -2,33 +2,39 @@ package nettee.article.driven.rdb.entity.type.builder;
 
 import nettee.article.domain.ArticleLikesStatus;
 import nettee.article.domain.ArticleStatus;
-import nettee.article.driven.rdb.entity.type.builder.TypeSafeMarkers.Present;
+import nettee.common.marker.TypeSafeMarker.Present;
+import nettee.common.status.StatusCodeUtil;
+import nettee.common.status.StatusParameters;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static nettee.article.exception.ArticleErrorCode.DEFAULT;
+import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.ALL;
+import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.SUBITEM_READ;
 
 public enum ArticleLikesEntityStatus {
-    REMOVED(
-        ArticleLikesStatusParameters.builder()
-                .canRead(false)
-                .classifyingBits(0b0000_0000_0000_0000)
+    REMOVED(StatusParameters.generate()
+            .generalPurposeFeatures(SUBITEM_READ)
+            .categoryBits(0b0000_0000_0000_0000)
+            .instanceBits(0)
     ),
-    ACTIVE(
-            ArticleLikesStatusParameters.builder()
-                .canRead(true)
-                .classifyingBits(0b0000_0000_0000_0010)
+    PENDING(StatusParameters.generate()
+            .generalPurposeFeatures(ALL)
+            .categoryBits(0b0000_0000_0000_0001)
+            .instanceBits(0)
     ),
-    SUSPENDED(
-            ArticleLikesStatusParameters.builder()
-                .canRead(true)
-                .classifyingBits(0b0000_0000_0000_0100)
+    ACTIVE(StatusParameters.generate()
+            .generalPurposeFeatures(ALL)
+            .categoryBits(0b0000_0000_0000_0010)
+            .instanceBits(0)
+    ),
+    SUSPENDED(StatusParameters.generate()
+            .categoryBits(0b0000_0000_0000_0100)
+            .instanceBits(0)
     );
 
-    private static final int TLB_PADDING_SIZE = 31;
-    private static final int CLASSIFYING_PADDING_SIZE = 15;
     private final int code;
 
     static {
@@ -40,18 +46,12 @@ public enum ArticleLikesEntityStatus {
                 : "ArticleEntityStatus의 모든 code 필드가 고유해야 합니다.";
     }
 
-    ArticleLikesEntityStatus(ArticleLikesStatusParameters<Present, Present> articleLikesStatusParameters) {
-        this(
-                articleLikesStatusParameters.canRead,
-                articleLikesStatusParameters.classifyingBits,
-                articleLikesStatusParameters.detailBits
-        );
+    ArticleLikesEntityStatus(StatusParameters<Present, Present> statusParameters) {
+        this(statusParameters.getAsInt(StatusCodeUtil::getAsInt));
     }
 
-    ArticleLikesEntityStatus(boolean canRead, int classifyingBits, int detalBits) {
-        this.code = (canRead ? 1 << TLB_PADDING_SIZE : 0)
-                | (classifyingBits << CLASSIFYING_PADDING_SIZE)
-                | detalBits;
+    ArticleLikesEntityStatus(int code) {
+        this.code = code;
     }
 
     public int getCode() { return code; }
@@ -70,10 +70,13 @@ public enum ArticleLikesEntityStatus {
     }
 
     public static ArticleLikesEntityStatus valueOf(int value) {
-        return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> REMOVED;
-            case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> ACTIVE;
-            case 0b1__0000_0000_0000_0100__000_0000_0000_0000 -> SUSPENDED;
+        int categoryInstanceBits = 0xFFFFFF & value;
+
+        return switch (categoryInstanceBits) {
+            case 0b0__000_0000____0000_0000_0000_0000____0000_0000 -> REMOVED;
+            case 0b0__000_0000____0000_0000_0000_0001____0000_0000 -> PENDING;
+            case 0b0__000_0000____0000_0000_0000_0010____0000_0000 -> ACTIVE;
+            case 0b0__000_0000____0000_0000_0000_0100____0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();
         };
     }
