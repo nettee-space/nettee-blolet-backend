@@ -63,6 +63,7 @@ public enum ArticleLikesEntityStatus {
 
         return switch (articleLikesStatus) {
             case REMOVED -> REMOVED;
+            case PENDING -> PENDING;
             case ACTIVE -> ACTIVE;
             case SUSPENDED -> SUSPENDED;
             default -> throw new Error("ArticleLikesStatus 중 일부가 ArticleLikesEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
