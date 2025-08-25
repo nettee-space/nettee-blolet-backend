@@ -32,7 +32,7 @@ public enum ArticleEntityStatus {
     ),
     SUSPENDED(StatusParameters.generate()
             .generalPurposeFeatures(UPDATE, SUBITEM_READ)
-            .categoryBits(0b0000_0000_0000_1000)
+            .categoryBits(0b0000_0000_0000_0100)
             .instanceBits(0)
     ),
     ;
@@ -79,7 +79,7 @@ public enum ArticleEntityStatus {
             case 0b0__000_0000____0000_0000_0000_0000____0000_0000 -> REMOVED;
             case 0b0__000_0000____0000_0000_0000_0001____0000_0000 -> PENDING;
             case 0b0__000_0000____0000_0000_0000_0010____0000_0000 -> ACTIVE;
-            case 0b0__000_0000____0000_0000_0000_1000____0000_0000 -> SUSPENDED;
+            case 0b0__000_0000____0000_0000_0000_0100____0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();
         };
     }
