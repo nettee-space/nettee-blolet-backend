@@ -9,7 +9,7 @@ import static nettee.common.status.StatusCodeConstants.Default.SYSTEM_INFORMATIO
 public final class StatusCodeUtil {
     private StatusCodeUtil() {}
 
-    public static int getAsInt(StatusParameters<Present, Present> parameters) {
+    public static int encode(StatusParameters<Present, Present> parameters) {
         return (parameters.generalPurposeBits() << GENERAL_PURPOSE_SHIFT)
                 | (parameters.systemInfoBits() << SYSTEM_INFORMATION_SHIFT)
                 | (parameters.categoryBits() << CATEGORY_SHIFT)

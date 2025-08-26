@@ -4,6 +4,8 @@ import nettee.common.marker.TypeSafeMarker;
 import nettee.common.marker.TypeSafeMarker.Missing;
 import nettee.common.marker.TypeSafeMarker.Present;
 
+import java.util.function.ToIntFunction;
+
 public class StatusParameters<
         C extends TypeSafeMarker,
         I extends TypeSafeMarker
@@ -13,6 +15,9 @@ public class StatusParameters<
 
     private int categoryBits;
     private int instanceBits;
+
+    private boolean isCategoryFilledRuntime = false;
+    private boolean isInstanceFilledRuntime = false;
 
     private StatusParameters() {}
 
@@ -35,6 +40,7 @@ public class StatusParameters<
 
     public StatusParameters<Present, I> categoryBits(int categoryBits) {
         this.categoryBits = categoryBits;
+        isCategoryFilledRuntime = true;
         @SuppressWarnings("unchecked")
         var instance = (StatusParameters<Present, I>) this;
         return instance;
@@ -42,6 +48,7 @@ public class StatusParameters<
 
     public StatusParameters<C, Present> instanceBits(int instanceBits) {
         this.instanceBits = instanceBits;
+        isInstanceFilledRuntime = true;
         @SuppressWarnings("unchecked")
         var instance = (StatusParameters<C, Present>) this;
         return instance;
@@ -61,6 +68,14 @@ public class StatusParameters<
 
     public int instanceBits() {
         return instanceBits;
+    }
+
+    public int encode(ToIntFunction<StatusParameters<Present, Present>> converter) {
+        assert isCategoryFilledRuntime && isInstanceFilledRuntime : "카테고리 및 인스턴스 비트를 설정해야 합니다.";
+
+        @SuppressWarnings("unchecked")
+        var instance = (StatusParameters<Present, Present>) this;
+        return converter.applyAsInt(instance);
     }
 
     public enum GeneralPurposeFeatures {
