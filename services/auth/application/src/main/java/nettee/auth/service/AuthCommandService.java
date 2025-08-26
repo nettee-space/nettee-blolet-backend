@@ -53,6 +53,8 @@ public class AuthCommandService implements AuthSignUsecase {
     private static final int OTP_EXPIRATION = 5;                        // otp 유효 기간 (5분)
     private static final int OTP_LENGTH = 6;                            // otp 길이
     private static final int EMAIL_VERIFICATION_TOKEN_EXPIRATION = 10;  // 이메일 인증 클라이언트 검증 토큰 유효 기간 (10분)
+    private static final int PASSWORD_RESET_URL_EXPIRATION = 60;            // 비밀번호 재설정 링크 유효 기간 (60분)
+    private static final String PASSWORD_RESET_URL = "";                // 비밀번호 재설정 링크
     private final ObjectMapper objectMapper;
 
     @Override
@@ -197,6 +199,20 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // DB에서 사용자 정보 삭제
         authCommandRepositoryPort.deleteById(userId);
+    }
+
+    @Override
+    public String sendPasswordResetEmail(String email) {
+        // nonce 생성
+        String nonce = generateSecureRandom(); // otp 전송을 요청한 클라이언트 구분 식별자
+
+        // redis 저장
+        // 사용자마다 하나의 비밀번호 재설정 이메일만 유효하므로, 이메일을 key로 사용한다.
+        authRedisPort.save("password-reset:" + email, nonce, Duration.ofMinutes(PASSWORD_RESET_URL_EXPIRATION));
+
+        // 이메일 전송
+        mailSender.sendPasswordReset(email, PASSWORD_RESET_URL);
+        return nonce;
     }
 
     @Override
