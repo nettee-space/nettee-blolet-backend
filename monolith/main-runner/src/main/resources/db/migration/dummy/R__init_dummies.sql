@@ -165,7 +165,8 @@ INSERT INTO "article"."draft" (
             'title_' || gs AS title,
         'post-' || gs AS "path",
         CASE
-            WHEN gs BETWEEN 1 AND 58  THEN current_setting('dummy.DRAFT_PUBLISHED')::int    -- PUBLISHED
+            WHEN gs BETWEEN 1 AND 53  THEN current_setting('dummy.DRAFT_PUBLISHED')::int    -- PUBLISHED
+            WHEN gs BETWEEN 54 AND 58  THEN current_setting('dummy.DRAFT_SUSPENDED')::int   -- SUSPENDED
             WHEN gs BETWEEN 59 AND 110 THEN current_setting('dummy.DRAFT_PENDING')::int     -- PENDING
             ELSE current_setting('dummy.DRAFT_REMOVED')::int                                -- REMOVED
             END AS status
