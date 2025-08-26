@@ -3,9 +3,11 @@ package nettee.auth.service;
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_ALREADY_EXIST;
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_LOGIN_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_RESET_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_REFRESH_TOKEN_NOT_FOUND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -203,6 +205,10 @@ public class AuthCommandService implements AuthSignUsecase {
 
     @Override
     public String sendPasswordResetEmail(String email) {
+        // 사용자 존재 여부 확인
+        authQueryRepositoryPort.findByEmail(email)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
         // nonce 생성
         String nonce = generateSecureRandom(); // otp 전송을 요청한 클라이언트 구분 식별자
 
@@ -213,6 +219,29 @@ public class AuthCommandService implements AuthSignUsecase {
         // 이메일 전송
         mailSender.sendPasswordReset(email, PASSWORD_RESET_URL);
         return nonce;
+    }
+
+    @Override
+    public void resetPassword(String email, String newPassword, String nonce) {
+        // 사용자 존재 여부 확인
+        User user = authQueryRepositoryPort.findByEmail(email)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
+        // nonce 조회 및 검증
+        String storedNonce = authRedisPort.get("password-reset:" + email);
+        if (!nonce.equals(storedNonce)) {
+            throw new AuthException(AUTH_PASSWORD_RESET_INVALID);
+        }
+
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        // 비밀번호 변경
+        user.setEncodedPassword(encodedPassword);
+        authCommandRepositoryPort.updatePasswordByEmail(user);
+
+        // nonce 삭제
+        authRedisPort.delete("password-reset:" + email);
     }
 
     @Override

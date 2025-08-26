@@ -7,4 +7,6 @@ public interface AuthCommandRepositoryPort {
     User save(User user);
 
     void deleteById(String userId);
+
+    void updatePasswordByEmail(User user);
 }
