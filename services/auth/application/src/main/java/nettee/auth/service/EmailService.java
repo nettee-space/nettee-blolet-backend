@@ -26,6 +26,14 @@ public class EmailService implements MailSender {
                     </div>
                     """));
 
+    private final ThreadLocal<MessageFormat> passwordResetHtmlFormat =
+            ThreadLocal.withInitial(() -> new MessageFormat("""
+                    <div>
+                        <h2>비밀번호 재설정</h2>
+                        <p>아래의 링크를 클릭하여 비밀번호를 재설정 해주세요.</p>
+                    </div>
+                    """));
+
     @Override
     public void sendOtp(String email, String otp) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -40,9 +48,29 @@ public class EmailService implements MailSender {
             helper.setText(htmlContent, true);
             mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            throw new RuntimeException("메시지 생성 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("이메일 인증 메시지 생성 중 오류가 발생했습니다.", e);
         } catch (MailException e) {
-            throw new RuntimeException("메일 전송 중 오류가 발생했습니다.", e);
+            throw new RuntimeException("이메일 인증 메일 전송 중 오류가 발생했습니다.", e);
+        }
+    }
+
+    @Override
+    public void sendPasswordReset(String email, String passwordResetUrl) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+
+        MessageFormat messageFormat = passwordResetHtmlFormat.get();
+        String htmlContent = messageFormat.format(new Object[]{passwordResetUrl});
+
+        try {
+            helper.setTo(email);
+            helper.setSubject("[Blolet] 비밀번호 재설정");
+            helper.setText(htmlContent, true);
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            throw new RuntimeException("비밀번호 재설정 메시지 생성 중 오류가 발생했습니다.", e);
+        } catch (MailException e) {
+            throw new RuntimeException("비밀번호 재설정 메일 전송 중 오류가 발생했습니다.", e);
         }
     }
 }
