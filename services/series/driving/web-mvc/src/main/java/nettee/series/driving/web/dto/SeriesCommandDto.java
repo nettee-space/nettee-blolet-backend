@@ -53,15 +53,16 @@ public final class SeriesCommandDto {
             
             @Schema(description = "시리즈 설명", example = "시리즈 설명 샘플입니다.")
             String description,
+
             @Schema(
                     description = "시리즈 이미지 배너 (Base64 인코딩된 문자열)",
                     example = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..."
             )
             String banner,
-            
-            @Schema(
-                    description = "시리즈에 포함된 게시글 목록",
-                    implementation = SeriesArticleCreateCommand.class
+
+            @ArraySchema(
+                    schema = @Schema(implementation = SeriesArticleCreateCommand.class),
+                    arraySchema = @Schema(description = "시리즈에 포함된 게시글 목록")
             )
             List<SeriesArticleCreateCommand> seriesArticleList
     ) {
