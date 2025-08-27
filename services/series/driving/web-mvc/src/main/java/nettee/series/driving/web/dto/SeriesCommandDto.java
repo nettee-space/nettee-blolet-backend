@@ -40,7 +40,7 @@ public final class SeriesCommandDto {
                     schema = @Schema(implementation = SeriesArticleCreateCommand.class),
                     arraySchema = @Schema(description = "시리즈에 포함된 게시글 목록")
             )
-            List<SeriesArticleCreateCommand> seriesArticleList
+            List<SeriesArticleCreateCommand> articles
     ) {
     }
     
@@ -64,7 +64,7 @@ public final class SeriesCommandDto {
                     schema = @Schema(implementation = SeriesArticleCreateCommand.class),
                     arraySchema = @Schema(description = "시리즈에 포함된 게시글 목록")
             )
-            List<SeriesArticleCreateCommand> seriesArticleList
+            List<SeriesArticleCreateCommand> articles
     ) {
     }
     
