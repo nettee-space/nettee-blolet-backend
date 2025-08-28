@@ -4,3 +4,5 @@ app.upload.image:
       base-url: "${IMAGE_UPLOAD_BASE_URL:http://localhost:8080}/images/blog"
     profile:
       base-url: "${IMAGE_UPLOAD_BASE_URL:http://localhost:8080}/images/profile"
+    draft:
+      base-url: "${IMAGE_UPLOAD_BASE_URL:http://localhost:8080}/images/draft"
