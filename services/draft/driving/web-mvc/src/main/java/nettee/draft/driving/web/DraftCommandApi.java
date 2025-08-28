@@ -85,10 +85,9 @@ public class DraftCommandApi {
     public DraftImageCreateResponse uploadImage(
             @PathVariable("draftId") String draftId,
             @RequestParam("file") MultipartFile file,
-            @RequestParam("targetName") String targetName,
             @AuthUser AuthorizedUser user
     ) {
-        var draftImage = draftImageCreateUseCase.createDraftImage(user.userId(), draftId, file, targetName);
+        var draftImage = draftImageCreateUseCase.createDraftImage(user.userId(), draftId, file, "draft");
         return mapper.toCreateResponse(draftImage);
     }
 }
