@@ -24,7 +24,7 @@ public class Series {
     
     private String description;
     
-    private String banner;
+    private String bannerUrl;
     
     private Integer displayOrder;
     
@@ -39,13 +39,13 @@ public class Series {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, Integer displayOrder, String description, String banner) {
+    public void update(String title, Integer displayOrder, String description, String bannerUrl) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
         
         this.title = title;
         this.description = description;
-        this.banner = banner;
+        this.bannerUrl = bannerUrl;
         this.displayOrder = displayOrder;
         this.updatedAt = Instant.now();
     }

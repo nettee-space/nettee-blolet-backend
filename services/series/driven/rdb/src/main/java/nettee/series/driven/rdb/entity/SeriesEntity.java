@@ -23,7 +23,7 @@ public class SeriesEntity extends LongBaseTimeEntity {
     
     public String description;
     
-    public byte[] banner;
+    public String bannerUrl;
     
     public Integer displayOrder;
     
@@ -32,13 +32,13 @@ public class SeriesEntity extends LongBaseTimeEntity {
             builderMethodName = "prepareUpdate",
             buildMethodName = "update"
     )
-    public void update(String title, String description, byte[] banner, Integer displayOrder) {
+    public void update(String title, String description, String banner, Integer displayOrder) {
         Objects.requireNonNull(title, "Title cannot be null");
         Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
         
         this.title = title;
         this.description = description;
-        this.banner = banner;
+        this.bannerUrl = banner;
         this.displayOrder = displayOrder;
     }
 }

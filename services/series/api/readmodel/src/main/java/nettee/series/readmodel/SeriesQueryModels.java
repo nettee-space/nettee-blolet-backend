@@ -1,5 +1,6 @@
 package nettee.series.readmodel;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 
@@ -16,7 +17,11 @@ public final class SeriesQueryModels {
             String blogId,
             String title,
             String description,
-            String banner,
+            @Schema(
+                    description = "시리즈 배너 이미지 경로",
+                    example = "https://assets.blolet.com/images/series/01234567-89ab-cdef-0123-456789abcdef"
+            )
+            String bannerUrl,
             List<SeriesArticleSummary> seriesArticleSummaryList,
             Instant createdAt,
             Instant updatedAt

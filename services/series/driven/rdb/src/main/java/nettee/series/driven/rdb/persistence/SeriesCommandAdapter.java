@@ -35,7 +35,7 @@ public class SeriesCommandAdapter implements SeriesCommandRepositoryPort {
         existsSeries.prepareUpdate()
                 .title(series.getTitle())
                 .description(series.getDescription())
-                .banner(seriesEntityMapper.base64ToBytes(series.getBanner()))
+                .banner(series.getBannerUrl())
                 .displayOrder(series.getDisplayOrder())
                 .update();
         
