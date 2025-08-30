@@ -55,6 +55,6 @@ public final class DraftCommandDto {
 
     @Builder
     public record DraftImageCreateResponse(
-            DraftImage draftImage
+            DraftImage image
     ) {}
 }
