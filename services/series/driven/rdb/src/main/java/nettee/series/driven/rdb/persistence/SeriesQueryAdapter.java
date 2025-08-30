@@ -19,6 +19,7 @@ import static nettee.article.driven.rdb.entity.QArticleEntity.articleEntity;
 import static nettee.draft.driven.rdb.entity.QDraftEntity.draftEntity;
 import static nettee.series.article.driven.rdb.entity.QSeriesArticleEntity.seriesArticleEntity;
 import static nettee.series.driven.rdb.entity.QSeriesEntity.seriesEntity;
+import static nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 
 @Repository
 public class SeriesQueryAdapter extends QuerydslRepositorySupport implements SeriesQueryRepositoryPort {
@@ -56,7 +57,7 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
                 .where(seriesEntity.id.eq(longSeriesId))
                 .fetchOne();
 
-        if (seriesDetail == null) return Optional.empty();
+        if (seriesDetail == null) throw SERIES_NOT_FOUND.exception();
 
         List<SeriesArticleSummaryProjection> articles = getQuerydsl().createQuery()
                 .select(Projections.constructor(
