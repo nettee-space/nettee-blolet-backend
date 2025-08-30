@@ -13,7 +13,7 @@ public final class SeriesArticleQueryModels {
             String seriesId,
             String articleId,
             String draftId,
-            String articleTitle,
+            String title,
             Integer displayOrder,
             Instant createdAt,
             Instant updatedAt
