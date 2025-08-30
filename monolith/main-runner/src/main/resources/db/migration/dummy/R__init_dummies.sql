@@ -273,7 +273,7 @@ WHERE d.blog_id = i.blog_id
 -- ─────────────────────────────────────────────────────────────────────────────
 -- Series(53) 생성: title 'Series 1'..'Series 53'
 -- ─────────────────────────────────────────────────────────────────────────────
-INSERT INTO "series"."series" (
+INSERT INTO "article"."series" (
     blog_id,
     title,
     "description",
@@ -295,7 +295,7 @@ WITH
     first_series AS (
         SELECT
             MIN(s.id) AS sid
-        FROM "series"."series" s
+        FROM "article"."series" s
         WHERE s.blog_id = current_setting('dummy.BLOG_ID')::bigint
     ),
     pending_drafts AS (
@@ -322,7 +322,7 @@ WITH
     ),
     ins_pending AS (
         -- PENDING drafts 52개
-        INSERT INTO "series"."series_article"(
+        INSERT INTO "article"."series_article"(
             series_id,
             draft_id,
             display_order
@@ -337,7 +337,7 @@ WITH
             RETURNING 1
     )
 -- ACTIVE 53개 + SUSPENDED 5개 = 58개
-INSERT INTO "series"."series_article" (
+INSERT INTO "article"."series_article" (
     series_id,
     article_id,
     display_order
