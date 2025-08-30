@@ -11,7 +11,7 @@ import nettee.jpa.support.LongBaseTimeEntity;
 import java.util.Objects;
 
 @Entity
-@Table(name = "series", schema = "series")
+@Table(name = "series", schema = "article")
 @SuperBuilder
 @NoArgsConstructor
 public class SeriesEntity extends LongBaseTimeEntity {
