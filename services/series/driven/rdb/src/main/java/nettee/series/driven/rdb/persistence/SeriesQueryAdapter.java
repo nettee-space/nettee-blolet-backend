@@ -29,7 +29,13 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
         super(SeriesEntity.class);
         this.mapper = seriesEntityMapper;
     }
-    
+
+    /**
+     * 트래픽 절감, 안정적인 성능, 높은 유지보수성을 위하여 '싱글쿼리(단일 쿼리)' 대신 '스플릿 쿼리(분할 쿼리)'를 사용합니다.
+     *
+     * @param seriesId
+     * @return
+     */
     @Override
     public Optional<SeriesDetail> findBySeriesId(String seriesId) {
         Long longSeriesId = Long.parseLong(seriesId);
@@ -49,6 +55,8 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
                 .from(seriesEntity)
                 .where(seriesEntity.id.eq(longSeriesId))
                 .fetchOne();
+
+        if (seriesDetail == null) return Optional.empty();
 
         List<SeriesArticleSummaryProjection> articles = getQuerydsl().createQuery()
                 .select(Projections.constructor(
