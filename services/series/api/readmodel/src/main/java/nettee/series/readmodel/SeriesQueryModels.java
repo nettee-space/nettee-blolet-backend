@@ -22,7 +22,7 @@ public final class SeriesQueryModels {
                     example = "https://assets.blolet.com/images/series/01234567-89ab-cdef-0123-456789abcdef"
             )
             String bannerUrl,
-            List<SeriesArticleSummary> seriesArticleSummaryList,
+            List<SeriesArticleSummary> articles,
             Instant createdAt,
             Instant updatedAt
     ) {
