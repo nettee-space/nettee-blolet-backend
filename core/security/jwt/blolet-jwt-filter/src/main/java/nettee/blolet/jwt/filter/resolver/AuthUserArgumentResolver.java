@@ -1,7 +1,6 @@
 package nettee.blolet.jwt.filter.resolver;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
@@ -26,18 +25,14 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter,
-                                  ModelAndViewContainer mavContainer,
-                                  NativeWebRequest webRequest,
-                                  WebDataBinderFactory binderFactory) {
-
+    public Object resolveArgument(
+            MethodParameter parameter,
+            ModelAndViewContainer mavContainer,
+            NativeWebRequest webRequest,
+            WebDataBinderFactory binderFactory
+    ) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-
-        String userId = (String) request.getAttribute("userId");
-        @SuppressWarnings("unchecked") List<String> roles = (List<String>) request.getAttribute("roles");
-        @SuppressWarnings("unchecked") List<String> profileIds = (List<String>) request.getAttribute("profileIds");
-
-        return new AuthorizedUser(userId, roles, profileIds);
+        return request.getAttribute(AuthorizedUser.class.getTypeName());
     }
 }
 
