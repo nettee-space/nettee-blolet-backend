@@ -10,7 +10,7 @@ import nettee.jpa.support.SnowflakeBaseTimeEntity;
 import java.util.Objects;
 
 @Entity
-@Table(name = "series_article", schema = "series")
+@Table(name = "series_article", schema = "article")
 @SuperBuilder
 @NoArgsConstructor
 public class SeriesArticleEntity extends SnowflakeBaseTimeEntity {
@@ -24,7 +24,7 @@ public class SeriesArticleEntity extends SnowflakeBaseTimeEntity {
     public Integer displayOrder;
     
     @Builder(
-            builderClassName = "updateSeriesArticleEntityBuilder",
+            builderClassName = "UpdateSeriesArticleEntityBuilder",
             builderMethodName = "prepareUpdate",
             buildMethodName = "updateArticleId"
     )
