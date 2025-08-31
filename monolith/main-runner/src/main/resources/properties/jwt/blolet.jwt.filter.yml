@@ -27,6 +27,10 @@ app:
           methods: "*"
         - path: "/auth/email/verification/check"
           methods: "*"
+        - path: "/auth/email/password/reset"
+          methods: "*"
+        - path: "/auth/email/password/reset/send"
+          methods: "*"
         # Blog
         - path: "/blogs/*/ownership"
           methods: "*"

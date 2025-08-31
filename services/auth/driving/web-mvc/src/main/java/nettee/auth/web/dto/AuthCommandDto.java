@@ -109,18 +109,39 @@ public final class AuthCommandDto {
         }
     }
 
-    @Schema(description = "비밀번호 변경 전 재인증 요청")
-    public record PasswordResetRequest(
-            @Schema(description = "현재 사용중인 비밀번호", example = "Blolet1225!")
-            String password
+    @Schema(description = "이메일 비밀번호 재설정 전송 요청")
+    public record PasswordForgotRequest(
+            @Schema(description = "이메일", example = "sun@gmail.com")
+            String email
     ) {
+        public PasswordForgotRequest {
+            validateNotBlank(email, AUTH_EMAIL_REQUIRED);
+            email = email.strip();
+        }
     }
 
-    @Schema(description = "비밀번호 변경 요청")
-    public record PasswordVerifyRequest(
-            @Schema(description = "변경하고자 하는 비밀번호", example = "Blolet1225!")
-            String password
+    @Schema(description = "비밀번호 재설정")
+    public record PasswordResetRequest(
+            @Schema(description = "이메일", example = "sun@gmail.com")
+            String email,
+            @Schema(description = "변경 비밀번호", example = "Blolet0101!")
+            String newPassword,
+            @Schema(description = "클라이언트 식별자", example = "nonce123")
+            String nonce
     ) {
+        public PasswordResetRequest {
+            validateNotBlank(email, AUTH_EMAIL_REQUIRED);
+            validateNotBlank(newPassword, AUTH_PASSWORD_REQUIRED);
+            validateNotBlank(nonce, AUTH_NONCE_REQUIRED);
+
+            email = email.strip();
+            newPassword = newPassword.strip();
+            nonce = nonce.strip();
+
+            // 비밀번호 정규식 검증
+            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            validateRegex(newPassword, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
+        }
     }
 
     @Schema(description = "로그인 응답")
