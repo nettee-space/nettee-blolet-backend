@@ -49,7 +49,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             WebDataBinderFactory binderFactory
     ) {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        var user = request.getAttribute(AuthorizedUser.class.getTypeName());
+        AuthorizedUser user = (AuthorizedUser) request.getAttribute(AuthorizedUser.class.getTypeName());
 
         if (parameter.getParameterType().equals(Optional.class)) {
             return Optional.ofNullable(user);
