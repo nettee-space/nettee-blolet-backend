@@ -55,8 +55,8 @@ public class AuthCommandService implements AuthSignUsecase {
     private static final int OTP_EXPIRATION = 5;                        // otp 유효 기간 (5분)
     private static final int OTP_LENGTH = 6;                            // otp 길이
     private static final int EMAIL_VERIFICATION_TOKEN_EXPIRATION = 10;  // 이메일 인증 클라이언트 검증 토큰 유효 기간 (10분)
-    private static final int PASSWORD_RESET_URL_EXPIRATION = 60;            // 비밀번호 재설정 링크 유효 기간 (60분)
-    private static final String PASSWORD_RESET_URL = "";                // 비밀번호 재설정 링크
+    private static final int PASSWORD_RESET_URL_EXPIRATION = 60;        // 비밀번호 재설정 링크 유효 기간 (60분)
+    private static final String PASSWORD_RESET_URL = "";                // 비밀번호 재설정 링크, TODO: 실제 도메인으로 변경 필요
     private final ObjectMapper objectMapper;
 
     @Override
@@ -238,7 +238,7 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 비밀번호 변경
         user.setEncodedPassword(encodedPassword);
-        authCommandRepositoryPort.updatePasswordByEmail(user);
+        authCommandRepositoryPort.updatePassword(user);
 
         // nonce 삭제
         authRedisPort.delete("password-reset:" + email);

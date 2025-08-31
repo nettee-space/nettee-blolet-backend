@@ -34,7 +34,7 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
     }
 
     @Override
-    public void updatePasswordByEmail(User user) {
+    public void updatePassword(User user) {
         UserEntity entity = mapper.toEntity(user);
         authJpaRepository.save(entity);
     }
