@@ -9,7 +9,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
+import nettee.blolet.jwt.filter.exception.PathFilterException;
 import nettee.jwt.parser.JwtParser;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.server.PathContainer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -18,6 +21,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
+
+import static nettee.blolet.jwt.filter.exception.PathFilterErrorCode.AUTH_ACCESS_TOKEN_REQUIRED;
 
 /**
  * JWT 인가 필터
@@ -35,33 +40,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
      * HTTP 요청을 필터링합니다.
      */
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  FilterChain filterChain) throws IOException, ServletException {
-
-        String requestURI = request.getRequestURI();
-        String method = request.getMethod();
-
-        // 1. Authorization 헤더에서 JWT 토큰 추출
-        String jwtToken = extractJwtToken(request);
-
-        // 2. JWT 토큰이 없으면 401 Unauthorized 응답
-        if (!StringUtils.hasText(jwtToken)) {
-            log.warn("JWT 토큰이 존재하지 않습니다. [{}]: {}", method, requestURI);
-            sendUnauthorizedResponse(response, "JWT 토큰이 존재하지 않습니다.", "Authorization 헤더에 JWT 토큰이 존재하지 않습니다.");
-            return;
-        }
-
+    protected void doFilterInternal(
+            @NotNull HttpServletRequest request,
+            @NotNull HttpServletResponse response,
+            FilterChain filterChain
+    ) throws IOException, ServletException {
         try {
             // 3. JWT 토큰 검증 및 파싱
-            var claims = jwtParser.parseClaims(jwtToken);
-
             // 4. JWT 토큰에서 사용자 정보 추출
-            setRequestAttribute(request, claims);
-
+            parseHeaderAndSetRequestAttribute(request, true);
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException e) {
             // 토큰이 만료된 경우, 리프레시 토큰 요청 경로는 통과
+            String requestURI = request.getRequestURI();
             if (requestURI.equals("/auth/token/refresh")) {
                 var claims = e.getClaims();
                 setRequestAttribute(request, claims);
@@ -73,16 +64,9 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } catch (JwtException e) {
             log.error("JWT 토큰이 유효하지 않습니다.");
             sendUnauthorizedResponse(response, "JWT 토큰이 유효하지 않습니다.", e.getMessage());
+        } catch (PathFilterException e) {
+            sendUnauthorizedResponse(response, "JWT 토큰이 존재하지 않습니다.", "Authorization 헤더에 JWT 토큰이 존재하지 않습니다.");
         }
-    }
-
-    /**
-     * JWT 토큰에서 사용자 정보를 추출하여 요청 속성에 설정합니다.
-     */
-    private void setRequestAttribute(HttpServletRequest request, Claims claims) {
-        request.setAttribute("userId", claims.getSubject());
-        request.setAttribute("roles", claims.get("roles", List.class));
-        request.setAttribute("profileIds", claims.get("profileIds", List.class));
     }
 
     /**
@@ -94,11 +78,66 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         PathContainer pathContainer = PathContainer.parsePath(requestURI);
         String method = request.getMethod();
 
+        try {
+            // 3. JWT 토큰 검증 및 파싱
+            // 4. JWT 토큰에서 사용자 정보 추출
+            parseHeaderAndSetRequestAttribute(request, false);
+        } catch (ExpiredJwtException e) {
+            log.debug("JWT 토큰이 만료되었습니다.");
+        } catch (JwtException e) {
+            log.debug("JWT 토큰이 유효하지 않습니다.");
+        } catch (PathFilterException e) {
+            log.debug("JWT 토큰이 존재하지 않습니다.");
+        }
+
         // pattern 매칭을 통해 필터링 제외 경로인지 확인
         var patternSet = methodPathPatternParser.getExcludePathsByMethod(method);
         assert patternSet != null;
         return patternSet.stream()
                 .anyMatch(pattern -> pattern.matches(pathContainer));
+    }
+
+    /**
+     * JWT 토큰에서 사용자 정보를 추출하여 요청 속성에 설정합니다.
+     *
+     * @throws ExpiredJwtException 만료
+     * @throws JwtException 애초에 유효하지도 않은 토큰을 넣어?
+     */
+    private void parseHeaderAndSetRequestAttribute(HttpServletRequest request, boolean isRequired)
+            throws JwtException, PathFilterException {
+        String requestURI = request.getRequestURI();
+        String method = request.getMethod();
+
+        // 1. Authorization 헤더에서 JWT 토큰 추출
+        String jwtToken = extractJwtToken(request);
+
+        // 2. JWT 토큰이 없으면 401 Unauthorized 응답
+        if (!StringUtils.hasText(jwtToken)) {
+            log.warn("JWT 토큰이 존재하지 않습니다. [{}]: {}", method, requestURI);
+            throw AUTH_ACCESS_TOKEN_REQUIRED.exception();
+        }
+
+        // 3. JWT 토큰 검증 및 파싱
+        var claims = jwtParser.parseClaims(jwtToken);
+
+        // 4. JWT 토큰에서 사용자 정보 추출 → 인스턴스화
+        setRequestAttribute(request, claims);
+    }
+
+    /**
+     * JWT 토큰의 클레임 목록에서 사용자 정보를 추출하여 요청 속성에 설정합니다.
+     */
+    private void setRequestAttribute(HttpServletRequest request, Claims claims) {
+        @SuppressWarnings("unchecked")
+        var authUser = new AuthorizedUser(
+                claims.getSubject(),
+                claims.get("roles", List.class),
+                claims.get("profileIds", List.class)
+        );
+
+        // K: Full Qualified Class Name
+        // V: auth user
+        request.setAttribute(AuthorizedUser.class.getTypeName(), authUser);
     }
 
     /**
