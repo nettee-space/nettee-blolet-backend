@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum PathFilterErrorCode implements ErrorCode {
-    AUTH_FILTER_PATH_NOT_ENTERED(HttpStatus.INTERNAL_SERVER_ERROR, "경로를 입력해야 합니다.")
+    AUTH_FILTER_PATH_NOT_ENTERED(HttpStatus.INTERNAL_SERVER_ERROR, "경로를 입력해야 합니다."),
+    AUTH_ACCESS_TOKEN_REQUIRED(HttpStatus.UNAUTHORIZED, "액세스 토큰이 입력되지 않습니다.")
     ;
 
     private final HttpStatus httpStatus;
