@@ -66,7 +66,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             sendUnauthorizedResponse(response, "JWT 토큰이 유효하지 않습니다.", e.getMessage());
         } catch (JwtParsingException e) {
             if (e.getErrorCode() != JWT_ACCESS_TOKEN_REQUIRED) {
-                log.debug("에러 코드: " + e.getErrorCode());
+                log.debug("에러 코드: {}", e.getErrorCode());
                 throw e;
             }
             log.debug("JWT 토큰이 존재하지 않습니다.");
@@ -93,7 +93,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             log.debug("JWT 토큰이 유효하지 않습니다.");
         } catch (JwtParsingException e) {
             if (e.getErrorCode() != JWT_ACCESS_TOKEN_REQUIRED) {
-                log.debug("에러 코드: " + e.getErrorCode());
+                log.debug("에러 코드: {}", e.getErrorCode());
                 throw e;
             }
             log.debug("JWT 토큰이 존재하지 않습니다.");
