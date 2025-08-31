@@ -31,6 +31,11 @@ public class EmailService implements MailSender {
                     <div>
                         <h2>비밀번호 재설정</h2>
                         <p>아래의 링크를 클릭하여 비밀번호를 재설정 해주세요.</p>
+                        <p>
+                            <a href="{0}">
+                                비밀번호 재설정하기
+                            </a>
+                        </p>
                     </div>
                     """));
 
