@@ -2,15 +2,15 @@ package nettee.blolet.article.application.service;
 
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.article.api.validation.context.DraftContextValidationSupplier;
-import nettee.common.validation.model.ValidationResponseModel;
-import nettee.blolet.article.application.usecase.DraftValidationResponseUseCase;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftSummary;
 import nettee.blolet.article.application.port.DraftQueryPort;
-import nettee.blolet.article.domain.type.DraftStatus;
 import nettee.blolet.article.application.usecase.DraftReadByStatusesUseCase;
 import nettee.blolet.article.application.usecase.DraftReadUseCase;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.application.usecase.DraftValidationResponseUseCase;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftSummary;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
+import nettee.common.validation.model.ValidationResponseModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

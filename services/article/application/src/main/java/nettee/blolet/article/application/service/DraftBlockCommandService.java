@@ -5,8 +5,8 @@ import nettee.blolet.article.application.port.DraftBlockCommandPort;
 import nettee.blolet.article.application.usecase.DraftBlockCreateUseCase;
 import nettee.blolet.article.application.usecase.DraftBlockDeleteUseCase;
 import nettee.blolet.article.application.usecase.DraftBlockUpdateUseCase;
-import nettee.draft.draftblock.domain.DraftBlock;
-import nettee.blolet.article.domain.type.DraftBlockStatus;
+import nettee.blolet.article.domain.DraftBlock;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
 import org.springframework.stereotype.Service;
 
 @Service

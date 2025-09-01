@@ -1,9 +1,10 @@
 package nettee.blolet.article.application.port;
 
-import nettee.draft.domain.DraftImage;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.domain.Draft;
-import nettee.blolet.article.domain.type.DraftStatus;
+import nettee.blolet.article.domain.Draft;
+import nettee.blolet.article.domain.DraftImage;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+
 import java.util.Optional;
 
 public interface DraftCommandPort {

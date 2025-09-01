@@ -1,8 +1,8 @@
 package nettee.blolet.article.application.port;
 
-import nettee.blolet.article.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockSummary;
 
 import java.util.List;
 import java.util.Optional;

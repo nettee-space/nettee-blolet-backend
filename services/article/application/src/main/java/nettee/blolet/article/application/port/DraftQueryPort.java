@@ -1,9 +1,9 @@
 package nettee.blolet.article.application.port;
 
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.blolet.article.domain.type.DraftStatus;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftSummary;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
 
 import java.util.List;
 import java.util.Map;

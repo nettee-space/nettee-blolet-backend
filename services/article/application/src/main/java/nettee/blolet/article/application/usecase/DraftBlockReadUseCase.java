@@ -1,6 +1,7 @@
 package nettee.blolet.article.application.usecase;
 
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+
 import java.util.Optional;
 
 public interface DraftBlockReadUseCase {

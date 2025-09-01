@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import nettee.blolet.article.application.port.DraftBlockQueryPort;
 import nettee.blolet.article.application.usecase.DraftBlockReadByStatusUseCase;
 import nettee.blolet.article.application.usecase.DraftBlockReadUseCase;
-import nettee.blolet.article.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
