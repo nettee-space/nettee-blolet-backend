@@ -2,24 +2,24 @@ package nettee.series.driven.rdb.persistence;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesSummary;
 import nettee.series.application.port.SeriesQueryRepositoryPort;
 import nettee.series.driven.rdb.entity.SeriesEntity;
 import nettee.series.driven.rdb.persistence.mapper.SeriesEntityMapper;
 import nettee.series.driven.rdb.persistence.projection.SeriesProjections.SeriesArticleSummaryProjection;
 import nettee.series.driven.rdb.persistence.projection.SeriesProjections.SeriesDetailProjection;
-import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
-import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+import static nettee.blolet.article.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 import static nettee.blolet.article.rdb.entity.QArticleEntity.articleEntity;
 import static nettee.blolet.article.rdb.entity.QDraftEntity.draftEntity;
 import static nettee.series.article.driven.rdb.entity.QSeriesArticleEntity.seriesArticleEntity;
 import static nettee.series.driven.rdb.entity.QSeriesEntity.seriesEntity;
-import static nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 
 @Repository
 public class SeriesQueryAdapter extends QuerydslRepositorySupport implements SeriesQueryRepositoryPort {

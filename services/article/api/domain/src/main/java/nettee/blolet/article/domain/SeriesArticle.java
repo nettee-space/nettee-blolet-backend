@@ -1,4 +1,4 @@
-package nettee.series.article.domain;
+package nettee.blolet.article.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

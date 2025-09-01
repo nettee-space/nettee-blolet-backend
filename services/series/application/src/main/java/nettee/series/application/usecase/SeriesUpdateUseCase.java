@@ -1,6 +1,6 @@
 package nettee.series.application.usecase;
 
-import nettee.series.domain.Series;
+import nettee.blolet.article.domain.Series;
 
 public interface SeriesUpdateUseCase {
     

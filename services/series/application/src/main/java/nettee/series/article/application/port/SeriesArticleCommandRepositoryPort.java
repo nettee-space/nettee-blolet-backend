@@ -1,6 +1,6 @@
 package nettee.series.article.application.port;
 
-import nettee.series.article.domain.SeriesArticle;
+import nettee.blolet.article.domain.SeriesArticle;
 
 import java.util.List;
 import java.util.Optional;

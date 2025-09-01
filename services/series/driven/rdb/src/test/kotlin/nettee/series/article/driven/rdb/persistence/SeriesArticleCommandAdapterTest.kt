@@ -3,11 +3,11 @@ package nettee.series.article.driven.rdb.persistence
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import nettee.series.article.domain.SeriesArticle
+import nettee.blolet.article.domain.SeriesArticle
+import nettee.blolet.article.exception.SeriesArticleErrorCode.SERIES_ARTICLE_NOT_FOUND
+import nettee.blolet.article.exception.SeriesArticleException
 import nettee.series.article.driven.rdb.entity.SeriesArticleEntity
 import nettee.series.article.driven.rdb.persistence.mapper.SeriesArticleEntityMapper
-import nettee.series.article.exception.SeriesArticleErrorCode.SERIES_ARTICLE_NOT_FOUND
-import nettee.series.article.exception.SeriesArticleException
 import nettee.series.driven.rdb.jpa.JpaTransactionalFreeSpec
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -70,7 +70,8 @@ class SeriesArticleCommandAdapterTest(
 
         repository.save(entity)
 
-        val updatedArticle = SeriesArticle("1", testArticleId, "300", null, null, null)
+        val updatedArticle =
+            SeriesArticle("1", testArticleId, "300", null, null, null)
 
         val result = adapter.updateDraftToArticle(updatedArticle)
 
@@ -80,7 +81,8 @@ class SeriesArticleCommandAdapterTest(
     }
 
     "[예외] updateDraftToArticle - 존재하지 않는 경우" - {
-        val nonExistentArticle = SeriesArticle("999", testArticleId, "999", null, null, null)
+        val nonExistentArticle =
+            SeriesArticle("999", testArticleId, "999", null, null, null)
 
 
         val exception = shouldThrow<SeriesArticleException> {

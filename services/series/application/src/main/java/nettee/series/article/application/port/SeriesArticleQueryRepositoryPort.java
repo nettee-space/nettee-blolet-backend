@@ -1,6 +1,6 @@
 package nettee.series.article.application.port;
 
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
+import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 
 import java.util.List;
 

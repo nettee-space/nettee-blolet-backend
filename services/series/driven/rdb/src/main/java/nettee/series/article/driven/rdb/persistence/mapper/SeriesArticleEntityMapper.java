@@ -1,8 +1,8 @@
 package nettee.series.article.driven.rdb.persistence.mapper;
 
-import nettee.series.article.domain.SeriesArticle;
+import nettee.blolet.article.domain.SeriesArticle;
+import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 import nettee.series.article.driven.rdb.entity.SeriesArticleEntity;
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 import org.mapstruct.Mapper;
 
 import java.util.Optional;

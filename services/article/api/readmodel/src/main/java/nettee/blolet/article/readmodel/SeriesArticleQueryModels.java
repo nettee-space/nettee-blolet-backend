@@ -1,4 +1,4 @@
-package nettee.series.article.readmodel;
+package nettee.blolet.article.readmodel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

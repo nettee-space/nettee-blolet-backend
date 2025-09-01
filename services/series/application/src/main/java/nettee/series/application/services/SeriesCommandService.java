@@ -1,17 +1,17 @@
 package nettee.series.application.services;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.domain.Series;
+import nettee.blolet.article.exception.SeriesException;
 import nettee.series.application.port.SeriesCommandRepositoryPort;
 import nettee.series.application.usecase.SeriesCreateUseCase;
 import nettee.series.application.usecase.SeriesDeleteUseCase;
 import nettee.series.application.usecase.SeriesUpdateUseCase;
 import nettee.series.article.application.usecase.SeriesArticleCreateUseCase;
 import nettee.series.article.application.usecase.SeriesArticleDeleteUseCase;
-import nettee.series.domain.Series;
-import nettee.series.exception.SeriesException;
 import org.springframework.stereotype.Service;
 
-import static nettee.series.exception.SeriesErrorCode.SERIES_ALREADY_EXIST;
+import static nettee.blolet.article.exception.SeriesErrorCode.SERIES_ALREADY_EXIST;
 
 @Service
 @RequiredArgsConstructor

@@ -1,17 +1,17 @@
 package nettee.series.article.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.domain.SeriesArticle;
+import nettee.blolet.article.exception.SeriesArticleException;
 import nettee.series.article.application.port.SeriesArticleCommandRepositoryPort;
-import nettee.series.article.domain.SeriesArticle;
 import nettee.series.article.driven.rdb.entity.SeriesArticleEntity;
 import nettee.series.article.driven.rdb.persistence.mapper.SeriesArticleEntityMapper;
-import nettee.series.article.exception.SeriesArticleException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import static nettee.series.article.exception.SeriesArticleErrorCode.SERIES_ARTICLE_NOT_FOUND;
+import static nettee.blolet.article.exception.SeriesArticleErrorCode.SERIES_ARTICLE_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor

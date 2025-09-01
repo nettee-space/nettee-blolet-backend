@@ -1,7 +1,7 @@
 package nettee.series.application.usecase;
 
-import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
-import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesSummary;
 
 import java.util.List;
 

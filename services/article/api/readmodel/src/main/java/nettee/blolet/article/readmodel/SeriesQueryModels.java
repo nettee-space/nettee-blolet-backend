@@ -1,8 +1,8 @@
-package nettee.series.readmodel;
+package nettee.blolet.article.readmodel;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
+import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 
 import java.time.Instant;
 import java.util.List;

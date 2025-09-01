@@ -1,9 +1,9 @@
 package nettee.series.article.application.service;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 import nettee.series.article.application.port.SeriesArticleQueryRepositoryPort;
 import nettee.series.article.application.usecase.SeriesArticleReadUseCase;
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

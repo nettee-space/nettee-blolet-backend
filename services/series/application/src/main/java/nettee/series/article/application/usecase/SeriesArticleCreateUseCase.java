@@ -1,6 +1,6 @@
 package nettee.series.article.application.usecase;
 
-import nettee.series.article.domain.SeriesArticle;
+import nettee.blolet.article.domain.SeriesArticle;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package nettee.series.driving.web.mapper;
 
-import nettee.series.domain.Series;
+import nettee.blolet.article.domain.Series;
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand;
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand;
 import org.mapstruct.Mapper;

@@ -1,10 +1,9 @@
-package nettee.series.domain;
+package nettee.blolet.article.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nettee.series.article.domain.SeriesArticle;
 
 import java.time.Instant;
 import java.util.List;

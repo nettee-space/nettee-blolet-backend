@@ -1,12 +1,12 @@
 package nettee.series.driven.rdb.persistence.mapper;
 
 
-import nettee.series.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
-import nettee.series.domain.Series;
+import nettee.blolet.article.domain.Series;
+import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
 import nettee.series.driven.rdb.entity.SeriesEntity;
 import nettee.series.driven.rdb.persistence.projection.SeriesProjections.SeriesArticleSummaryProjection;
 import nettee.series.driven.rdb.persistence.projection.SeriesProjections.SeriesDetailProjection;
-import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

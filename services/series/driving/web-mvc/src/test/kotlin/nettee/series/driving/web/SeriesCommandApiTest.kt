@@ -2,12 +2,12 @@ package nettee.series.driving.web
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FreeSpec
+import nettee.blolet.article.domain.Series
 import nettee.series.application.usecase.SeriesCreateUseCase
 import nettee.series.application.usecase.SeriesDeleteUseCase
 import nettee.series.application.usecase.SeriesUpdateUseCase
-import nettee.series.domain.Series
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand
+import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand
 import nettee.series.driving.web.mapper.SeriesDtoMapper
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.doNothing

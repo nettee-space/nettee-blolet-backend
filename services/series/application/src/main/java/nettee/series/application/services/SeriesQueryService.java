@@ -1,19 +1,19 @@
 package nettee.series.application.services;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesSummary;
 import nettee.blolet.blog.export.client.api.BlogClient;
 import nettee.series.application.port.SeriesQueryRepositoryPort;
 import nettee.series.application.usecase.SeriesReadUseCase;
 import nettee.series.application.usecase.SeriesVisitUseCase;
-import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
-import nettee.series.readmodel.SeriesQueryModels.SeriesSummary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Set;
 
+import static nettee.blolet.article.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 import static nettee.blolet.blog.exception.BlogErrorCode.BLOG_NOT_IMPLEMENTED_FEATURE;
-import static nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor

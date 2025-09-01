@@ -3,12 +3,12 @@ package nettee.series.driven.rdb.persistence
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import nettee.series.domain.Series
+import nettee.blolet.article.domain.Series
+import nettee.blolet.article.exception.SeriesErrorCode.SERIES_NOT_FOUND
+import nettee.blolet.article.exception.SeriesException
 import nettee.series.driven.rdb.entity.SeriesEntity
 import nettee.series.driven.rdb.jpa.JpaTransactionalFreeSpec
 import nettee.series.driven.rdb.persistence.mapper.SeriesEntityMapper
-import nettee.series.exception.SeriesException
-import nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.context.annotation.ComponentScan
@@ -43,7 +43,17 @@ class SeriesCommandAdapterTest(
 
     "[정상] save" - {
         val series =
-            Series(null, testBlogId, testTitle, testDescription, testBanner, testDisplayOrder, null, null, null)
+            Series(
+                null,
+                testBlogId,
+                testTitle,
+                testDescription,
+                testBanner,
+                testDisplayOrder,
+                null,
+                null,
+                null
+            )
 
         val result = adapter.save(series)
 

@@ -1,4 +1,4 @@
-package nettee.series.exception;
+package nettee.blolet.article.exception;
 
 import nettee.common.ErrorCode;
 import org.springframework.http.HttpStatus;

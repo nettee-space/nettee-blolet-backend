@@ -1,12 +1,12 @@
 package nettee.series.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.domain.Series;
 import nettee.series.application.port.SeriesCommandRepositoryPort;
-import nettee.series.domain.Series;
 import nettee.series.driven.rdb.persistence.mapper.SeriesEntityMapper;
 import org.springframework.stereotype.Repository;
 
-import static nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND;
+import static nettee.blolet.article.exception.SeriesErrorCode.SERIES_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor
