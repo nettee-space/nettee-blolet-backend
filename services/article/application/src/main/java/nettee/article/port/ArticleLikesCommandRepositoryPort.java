@@ -1,6 +1,6 @@
 package nettee.article.port;
 
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 
 import java.util.Optional;
 

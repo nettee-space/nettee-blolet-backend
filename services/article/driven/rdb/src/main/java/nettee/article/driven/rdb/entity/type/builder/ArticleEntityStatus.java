@@ -1,6 +1,6 @@
 package nettee.article.driven.rdb.entity.type.builder;
 
-import nettee.article.domain.ArticleStatus;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 import nettee.common.marker.TypeSafeMarker.Present;
 import nettee.common.status.StatusCodeUtil;
 import nettee.common.status.StatusParameters;
@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static nettee.article.exception.ArticleErrorCode.DEFAULT;
+import static nettee.blolet.article.exception.ArticleErrorCode.DEFAULT;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.ALL;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.SUBITEM_READ;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.UPDATE;

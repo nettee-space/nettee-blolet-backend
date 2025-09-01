@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Instant;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_QUERY_SIZE_LIMIT_EXCEEDED;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_QUERY_SIZE_LIMIT_EXCEEDED;
 
 @RestController
 @RequiredArgsConstructor

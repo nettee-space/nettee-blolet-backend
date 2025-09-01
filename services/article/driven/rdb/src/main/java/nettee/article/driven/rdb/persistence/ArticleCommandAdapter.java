@@ -1,16 +1,16 @@
 package nettee.article.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
-import nettee.article.domain.Article;
-import nettee.article.domain.ArticleStatus;
+import nettee.blolet.article.domain.Article;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 import nettee.article.driven.rdb.entity.type.builder.ArticleEntityStatus;
 import nettee.article.driven.rdb.persistence.mapper.ArticleEntityMapper;
 import nettee.article.port.ArticleCommandRepositoryPort;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
-import static nettee.article.exception.ArticleErrorCode.DEFAULT;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
+import static nettee.blolet.article.exception.ArticleErrorCode.DEFAULT;
 
 @Repository
 @RequiredArgsConstructor

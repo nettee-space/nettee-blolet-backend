@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import nettee.article.domain.Article;
+import nettee.blolet.article.domain.Article;
 
 public final class ArticleCommandDto {
 

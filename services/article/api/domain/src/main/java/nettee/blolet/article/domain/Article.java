@@ -1,4 +1,4 @@
-package nettee.article.domain;
+package nettee.blolet.article.domain;
 
 
 import lombok.AllArgsConstructor;
@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 
 import java.time.Instant;
 

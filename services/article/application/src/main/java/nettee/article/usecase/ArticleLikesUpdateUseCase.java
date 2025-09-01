@@ -1,6 +1,6 @@
 package nettee.article.usecase;
 
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 
 public interface ArticleLikesUpdateUseCase {
     

@@ -1,7 +1,7 @@
 package nettee.article.driving.web;
 
-import nettee.article.domain.Article;
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.Article;
+import nettee.blolet.article.domain.ArticleLikes;
 import nettee.article.driving.web.dto.ArticleCommandDto.ArticleUpdateCommand;
 import nettee.article.driving.web.dto.ArticleCommandDto.ArticleCreateCommand;
 import nettee.article.driving.web.dto.ArticleLikesCommandDto.ArticleLikesCreateCommand;

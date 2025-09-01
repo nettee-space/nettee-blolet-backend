@@ -1,6 +1,6 @@
 package nettee.article.usecase;
 
-import nettee.article.domain.Article;
+import nettee.blolet.article.domain.Article;
 
 public interface ArticleCreateUseCase {
 

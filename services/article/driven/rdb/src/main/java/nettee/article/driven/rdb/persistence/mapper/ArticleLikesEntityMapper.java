@@ -1,6 +1,6 @@
 package nettee.article.driven.rdb.persistence.mapper;
 
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 import nettee.article.driven.rdb.entity.ArticleLikesEntity;
 import org.mapstruct.Mapper;
 

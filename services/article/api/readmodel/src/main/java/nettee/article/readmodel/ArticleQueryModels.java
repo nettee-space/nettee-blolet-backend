@@ -1,7 +1,7 @@
 package nettee.article.readmodel;
 
 import lombok.Builder;
-import nettee.article.domain.ArticleStatus;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 
 import java.time.Instant;
 

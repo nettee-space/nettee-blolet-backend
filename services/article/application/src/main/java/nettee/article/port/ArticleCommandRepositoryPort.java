@@ -1,7 +1,7 @@
 package nettee.article.port;
 
-import nettee.article.domain.Article;
-import nettee.article.domain.ArticleStatus;
+import nettee.blolet.article.domain.Article;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 
 public interface ArticleCommandRepositoryPort {
 

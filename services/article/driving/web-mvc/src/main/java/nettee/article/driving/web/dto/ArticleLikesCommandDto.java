@@ -5,9 +5,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_LIKES_EXCEED_LIMIT;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_LIKES_EXCEED_LIMIT;
 
 public final class ArticleLikesCommandDto {
 

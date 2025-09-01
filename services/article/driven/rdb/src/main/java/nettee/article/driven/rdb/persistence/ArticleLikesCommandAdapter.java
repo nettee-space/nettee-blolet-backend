@@ -1,7 +1,7 @@
 package nettee.article.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 import nettee.article.driven.rdb.entity.ArticleLikesEntity;
 import nettee.article.driven.rdb.persistence.mapper.ArticleLikesEntityMapper;
 import nettee.article.port.ArticleLikesCommandRepositoryPort;
@@ -10,8 +10,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Objects;
 import java.util.Optional;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_INVALID_ID_SPEC;
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_INVALID_ID_SPEC;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor

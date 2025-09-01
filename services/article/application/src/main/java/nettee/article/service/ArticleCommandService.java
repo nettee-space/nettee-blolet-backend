@@ -1,8 +1,8 @@
 package nettee.article.service;
 
 import lombok.RequiredArgsConstructor;
-import nettee.article.domain.Article;
-import nettee.article.domain.ArticleStatus;
+import nettee.blolet.article.domain.Article;
+import nettee.blolet.article.domain.sub.ArticleStatus;
 import nettee.article.port.ArticleCommandRepositoryPort;
 import nettee.article.usecase.ArticleCreateUseCase;
 import nettee.article.usecase.ArticleDeleteUseCase;

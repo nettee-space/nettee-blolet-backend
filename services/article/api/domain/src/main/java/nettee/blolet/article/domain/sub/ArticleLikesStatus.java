@@ -1,4 +1,4 @@
-package nettee.article.domain;
+package nettee.blolet.article.domain.sub;
 
 public enum ArticleLikesStatus {
     PENDING,

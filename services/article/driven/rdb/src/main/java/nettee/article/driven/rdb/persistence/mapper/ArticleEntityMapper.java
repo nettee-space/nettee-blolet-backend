@@ -1,6 +1,6 @@
 package nettee.article.driven.rdb.persistence.mapper;
 
-import nettee.article.domain.Article;
+import nettee.blolet.article.domain.Article;
 import nettee.article.driven.rdb.entity.ArticleEntity;
 import nettee.article.driven.rdb.projection.ArticleQueryProjections.ArticleDetailProjection;
 import nettee.article.driven.rdb.projection.ArticleQueryProjections.ArticleSummaryProjection;

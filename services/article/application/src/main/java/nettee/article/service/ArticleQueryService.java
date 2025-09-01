@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor

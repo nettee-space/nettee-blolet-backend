@@ -1,13 +1,13 @@
 package nettee.article.service;
 
 import lombok.RequiredArgsConstructor;
-import nettee.article.domain.ArticleLikes;
+import nettee.blolet.article.domain.ArticleLikes;
 import nettee.article.port.ArticleLikesCommandRepositoryPort;
 import nettee.article.usecase.ArticleLikesUpdateUseCase;
 import nettee.article.usecase.ArticleLikesDeleteUseCase;
 import org.springframework.stereotype.Service;
 
-import static nettee.article.exception.ArticleErrorCode.ARTICLE_LIKE_SUSPENDED;
+import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_LIKE_SUSPENDED;
 
 @Service
 @RequiredArgsConstructor
