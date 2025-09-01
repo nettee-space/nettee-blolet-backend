@@ -18,6 +18,7 @@ import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth", description = "인증 관련 API")
@@ -132,9 +134,9 @@ public class AuthCommandApi {
             summary = "이메일 비밀번호 재설정 링크 전송",
             description = "사용자의 이메일로 비밀번호를 변경할 수 있는 링크를 발송합니다."
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<String> sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
-        String nonce = authSignUsecase.sendPasswordResetEmail(request.email());
-        return ResponseEntity.ok(nonce);
+        authSignUsecase.sendPasswordResetEmail(request.email());
     }
 
     @PostMapping("email/password/reset")
@@ -142,6 +144,7 @@ public class AuthCommandApi {
             summary = "이메일 비밀번호 재설정",
             description = "사용자가 이메일 링크를 통해 비밀번호를 변경합니다."
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void resetPassword(@RequestParam String nonce,
                               @RequestBody PasswordResetRequest request) {
         authSignUsecase.resetPassword(request.email(), request.newPassword(), nonce);

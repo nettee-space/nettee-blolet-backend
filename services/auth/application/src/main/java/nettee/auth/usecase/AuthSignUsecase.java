@@ -13,7 +13,7 @@ public interface AuthSignUsecase {
     void logout(String userId, String refreshToken);
     void withdraw(String userId, String refreshToken);
 
-    String sendPasswordResetEmail(String email);
+    void sendPasswordResetEmail(String email);
     void resetPassword(String email, String newPassword, String nonce);
 
     LoginTokenModel refreshAccessToken(String userId, String refreshToken);

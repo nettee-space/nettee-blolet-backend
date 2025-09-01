@@ -204,7 +204,7 @@ public class AuthCommandService implements AuthSignUsecase {
     }
 
     @Override
-    public String sendPasswordResetEmail(String email) {
+    public void sendPasswordResetEmail(String email) {
         // 사용자 존재 여부 확인
         authQueryRepositoryPort.findByEmail(email)
                 .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
@@ -218,7 +218,6 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 이메일 전송
         authMailSender.sendPasswordReset(email, resetUrlWithNonce);
-        return nonce;
     }
 
     @Override
