@@ -1,7 +1,7 @@
-package nettee.article.driven.rdb.projection;
+package nettee.blolet.article.rdb.projection;
 
 import lombok.Builder;
-import nettee.article.driven.rdb.entity.type.builder.ArticleEntityStatus;
+import nettee.blolet.article.rdb.entity.type.builder.ArticleEntityStatus;
 
 import java.time.Instant;
 

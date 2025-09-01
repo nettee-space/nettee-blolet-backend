@@ -1,8 +1,8 @@
-package nettee.article.driven.rdb.persistence;
+package nettee.blolet.article.rdb.persistence;
 
-import nettee.article.driven.rdb.entity.ArticleEntity;
-import nettee.article.driven.rdb.projection.ArticleQueryProjections.ArticleDetailProjection;
-import nettee.article.driven.rdb.projection.ArticleQueryProjections.ArticleSummaryProjection;
+import nettee.blolet.article.rdb.entity.ArticleEntity;
+import nettee.blolet.article.rdb.projection.ArticleQueryProjections.ArticleDetailProjection;
+import nettee.blolet.article.rdb.projection.ArticleQueryProjections.ArticleSummaryProjection;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;

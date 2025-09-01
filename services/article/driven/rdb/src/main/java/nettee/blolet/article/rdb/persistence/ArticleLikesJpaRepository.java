@@ -1,6 +1,6 @@
-package nettee.article.driven.rdb.persistence;
+package nettee.blolet.article.rdb.persistence;
 
-import nettee.article.driven.rdb.entity.ArticleLikesEntity;
+import nettee.blolet.article.rdb.entity.ArticleLikesEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 

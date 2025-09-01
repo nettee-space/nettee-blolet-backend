@@ -1,10 +1,10 @@
-package nettee.article.driven.rdb.persistence;
+package nettee.blolet.article.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
-import nettee.blolet.article.domain.ArticleLikes;
-import nettee.article.driven.rdb.entity.ArticleLikesEntity;
-import nettee.article.driven.rdb.persistence.mapper.ArticleLikesEntityMapper;
 import nettee.blolet.article.application.port.ArticleLikesCommandRepositoryPort;
+import nettee.blolet.article.domain.ArticleLikes;
+import nettee.blolet.article.rdb.entity.ArticleLikesEntity;
+import nettee.blolet.article.rdb.persistence.mapper.ArticleLikesEntityMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;

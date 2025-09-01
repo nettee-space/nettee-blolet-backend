@@ -1,7 +1,7 @@
-package nettee.article.driven.rdb.persistence.mapper;
+package nettee.blolet.article.rdb.persistence.mapper;
 
 import nettee.blolet.article.domain.ArticleLikes;
-import nettee.article.driven.rdb.entity.ArticleLikesEntity;
+import nettee.blolet.article.rdb.entity.ArticleLikesEntity;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
