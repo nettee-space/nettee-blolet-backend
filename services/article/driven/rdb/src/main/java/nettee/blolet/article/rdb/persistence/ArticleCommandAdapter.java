@@ -39,7 +39,7 @@ public class ArticleCommandAdapter implements ArticleCommandRepositoryPort {
         existingArticle.prepareArticleEntityUpdate()
                 .title(article.getTitle())
                 .content(article.getContent())
-                .update();;
+                .update();
 
         return articleEntityMapper.toDomain(existingArticle);
     }
