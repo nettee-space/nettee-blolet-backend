@@ -1,4 +1,4 @@
-package nettee.article.driving.web.dto;
+package nettee.blole.article.web.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

@@ -1,14 +1,14 @@
-package nettee.article.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nettee.article.driving.web.dto.ArticleCommandDto.ArticleUpdateCommand;
-import nettee.article.driving.web.dto.ArticleCommandDto.ArticleCommandResponse;
-import nettee.article.driving.web.dto.ArticleCommandDto.ArticleCreateCommand;
-import nettee.article.driving.web.dto.ArticleLikesCommandDto.ArticleLikesCommandResponse;
-import nettee.article.driving.web.dto.ArticleLikesCommandDto.ArticleLikesCreateCommand;
+import nettee.blole.article.web.dto.ArticleCommandDto.ArticleUpdateCommand;
+import nettee.blole.article.web.dto.ArticleCommandDto.ArticleCommandResponse;
+import nettee.blole.article.web.dto.ArticleCommandDto.ArticleCreateCommand;
+import nettee.blole.article.web.dto.ArticleLikesCommandDto.ArticleLikesCommandResponse;
+import nettee.blole.article.web.dto.ArticleLikesCommandDto.ArticleLikesCreateCommand;
 import nettee.blolet.article.application.usecase.ArticleCreateUseCase;
 import nettee.blolet.article.application.usecase.ArticleDeleteUseCase;
 import nettee.blolet.article.application.usecase.ArticleLikesDeleteUseCase;
