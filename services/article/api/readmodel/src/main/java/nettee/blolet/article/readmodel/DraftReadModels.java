@@ -1,9 +1,10 @@
-package nettee.draft.readmodel;
+package nettee.blolet.article.readmodel;
 
 import lombok.Builder;
-import nettee.draft.domain.type.DraftStatus;
+import nettee.blolet.article.domain.sub.DraftStatus;
 
 import java.time.Instant;
+
 public final class DraftReadModels {
     private DraftReadModels() {
     }

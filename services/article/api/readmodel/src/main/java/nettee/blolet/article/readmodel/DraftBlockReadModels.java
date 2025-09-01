@@ -1,7 +1,7 @@
-package nettee.draft.draftblock.readmodel;
+package nettee.blolet.article.readmodel;
 
 import lombok.Builder;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
 
 import java.time.Instant;
 
