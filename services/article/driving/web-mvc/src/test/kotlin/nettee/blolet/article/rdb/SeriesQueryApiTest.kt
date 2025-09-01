@@ -1,6 +1,7 @@
-package nettee.series.driving.web
+package nettee.blolet.article.rdb
 
 import io.kotest.core.spec.style.FreeSpec
+import nettee.blolet.article.web.SeriesQueryApi
 import nettee.blolet.article.application.usecase.SeriesReadUseCase
 import nettee.blolet.article.application.usecase.SeriesVisitUseCase
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail

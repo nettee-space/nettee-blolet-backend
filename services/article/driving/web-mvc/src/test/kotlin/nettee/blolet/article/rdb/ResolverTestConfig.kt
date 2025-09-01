@@ -1,4 +1,4 @@
-package nettee.series.driving.web
+package nettee.blolet.article.rdb
 
 import nettee.blolet.jwt.filter.resolver.AuthUserArgumentResolver
 import org.springframework.beans.factory.annotation.Autowired

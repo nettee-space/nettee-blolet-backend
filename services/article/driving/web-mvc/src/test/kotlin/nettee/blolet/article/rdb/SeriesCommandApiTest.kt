@@ -1,14 +1,15 @@
-package nettee.series.driving.web
+package nettee.blolet.article.rdb
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.kotest.core.spec.style.FreeSpec
+import nettee.blolet.article.web.SeriesCommandApi
 import nettee.blolet.article.application.usecase.SeriesCreateUseCase
 import nettee.blolet.article.application.usecase.SeriesDeleteUseCase
 import nettee.blolet.article.application.usecase.SeriesUpdateUseCase
 import nettee.blolet.article.domain.Series
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand
-import nettee.series.driving.web.mapper.SeriesDtoMapper
+import nettee.blolet.article.web.dto.SeriesCommandDto.SeriesCreateCommand
+import nettee.blolet.article.web.dto.SeriesCommandDto.SeriesUpdateCommand
+import nettee.blolet.article.web.mapper.SeriesDtoMapper
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.doNothing
 import org.mockito.Mockito.`when`

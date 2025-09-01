@@ -1,4 +1,4 @@
-package nettee.series.driving.web;
+package nettee.blolet.article.rdb;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
