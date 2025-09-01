@@ -1,4 +1,4 @@
-package nettee.article.exception;
+package nettee.blolet.article.exception;
 
 import nettee.common.CustomException;
 import nettee.common.ErrorCode;
