@@ -1,7 +1,7 @@
-package nettee.draft.application.usecase;
+package nettee.blolet.article.application.usecase;
 
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.draft.domain.type.DraftStatus;
+import nettee.blolet.article.domain.type.DraftStatus;
 
 import java.util.List;
 import java.util.Set;

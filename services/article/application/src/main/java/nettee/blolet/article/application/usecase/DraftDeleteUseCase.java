@@ -1,4 +1,4 @@
-package nettee.draft.application.usecase;
+package nettee.blolet.article.application.usecase;
 
 public interface DraftDeleteUseCase {
     void deleteDraft(String userId, String draftId);

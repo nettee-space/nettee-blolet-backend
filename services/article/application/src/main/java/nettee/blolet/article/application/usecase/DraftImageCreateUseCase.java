@@ -1,4 +1,4 @@
-package nettee.draft.application.usecase;
+package nettee.blolet.article.application.usecase;
 
 import nettee.draft.domain.DraftImage;
 import org.springframework.web.multipart.MultipartFile;

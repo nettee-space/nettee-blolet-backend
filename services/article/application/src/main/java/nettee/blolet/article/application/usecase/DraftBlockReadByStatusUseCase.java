@@ -1,11 +1,9 @@
-package nettee.draft.draftblock.application.usecase;
+package nettee.blolet.article.application.usecase;
 
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DraftBlockReadByStatusUseCase {
     List<DraftBlockSummary> getDraftBlocksByStatus(String articleId, DraftBlockStatus status);

@@ -1,10 +1,10 @@
-package nettee.draft.draftblock.application.service;
+package nettee.blolet.article.application.service;
 
 import lombok.RequiredArgsConstructor;
-import nettee.draft.draftblock.application.port.DraftBlockQueryPort;
-import nettee.draft.draftblock.application.usecase.DraftBlockReadByStatusUseCase;
-import nettee.draft.draftblock.application.usecase.DraftBlockReadUseCase;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
+import nettee.blolet.article.application.port.DraftBlockQueryPort;
+import nettee.blolet.article.application.usecase.DraftBlockReadByStatusUseCase;
+import nettee.blolet.article.application.usecase.DraftBlockReadUseCase;
+import nettee.blolet.article.domain.type.DraftBlockStatus;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.stereotype.Service;

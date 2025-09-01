@@ -1,11 +1,9 @@
-package nettee.draft.application.port;
+package nettee.blolet.article.application.port;
 
 import nettee.draft.readmodel.DraftReadModels.DraftDetail;
 import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.draft.domain.type.DraftStatus;
+import nettee.blolet.article.domain.type.DraftStatus;
 import nettee.draft.readmodel.DraftReadModels.DraftTitle;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;

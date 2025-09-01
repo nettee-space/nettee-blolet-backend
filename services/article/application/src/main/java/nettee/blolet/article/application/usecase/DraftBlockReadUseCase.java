@@ -1,4 +1,4 @@
-package nettee.draft.draftblock.application.usecase;
+package nettee.blolet.article.application.usecase;
 
 import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
 import java.util.Optional;
