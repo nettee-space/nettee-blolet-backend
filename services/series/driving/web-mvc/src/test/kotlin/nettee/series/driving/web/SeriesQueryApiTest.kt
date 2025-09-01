@@ -1,12 +1,15 @@
 package nettee.series.driving.web
 
 import io.kotest.core.spec.style.FreeSpec
+import nettee.blolet.jwt.filter.resolver.AuthUserArgumentResolver
 import nettee.series.application.usecase.SeriesReadUseCase
+import nettee.series.application.usecase.SeriesVisitUseCase
 import nettee.series.readmodel.SeriesQueryModels.SeriesDetail
 import nettee.series.readmodel.SeriesQueryModels.SeriesSummary
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
+import org.springframework.context.annotation.Import
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
 import org.springframework.test.context.bean.override.mockito.MockitoBean
@@ -16,9 +19,14 @@ import org.springframework.test.web.servlet.request
 import java.time.Instant
 
 @WebMvcTest(SeriesQueryApi::class)
+@Import(
+    AuthUserArgumentResolver::class,
+    ResolverTestConfig::class,
+)
 class SeriesQueryApiTest(
     @Autowired private val mvc: MockMvc,
     @MockitoBean private val seriesReadUseCase: SeriesReadUseCase,
+    @MockitoBean private val seriesVisitUseCase: SeriesVisitUseCase,
 ) : FreeSpec({
 
     // given - 테스트 데이터 생성
@@ -40,8 +48,8 @@ class SeriesQueryApiTest(
         .blogId("1")
         .title("시리즈 A")
         .description("시리즈 설명")
-        .banner(null)
-        .seriesArticleSummaryList(emptyList())
+        .bannerUrl(null)
+        .articles(emptyList())
         .createdAt(now)
         .updatedAt(now)
         .build()
@@ -74,10 +82,14 @@ class SeriesQueryApiTest(
 
     "[GET] 시리즈 상세 조회" - {
         val seriesId = "1"
+        val userId = "1"
 
         "[정상 요청] 시 2xx 응답 및 상세 데이터 반환" {
             // mock
-            `when`(seriesReadUseCase.getSeries(seriesId)).thenReturn(sampleSeriesDetail)
+            `when`(seriesReadUseCase.findDetailForOwner(seriesId, userId))
+                .thenReturn(sampleSeriesDetail)
+            `when`(seriesVisitUseCase.findDetailForPublic(seriesId))
+                .thenReturn(sampleSeriesDetail)
 
             mvcRequest(HttpMethod.GET, "/series/{seriesId}", mapOf("seriesId" to seriesId))
                 .andExpect {
