@@ -35,11 +35,12 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
      * 트래픽 절감, 안정적인 성능, 높은 유지보수성을 위하여 '싱글쿼리(단일 쿼리)' 대신 '스플릿 쿼리(분할 쿼리)'를 사용합니다.
      *
      * @param seriesId
+     * @param userBlogId
      * @return
      */
     @Override
-    public Optional<SeriesDetail> findBySeriesId(String seriesId) {
-        Long longSeriesId = Long.parseLong(seriesId);
+    public Optional<SeriesDetail> findByIdAndOwnership(String seriesId, String userBlogId) {
+        long longSeriesId = Long.parseLong(seriesId);
 
         SeriesDetailProjection seriesDetail = getQuerydsl().createQuery()
                 .select(Projections.constructor(

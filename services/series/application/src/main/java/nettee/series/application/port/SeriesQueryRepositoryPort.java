@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface SeriesQueryRepositoryPort {
     
-    Optional<SeriesDetail> findBySeriesIdAndOwnership(String seriesId, String userBlogId);
+    Optional<SeriesDetail> findByIdAndOwnership(String seriesId, String userBlogId);
     Optional<SeriesDetail> findExceptDraftsById(String seriesId);
 
     List<SeriesSummary> findAllByBlogId(String blogId);
