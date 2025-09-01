@@ -50,7 +50,7 @@ public class SeriesQueryApi {
         AtomicReference<SeriesDetail> series = new AtomicReference<>();
 
         signedUser.ifPresentOrElse(
-                (user) -> series.set(seriesReadUseCase.getSeriesByOwnership(seriesId, user.userId())),
+                (user) -> series.set(seriesReadUseCase.findDetailForOwner(seriesId, user.userId())),
                 () -> series.set(visitUseCase.visitSeries(seriesId))
         );
 

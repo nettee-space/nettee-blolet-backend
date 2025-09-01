@@ -23,7 +23,7 @@ public class SeriesQueryService implements SeriesReadUseCase, SeriesVisitUseCase
     private final BlogClient blogClient;
     
     @Override
-    public SeriesDetail getSeriesByOwnership(String seriesId, String userId) {
+    public SeriesDetail findDetailForOwner(String seriesId, String userId) {
         assert seriesId != null;
         assert userId != null;
 
