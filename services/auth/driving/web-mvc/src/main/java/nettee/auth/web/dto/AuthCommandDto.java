@@ -46,7 +46,7 @@ public final class AuthCommandDto {
             email = email.strip();
 
             // 정규식 검증
-            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
             final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
             validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
             validateRegex(email, EMAIL_REGEX, AUTH_EMAIL_REQUIRED);
@@ -72,7 +72,7 @@ public final class AuthCommandDto {
             password = password.strip();
 
             // 비밀번호 정규식 검증
-            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
             validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
         }
     }
@@ -135,7 +135,7 @@ public final class AuthCommandDto {
             newPassword = newPassword.strip();
 
             // 비밀번호 정규식 검증
-            final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
             validateRegex(newPassword, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
         }
     }
