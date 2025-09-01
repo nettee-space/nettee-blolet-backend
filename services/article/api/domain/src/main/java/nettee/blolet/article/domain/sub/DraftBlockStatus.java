@@ -1,4 +1,4 @@
-package nettee.draft.draftblock.domain.type;
+package nettee.blolet.article.domain.sub;
 
 public enum DraftBlockStatus {
     REMOVED,

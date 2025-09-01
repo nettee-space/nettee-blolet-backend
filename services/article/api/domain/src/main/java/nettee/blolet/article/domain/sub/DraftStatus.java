@@ -1,4 +1,4 @@
-package nettee.draft.domain.type;
+package nettee.blolet.article.domain.sub;
 
 public enum DraftStatus {
     REMOVED,
