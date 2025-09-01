@@ -3,6 +3,8 @@ package nettee.blolet.blog.export.client.api;
 import lombok.Builder;
 import nettee.blolet.blog.readmodel.BlogReadModels.BlogDetail;
 
+import java.util.Set;
+
 import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_NAME;
 import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_NICKNAME;
 import static nettee.blolet.blog.api.validation.BlogValidator.BlogValidationTarget.BLOG_PROFILE_ID;
@@ -37,6 +39,11 @@ public final class BlogClientDto {
     @Builder
     public record BlogCreateResponse(
             BlogDetail blog
+    ) {}
+
+    @Builder
+    public record BlogIdsQueryResponse(
+            Set<String> blogIds
     ) {}
 
     @Builder
