@@ -1,12 +1,12 @@
-package nettee.draft.driven.rdb.persistence.mapper;
+package nettee.blolet.article.rdb.mapper;
 
-import nettee.draft.domain.DraftImage;
-import nettee.draft.driven.rdb.entity.DraftEntity;
-import nettee.draft.driven.rdb.entity.DraftImageEntity;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.draft.domain.Draft;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.domain.Draft;
+import nettee.blolet.article.domain.DraftImage;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftSummary;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.rdb.entity.DraftEntity;
+import nettee.blolet.article.rdb.entity.DraftImageEntity;
 import org.mapstruct.Mapper;
 
 import java.util.List;

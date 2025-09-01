@@ -1,20 +1,20 @@
-package nettee.draft.driven.rdb.entity.type;
+package nettee.blolet.article.rdb.entity.type;
 
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
 import nettee.common.marker.TypeSafeMarker.Present;
 import nettee.common.status.StatusCodeUtil;
 import nettee.common.status.StatusParameters;
-import nettee.draft.domain.type.DraftStatus;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static nettee.blolet.article.exception.DraftBlockErrorCode.DEFAULT;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.ALL;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.SUBITEM_READ;
 import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.UPDATE;
-import static nettee.draft.exception.DraftErrorCode.DEFAULT;
 
-public enum DraftEntityStatus {
+public enum DraftBlockEntityStatus {
     REMOVED(StatusParameters.generate()
             .categoryBits(0b0000_0000_0000_0000)
             .instanceBits(0)
@@ -45,36 +45,38 @@ public enum DraftEntityStatus {
 
     static {
         assert Arrays.stream(values())
-                .map(DraftEntityStatus::getCode)
+                .map(DraftBlockEntityStatus::getCode)
                 .collect(Collectors.toSet())
                 .size()
                 == values().length
-                : "DraftEntityStatus의 모든 code 필드가 고유해야 합니다.";
+                : "DraftBlockEntityStatus의 모든 code 필드가 고유해야 합니다.";
     }
 
-    DraftEntityStatus(StatusParameters<Present, Present> statusParameters) {
-        this(statusParameters.encode(StatusCodeUtil::encode));
+    DraftBlockEntityStatus(StatusParameters<Present, Present> articleStatusParameters) {
+        this(articleStatusParameters.encode(StatusCodeUtil::encode));
     }
 
-    DraftEntityStatus(int code) { this.code = code; }
+    DraftBlockEntityStatus(int code) { this.code = code; }
 
     public int getCode() { return code; }
 
-    public static DraftEntityStatus valueOf(DraftStatus draftStatus) {
-        assert Set.of(DraftStatus.REMOVED, DraftStatus.PENDING, DraftStatus.UPDATED, DraftStatus.PUBLISHED)
-                .containsAll(Arrays.stream(DraftStatus.values()).collect(Collectors.toSet()))
-                : "DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
+
+    public static DraftBlockEntityStatus valueOf(DraftBlockStatus draftStatus) {
+        assert Set.of(DraftBlockStatus.REMOVED, DraftBlockStatus.PENDING, DraftBlockStatus.PUBLISHED)
+                .containsAll(Arrays.stream(DraftBlockStatus.values()).collect(Collectors.toSet()))
+                : "DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
+
         return switch (draftStatus) {
             case REMOVED -> REMOVED;
             case PENDING -> PENDING;
             case UPDATED -> UPDATED;
             case PUBLISHED -> PUBLISHED;
             case SUSPENDED -> SUSPENDED;
-            default -> throw new Error("DraftStatus 중 일부가 DraftEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
+            default -> throw new Error("DraftBlockStatus 중 일부가 DraftBlockEntityStatus::valueOf 함수에서 매핑되지 않습니다.");
         };
     }
 
-    public static DraftEntityStatus valueOf(int value) {
+    public static DraftBlockEntityStatus valueOf(int value) {
         int categoryInstanceBits = 0xFFFFFF & value;
 
         return switch (categoryInstanceBits) {

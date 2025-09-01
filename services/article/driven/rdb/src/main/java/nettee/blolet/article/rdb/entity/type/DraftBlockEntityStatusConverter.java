@@ -1,8 +1,7 @@
-package nettee.draft.draftblock.driven.rdb.entity.type;
+package nettee.blolet.article.rdb.entity.type;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
 
 @Converter
 public class DraftBlockEntityStatusConverter implements AttributeConverter<DraftBlockEntityStatus, Integer> {

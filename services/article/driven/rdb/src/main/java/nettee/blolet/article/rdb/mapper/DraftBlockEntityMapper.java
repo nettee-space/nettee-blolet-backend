@@ -1,9 +1,9 @@
-package nettee.draft.draftblock.driven.rdb.persistence.mapper;
+package nettee.blolet.article.rdb.mapper;
 
-import nettee.draft.draftblock.domain.DraftBlock;
-import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blolet.article.domain.DraftBlock;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blolet.article.rdb.entity.DraftBlockEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

@@ -1,14 +1,12 @@
-package nettee.draft.draftblock.driven.rdb;
+package nettee.blolet.article.rdb.persistence;
 
-import nettee.draft.draftblock.application.port.DraftBlockQueryPort;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
-import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
-import nettee.draft.draftblock.driven.rdb.persistence.mapper.DraftBlockEntityMapper;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
-import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
-import nettee.draft.exception.DraftErrorCode;
+import nettee.blolet.article.application.port.DraftBlockQueryPort;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blolet.article.rdb.entity.DraftBlockEntity;
+import nettee.blolet.article.rdb.entity.type.DraftBlockEntityStatus;
+import nettee.blolet.article.rdb.mapper.DraftBlockEntityMapper;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +16,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static nettee.draft.draftblock.driven.rdb.entity.QDraftBlockEntity.draftBlockEntity;
+import static nettee.blolet.article.rdb.entity.QDraftBlockEntity.draftBlockEntity;
 
 @Repository
 public class DraftBlockQueryAdapter extends QuerydslRepositorySupport implements DraftBlockQueryPort {

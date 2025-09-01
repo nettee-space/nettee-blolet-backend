@@ -1,4 +1,4 @@
-package nettee.draft.driven.rdb.entity;
+package nettee.blolet.article.rdb.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

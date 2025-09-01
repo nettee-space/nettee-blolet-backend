@@ -1,4 +1,4 @@
-package nettee.draft.draftblock.driven.rdb.entity;
+package nettee.blolet.article.rdb.entity;
 
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
@@ -8,8 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
-import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatusConverter;
+import nettee.blolet.article.rdb.entity.type.DraftBlockEntityStatus;
+import nettee.blolet.article.rdb.entity.type.DraftBlockEntityStatusConverter;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
 
 import java.util.Objects;

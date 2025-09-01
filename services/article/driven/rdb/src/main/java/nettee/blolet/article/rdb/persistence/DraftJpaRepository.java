@@ -1,6 +1,6 @@
-package nettee.draft.driven.rdb;
+package nettee.blolet.article.rdb.persistence;
 
-import nettee.draft.driven.rdb.entity.DraftEntity;
+import nettee.blolet.article.rdb.entity.DraftEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DraftJpaRepository extends JpaRepository<DraftEntity, String> {

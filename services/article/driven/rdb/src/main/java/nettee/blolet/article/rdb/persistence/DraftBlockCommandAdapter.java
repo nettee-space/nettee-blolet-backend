@@ -1,20 +1,20 @@
-package nettee.draft.draftblock.driven.rdb;
+package nettee.blolet.article.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
-import nettee.draft.draftblock.application.port.DraftBlockCommandPort;
-import nettee.draft.draftblock.domain.DraftBlock;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.driven.rdb.entity.DraftBlockEntity;
-import nettee.draft.draftblock.driven.rdb.entity.type.DraftBlockEntityStatus;
-import nettee.draft.draftblock.driven.rdb.persistence.mapper.DraftBlockEntityMapper;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.application.port.DraftBlockCommandPort;
+import nettee.blolet.article.domain.DraftBlock;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.rdb.entity.DraftBlockEntity;
+import nettee.blolet.article.rdb.entity.type.DraftBlockEntityStatus;
+import nettee.blolet.article.rdb.mapper.DraftBlockEntityMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DEFAULT;
-import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftBlockErrorCode.DEFAULT;
+import static nettee.blolet.article.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor

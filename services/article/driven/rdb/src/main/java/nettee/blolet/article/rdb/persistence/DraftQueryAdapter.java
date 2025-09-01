@@ -1,14 +1,14 @@
-package nettee.draft.driven.rdb;
+package nettee.blolet.article.rdb.persistence;
 
 import com.querydsl.core.types.Projections;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.draft.driven.rdb.entity.DraftEntity;
-import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
-import nettee.draft.driven.rdb.persistence.mapper.DraftEntityMapper;
-import nettee.draft.application.port.DraftQueryPort;
-import nettee.draft.domain.type.DraftStatus;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.application.port.DraftQueryPort;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftSummary;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.rdb.entity.DraftEntity;
+import nettee.blolet.article.rdb.entity.type.DraftEntityStatus;
+import nettee.blolet.article.rdb.mapper.DraftEntityMapper;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static nettee.draft.driven.rdb.entity.QDraftEntity.draftEntity;
+import static nettee.blolet.article.rdb.entity.QDraftEntity.draftEntity;
 
 @Repository
 public class DraftQueryAdapter extends QuerydslRepositorySupport implements DraftQueryPort {

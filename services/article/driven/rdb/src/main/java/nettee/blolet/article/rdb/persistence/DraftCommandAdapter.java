@@ -1,22 +1,22 @@
-package nettee.draft.driven.rdb;
+package nettee.blolet.article.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
-import nettee.draft.domain.DraftImage;
-import nettee.draft.driven.rdb.entity.DraftImageEntity;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.domain.Draft;
-import nettee.draft.driven.rdb.entity.type.DraftEntityStatus;
-import nettee.draft.driven.rdb.persistence.mapper.DraftEntityMapper;
-import nettee.draft.application.port.DraftCommandPort;
-import nettee.draft.domain.type.DraftStatus;
+import nettee.blolet.article.application.port.DraftCommandPort;
+import nettee.blolet.article.domain.Draft;
+import nettee.blolet.article.domain.DraftImage;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.rdb.entity.DraftImageEntity;
+import nettee.blolet.article.rdb.entity.type.DraftEntityStatus;
+import nettee.blolet.article.rdb.mapper.DraftEntityMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-import static nettee.draft.exception.DraftErrorCode.DEFAULT;
-import static nettee.draft.exception.DraftErrorCode.DRAFT_IMAGE_SAVE_FAILED;
-import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftErrorCode.DEFAULT;
+import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_IMAGE_SAVE_FAILED;
+import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 
 @Repository
 @RequiredArgsConstructor
