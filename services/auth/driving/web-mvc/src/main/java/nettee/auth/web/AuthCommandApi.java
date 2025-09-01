@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth", description = "인증 관련 API")
@@ -141,8 +142,9 @@ public class AuthCommandApi {
             summary = "이메일 비밀번호 재설정",
             description = "사용자가 이메일 링크를 통해 비밀번호를 변경합니다."
     )
-    public void resetPassword(@RequestBody PasswordResetRequest request) {
-        authSignUsecase.resetPassword(request.email(), request.newPassword(), request.nonce());
+    public void resetPassword(@RequestParam String nonce,
+                              @RequestBody PasswordResetRequest request) {
+        authSignUsecase.resetPassword(request.email(), request.newPassword(), nonce);
     }
 
     @PostMapping("/token/refresh")

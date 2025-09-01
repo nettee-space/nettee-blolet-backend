@@ -125,18 +125,14 @@ public final class AuthCommandDto {
             @Schema(description = "이메일", example = "sun@gmail.com")
             String email,
             @Schema(description = "변경 비밀번호", example = "Blolet0101!")
-            String newPassword,
-            @Schema(description = "클라이언트 식별자", example = "nonce123")
-            String nonce
+            String newPassword
     ) {
         public PasswordResetRequest {
             validateNotBlank(email, AUTH_EMAIL_REQUIRED);
             validateNotBlank(newPassword, AUTH_PASSWORD_REQUIRED);
-            validateNotBlank(nonce, AUTH_NONCE_REQUIRED);
 
             email = email.strip();
             newPassword = newPassword.strip();
-            nonce = nonce.strip();
 
             // 비밀번호 정규식 검증
             final String PASSWORD_REGEX = "^[A-Za-z\\d !\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";

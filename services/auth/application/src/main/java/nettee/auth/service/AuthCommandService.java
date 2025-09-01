@@ -210,14 +210,14 @@ public class AuthCommandService implements AuthSignUsecase {
                 .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
 
         // nonce 생성
-        String nonce = generateSecureRandom(); // otp 전송을 요청한 클라이언트 구분 식별자
+        String nonce = generateSecureRandom();
+        String resetUrlWithNonce = PASSWORD_RESET_URL + "?nonce=" + nonce;
 
         // redis 저장
-        // 사용자마다 하나의 비밀번호 재설정 이메일만 유효하므로, 이메일을 key로 사용한다.
         authRedisPort.save("password-reset:" + email, nonce, Duration.ofMinutes(PASSWORD_RESET_URL_EXPIRATION));
 
         // 이메일 전송
-        mailSender.sendPasswordReset(email, PASSWORD_RESET_URL);
+        mailSender.sendPasswordReset(email, resetUrlWithNonce);
         return nonce;
     }
 
