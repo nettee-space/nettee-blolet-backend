@@ -13,6 +13,8 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import javax.crypto.SecretKey;
 
+import static nettee.jwt.parser.exception.JwtParserErrorCode.JWT_ACCESS_TOKEN_REQUIRED;
+
 public final class JwtParser {
 
     private final JwtParserBuilder jwtParserBuilder;
@@ -43,6 +45,8 @@ public final class JwtParser {
      * 이 과정에서 서명 검증, 만료 시간 체크가 수행됩니다.
      */
     public Claims parseClaims(String token) throws JwtException {
+        if (token == null || token.isBlank()) throw JWT_ACCESS_TOKEN_REQUIRED.exception();
+
         return jwtParserBuilder
                 .build()
                 .parseSignedClaims(token)
