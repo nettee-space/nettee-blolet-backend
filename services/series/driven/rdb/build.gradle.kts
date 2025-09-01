@@ -3,7 +3,6 @@ val seriesApplication: String by project
 
 // FIXME 모듈 통합 전이므로 코드 확인을 위해 임시로 사용합니다:
 val articleRdbAdapter: String by project
-val draftRdbAdapter: String by project
 
 dependencies {
     val bom = dependencyManagement.importedProperties
@@ -11,7 +10,6 @@ dependencies {
     api(project(seriesApi))
     api(project(seriesApplication))
     api(project(articleRdbAdapter))
-    api(project(draftRdbAdapter))
     api(project(":jpa-core"))
 
     // querydsl
