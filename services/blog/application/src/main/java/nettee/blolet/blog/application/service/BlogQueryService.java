@@ -31,6 +31,11 @@ public class BlogQueryService implements BlogReadUseCase, BlogOwnershipVerifyUse
     }
 
     @Override
+    public Set<String> findBlogIdsByUserId(String userId) {
+        return repository.findBlogIdsByUserId(userId);
+    }
+
+    @Override
     public boolean verifyOwnershipByUserId(String userId, String blogId) {
         var blog = repository.findById(blogId)
                 .orElseThrow(BLOG_NOT_FOUND::exception);

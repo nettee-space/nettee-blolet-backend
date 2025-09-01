@@ -4,6 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import nettee.blolet.blog.export.client.api.BlogClient;
 import nettee.blolet.blog.export.client.api.BlogClientDto.BlogCreateResponse;
+import nettee.blolet.blog.export.client.api.BlogClientDto.BlogIdsQueryResponse;
 import nettee.blolet.blog.export.client.api.BlogClientDto.BlogInternalCreateCommand;
 import nettee.blolet.blog.export.client.api.BlogClientDto.BlogOwnershipVerifyResponse;
 import nettee.client.request.NetteeRequest;
@@ -20,6 +21,24 @@ public final class RestBlogClient implements BlogClient {
     public RestBlogClient(NetteeClient customClient) {
         this.customClient = customClient;
         this.cacheMap = new ConcurrentHashMap<>();
+    }
+
+    /**
+     *
+     * @param dto Request body
+     * @return BlogCreateResponse { "blog" : {...} }
+     */
+    @Override
+    public BlogCreateResponse create(BlogInternalCreateCommand dto) {
+        var request = generateBlogCreateRequest(dto);
+
+        return customClient.post(request);
+    }
+
+    @Override
+    public BlogIdsQueryResponse getBlogIdsByUserId(String userId) {
+        var request = generateBlogIdQueryRequest(userId);
+        return customClient.get(request);
     }
 
     /**
@@ -112,18 +131,6 @@ public final class RestBlogClient implements BlogClient {
         return response;
     }
 
-    /**
-     *
-     * @param dto Request body
-     * @return BlogCreateResponse { "blog" : {...} }
-     */
-    @Override
-    public BlogCreateResponse create(BlogInternalCreateCommand dto) {
-        var request = generateBlogCreateRequest(dto);
-
-        return customClient.post(request);
-    }
-
     private Cache<Object, Object> createCacheStorage(BlogRequestType type) {
         return Caffeine.newBuilder()
                 .expireAfterAccess(6000, TimeUnit.SECONDS)
@@ -155,7 +162,15 @@ public final class RestBlogClient implements BlogClient {
                 .path("/internal/blogs")
                 .responseType(BlogCreateResponse.class)
                 .build();
+    }
 
+    private NetteeRequest<BlogIdsQueryResponse> generateBlogIdQueryRequest(String userId) {
+        return NetteeRequest.<BlogIdsQueryResponse>builder()
+                .domain("blog")
+                .path("/internal/users/{userId}/blog-id")
+                .uriVariables(new Object[] { userId })
+                .responseType(BlogIdsQueryResponse.class)
+                .build();
     }
 
     private enum BlogRequestType {
