@@ -32,4 +32,10 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
     public void deleteById(String userId) {
         authJpaRepository.deleteById(Long.valueOf(userId));
     }
+
+    @Override
+    public void updatePassword(User user) {
+        UserEntity entity = mapper.toEntity(user);
+        authJpaRepository.save(entity);
+    }
 }

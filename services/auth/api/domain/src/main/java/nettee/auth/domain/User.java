@@ -24,6 +24,9 @@ public class User {
     private Integer loginRetryCount;
     private Instant lockedUntil;
 
+    private Instant createdAt;
+    private Instant updatedAt;
+
     // 회원가입 필수 약관 동의 여부 확인
     public static void validateAgreed(boolean agreedTerms, boolean agreedPrivacy) {
         if (!agreedTerms || !agreedPrivacy) {

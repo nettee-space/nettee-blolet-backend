@@ -3,9 +3,11 @@ package nettee.auth.service;
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_ALREADY_EXIST;
 import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_LOGIN_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_RESET_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_REFRESH_TOKEN_NOT_FOUND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -27,7 +29,7 @@ import nettee.auth.exception.AuthException;
 import nettee.auth.port.AuthCommandRepositoryPort;
 import nettee.auth.port.AuthQueryRepositoryPort;
 import nettee.auth.port.AuthRedisPort;
-import nettee.auth.port.MailSender;
+import nettee.auth.port.AuthMailSender;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
@@ -46,13 +48,15 @@ public class AuthCommandService implements AuthSignUsecase {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtIssuer jwtIssuer;
-    private final MailSender mailSender;
+    private final AuthMailSender authMailSender;
 
     private static final int ACCESS_TOKEN_EXPIRATION = 600;             // accessToken 유효 기간 (10분)
     private static final int REFRESH_TOKEN_EXPIRATION = 30;             // refreshToken 유효 기간 (30일)
     private static final int OTP_EXPIRATION = 5;                        // otp 유효 기간 (5분)
     private static final int OTP_LENGTH = 6;                            // otp 길이
     private static final int EMAIL_VERIFICATION_TOKEN_EXPIRATION = 10;  // 이메일 인증 클라이언트 검증 토큰 유효 기간 (10분)
+    private static final int PASSWORD_RESET_URL_EXPIRATION = 60;        // 비밀번호 재설정 링크 유효 기간 (60분)
+    private static final String PASSWORD_RESET_URL = "";                // 비밀번호 재설정 링크, TODO: 실제 도메인으로 변경 필요
     private final ObjectMapper objectMapper;
 
     @Override
@@ -131,7 +135,7 @@ public class AuthCommandService implements AuthSignUsecase {
         }
 
         // 이메일 전송
-        mailSender.sendOtp(email, otp);
+        authMailSender.sendOtp(email, otp);
         return nonce;
     }
 
@@ -197,6 +201,46 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // DB에서 사용자 정보 삭제
         authCommandRepositoryPort.deleteById(userId);
+    }
+
+    @Override
+    public void sendPasswordResetEmail(String email) {
+        // 사용자 존재 여부 확인
+        authQueryRepositoryPort.findByEmail(email)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
+        // nonce 생성
+        String nonce = generateSecureRandom();
+        String resetUrlWithNonce = PASSWORD_RESET_URL + "?nonce=" + nonce;
+
+        // redis 저장
+        authRedisPort.save("password-reset:" + email, nonce, Duration.ofMinutes(PASSWORD_RESET_URL_EXPIRATION));
+
+        // 이메일 전송
+        authMailSender.sendPasswordReset(email, resetUrlWithNonce);
+    }
+
+    @Override
+    public void resetPassword(String email, String newPassword, String nonce) {
+        // 사용자 존재 여부 확인
+        User user = authQueryRepositoryPort.findByEmail(email)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
+        // nonce 조회 및 검증
+        String storedNonce = authRedisPort.get("password-reset:" + email);
+        if (!nonce.equals(storedNonce)) {
+            throw new AuthException(AUTH_PASSWORD_RESET_INVALID);
+        }
+
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        // 비밀번호 변경
+        user.setEncodedPassword(encodedPassword);
+        authCommandRepositoryPort.updatePassword(user);
+
+        // nonce 삭제
+        authRedisPort.delete("password-reset:" + email);
     }
 
     @Override

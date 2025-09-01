@@ -9,8 +9,8 @@ import nettee.auth.web.dto.AuthCommandDto.EmailVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifySendRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginResponse;
+import nettee.auth.web.dto.AuthCommandDto.PasswordForgotRequest;
 import nettee.auth.web.dto.AuthCommandDto.PasswordResetRequest;
-import nettee.auth.web.dto.AuthCommandDto.PasswordVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.SignUpRequest;
 import nettee.auth.web.mapper.AuthDtoMapper;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
@@ -18,6 +18,7 @@ import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -25,6 +26,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Auth", description = "인증 관련 API")
@@ -122,28 +125,29 @@ public class AuthCommandApi {
             description = "사용자가 이메일 인증코드를 확인합니다."
     )
     public ResponseEntity<String> verifyEmail(@RequestBody EmailVerifyRequest request) {
-        // 이메일 인증 코드 확인 로직 구현
         String token = authSignUsecase.verifyOtp(request.email(), request.otp(), request.nonce());
         return ResponseEntity.ok(token);
     }
 
-    // TODO: 비밀번호 변경 전 재인증 & 비밀번호 변경을 함께 진행할 수도 있음
-    @PostMapping("/password/verification")
+    @PostMapping("email/password/reset/send")
     @Operation(
-            summary = "비밀번호 변경 전 재인증",
-            description = "사용자가 비밀번호를 변경하기 전에 재인증을 수행합니다."
+            summary = "이메일 비밀번호 재설정 링크 전송",
+            description = "사용자의 이메일로 비밀번호를 변경할 수 있는 링크를 발송합니다."
     )
-    public void changePassword(@RequestBody PasswordVerifyRequest passwordVerifyRequest) {
-        // 비밀번호 변경 로직 구현
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<String> sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
+        authSignUsecase.sendPasswordResetEmail(request.email());
     }
 
-    @PostMapping("/password/reset")
+    @PostMapping("email/password/reset")
     @Operation(
-            summary = "비밀번호 변경",
-            description = "사용자의 비밀번호를 변경합니다."
+            summary = "이메일 비밀번호 재설정",
+            description = "사용자가 이메일 링크를 통해 비밀번호를 변경합니다."
     )
-    public void resetPassword(@RequestBody PasswordResetRequest passwordResetRequest) {
-        // 비밀번호 재설정 링크 전송 로직 구현
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void resetPassword(@RequestParam String nonce,
+                              @RequestBody PasswordResetRequest request) {
+        authSignUsecase.resetPassword(request.email(), request.newPassword(), nonce);
     }
 
     @PostMapping("/token/refresh")
