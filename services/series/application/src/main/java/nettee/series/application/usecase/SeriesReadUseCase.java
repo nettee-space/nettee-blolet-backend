@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SeriesReadUseCase {
     
-    SeriesDetail getSeries(String seriesId);
-    
+    SeriesDetail getSeriesByOwnership(String seriesId, String userId);
+
     List<SeriesSummary> getSeriesList(String blogId);
 }
