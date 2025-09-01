@@ -15,8 +15,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-import static nettee.article.driven.rdb.entity.QArticleEntity.articleEntity;
-import static nettee.draft.driven.rdb.entity.QDraftEntity.draftEntity;
+import static nettee.blolet.article.rdb.entity.QArticleEntity.articleEntity;
+import static nettee.blolet.article.rdb.entity.QDraftEntity.draftEntity;
 import static nettee.series.article.driven.rdb.entity.QSeriesArticleEntity.seriesArticleEntity;
 import static nettee.series.driven.rdb.entity.QSeriesEntity.seriesEntity;
 import static nettee.series.exception.SeriesErrorCode.SERIES_NOT_FOUND;
