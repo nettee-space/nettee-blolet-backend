@@ -1,6 +1,6 @@
-package nettee.blolet.draft.api.validation;
+package nettee.blolet.article.api.validation;
 
-import nettee.blolet.draft.api.validation.context.DraftContextValidationSupplier;
+import nettee.blolet.article.api.validation.context.DraftContextValidationSupplier;
 import nettee.common.validation.model.RegExpFlagBuilder;
 import nettee.common.validation.model.RegExpFlagBuilder.RegexpFlag;
 import nettee.common.validation.model.StringValidationProperty;
@@ -14,12 +14,12 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Set;
 
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.DraftValidationContexts.DRAFT_CONTEXT_CREATE;
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.DraftValidationContexts.DRAFT_CONTEXT_PATCH;
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_BLOG_ID;
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_ENTRY_BLOCK_ID;
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_PATH;
-import static nettee.blolet.draft.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_TITLE;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.DraftValidationContexts.DRAFT_CONTEXT_CREATE;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.DraftValidationContexts.DRAFT_CONTEXT_PATCH;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_BLOG_ID;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_ENTRY_BLOCK_ID;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_PATH;
+import static nettee.blolet.article.api.validation.StaticDraftValidationSupplier.TargetFields.DRAFT_TITLE;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.MAX_LENGTH;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.MIN_LENGTH;
 import static nettee.common.validation.model.interfaces.BaseValidationProperty.ReservedFieldNames.REGEXP;
