@@ -1,4 +1,4 @@
-package nettee.blole.article.web.dto;
+package nettee.blolet.article.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

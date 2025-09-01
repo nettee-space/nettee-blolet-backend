@@ -1,17 +1,17 @@
-package nettee.blole.article.web;
+package nettee.blolet.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockCommandResponse;
-import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
-import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
-import nettee.blole.article.web.mapper.DraftBlockDtoMapper;
 import nettee.blolet.article.application.usecase.DraftBlockCreateUseCase;
 import nettee.blolet.article.application.usecase.DraftBlockDeleteUseCase;
 import nettee.blolet.article.application.usecase.DraftBlockUpdateUseCase;
 import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.web.dto.DraftBlockCommandDto.DraftBlockCommandResponse;
+import nettee.blolet.article.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
+import nettee.blolet.article.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
+import nettee.blolet.article.web.mapper.DraftBlockDtoMapper;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;

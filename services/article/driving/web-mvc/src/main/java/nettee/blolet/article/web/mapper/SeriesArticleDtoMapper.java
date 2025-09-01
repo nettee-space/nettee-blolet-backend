@@ -1,7 +1,7 @@
-package nettee.blole.article.web.mapper;
+package nettee.blolet.article.web.mapper;
 
-import nettee.blole.article.web.dto.SeriesArticleCommandDto.SeriesArticleCreateCommand;
 import nettee.blolet.article.domain.SeriesArticle;
+import nettee.blolet.article.web.dto.SeriesArticleCommandDto.SeriesArticleCreateCommand;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

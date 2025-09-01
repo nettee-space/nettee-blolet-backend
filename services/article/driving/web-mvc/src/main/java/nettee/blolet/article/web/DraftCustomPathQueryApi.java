@@ -1,4 +1,4 @@
-package nettee.blole.article.web;
+package nettee.blolet.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

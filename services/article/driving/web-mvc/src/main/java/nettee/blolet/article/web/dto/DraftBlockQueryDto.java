@@ -1,4 +1,4 @@
-package nettee.blole.article.web.dto;
+package nettee.blolet.article.web.dto;
 
 import lombok.Builder;
 import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;

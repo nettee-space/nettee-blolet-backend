@@ -1,19 +1,19 @@
-package nettee.blole.article.web;
+package nettee.blolet.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nettee.blole.article.web.dto.ArticleCommandDto.ArticleCommandResponse;
-import nettee.blole.article.web.dto.ArticleCommandDto.ArticleCreateCommand;
-import nettee.blole.article.web.dto.ArticleCommandDto.ArticleUpdateCommand;
-import nettee.blole.article.web.dto.ArticleLikesCommandDto.ArticleLikesCommandResponse;
-import nettee.blole.article.web.dto.ArticleLikesCommandDto.ArticleLikesCreateCommand;
 import nettee.blolet.article.application.usecase.ArticleCreateUseCase;
 import nettee.blolet.article.application.usecase.ArticleDeleteUseCase;
 import nettee.blolet.article.application.usecase.ArticleLikesDeleteUseCase;
 import nettee.blolet.article.application.usecase.ArticleLikesUpdateUseCase;
 import nettee.blolet.article.application.usecase.ArticleUpdateUseCase;
+import nettee.blolet.article.web.dto.ArticleCommandDto.ArticleCommandResponse;
+import nettee.blolet.article.web.dto.ArticleCommandDto.ArticleCreateCommand;
+import nettee.blolet.article.web.dto.ArticleCommandDto.ArticleUpdateCommand;
+import nettee.blolet.article.web.dto.ArticleLikesCommandDto.ArticleLikesCommandResponse;
+import nettee.blolet.article.web.dto.ArticleLikesCommandDto.ArticleLikesCreateCommand;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;

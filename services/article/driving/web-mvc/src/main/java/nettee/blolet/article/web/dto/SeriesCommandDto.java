@@ -1,4 +1,4 @@
-package nettee.blole.article.web.dto;
+package nettee.blolet.article.web.dto;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import nettee.blole.article.web.dto.SeriesArticleCommandDto.SeriesArticleCreateCommand;
 import nettee.blolet.article.domain.Series;
+import nettee.blolet.article.web.dto.SeriesArticleCommandDto.SeriesArticleCreateCommand;
 
 import java.util.List;
 

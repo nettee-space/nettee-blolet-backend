@@ -1,4 +1,4 @@
-package nettee.blole.article.web;
+package nettee.blolet.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -6,11 +6,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import nettee.blole.article.web.dto.SeriesQueryDto.SeriesDetailResponse;
-import nettee.blole.article.web.dto.SeriesQueryDto.SeriesSummaryResponse;
 import nettee.blolet.article.application.usecase.SeriesReadUseCase;
 import nettee.blolet.article.application.usecase.SeriesVisitUseCase;
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
+import nettee.blolet.article.web.dto.SeriesQueryDto.SeriesDetailResponse;
+import nettee.blolet.article.web.dto.SeriesQueryDto.SeriesSummaryResponse;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.web.bind.annotation.GetMapping;
