@@ -6,12 +6,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.jwt.filter.annotation.AuthUser;
+import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import nettee.series.application.usecase.SeriesReadUseCase;
+import nettee.series.application.usecase.SeriesVisitUseCase;
 import nettee.series.driving.web.dto.SeriesQueryDto.SeriesDetailResponse;
 import nettee.series.driving.web.dto.SeriesQueryDto.SeriesSummaryResponse;
+import nettee.series.readmodel.SeriesQueryModels.SeriesDetail;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SeriesQueryApi {
 
     private final SeriesReadUseCase seriesReadUseCase;
+    private final SeriesVisitUseCase visitUseCase;
 
     @Operation(summary = "시리즈 목록 조회", description = "블로그 ID를 기준으로 시리즈 목록을 조회합니다.")
     @ApiResponse(
@@ -35,9 +43,19 @@ public class SeriesQueryApi {
 
     @Operation(summary = "시리즈 상세 조회", description = "시리즈 ID를 이용해 시리즈를 상세 조회합니다.")
     @GetMapping("/series/{seriesId}")
-    public SeriesDetailResponse getSeries(@PathVariable("seriesId") String seriesId) {
+    public SeriesDetailResponse getSeries(
+            @PathVariable("seriesId") String seriesId,
+            @AuthUser Optional<AuthorizedUser> signedUser
+    ) {
+        AtomicReference<SeriesDetail> series = new AtomicReference<>();
+
+        signedUser.ifPresentOrElse(
+                (user) -> series.set(seriesReadUseCase.getSeriesByOwnership(seriesId, user.userId())),
+                () -> series.set(visitUseCase.visitSeries(seriesId))
+        );
+
         return SeriesDetailResponse.builder()
-                .series(seriesReadUseCase.getSeries(seriesId))
+                .series(series.get())
                 .build();
     }
 }
