@@ -1,8 +1,10 @@
 val seriesApi: String by project
 val seriesApplication: String by project
+
 dependencies {
     api(project(seriesApi))
     api(project(seriesApplication))
+    compileOnly(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
