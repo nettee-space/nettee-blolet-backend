@@ -1,13 +1,10 @@
-package nettee.draft.draftblock.driving.web.dto;
+package nettee.blole.article.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import nettee.draft.domain.Draft;
-import nettee.draft.domain.type.DraftStatus;
-import nettee.draft.draftblock.domain.DraftBlock;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
+import nettee.blolet.article.domain.DraftBlock;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
 
 import java.util.Map;
 

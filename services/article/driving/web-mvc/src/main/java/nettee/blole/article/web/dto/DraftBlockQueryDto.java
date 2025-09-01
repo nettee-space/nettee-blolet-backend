@@ -1,7 +1,7 @@
-package nettee.draft.draftblock.driving.web.dto;
+package nettee.blole.article.web.dto;
 
 import lombok.Builder;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
 
 public class DraftBlockQueryDto {
     private DraftBlockQueryDto() {

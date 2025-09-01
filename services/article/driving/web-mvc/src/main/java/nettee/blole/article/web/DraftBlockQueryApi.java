@@ -1,16 +1,16 @@
-package nettee.draft.draftblock.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import nettee.draft.draftblock.application.usecase.DraftBlockReadByStatusUseCase;
-import nettee.draft.draftblock.application.usecase.DraftBlockReadUseCase;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.driving.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockDetail;
-import nettee.draft.draftblock.readmodel.DraftBlockReadModels.DraftBlockSummary;
+import nettee.blole.article.web.dto.DraftBlockQueryDto.DraftBlockDetailResponse;
+import nettee.blolet.article.application.usecase.DraftBlockReadByStatusUseCase;
+import nettee.blolet.article.application.usecase.DraftBlockReadUseCase;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockDetail;
+import nettee.blolet.article.readmodel.DraftBlockReadModels.DraftBlockSummary;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-import static nettee.draft.draftblock.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftBlockErrorCode.DRAFT_BLOCK_NOT_FOUND;
 
 @RestController
 @RequestMapping("draft-blocks")

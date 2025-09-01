@@ -1,18 +1,18 @@
-package nettee.draft.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import nettee.draft.driving.web.dto.DraftQueryDto.DraftDetailResponse;
-import nettee.draft.driving.web.dto.DraftQueryDto.DraftTitleResponse;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftSummary;
-import nettee.draft.application.usecase.DraftReadByStatusesUseCase;
-import nettee.draft.application.usecase.DraftReadUseCase;
-import nettee.draft.domain.type.DraftStatus;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blole.article.web.dto.DraftQueryDto.DraftDetailResponse;
+import nettee.blole.article.web.dto.DraftQueryDto.DraftTitleResponse;
+import nettee.blolet.article.application.usecase.DraftReadByStatusesUseCase;
+import nettee.blolet.article.application.usecase.DraftReadUseCase;
+import nettee.blolet.article.domain.sub.DraftStatus;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftSummary;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static nettee.draft.exception.DraftErrorCode.DRAFT_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_NOT_FOUND;
 
 @RestController
 @RequestMapping("drafts")

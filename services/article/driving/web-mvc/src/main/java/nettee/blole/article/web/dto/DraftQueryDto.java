@@ -1,8 +1,8 @@
-package nettee.draft.driving.web.dto;
+package nettee.blole.article.web.dto;
 
 import lombok.Builder;
-import nettee.draft.readmodel.DraftReadModels.DraftDetail;
-import nettee.draft.readmodel.DraftReadModels.DraftTitle;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftDetail;
+import nettee.blolet.article.readmodel.DraftReadModels.DraftTitle;
 
 import java.util.Map;
 

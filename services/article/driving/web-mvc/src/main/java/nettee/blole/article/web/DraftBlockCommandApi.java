@@ -1,17 +1,17 @@
-package nettee.draft.draftblock.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nettee.draft.draftblock.application.usecase.DraftBlockCreateUseCase;
-import nettee.draft.draftblock.application.usecase.DraftBlockDeleteUseCase;
-import nettee.draft.draftblock.application.usecase.DraftBlockUpdateUseCase;
-import nettee.draft.draftblock.domain.type.DraftBlockStatus;
-import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCommandResponse;
-import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
-import nettee.draft.draftblock.driving.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
-import nettee.draft.draftblock.driving.web.mapper.DraftBlockDtoMapper;
+import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockCommandResponse;
+import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockCreateCommand;
+import nettee.blole.article.web.dto.DraftBlockCommandDto.DraftBlockUpdateCommand;
+import nettee.blole.article.web.mapper.DraftBlockDtoMapper;
+import nettee.blolet.article.application.usecase.DraftBlockCreateUseCase;
+import nettee.blolet.article.application.usecase.DraftBlockDeleteUseCase;
+import nettee.blolet.article.application.usecase.DraftBlockUpdateUseCase;
+import nettee.blolet.article.domain.sub.DraftBlockStatus;
 import nettee.blolet.jwt.filter.annotation.AuthUser;
 import nettee.blolet.jwt.filter.annotation.AuthorizedUser;
 import org.springframework.http.HttpStatus;

@@ -1,12 +1,11 @@
-package nettee.draft.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.application.usecase.DraftValidationResponseUseCase;
 import nettee.common.validation.model.ValidationResponseModel;
-import nettee.draft.application.usecase.DraftValidationResponseUseCase;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

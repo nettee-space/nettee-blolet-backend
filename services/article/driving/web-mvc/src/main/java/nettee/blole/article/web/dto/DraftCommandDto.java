@@ -1,17 +1,17 @@
-package nettee.draft.driving.web.dto;
+package nettee.blole.article.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
-import nettee.draft.domain.Draft;
-import nettee.draft.domain.DraftImage;
-import nettee.draft.domain.type.DraftStatus;
+import nettee.blolet.article.domain.Draft;
+import nettee.blolet.article.domain.DraftImage;
+import nettee.blolet.article.domain.sub.DraftStatus;
 
+import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_BLOG_ID_REQUIRED;
+import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_TITLE_MIN_LENGTH;
 import static nettee.common.validation.Preconditions.validateMin;
 import static nettee.common.validation.Preconditions.validateNotBlank;
-import static nettee.draft.exception.DraftErrorCode.DRAFT_BLOG_ID_REQUIRED;
-import static nettee.draft.exception.DraftErrorCode.DRAFT_TITLE_MIN_LENGTH;
 
 public final class DraftCommandDto {
     private DraftCommandDto() {

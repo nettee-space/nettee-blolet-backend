@@ -9,6 +9,7 @@ dependencies {
     api(project(articleException))
     api(project(articleReadModel))
     api(project(articleApplication))
+    compileOnly(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
