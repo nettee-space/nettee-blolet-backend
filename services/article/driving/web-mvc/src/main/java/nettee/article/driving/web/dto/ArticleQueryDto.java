@@ -2,8 +2,8 @@ package nettee.article.driving.web.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
-import nettee.article.readmodel.ArticleQueryModels.ArticleDetail;
-import nettee.article.readmodel.ArticleQueryModels.ArticleSummary;
+import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleDetail;
+import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleSummary;
 
 import java.util.List;
 

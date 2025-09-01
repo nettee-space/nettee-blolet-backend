@@ -1,4 +1,4 @@
-package nettee.article.readmodel;
+package nettee.blolet.article.readmodel;
 
 import lombok.Builder;
 import nettee.blolet.article.domain.sub.ArticleStatus;

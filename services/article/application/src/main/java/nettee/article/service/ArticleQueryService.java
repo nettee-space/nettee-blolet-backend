@@ -2,8 +2,8 @@ package nettee.article.service;
 
 import lombok.RequiredArgsConstructor;
 import nettee.article.port.ArticleQueryRepositoryPort;
-import nettee.article.readmodel.ArticleQueryModels.ArticleDetail;
-import nettee.article.readmodel.ArticleQueryModels.ArticleSummary;
+import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleDetail;
+import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleSummary;
 import nettee.article.usecase.ArticleReadUseCase;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
