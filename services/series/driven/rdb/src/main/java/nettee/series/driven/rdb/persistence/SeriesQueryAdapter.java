@@ -2,9 +2,9 @@ package nettee.series.driven.rdb.persistence;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
+import nettee.blolet.article.application.port.SeriesQueryRepositoryPort;
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesSummary;
-import nettee.series.application.port.SeriesQueryRepositoryPort;
 import nettee.series.driven.rdb.entity.SeriesEntity;
 import nettee.series.driven.rdb.persistence.mapper.SeriesEntityMapper;
 import nettee.series.driven.rdb.persistence.projection.SeriesProjections.SeriesArticleSummaryProjection;

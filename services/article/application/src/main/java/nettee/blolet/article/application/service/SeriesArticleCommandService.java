@@ -1,11 +1,11 @@
-package nettee.series.article.application.service;
+package nettee.blolet.article.application.service;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.application.port.SeriesArticleCommandRepositoryPort;
+import nettee.blolet.article.application.usecase.SeriesArticleCreateUseCase;
+import nettee.blolet.article.application.usecase.SeriesArticleDeleteUseCase;
+import nettee.blolet.article.application.usecase.SeriesArticleUpdateUseCase;
 import nettee.blolet.article.domain.SeriesArticle;
-import nettee.series.article.application.port.SeriesArticleCommandRepositoryPort;
-import nettee.series.article.application.usecase.SeriesArticleCreateUseCase;
-import nettee.series.article.application.usecase.SeriesArticleDeleteUseCase;
-import nettee.series.article.application.usecase.SeriesArticleUpdateUseCase;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

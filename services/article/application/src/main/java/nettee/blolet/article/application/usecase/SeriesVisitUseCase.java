@@ -1,4 +1,4 @@
-package nettee.series.application.usecase;
+package nettee.blolet.article.application.usecase;
 
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail;
 

@@ -1,14 +1,12 @@
 package nettee.series.driving.web;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import nettee.series.application.usecase.SeriesCreateUseCase;
-import nettee.series.application.usecase.SeriesDeleteUseCase;
-import nettee.series.application.usecase.SeriesUpdateUseCase;
+import nettee.blolet.article.application.usecase.SeriesCreateUseCase;
+import nettee.blolet.article.application.usecase.SeriesDeleteUseCase;
+import nettee.blolet.article.application.usecase.SeriesUpdateUseCase;
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCommandResponse;
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand;
 import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand;

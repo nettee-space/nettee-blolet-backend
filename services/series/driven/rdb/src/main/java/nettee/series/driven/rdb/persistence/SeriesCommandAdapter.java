@@ -1,8 +1,8 @@
 package nettee.series.driven.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
+import nettee.blolet.article.application.port.SeriesCommandRepositoryPort;
 import nettee.blolet.article.domain.Series;
-import nettee.series.application.port.SeriesCommandRepositoryPort;
 import nettee.series.driven.rdb.persistence.mapper.SeriesEntityMapper;
 import org.springframework.stereotype.Repository;
 

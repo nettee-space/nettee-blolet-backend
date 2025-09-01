@@ -1,7 +1,7 @@
 package nettee.series.article.driven.rdb.persistence;
 
+import nettee.blolet.article.application.port.SeriesArticleQueryRepositoryPort;
 import nettee.blolet.article.readmodel.SeriesArticleQueryModels.SeriesArticleSummary;
-import nettee.series.article.application.port.SeriesArticleQueryRepositoryPort;
 import nettee.series.article.driven.rdb.entity.SeriesArticleEntity;
 import nettee.series.article.driven.rdb.persistence.mapper.SeriesArticleEntityMapper;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;

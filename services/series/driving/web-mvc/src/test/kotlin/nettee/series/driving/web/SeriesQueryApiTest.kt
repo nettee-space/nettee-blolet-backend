@@ -1,11 +1,11 @@
 package nettee.series.driving.web
 
 import io.kotest.core.spec.style.FreeSpec
+import nettee.blolet.article.application.usecase.SeriesReadUseCase
+import nettee.blolet.article.application.usecase.SeriesVisitUseCase
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesDetail
 import nettee.blolet.article.readmodel.SeriesQueryModels.SeriesSummary
 import nettee.blolet.jwt.filter.resolver.AuthUserArgumentResolver
-import nettee.series.application.usecase.SeriesReadUseCase
-import nettee.series.application.usecase.SeriesVisitUseCase
 import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest

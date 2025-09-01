@@ -1,4 +1,4 @@
-package nettee.series.application.port;
+package nettee.blolet.article.application.port;
 
 import nettee.blolet.article.domain.Series;
 
