@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import nettee.draft.domain.Draft;
+import nettee.draft.domain.DraftImage;
 import nettee.draft.domain.type.DraftStatus;
 
 import static nettee.common.validation.Preconditions.validateMin;
@@ -50,7 +51,10 @@ public final class DraftCommandDto {
     @Builder
     public record DraftCommandResponse(
             Draft draft
-    ) {
+    ) {}
 
-    }
+    @Builder
+    public record DraftImageCreateResponse(
+            DraftImage image
+    ) {}
 }

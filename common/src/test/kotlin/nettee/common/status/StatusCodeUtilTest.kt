@@ -13,7 +13,7 @@ class StatusCodeUtilTest: FreeSpec({
                 .categoryBits(0)
                 .instanceBits(0)
 
-            val code = StatusCodeUtil.getAsInt(parameters)
+            val code = StatusCodeUtil.encode(parameters)
 
             code shouldBe 0
         }
@@ -48,7 +48,7 @@ class StatusCodeUtilTest: FreeSpec({
                     .categoryBits(0)
                     .instanceBits(0)
 
-                val code = StatusCodeUtil.getAsInt(parameters)
+                val code = StatusCodeUtil.encode(parameters)
 
                 code shouldBe expectedCode
             }
@@ -71,7 +71,7 @@ class StatusCodeUtilTest: FreeSpec({
                     .categoryBits(0)
                     .instanceBits(0)
 
-                val code = StatusCodeUtil.getAsInt(parameters)
+                val code = StatusCodeUtil.encode(parameters)
 
                 code shouldBe expectedCode
             }
@@ -94,7 +94,7 @@ class StatusCodeUtilTest: FreeSpec({
                     .categoryBits(input)
                     .instanceBits(0)
 
-                val code = StatusCodeUtil.getAsInt(parameters)
+                val code = StatusCodeUtil.encode(parameters)
 
                 code shouldBe expectedCode
             }
@@ -117,7 +117,7 @@ class StatusCodeUtilTest: FreeSpec({
                     .categoryBits(0)
                     .instanceBits(input)
 
-                val code = StatusCodeUtil.getAsInt(parameters)
+                val code = StatusCodeUtil.encode(parameters)
 
                 code shouldBe expectedCode
             }

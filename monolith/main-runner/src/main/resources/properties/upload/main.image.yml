@@ -8,3 +8,6 @@ app.upload.image:
     profile:
       directory: "uploads/images/profile"
       base-url: "${IMAGE_UPLOAD_BASE_URL}/images/profile"
+    draft:
+      directory: "uploads/images/draft"
+      base-url: "${IMAGE_UPLOAD_BASE_URL}/images/draft"

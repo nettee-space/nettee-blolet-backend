@@ -1,38 +1,42 @@
 package nettee.article.driven.rdb.entity.type.builder;
 
 import nettee.article.domain.ArticleStatus;
-import nettee.article.driven.rdb.entity.type.builder.TypeSafeMarkers.Present;
+import nettee.common.marker.TypeSafeMarker.Present;
+import nettee.common.status.StatusCodeUtil;
+import nettee.common.status.StatusParameters;
 
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import static nettee.article.exception.ArticleErrorCode.DEFAULT;
+import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.ALL;
+import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.SUBITEM_READ;
+import static nettee.common.status.StatusParameters.GeneralPurposeFeatures.UPDATE;
 
 public enum ArticleEntityStatus {
-    DELETED(
-        ArticleStatusParameters.builder()
-                .canRead(false)
-                .classifyingBits(0b0000_0000_0000_0000)
+    REMOVED(StatusParameters.generate()
+            .generalPurposeFeatures(SUBITEM_READ)
+            .categoryBits(0b0000_0000_0000_0000)
+            .instanceBits(0)
     ),
-    PENDING(
-        ArticleStatusParameters.builder()
-                .canRead(false)
-                .classifyingBits(0b0000_0000_0000_0001)
+    PENDING(StatusParameters.generate()
+            .generalPurposeFeatures(ALL)
+            .categoryBits(0b0000_0000_0000_0001)
+            .instanceBits(0)
     ),
-    ACTIVE(
-        ArticleStatusParameters.builder()
-                .canRead(true)
-                .classifyingBits(0b0000_0000_0000_0010)
+    ACTIVE(StatusParameters.generate()
+            .generalPurposeFeatures(ALL)
+            .categoryBits(0b0000_0000_0000_0010)
+            .instanceBits(0)
     ),
-    SUSPENDED(
-        ArticleStatusParameters.builder()
-                .canRead(true)
-                .classifyingBits(0b0000_0000_0000_0100)
-    );
+    SUSPENDED(StatusParameters.generate()
+            .generalPurposeFeatures(UPDATE, SUBITEM_READ)
+            .categoryBits(0b0000_0000_0000_0100)
+            .instanceBits(0)
+    ),
+    ;
 
-    private static final int TLB_PADDING_SIZE = 31;
-    private static final int CLASSIFYING_PADDING_SIZE = 15;
     private final int code;
 
     static {
@@ -44,29 +48,23 @@ public enum ArticleEntityStatus {
                 : "ArticleEntityStatus의 모든 code 필드가 고유해야 합니다.";
     }
 
-    ArticleEntityStatus(ArticleStatusParameters<Present, Present> articleStatusParameters) {
-        this(
-                articleStatusParameters.canRead,
-                articleStatusParameters.classifyingBits,
-                articleStatusParameters.detailBits
-        );
+    ArticleEntityStatus(StatusParameters<Present, Present> statusParameters) {
+        this(statusParameters.encode(StatusCodeUtil::encode));
     }
 
-    ArticleEntityStatus(boolean canRead, int classifyingBits, int detalBits) {
-        this.code = (canRead ? 1 << TLB_PADDING_SIZE : 0)
-                | (classifyingBits << CLASSIFYING_PADDING_SIZE)
-                | detalBits;
+    ArticleEntityStatus(int code) {
+        this.code = code;
     }
 
     public int getCode() { return code; }
 
     public static ArticleEntityStatus valueOf(ArticleStatus articleStatus) {
-        assert Set.of(ArticleStatus.DELETED, ArticleStatus.PENDING, ArticleStatus.ACTIVE, ArticleStatus.SUSPENDED)
+        assert Set.of(ArticleStatus.REMOVED, ArticleStatus.PENDING, ArticleStatus.ACTIVE, ArticleStatus.SUSPENDED)
                 .containsAll(Arrays.stream(ArticleStatus.values()).collect(Collectors.toSet()))
                 : "ArticleStatus 중 일부가 ArticleEntityStatus::valueOf 함수에서 매핑되지 않습니다.";
 
         return switch (articleStatus) {
-            case DELETED -> DELETED;
+            case REMOVED -> REMOVED;
             case PENDING -> PENDING;
             case ACTIVE -> ACTIVE;
             case SUSPENDED -> SUSPENDED;
@@ -75,11 +73,13 @@ public enum ArticleEntityStatus {
     }
 
     public static ArticleEntityStatus valueOf(int value) {
-        return switch (value) {
-            case 0b0__0000_0000_0000_0000__000_0000_0000_0000 -> DELETED;
-            case 0b0__0000_0000_0000_0001__000_0000_0000_0000 -> PENDING;
-            case 0b1__0000_0000_0000_0010__000_0000_0000_0000 -> ACTIVE;
-            case 0b1__0000_0000_0000_0100__000_0000_0000_0000 -> SUSPENDED;
+        int categoryInstanceBits = 0xFFFFFF & value;
+
+        return switch (categoryInstanceBits) {
+            case 0b0__000_0000____0000_0000_0000_0000____0000_0000 -> REMOVED;
+            case 0b0__000_0000____0000_0000_0000_0001____0000_0000 -> PENDING;
+            case 0b0__000_0000____0000_0000_0000_0010____0000_0000 -> ACTIVE;
+            case 0b0__000_0000____0000_0000_0000_0100____0000_0000 -> SUSPENDED;
             default -> throw DEFAULT.exception();
         };
     }

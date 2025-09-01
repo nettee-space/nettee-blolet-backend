@@ -40,3 +40,8 @@ app:
           methods: "get"
           description: |
             블로그 단건 조회
+        # Series
+        - path: "/series/*"
+          methods: "get"
+          description: |
+            시리즈 단건 조회

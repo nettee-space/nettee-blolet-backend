@@ -47,7 +47,12 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
     }
 
     @Override
-    public DraftImage createDraftImage(MultipartFile file, String targetName) {
+    public DraftImage createDraftImage(String userId, String draftId, MultipartFile file, String targetName) {
+        var blogId = draftCommandPort.findById(draftId)
+                .orElseThrow(DRAFT_NOT_FOUND::exception)
+                .blogId();
+        validateOwnership(userId, blogId);
+
         var storedFileName = imageStorage.store(file, targetName);
 
         var imageUrl = imageStorage.getFileUrl(storedFileName, targetName);
