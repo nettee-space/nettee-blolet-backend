@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import nettee.blolet.article.application.port.ArticleLikesCommandRepositoryPort;
 import nettee.blolet.article.domain.ArticleLikes;
 import nettee.blolet.article.rdb.entity.ArticleLikesEntity;
-import nettee.blolet.article.rdb.persistence.mapper.ArticleLikesEntityMapper;
+import nettee.blolet.article.rdb.mapper.ArticleLikesEntityMapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.Objects;

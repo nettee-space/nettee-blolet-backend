@@ -2,7 +2,7 @@ package nettee.blolet.article.rdb.persistence;
 
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.article.application.port.ArticleQueryRepositoryPort;
-import nettee.blolet.article.rdb.persistence.mapper.ArticleEntityMapper;
+import nettee.blolet.article.rdb.mapper.ArticleEntityMapper;
 import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleDetail;
 import nettee.blolet.article.readmodel.ArticleQueryModels.ArticleSummary;
 import org.springframework.data.domain.PageRequest;

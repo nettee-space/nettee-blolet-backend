@@ -5,7 +5,7 @@ import nettee.blolet.article.application.port.ArticleCommandRepositoryPort;
 import nettee.blolet.article.domain.Article;
 import nettee.blolet.article.domain.sub.ArticleStatus;
 import nettee.blolet.article.rdb.entity.type.builder.ArticleEntityStatus;
-import nettee.blolet.article.rdb.persistence.mapper.ArticleEntityMapper;
+import nettee.blolet.article.rdb.mapper.ArticleEntityMapper;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
