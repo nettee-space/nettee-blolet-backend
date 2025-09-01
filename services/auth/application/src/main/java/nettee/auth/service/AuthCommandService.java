@@ -29,7 +29,7 @@ import nettee.auth.exception.AuthException;
 import nettee.auth.port.AuthCommandRepositoryPort;
 import nettee.auth.port.AuthQueryRepositoryPort;
 import nettee.auth.port.AuthRedisPort;
-import nettee.auth.port.MailSender;
+import nettee.auth.port.AuthMailSender;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
@@ -48,7 +48,7 @@ public class AuthCommandService implements AuthSignUsecase {
 
     private final PasswordEncoder passwordEncoder;
     private final JwtIssuer jwtIssuer;
-    private final MailSender mailSender;
+    private final AuthMailSender authMailSender;
 
     private static final int ACCESS_TOKEN_EXPIRATION = 600;             // accessToken 유효 기간 (10분)
     private static final int REFRESH_TOKEN_EXPIRATION = 30;             // refreshToken 유효 기간 (30일)
@@ -135,7 +135,7 @@ public class AuthCommandService implements AuthSignUsecase {
         }
 
         // 이메일 전송
-        mailSender.sendOtp(email, otp);
+        authMailSender.sendOtp(email, otp);
         return nonce;
     }
 
@@ -217,7 +217,7 @@ public class AuthCommandService implements AuthSignUsecase {
         authRedisPort.save("password-reset:" + email, nonce, Duration.ofMinutes(PASSWORD_RESET_URL_EXPIRATION));
 
         // 이메일 전송
-        mailSender.sendPasswordReset(email, resetUrlWithNonce);
+        authMailSender.sendPasswordReset(email, resetUrlWithNonce);
         return nonce;
     }
 
