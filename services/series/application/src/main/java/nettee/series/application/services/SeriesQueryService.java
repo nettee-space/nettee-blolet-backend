@@ -45,7 +45,7 @@ public class SeriesQueryService implements SeriesReadUseCase, SeriesVisitUseCase
     }
 
     @Override
-    public SeriesDetail visitSeries(String seriesId) {
+    public SeriesDetail findDetailForPublic(String seriesId) {
         return queryRepositoryPort.findExceptDraftsById(seriesId)
                 .orElseThrow(SERIES_NOT_FOUND::exception);
     }

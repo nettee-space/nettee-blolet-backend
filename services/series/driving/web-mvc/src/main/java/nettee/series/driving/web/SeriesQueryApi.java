@@ -51,7 +51,7 @@ public class SeriesQueryApi {
 
         signedUser.ifPresentOrElse(
                 (user) -> series.set(seriesReadUseCase.findDetailForOwner(seriesId, user.userId())),
-                () -> series.set(visitUseCase.visitSeries(seriesId))
+                () -> series.set(visitUseCase.findDetailForPublic(seriesId))
         );
 
         return SeriesDetailResponse.builder()
