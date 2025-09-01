@@ -169,7 +169,7 @@ INSERT INTO "article"."draft" (
             WHEN gs BETWEEN 54 AND 58  THEN current_setting('dummy.DRAFT_SUSPENDED')::int   -- SUSPENDED
             WHEN gs BETWEEN 59 AND 110 THEN current_setting('dummy.DRAFT_PENDING')::int     -- PENDING
             ELSE current_setting('dummy.DRAFT_REMOVED')::int                                -- REMOVED
-            END AS status
+        END AS status
     FROM generate_series(1, 115) gs;
 
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -205,7 +205,8 @@ WITH
         -- ACTIVE
         SELECT
             p.blog_id,
-            p.title,
+            p.id AS draft_id,
+            p.title || '_article' AS title,
             p."path",
             current_setting('dummy.ARTICLE_ACTIVE')::int AS article_status,
             p.rn AS ord
@@ -214,7 +215,8 @@ WITH
             -- SUSPENDED
             SELECT
                 p.blog_id,
-                p.title,
+                p.id AS draft_id,
+                p.title || '_article' AS title,
                 p."path",
                 current_setting('dummy.ARTICLE_SUSPENDED')::int AS article_status,
                 p.rn
@@ -223,7 +225,8 @@ WITH
             -- REMOVED
             SELECT
                 r.blog_id,
-                r.title,
+                r.id AS draft_id,
+                r.title || '_article' AS title,
                 r."path",
                 current_setting('dummy.ARTICLE_REMOVED')::int AS article_status,
                 r.id::bigint
@@ -233,6 +236,7 @@ WITH
         INSERT INTO "article"."article" (
             id,
             blog_id,
+            draft_id,
             title,
             "path",
             status,
@@ -250,6 +254,7 @@ WITH
                 )
             )::bigint AS id,
             blog_id,
+            draft_id,
             title,
             "path",
             article_status,
@@ -310,7 +315,9 @@ WITH
     ),
     active_susp_articles AS (
         SELECT
-            a.id, ROW_NUMBER() OVER (ORDER BY a.id) AS rn
+            a.id,
+            a.draft_id,
+            ROW_NUMBER() OVER (ORDER BY a.id) AS rn
         FROM "article"."article" a
         WHERE
             a.blog_id = current_setting('dummy.BLOG_ID')::bigint
@@ -319,6 +326,9 @@ WITH
                 current_setting('dummy.ARTICLE_ACTIVE')::int,
                 current_setting('dummy.ARTICLE_SUSPENDED')::int
             )
+    ),
+    active_susp_count AS (
+        SELECT COUNT(*) AS cnt FROM active_susp_articles
     ),
     ins_pending AS (
         -- PENDING drafts 52개
@@ -330,8 +340,9 @@ WITH
         SELECT
             f.sid,
             p.id,
-            p.rn
+            p.rn + c.cnt
         FROM first_series f
+            CROSS JOIN active_susp_count c
             JOIN (SELECT * FROM pending_drafts ORDER BY rn LIMIT 52) p
                 ON TRUE
             RETURNING 1
@@ -340,11 +351,13 @@ WITH
 INSERT INTO "article"."series_article" (
     series_id,
     article_id,
+    draft_id,
     display_order
 )
 SELECT
     f.sid,
     a.id,
+    a.draft_id,
     a.rn
 FROM first_series f
     JOIN active_susp_articles a
