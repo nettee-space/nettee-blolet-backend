@@ -1,16 +1,16 @@
-package nettee.series.driving.web;
+package nettee.blole.article.web;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import nettee.blole.article.web.dto.SeriesCommandDto.SeriesCommandResponse;
+import nettee.blole.article.web.dto.SeriesCommandDto.SeriesCreateCommand;
+import nettee.blole.article.web.dto.SeriesCommandDto.SeriesUpdateCommand;
+import nettee.blole.article.web.mapper.SeriesDtoMapper;
 import nettee.blolet.article.application.usecase.SeriesCreateUseCase;
 import nettee.blolet.article.application.usecase.SeriesDeleteUseCase;
 import nettee.blolet.article.application.usecase.SeriesUpdateUseCase;
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCommandResponse;
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand;
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand;
-import nettee.series.driving.web.mapper.SeriesDtoMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;

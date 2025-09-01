@@ -1,8 +1,8 @@
-package nettee.series.driving.web.mapper;
+package nettee.blole.article.web.mapper;
 
+import nettee.blole.article.web.dto.SeriesCommandDto.SeriesCreateCommand;
+import nettee.blole.article.web.dto.SeriesCommandDto.SeriesUpdateCommand;
 import nettee.blolet.article.domain.Series;
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesCreateCommand;
-import nettee.series.driving.web.dto.SeriesCommandDto.SeriesUpdateCommand;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
