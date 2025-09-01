@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import nettee.article.driving.web.dto.ArticleQueryDto.ArticleDetailViewResponse;
 import nettee.article.driving.web.dto.ArticleQueryDto.ArticleListViewsResponse;
-import nettee.article.usecase.ArticleReadUseCase;
+import nettee.blolet.article.application.usecase.ArticleReadUseCase;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;

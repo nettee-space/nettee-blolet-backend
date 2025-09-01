@@ -1,4 +1,4 @@
-package nettee.article.usecase;
+package nettee.blolet.article.application.usecase;
 
 
 public interface ArticleDeleteUseCase {

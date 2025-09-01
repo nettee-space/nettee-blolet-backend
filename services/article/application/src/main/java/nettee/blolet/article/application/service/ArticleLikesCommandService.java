@@ -1,10 +1,10 @@
-package nettee.article.service;
+package nettee.blolet.article.application.service;
 
 import lombok.RequiredArgsConstructor;
 import nettee.blolet.article.domain.ArticleLikes;
-import nettee.article.port.ArticleLikesCommandRepositoryPort;
-import nettee.article.usecase.ArticleLikesUpdateUseCase;
-import nettee.article.usecase.ArticleLikesDeleteUseCase;
+import nettee.blolet.article.application.port.ArticleLikesCommandRepositoryPort;
+import nettee.blolet.article.application.usecase.ArticleLikesUpdateUseCase;
+import nettee.blolet.article.application.usecase.ArticleLikesDeleteUseCase;
 import org.springframework.stereotype.Service;
 
 import static nettee.blolet.article.exception.ArticleErrorCode.ARTICLE_LIKE_SUSPENDED;
