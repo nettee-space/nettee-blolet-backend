@@ -1,6 +1,5 @@
 package nettee.blolet.article.domain;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -20,15 +19,11 @@ import java.time.Instant;
 public class Article {
 
     private String id;
-
     private String blogId;
-
+    private String draftId;
     private String entryBlockId;
-
     private String title;
-
     private String content;
-
     private String path;
 
     @Builder.Default
