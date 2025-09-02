@@ -1,0 +1,5 @@
+jwt:
+  keyType: "HMAC"
+  secretKey: ${JWT_SECRET_KEY:bmV0dGVlLWJsb2xldC1qd3Qtc2VjcmV0LWtleS1leHRlbmQ}
+  privateKey: ${JWT_PRIVATE_KEY}
+  publicKey: ${JWT_PUBLIC_KEY}
