@@ -21,6 +21,7 @@ import java.util.Objects;
 public class ArticleEntity extends SnowflakeBaseTimeEntity {
 
     public Long blogId;
+    public Long draftId;
     public Long entryBlockId;
 
     public String title;
