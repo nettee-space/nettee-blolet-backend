@@ -135,7 +135,7 @@ public class AuthCommandApi {
             description = "사용자의 이메일로 비밀번호를 변경할 수 있는 링크를 발송합니다."
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
+    public void sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
         authSignUsecase.sendPasswordResetEmail(request.email());
     }
 
