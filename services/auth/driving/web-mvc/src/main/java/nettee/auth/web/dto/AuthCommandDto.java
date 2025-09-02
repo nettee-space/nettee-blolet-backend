@@ -139,6 +139,38 @@ public final class AuthCommandDto {
             validateRegex(newPassword, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
         }
     }
+    
+    @Schema(description = "비밀번호 변경 전 재인증")
+    public record PasswordVerifyRequest(
+            @Schema(description = "기존 비밀번호", example = "Blolet1225!")
+            String password
+    ) {
+        public PasswordVerifyRequest {
+            validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
+            password = password.strip();
+
+            // 비밀번호 정규식 검증
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
+        }
+    }
+
+    @Schema(description = "비밀번호 변경")
+    public record PasswordChangeRequest(
+            @Schema(description = "새로운 비밀번호", example = "NewBlolet1225!")
+            String password,
+            @Schema(description = "클라이언트 식별자", example = "nonce123")
+            String nonce
+    ) {
+        public PasswordChangeRequest {
+            validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
+            password = password.strip();
+
+            // 비밀번호 정규식 검증
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
+            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
+        }
+    }
 
     @Schema(description = "로그인 응답")
     public record LoginResponse(
