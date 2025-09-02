@@ -25,7 +25,7 @@ class SeriesQueryAdapterTest(
     val seriesId = 1L
 
     "[정상] findBySeriesId - 존재하는 경우" - {
-        val result = adapter.findBySeriesId(seriesId.toString())
+        val result = adapter.findByIdAndOwnership(seriesId.toString(), testBlogId.toString())
 
         "Optional 값이 존재해야 한다" {
             result.isPresent shouldBe true

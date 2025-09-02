@@ -34,32 +34,20 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
     /**
      * 트래픽 절감, 안정적인 성능, 높은 유지보수성을 위하여 '싱글쿼리(단일 쿼리)' 대신 '스플릿 쿼리(분할 쿼리)'를 사용합니다.
      *
-     * @param seriesId
-     * @return
+     * @param seriesId 시리즈 아이디
+     * @param userBlogId 로그인 사용자의 블로그 아이디(지금은 하나). 지금은 블로그 아이디로 소유권을 확인 중.
+     * @return Optional series detail model
      */
     @Override
-    public Optional<SeriesDetail> findBySeriesId(String seriesId) {
-        Long longSeriesId = Long.parseLong(seriesId);
+    public Optional<SeriesDetail> findByIdAndOwnership(String seriesId, String userBlogId) {
+        long longSeriesId = Long.parseLong(seriesId);
+        long longOwnerBlogId = Long.parseLong(userBlogId);
 
-        SeriesDetailProjection seriesDetail = getQuerydsl().createQuery()
-                .select(Projections.constructor(
-                        SeriesDetailProjection.class,
-                        seriesEntity.id,
-                        seriesEntity.blogId,
-                        seriesEntity.title,
-                        seriesEntity.description,
-                        seriesEntity.bannerUrl,
-                        seriesEntity.displayOrder,
-                        seriesEntity.createdAt,
-                        seriesEntity.updatedAt
-                ))
-                .from(seriesEntity)
-                .where(seriesEntity.id.eq(longSeriesId))
-                .fetchOne();
-
+        SeriesDetailProjection seriesDetail = querySeriesDetail(longSeriesId);
         if (seriesDetail == null) throw SERIES_NOT_FOUND.exception();
+        boolean isOwner = seriesDetail.blogId() == longOwnerBlogId;
 
-        List<SeriesArticleSummaryProjection> articles = getQuerydsl().createQuery()
+        var query = getQuerydsl().createQuery()
                 .select(Projections.constructor(
                         SeriesArticleSummaryProjection.class,
 //                        seriesArticleEntity.seriesId,
@@ -76,8 +64,53 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
                 ))
                 .from(seriesArticleEntity)
                 .leftJoin(articleEntity).on(seriesArticleEntity.articleId.eq(articleEntity.id))
-                .leftJoin(draftEntity).on(seriesArticleEntity.draftId.eq(draftEntity.id))
+//                .leftJoin(draftEntity)
+//                .on(
+//                        seriesArticleEntity.draftId.eq(draftEntity.id)
+////                                .and(draftEntity.articleId.isNull())
+//                )
                 .where(seriesArticleEntity.seriesId.eq(longSeriesId))
+                .orderBy(seriesArticleEntity.displayOrder.asc());
+
+        // 조건부로 draftEntity join 추가
+        if (isOwner) {
+            query.leftJoin(draftEntity)
+                    .on(
+                            seriesArticleEntity.draftId.eq(draftEntity.id)
+                                    .and(draftEntity.articleId.isNull())
+                    );
+        }
+
+        List<SeriesArticleSummaryProjection> articles = query.fetch();
+
+        return Optional.ofNullable(
+                mapper.toDetail(seriesDetail, articles)
+        );
+    }
+
+    @Override
+    public Optional<SeriesDetail> findExceptDraftsById(String seriesId) {
+        long longSeriesId = Long.parseLong(seriesId);
+
+        SeriesDetailProjection seriesDetail = querySeriesDetail(longSeriesId);
+        if (seriesDetail == null) throw SERIES_NOT_FOUND.exception();
+
+        List<SeriesArticleSummaryProjection> articles = getQuerydsl().createQuery()
+                .select(Projections.constructor(
+                        SeriesArticleSummaryProjection.class,
+                        seriesArticleEntity.articleId,
+                        seriesArticleEntity.draftId,
+                        articleEntity.title,
+                        seriesArticleEntity.displayOrder,
+                        seriesArticleEntity.createdAt,
+                        seriesArticleEntity.updatedAt
+                ))
+                .from(seriesArticleEntity)
+                .leftJoin(articleEntity).on(seriesArticleEntity.articleId.eq(articleEntity.id))
+                .where(
+                        seriesArticleEntity.seriesId.eq(longSeriesId)
+                                .and(seriesArticleEntity.articleId.isNotNull())
+                )
                 .orderBy(seriesArticleEntity.displayOrder.asc())
                 .fetch();
 
@@ -101,5 +134,23 @@ public class SeriesQueryAdapter extends QuerydslRepositorySupport implements Ser
                 .from(seriesEntity)
                 .where(seriesEntity.blogId.eq(Long.valueOf(blogId)))
                 .fetch();
+    }
+
+    private SeriesDetailProjection querySeriesDetail(long seriesId) {
+        return getQuerydsl().createQuery()
+                .select(Projections.constructor(
+                        SeriesDetailProjection.class,
+                        seriesEntity.id,
+                        seriesEntity.blogId,
+                        seriesEntity.title,
+                        seriesEntity.description,
+                        seriesEntity.bannerUrl,
+                        seriesEntity.displayOrder,
+                        seriesEntity.createdAt,
+                        seriesEntity.updatedAt
+                ))
+                .from(seriesEntity)
+                .where(seriesEntity.id.eq(seriesId))
+                .fetchOne();
     }
 }

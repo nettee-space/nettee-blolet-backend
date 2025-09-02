@@ -1,8 +1,10 @@
 val seriesApi: String by project
 val seriesApplication: String by project
+
 dependencies {
     api(project(seriesApi))
     api(project(seriesApplication))
+    compileOnly(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
@@ -18,5 +20,6 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation(project(":security-blolet-jwt-filter"))
 }
 
