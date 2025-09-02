@@ -1,0 +1,49 @@
+#############################################
+# .editorconfig
+#
+# 프로젝트 전역 코드 스타일 및 포맷팅 규칙 정의 파일
+#
+# ⚠️ 주의사항:
+# - 개행 문자(EOL) 설정은 `.gitattributes`에서 관리합니다.
+#   따라서 여기서는 end_of_line = unset 처리합니다.
+#############################################
+
+# 최상위 설정 파일 선언 (마치 CSS의 `!important` 역할)
+root = true
+
+# ----------------------------
+# 기본 규칙 (모든 파일 기본)
+# ----------------------------
+[*]
+charset = utf-8
+# end_of_line = unset           # EOL은 `.gitattributes`에 위임 (cr | lf | crlf)
+insert_final_newline = true     # 파일 끝에 개행 추가
+indent_style = space            # 들여쓰기는 스페이스
+indent_size = 4                 # 스페이스 4칸
+trim_trailing_whitespace = true  # 각 라인 끝 불필요한 공백 제거
+
+# ----------------------------
+# Markdown 파일
+# ----------------------------
+[*.md]
+trim_trailing_whitespace = false
+# (목적: Markdown에서는 줄바꿈 표현을 위해 연속 공백 2칸 사용)
+
+# ----------------------------
+# PowerShell 스크립트
+# ----------------------------
+[*.ps1]
+charset = utf-8-bom
+# (목적: Windows PowerShell 5와 BOM 호환성 확보)
+
+# ----------------------------
+# YAML 파일
+# ----------------------------
+[*.{yml,yaml}]
+indent_size = 2
+
+# ----------------------------
+# JSON 파일
+# ----------------------------
+[*.json]
+indent_size = 2
