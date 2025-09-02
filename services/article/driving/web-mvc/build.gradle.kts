@@ -1,22 +1,24 @@
+val articleApi: String by project
 val articleApplication: String by project
-val articleDomain: String by project
-val articleException: String by project
-val articleReadModel: String by project
-
 
 dependencies {
-    api(project(articleDomain))
-    api(project(articleException))
-    api(project(articleReadModel))
+    api(project(articleApi))
     api(project(articleApplication))
+    compileOnly(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
     compileOnly("jakarta.annotation:jakarta.annotation-api")
+    compileOnly("org.springframework.boot:spring-boot-starter-validation")
 
     // mapstruct
     compileOnly("org.mapstruct:mapstruct:1.6.3")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")
     annotationProcessor("org.projectlombok:lombok-mapstruct-binding:0.2.0")
-}
 
+    // test
+    testImplementation("org.springframework.boot:spring-boot-starter-web")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-validation")
+    testImplementation(project(":security-blolet-jwt-filter")) // resolver (@AuthUser)
+}

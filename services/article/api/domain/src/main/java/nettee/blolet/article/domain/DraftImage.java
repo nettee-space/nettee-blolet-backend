@@ -1,0 +1,21 @@
+package nettee.blolet.article.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+@Builder
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+public class DraftImage {
+
+    private Long id;
+
+    private String imageUrl;
+
+    private Instant createdAt;
+}

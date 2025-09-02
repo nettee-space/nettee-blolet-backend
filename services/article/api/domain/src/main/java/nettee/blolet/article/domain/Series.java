@@ -1,0 +1,51 @@
+package nettee.blolet.article.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+import java.util.List;
+import java.util.Objects;
+
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class Series {
+    
+    private String id;
+    
+    private String blogId;
+    
+    private String title;
+    
+    private String description;
+    
+    private String bannerUrl;
+    
+    private Integer displayOrder;
+    
+    private List<SeriesArticle> seriesArticleList;
+    
+    private Instant createdAt;
+    
+    private Instant updatedAt;
+    
+    @Builder(
+            builderClassName = "updateSeriesBuilder",
+            builderMethodName = "prepareUpdate",
+            buildMethodName = "update"
+    )
+    public void update(String title, Integer displayOrder, String description, String bannerUrl) {
+        Objects.requireNonNull(title, "Title cannot be null");
+        Objects.requireNonNull(displayOrder, "DisplayOrder cannot be null");
+        
+        this.title = title;
+        this.description = description;
+        this.bannerUrl = bannerUrl;
+        this.displayOrder = displayOrder;
+        this.updatedAt = Instant.now();
+    }
+}
