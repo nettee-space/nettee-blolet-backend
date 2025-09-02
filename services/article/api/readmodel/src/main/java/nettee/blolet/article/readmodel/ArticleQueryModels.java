@@ -13,6 +13,7 @@ public final class ArticleQueryModels {
     public record ArticleDetail(
             String id,
             String blogId,
+            String draftId,
             String title,
             String content,
             String path,
