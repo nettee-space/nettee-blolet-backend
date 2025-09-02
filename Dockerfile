@@ -21,7 +21,7 @@
 # 1. Base image: OpenJDK 21 slim
 FROM openjdk:21-slim
 
-# 2. 환경 변수로 local 프로필 지정 → 도커 컴포즈에서 제공 (도커 파일은 여러 환경에 실행될 수 있어야 하므로 이곳에서 주입 X)
+# 2. 환경 변수로 local 프로파일 지정 → 도커 컴포즈에서 제공 (도커 파일은 여러 환경에 실행될 수 있어야 하므로 이곳에서 주입 X)
 #ENV SPRING_PROFILES_ACTIVE=local
 
 # 3. 작업 디렉토리 설정
