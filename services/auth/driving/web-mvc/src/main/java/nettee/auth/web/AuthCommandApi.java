@@ -131,7 +131,7 @@ public class AuthCommandApi {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("email/password/reset/send")
+    @PostMapping("/email/password/reset/send")
     @Operation(
             summary = "이메일 비밀번호 재설정 링크 전송",
             description = "사용자의 이메일로 비밀번호를 변경할 수 있는 링크를 발송합니다."
@@ -141,7 +141,7 @@ public class AuthCommandApi {
         authSignUsecase.sendPasswordResetEmail(request.email());
     }
 
-    @PostMapping("email/password/reset")
+    @PostMapping("/email/password/reset")
     @Operation(
             summary = "이메일 비밀번호 재설정",
             description = "사용자가 이메일 링크를 통해 비밀번호를 변경합니다."
