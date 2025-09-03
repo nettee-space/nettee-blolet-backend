@@ -1,5 +1,7 @@
 package nettee.auth.port;
 
+import java.lang.ScopedValue;
+import java.util.Optional;
 import nettee.auth.domain.User;
 
 public interface AuthCommandRepositoryPort {
@@ -9,4 +11,8 @@ public interface AuthCommandRepositoryPort {
     void deleteById(String userId);
 
     void updatePassword(User user);
+
+    // 데이터 정합성이 중요한 경우에 사용
+    Optional<User> findById(String userId);
+    Optional<User> findByEmail(String email);
 }

@@ -1,5 +1,6 @@
 package nettee.auth.rdb.adapter;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import nettee.auth.domain.User;
 import nettee.auth.port.AuthCommandRepositoryPort;
@@ -37,5 +38,17 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
     public void updatePassword(User user) {
         UserEntity entity = mapper.toEntity(user);
         authJpaRepository.save(entity);
+    }
+
+    @Override
+    public Optional<User> findById(String userId) {
+        Optional<UserEntity> userEntity = authJpaRepository.findById(Long.valueOf(userId));
+        return userEntity.map(mapper::toDomain);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        Optional<UserEntity> userEntity = authJpaRepository.findByEmail(email);
+        return userEntity.map(mapper::toDomain);
     }
 }
