@@ -27,21 +27,18 @@ SET LOCAL dummy.USER_ENCODED_PASSWORD =
 
 INSERT INTO "auth"."user" (
     "id",
-    "login_id",
     "username",
     "encoded_password",
     "nickname",
     "email"
 ) VALUES (
     current_setting('dummy.USER_ID')::bigint,
-    'sun123',
     current_setting('dummy.USERNAME')::varchar,
     current_setting('dummy.USER_ENCODED_PASSWORD')::varchar,
     '동굴',
     'sun@gmail.com'
 ), (
     current_setting('dummy.USER_ID2')::bigint,
-    'moon123',
     current_setting('dummy.USERNAME2')::varchar,
     -- raw password: Blolet1225!
     current_setting('dummy.USER_ENCODED_PASSWORD')::varchar,
