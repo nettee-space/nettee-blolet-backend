@@ -7,6 +7,7 @@ import static nettee.auth.exception.AuthErrorCode.AUTH_ACCOUNT_NOT_FOUND;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_DESERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_MISMATCHED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_RESET_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_REFRESH_TOKEN_NOT_FOUND;
 
@@ -206,7 +207,7 @@ public class AuthCommandService implements AuthSignUsecase {
     @Override
     public void sendPasswordResetEmail(String email) {
         // 사용자 존재 여부 확인
-        authQueryRepositoryPort.findByEmail(email)
+        authCommandRepositoryPort.findByEmail(email)
                 .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
 
         // nonce 생성
@@ -223,7 +224,7 @@ public class AuthCommandService implements AuthSignUsecase {
     @Override
     public void resetPassword(String email, String newPassword, String nonce) {
         // 사용자 존재 여부 확인
-        User user = authQueryRepositoryPort.findByEmail(email)
+        User user = authCommandRepositoryPort.findByEmail(email)
                 .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
 
         // nonce 조회 및 검증
@@ -241,6 +242,47 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // nonce 삭제
         authRedisPort.delete("password-reset:" + email);
+    }
+
+    @Override
+    public String verifyPassword(String userId, String password) {
+        // 비밀번호 조회를 위한 사용자 조회
+        User userEntity = authCommandRepositoryPort.findById(userId)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(password, userEntity.getEncodedPassword())) {
+            throw new AuthException(AUTH_PASSWORD_MISMATCHED);
+        }
+
+        // nonce 생성 및 redis 저장
+        String nonce = generateSecureRandom();
+        authRedisPort.save("password-change:" + userId, nonce, Duration.ofMinutes(PASSWORD_RESET_URL_EXPIRATION));
+
+        return nonce;
+    }
+
+    @Override
+    public void changePassword(String userId, String newPassword, String nonce) {
+        // 비밀번호 변경을 위한 사용자 조회
+        User userEntity = authCommandRepositoryPort.findById(userId)
+                .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_NOT_FOUND));
+
+        // nonce 조회 및 검증
+        String storedNonce = authRedisPort.get("password-change:" + userId);
+        if (!nonce.equals(storedNonce)) {
+            throw new AuthException(AUTH_PASSWORD_RESET_INVALID);
+        }
+
+        // 새로운 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(newPassword);
+
+        // 비밀번호 변경
+        userEntity.setEncodedPassword(encodedPassword);
+        authCommandRepositoryPort.updatePassword(userEntity);
+
+        // nonce 삭제
+        authRedisPort.delete("password-change:" + userId);
     }
 
     @Override

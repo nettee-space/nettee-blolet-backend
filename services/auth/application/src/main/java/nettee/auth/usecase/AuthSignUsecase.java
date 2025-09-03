@@ -15,6 +15,8 @@ public interface AuthSignUsecase {
 
     void sendPasswordResetEmail(String email);
     void resetPassword(String email, String newPassword, String nonce);
+    String verifyPassword(String userId, String password);
+    void changePassword(String userId, String password, String nonce);
 
     LoginTokenModel refreshAccessToken(String userId, String refreshToken);
 }

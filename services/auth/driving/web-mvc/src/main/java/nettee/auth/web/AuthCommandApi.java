@@ -9,8 +9,10 @@ import nettee.auth.web.dto.AuthCommandDto.EmailVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.EmailVerifySendRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginRequest;
 import nettee.auth.web.dto.AuthCommandDto.LoginResponse;
+import nettee.auth.web.dto.AuthCommandDto.PasswordChangeRequest;
 import nettee.auth.web.dto.AuthCommandDto.PasswordForgotRequest;
 import nettee.auth.web.dto.AuthCommandDto.PasswordResetRequest;
+import nettee.auth.web.dto.AuthCommandDto.PasswordVerifyRequest;
 import nettee.auth.web.dto.AuthCommandDto.SignUpRequest;
 import nettee.auth.web.mapper.AuthDtoMapper;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
@@ -129,17 +131,17 @@ public class AuthCommandApi {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("email/password/reset/send")
+    @PostMapping("/email/password/reset/send")
     @Operation(
             summary = "이메일 비밀번호 재설정 링크 전송",
             description = "사용자의 이메일로 비밀번호를 변경할 수 있는 링크를 발송합니다."
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
+    public void sendPasswordResetEmail(@RequestBody PasswordForgotRequest request) {
         authSignUsecase.sendPasswordResetEmail(request.email());
     }
 
-    @PostMapping("email/password/reset")
+    @PostMapping("/email/password/reset")
     @Operation(
             summary = "이메일 비밀번호 재설정",
             description = "사용자가 이메일 링크를 통해 비밀번호를 변경합니다."
@@ -148,6 +150,31 @@ public class AuthCommandApi {
     public void resetPassword(@RequestParam String nonce,
                               @RequestBody PasswordResetRequest request) {
         authSignUsecase.resetPassword(request.email(), request.newPassword(), nonce);
+    }
+
+    // TODO: 마이페이지 정보 수정 전, 비밀번호 재인증 API로 활용 가능
+    @PostMapping("/password/verify")
+    @Operation(
+            summary = "비밀번호 변경 전 재인증",
+            description = "사용자가 비밀번호 변경 전, 본인 확인을 위해 비밀번호를 재인증합니다."
+    )
+    public ResponseEntity<String> verifyPassword(@AuthUser AuthorizedUser authorizedUser,
+                                                 @RequestBody PasswordVerifyRequest passwordVerifyRequest) {
+        String userId = authorizedUser.userId();
+        String nonce = authSignUsecase.verifyPassword(userId, passwordVerifyRequest.password());
+        return ResponseEntity.ok(nonce);
+    }
+
+    @PostMapping("/password/change")
+    @Operation(
+            summary = "비밀번호 변경",
+            description = "사용자가 비밀번호를 변경합니다."
+    )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void verifyPassword(@AuthUser AuthorizedUser authorizedUser,
+                               @RequestBody PasswordChangeRequest passwordChangeRequest) {
+        String userId = authorizedUser.userId();
+        authSignUsecase.changePassword(userId, passwordChangeRequest.password(), passwordChangeRequest.nonce());
     }
 
     @PostMapping("/token/refresh")

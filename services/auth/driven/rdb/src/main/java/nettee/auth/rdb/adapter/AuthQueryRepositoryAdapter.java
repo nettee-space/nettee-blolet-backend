@@ -26,10 +26,4 @@ public class AuthQueryRepositoryAdapter implements AuthQueryRepositoryPort {
     public boolean existsByLoginId(String loginId) {
         return authJpaRepository.existsByLoginId(loginId);
     }
-
-    @Override
-    public Optional<User> findByEmail(String email) {
-        Optional<UserEntity> userEntity = authJpaRepository.findByEmail(email);
-        return userEntity.map(mapper::toDomain);
-    }
 }
