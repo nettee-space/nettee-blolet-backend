@@ -1,0 +1,10 @@
+# 모든 텍스트 파일의 End of Line 기본값: LF (윈도우 환경에서도 LF 저장으로 활성화합니다.)
+* text eol=lf
+
+# 윈도우 스크립트: CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# 도커파일은 리눅스 환경을 타깃으로 항상 LF
+Dockerfile text eol=lf

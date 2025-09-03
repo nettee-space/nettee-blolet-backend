@@ -1,6 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
-chmod +x ./monolith-compose ./gradlew
+
+# ---- Gradle Wrapper in Docker (no host JDK needed) ----
+GW_IMAGE="gradle:8.10.1-jdk21"
+gw() {
+  docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -e HOME=/home/gradle \
+    -v "$PWD":/workspace \
+    -v "$HOME/.gradle":/home/gradle/.gradle \
+    -w /workspace \
+    "$GW_IMAGE" \
+    ./gradlew "$@"
+}
+
+# get permission to execute (exe-뀨뜨 >_< 권한 획득)
+chmod +x ./monolith-compose || true # 오류 무시
 
 # 파일 확인
 if [[ ! -f "docker-compose-local.yml" ]]; then
@@ -15,13 +30,8 @@ docker image inspect gradle:8.10.1-jdk21 >/dev/null 2>&1 || docker pull gradle:8
 
 if [[ ! -f monolith/main-runner/build/libs/main-runner-0.0.1-SNAPSHOT.jar ]]; then
   echo "main-runner JAR이 없어 빌드합니다..."
-  ./gradlew --version
-  docker run --rm \
-    -v "$PWD":/workspace \
-    -v "$HOME/.gradle":/home/gradle/.gradle \
-    -w /workspace \
-    gradle:8.10.1-jdk21 \
-    ./gradlew :main-runner:bootJar --no-daemon
+  gw --version
+  gw :main-runner:bootJar --no-daemon
 fi
 
 # 1) 인프라 기동
