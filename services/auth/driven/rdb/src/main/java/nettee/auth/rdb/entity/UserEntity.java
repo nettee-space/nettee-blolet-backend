@@ -19,9 +19,6 @@ import nettee.jpa.support.SnowflakeBaseTimeEntity;
 public class UserEntity extends SnowflakeBaseTimeEntity {
 
     @Column(unique = true)
-    private String loginId;
-
-    @Column(unique = true)
     private String username;
 
     @Column(unique = true)

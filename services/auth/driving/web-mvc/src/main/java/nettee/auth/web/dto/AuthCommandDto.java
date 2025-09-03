@@ -1,7 +1,6 @@
 package nettee.auth.web.dto;
 
 import static nettee.auth.exception.AuthErrorCode.AUTH_EMAIL_REQUIRED;
-import static nettee.auth.exception.AuthErrorCode.AUTH_LOGIN_ID_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_NONCE_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_REQUIRED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_INVALID_FORMAT;
@@ -20,14 +19,12 @@ public final class AuthCommandDto {
 
     @Schema(description = "회원가입 요청")
     public record SignUpRequest(
-            @Schema(description = "로그인 ID", example = "sun123")
-            String loginId,
             @Schema(description = "사용자 이름", example = "sun")
             String username,
-            @Schema(description = "비밀번호", example = "Blolet1225!")
-            String password,
             @Schema(description = "이메일", example = "sun@gmail.com")
             String email,
+            @Schema(description = "비밀번호", example = "Blolet1225!")
+            String password,
             @Schema(description = "이용 약관 동의 여부", example = "true")
             boolean agreedTerms,
             @Schema(description = "개인정보 처리 방침 동의 여부", example = "true")
@@ -35,21 +32,19 @@ public final class AuthCommandDto {
     ) {
         public SignUpRequest {
             // 필수 값 검증
-            validateNotBlank(loginId, AUTH_LOGIN_ID_REQUIRED);
             validateNotBlank(username, AUTH_USERNAME_REQUIRED);
-            validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
             validateNotBlank(email, AUTH_EMAIL_REQUIRED);
+            validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
 
-            loginId = loginId.strip();
             username = username.strip();
-            password = password.strip();
             email = email.strip();
+            password = password.strip();
 
             // 정규식 검증
-            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
             final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
+            final String PASSWORD_REGEX = "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$";
             validateRegex(email, EMAIL_REGEX, AUTH_EMAIL_REQUIRED);
+            validateRegex(password, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
 
             // 비밀번호 길이 검증
             validateLength(password, 8, 64, AUTH_PASSWORD_INVALID_LENGTH);
@@ -59,16 +54,16 @@ public final class AuthCommandDto {
     @Schema(description = "로그인 요청")
     public record LoginRequest(
             @Schema(description = "로그인 ID", example = "sun123")
-            String loginId,
+            String email,
             @Schema(description = "비밀번호", example = "Blolet1225!")
             String password
     ) {
         public LoginRequest {
             // 필수 값 검증
-            validateNotBlank(loginId, AUTH_LOGIN_ID_REQUIRED);
+            validateNotBlank(email, AUTH_EMAIL_REQUIRED);
             validateNotBlank(password, AUTH_PASSWORD_REQUIRED);
 
-            loginId = loginId.strip();
+            email = email.strip();
             password = password.strip();
 
             // 비밀번호 정규식 검증

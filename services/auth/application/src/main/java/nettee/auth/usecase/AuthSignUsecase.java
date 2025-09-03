@@ -5,7 +5,7 @@ import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
 
 public interface AuthSignUsecase {
     LoginTokenModel signUp(SignUpRequestModel signUpRequest);
-    LoginTokenModel signIn(String loginId, String password);
+    LoginTokenModel signIn(String email, String password);
 
     String sendOtp(String email);
     String verifyOtp(String email, String otp, String nonce);

@@ -51,4 +51,9 @@ public class AuthCommandRepositoryAdapter implements AuthCommandRepositoryPort {
         Optional<UserEntity> userEntity = authJpaRepository.findByEmail(email);
         return userEntity.map(mapper::toDomain);
     }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return authJpaRepository.existsByEmail(email);
+    }
 }

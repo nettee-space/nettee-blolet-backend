@@ -28,9 +28,8 @@ import nettee.auth.domain.User;
 import nettee.auth.domain.UserStatus;
 import nettee.auth.exception.AuthException;
 import nettee.auth.port.AuthCommandRepositoryPort;
-import nettee.auth.port.AuthQueryRepositoryPort;
-import nettee.auth.port.AuthRedisPort;
 import nettee.auth.port.AuthMailSender;
+import nettee.auth.port.AuthRedisPort;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
@@ -44,7 +43,6 @@ import org.springframework.stereotype.Service;
 public class AuthCommandService implements AuthSignUsecase {
 
     private final AuthCommandRepositoryPort authCommandRepositoryPort;
-    private final AuthQueryRepositoryPort authQueryRepositoryPort;
     private final AuthRedisPort authRedisPort;
 
     private final PasswordEncoder passwordEncoder;
@@ -78,8 +76,8 @@ public class AuthCommandService implements AuthSignUsecase {
         // 1. 필수 약관 동의 여부 확인
         User.validateAgreed(model.agreedTerms(), model.agreedPrivacy());
 
-        // 2. login ID 중복 체크
-        boolean exists = authQueryRepositoryPort.existsByLoginId(model.loginId());
+        // 2. email 중복 체크
+        boolean exists = authCommandRepositoryPort.existsByEmail(model.email());
         if (exists) {
             throw new AuthException(AUTH_ACCOUNT_ALREADY_EXIST);
         }
@@ -89,11 +87,10 @@ public class AuthCommandService implements AuthSignUsecase {
 
         // 4. user 도메인 객체 생성
         User user = User.builder()
-                .loginId(model.loginId())
-                .encodedPassword(encodedPassword)
                 .username(model.username())
-                .nickname(model.nickname())
                 .email(model.email())
+                .encodedPassword(encodedPassword)
+                .nickname(model.nickname())
                 .status(UserStatus.ACTIVE) // 기본 상태는 ACTIVE
                 .build();
 
@@ -105,9 +102,9 @@ public class AuthCommandService implements AuthSignUsecase {
     }
 
     @Override
-    public LoginTokenModel signIn(String loginId, String rawPassword) throws AuthException {
-        // 1. login ID로 사용자 조회
-        User userEntity = authQueryRepositoryPort.findByLoginId(loginId)
+    public LoginTokenModel signIn(String email, String rawPassword) throws AuthException {
+        // 1. email 사용자 조회
+        User userEntity = authCommandRepositoryPort.findByEmail(email)
                 .orElseThrow(() -> new AuthException(AUTH_ACCOUNT_LOGIN_FAILED));
 
         // 2. 비밀번호 검증
