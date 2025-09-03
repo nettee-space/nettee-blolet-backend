@@ -1,4 +1,23 @@
 param()
+$ErrorActionPreference = "Stop"
+
+# ---- Gradle Wrapper in Docker (no host JDK needed) ----
+$GW_IMAGE = "gradle:8.10.1-jdk21"
+function gw {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Args)
+    docker run --rm `
+        -e HOME=/home/gradle `
+        -v "$(Get-Location):/workspace" `
+        -v "${env:USERPROFILE}\.gradle:/home/gradle/.gradle" `
+        -w /workspace `
+        $GW_IMAGE `
+        ./gradlew $Args
+}
+
+# 권한 설정 생략 (윈도우는 생략)
+# if (Test-Path "./monolith-compose") {
+#     try { icacls .\monolith-compose /grant Everyone:RX | Out-Null } catch {}
+# }
 
 # 파일 확인
 if (-not (Test-Path "./docker-compose-local.yml")) {
@@ -14,13 +33,8 @@ if (-not (docker image inspect gradle:8.10.1-jdk21 2>$null)) { docker pull gradl
 # JAR 확인 및 빌드
 if (-not (Test-Path "monolith/main-runner/build/libs/main-runner-0.0.1-SNAPSHOT.jar")) {
     Write-Host "main-runner JAR이 없어 빌드합니다..."
-    ./gradlew --version
-    docker run --rm `
-        -v "${PWD}:/workspace" `
-        -v "$HOME/.gradle:/home/gradle/.gradle" `
-        -w /workspace `
-        gradle:8.10.1-jdk21 `
-        ./gradlew :main-runner:bootJar --no-daemon
+    gw --version
+    gw :main-runner:bootJar --no-daemon
     if ($LASTEXITCODE -ne 0) { exit 1 }
 }
 
@@ -34,14 +48,13 @@ Write-Host "인프라 헬스체크 대기 중..."
 foreach ($s in $services) {
     Write-Host " - $s: " -NoNewline
     $tries = 0
-    while ($true) {
-        $cid = docker compose -f docker-compose-monolith.yml ps -q $s 2>$null
-        if (-not $cid) { Start-Sleep -Seconds 2; continue }
-        $status = docker inspect -f '{{.State.Health.Status}}' $cid 2>$null
-        if ($status -eq "healthy") {
-            Write-Host " OK"
-            break
+    do {
+        $containerId = docker compose -f docker-compose-monolith.yml ps -q $s
+        $status = ""
+        if ($containerId) {
+            $status = docker inspect -f '{{.State.Health.Status}}' $containerId 2>$null
         }
+        if ($status -eq "healthy") { break }
         $tries++
         if ($tries -gt 180) {
             Write-Host "시간 초과(≈15분). 상태를 확인하세요."
@@ -49,22 +62,29 @@ foreach ($s in $services) {
         }
         Write-Host -NoNewline "."
         Start-Sleep -Seconds 5
-    }
+    } while ($true)
+    Write-Host " OK"
 }
 
 # 3) 앱 기동
 docker compose -f docker-compose-local.yml up -d --build
 if ($LASTEXITCODE -ne 0) { exit 1 }
 
-Write-Output "🚃 로컬 앱 부트 시작: http://localhost:8080"
+Write-Host "🚃 로컬 앱 부트 시작: http://localhost:8080"
 
-Write-Output "앱 헬스체크 대기 중..."
+Write-Host "앱 헬스체크 대기 중..."
+
 $tries = 0
 $response = ""
-
 while ([string]::IsNullOrEmpty($response)) {
     try {
-        $response = curl -s http://localhost:8080/actuator/health | Out-String
+        if ($PSVersionTable.PSVersion.Major -lt 6) {
+            # PowerShell 5.x (Windows PowerShell)
+            $response = Invoke-RestMethod -Uri "http://localhost:8080/actuator/health" -UseBasicParsing
+        } else {
+            # PowerShell 6+ (Core/7 이상)
+            $response = Invoke-RestMethod -Uri "http://localhost:8080/actuator/health"
+        }
     } catch {
         $response = ""
     }
@@ -84,8 +104,8 @@ if ($response -match '"status":"([^"]*)"') {
 }
 
 switch ($status) {
-    "UP"   { $presentation = "✅ 정상 기동" }
-    "DOWN" { $presentation = "❌ 일부 기능 작동하지 않음" }
+    "UP"    { $presentation = "✅ 정상 기동" }
+    "DOWN"  { $presentation = "❌ 일부 기능 작동하지 않음" }
     default { $presentation = "⚠️ 기타" }
 }
 
