@@ -53,7 +53,7 @@ public final class AuthCommandDto {
 
     @Schema(description = "로그인 요청")
     public record LoginRequest(
-            @Schema(description = "로그인 ID", example = "sun123")
+            @Schema(description = "이메일", example = "sun@gmail.com")
             String email,
             @Schema(description = "비밀번호", example = "Blolet1225!")
             String password
@@ -134,7 +134,7 @@ public final class AuthCommandDto {
             validateRegex(newPassword, PASSWORD_REGEX, AUTH_PASSWORD_INVALID_FORMAT);
         }
     }
-    
+
     @Schema(description = "비밀번호 변경 전 재인증")
     public record PasswordVerifyRequest(
             @Schema(description = "기존 비밀번호", example = "Blolet1225!")
