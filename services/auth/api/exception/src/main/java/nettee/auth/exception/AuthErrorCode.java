@@ -8,7 +8,6 @@ import java.util.function.Supplier;
 
 public enum AuthErrorCode implements ErrorCode {
     // web 요청 관련 오류
-    AUTH_LOGIN_ID_REQUIRED("로그인 ID는 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_USERNAME_REQUIRED("사용자 이름은 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_PASSWORD_REQUIRED("비밀번호는 필수입니다.", HttpStatus.BAD_REQUEST),
     AUTH_PASSWORD_INVALID_FORMAT("비밀번호 형식이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),

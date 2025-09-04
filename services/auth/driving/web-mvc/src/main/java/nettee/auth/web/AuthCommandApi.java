@@ -70,7 +70,7 @@ public class AuthCommandApi {
     )
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         // 로그인 로직 구현
-        LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.loginId(), loginRequest.password());
+        LoginTokenModel responseModel = authSignUsecase.signIn(loginRequest.email(), loginRequest.password());
         LoginResponse result = mapper.toDto(responseModel);
 
         ResponseCookie refreshTokenCookie = cookieUtil.createRefreshTokenCookie(responseModel.refreshToken());
