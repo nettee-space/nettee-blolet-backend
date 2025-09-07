@@ -26,7 +26,7 @@ COMMENT ON COLUMN article.draft.id                  IS '임시 게시물 PK';
 COMMENT ON COLUMN article.draft.blog_id             IS '블로그 ID';
 COMMENT ON COLUMN article.draft.article_id          IS '포스트 ID';
 COMMENT ON COLUMN article.draft.entry_block_id      IS '첫 블록 ID';
-COMMENT ON COLUMN article.draft.featured_image_id   IS '대표 이미지 ID';
+COMMENT ON COLUMN article.draft.banner_image_id     IS '대표 이미지 ID';
 COMMENT ON COLUMN article.draft.scheduled_deploy_at IS '예약 배포일';
 COMMENT ON COLUMN article.draft.title               IS '글 제목';
 COMMENT ON COLUMN article.draft.content             IS '내용';

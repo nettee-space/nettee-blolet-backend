@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS article.article_hashtag (
     updated_at  TIMESTAMP DEFAULT NOW() NOT NULL,
 
     CONSTRAINT pk_article_hashtag PRIMARY KEY ("id"),
-    CONSTRAINT uq_article_hashtag__draft_id__hashtag_id UNIQUE ("draft_id", "hashtag_id"),
+    CONSTRAINT uq_article_hashtag__draft_id__hashtag_id UNIQUE ("draft_id", "hashtag_id")
 );
 
 -- 컬럼 코멘트

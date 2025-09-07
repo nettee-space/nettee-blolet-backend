@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS article.draft_image (
     created_at  TIMESTAMP   DEFAULT NOW()   NOT NULL,
 
     CONSTRAINT "pk_draft__image" PRIMARY KEY ("id"),
-    ADD CONSTRAINT "uq_draft_image__url" UNIQUE ("image_url")
+    CONSTRAINT "uq_draft_image__url" UNIQUE ("image_url")
 );
 
 -- 컬럼 코멘트
