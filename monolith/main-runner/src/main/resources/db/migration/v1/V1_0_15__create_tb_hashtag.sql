@@ -2,7 +2,7 @@ CREATE SCHEMA IF NOT EXISTS "article";
 
 CREATE TABLE IF NOT EXISTS article.hashtag (
     id          BIGSERIAL,
-    name        VARCHAR(100) NOT NULL,
+    name        VARCHAR(100),
     count       INTEGER DEFAULT 1,
 
     created_at  TIMESTAMP DEFAULT NOW() NOT NULL,
