@@ -3,7 +3,7 @@ CREATE SCHEMA IF NOT EXISTS "article";
 CREATE TABLE IF NOT EXISTS article.article_hashtag (
     id          BIGINT,
     draft_id    BIGINT,
-    hashtag_id  BIGINT NOT NULL,
+    hashtag_id  BIGINT,
 
     status      INTEGER,
     created_at  TIMESTAMP DEFAULT NOW() NOT NULL,
