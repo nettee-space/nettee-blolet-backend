@@ -5,9 +5,11 @@ import nettee.blolet.article.application.port.DraftCommandPort;
 import nettee.blolet.article.application.usecase.DraftCreateUseCase;
 import nettee.blolet.article.application.usecase.DraftDeleteUseCase;
 import nettee.blolet.article.application.usecase.DraftImageCreateUseCase;
+import nettee.blolet.article.application.usecase.DraftPatchUseCase;
 import nettee.blolet.article.application.usecase.DraftUpdateUseCase;
 import nettee.blolet.article.domain.Draft;
 import nettee.blolet.article.domain.DraftImage;
+import nettee.blolet.article.domain.SeriesArticle;
 import nettee.blolet.article.domain.sub.DraftStatus;
 import nettee.blolet.blog.export.client.api.BlogClient;
 import nettee.upload.port.ImageStorage;
@@ -16,10 +18,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_FORBIDDEN;
 import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftErrorCode.SERIES_ARTICLE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
-public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCase, DraftDeleteUseCase, DraftImageCreateUseCase {
+public class DraftCommandService implements
+    DraftCreateUseCase,
+    DraftUpdateUseCase,
+    DraftDeleteUseCase,
+    DraftImageCreateUseCase,
+    DraftPatchUseCase
+{
+
     private final DraftCommandPort draftCommandPort;
     private final BlogClient blogClient;
     private final ImageStorage imageStorage;
@@ -38,7 +48,7 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
 
     @Override
     public void deleteDraft(String userId, String draftId) {
-        var blogId = draftCommandPort.findById(draftId)
+        var blogId = draftCommandPort.findDraftById(draftId)
                 .orElseThrow(DRAFT_NOT_FOUND::exception)
                 .blogId();
         validateOwnership(userId, blogId);
@@ -48,7 +58,7 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
 
     @Override
     public DraftImage createDraftImage(String userId, String draftId, MultipartFile file, String targetName) {
-        var blogId = draftCommandPort.findById(draftId)
+        var blogId = draftCommandPort.findDraftById(draftId)
                 .orElseThrow(DRAFT_NOT_FOUND::exception)
                 .blogId();
         validateOwnership(userId, blogId);
@@ -71,5 +81,35 @@ public class DraftCommandService implements DraftCreateUseCase, DraftUpdateUseCa
         if (!isOwner) {
             throw DRAFT_FORBIDDEN.exception();
         }
+    }
+
+    @Override
+    public Draft patchTitle(String userId, String draftId, String title) {
+        var draft = draftCommandPort.findDraftById(draftId)
+            .orElseThrow(DRAFT_NOT_FOUND::exception);
+
+        validateOwnership(userId, draft.blogId());
+
+        return draftCommandPort.updateTitle(draft.id(), title);
+    }
+
+    @Override
+    public Draft patchPath(String userId, String draftId, String path) {
+        var draft = draftCommandPort.findDraftById(draftId)
+            .orElseThrow(DRAFT_NOT_FOUND::exception);
+
+        validateOwnership(userId, draft.blogId());
+
+        return draftCommandPort.updatePath(draft.id(), path);
+    }
+
+    @Override
+    public SeriesArticle patchSeriesArticle(String userId, String draftId, String seriesId, String articleId) {
+        var seriesArticle = draftCommandPort.findSeriesArticleById(draftId)
+            .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
+
+        validateOwnership(userId, draftId);
+
+        return draftCommandPort.updateSeriesArticle(seriesArticle.getDraftId(), seriesId, articleId);
     }
 }
