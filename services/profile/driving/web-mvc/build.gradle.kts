@@ -4,6 +4,7 @@ val profileApplication: String by project
 dependencies {
     api(project(profileApi))
     api(project(profileApplication))
+    implementation(project(":security-blolet-jwt-filter"))
 
     // validation
     compileOnly("jakarta.validation:jakarta.validation-api")
