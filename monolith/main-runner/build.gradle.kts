@@ -3,6 +3,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 val article: String by project
 val blog: String by project
 val auth: String by project
+val profile: String by project
 
 val blogClientWebMvc: String by project
 
@@ -21,6 +22,7 @@ dependencies {
     api(project(article))
     api(project(blog))
     api(project(auth))
+    api(project(profile))
 
     // client modules
     api(project(blogClientWebMvc))

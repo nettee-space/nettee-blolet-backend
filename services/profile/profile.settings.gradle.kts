@@ -5,7 +5,6 @@ val profileException: String by settings
 val profileReadModel: String by settings
 val profileApplication: String by settings
 val profileRdbAdapter: String by settings
-val profileRedisAdapter: String by settings
 val profileWebMvcAdapter: String by settings
 
 fun getDirectories(vararg names: String): (String) -> File {
