@@ -16,19 +16,20 @@ import nettee.upload.port.ImageStorage;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import static nettee.blolet.article.exception.DraftErrorCode.SERIES_ALREADY_REGISTERED;
+import static nettee.blolet.article.exception.DraftErrorCode.BLOG_MISMATCH;
 import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_FORBIDDEN;
 import static nettee.blolet.article.exception.DraftErrorCode.DRAFT_NOT_FOUND;
-import static nettee.blolet.article.exception.DraftErrorCode.SERIES_ARTICLE_NOT_FOUND;
+import static nettee.blolet.article.exception.DraftErrorCode.SERIES_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class DraftCommandService implements
-    DraftCreateUseCase,
-    DraftUpdateUseCase,
-    DraftDeleteUseCase,
-    DraftImageCreateUseCase,
-    DraftPatchUseCase
-{
+        DraftCreateUseCase,
+        DraftUpdateUseCase,
+        DraftDeleteUseCase,
+        DraftImageCreateUseCase,
+        DraftPatchUseCase {
 
     private final DraftCommandPort draftCommandPort;
     private final BlogClient blogClient;
@@ -74,15 +75,6 @@ public class DraftCommandService implements
         return draftCommandPort.save(draftImage);
     }
 
-    private void validateOwnership(String userId, String draftId) {
-        var isOwner = blogClient.verifyOwnership(userId, draftId)
-                .isOwner();
-
-        if (!isOwner) {
-            throw DRAFT_FORBIDDEN.exception();
-        }
-    }
-
     @Override
     public Draft patchTitle(String userId, String draftId, String title) {
         var draft = draftCommandPort.findDraftById(draftId)
@@ -104,12 +96,43 @@ public class DraftCommandService implements
     }
 
     @Override
-    public SeriesArticle patchSeriesArticle(String userId, String draftId, String seriesId, String articleId) {
-        var seriesArticle = draftCommandPort.findSeriesArticleById(draftId)
-            .orElseThrow(SERIES_ARTICLE_NOT_FOUND::exception);
+    public SeriesArticle registerSeriesArticle(String userId, String draftId, String seriesId, String articleId) {
+        // 드래프트, 시리즈 조회
+        var draft = draftCommandPort.findDraftById(draftId)
+            .orElseThrow(DRAFT_NOT_FOUND::exception);
 
-        validateOwnership(userId, draftId);
+        var series = draftCommandPort.findSeriesById(seriesId)
+            .orElseThrow(SERIES_NOT_FOUND::exception);
 
-        return draftCommandPort.updateSeriesArticle(seriesArticle.getDraftId(), seriesId, articleId);
+        // 권한 검증
+        validateOwnership(userId, draft.blogId());
+        validateOwnership(userId, series.blogId());
+
+        // 블로그 동일 여부 확인
+        if (!draft.blogId().equals(series.blogId())) {
+            throw BLOG_MISMATCH.exception();
+        }
+
+        // 시리즈 존재 여부 확인
+        if (draftCommandPort.existsSeriesArticle(draftId, seriesId)) {
+            throw SERIES_ALREADY_REGISTERED.exception();
+        }
+
+        // 시리즈 등록
+        var seriesArticle = draftCommandPort.createSeriesArticle(draftId, seriesId, articleId);
+
+        // 드래프트에 시리즈 정보 업데이트
+        draftCommandPort.updateDraftSeriesInfo(draftId, seriesId);
+
+        return seriesArticle;
+    }
+
+    private void validateOwnership(String userId, String draftId) {
+        var isOwner = blogClient.verifyOwnership(userId, draftId)
+                .isOwner();
+
+        if (!isOwner) {
+            throw DRAFT_FORBIDDEN.exception();
+        }
     }
 }

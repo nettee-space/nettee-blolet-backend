@@ -9,5 +9,5 @@ public interface DraftPatchUseCase {
 
     Draft patchPath(String userId, String draftId, String path);
 
-    SeriesArticle patchSeriesArticle(String userId, String draftId, String seriesId, String articleId);
+    SeriesArticle registerSeriesArticle(String userId, String draftId, String seriesId, String articleId);
 }
