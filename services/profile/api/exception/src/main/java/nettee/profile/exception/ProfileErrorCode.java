@@ -10,6 +10,7 @@ public enum ProfileErrorCode implements ErrorCode {
 
     // domain 비즈니스 관련 오류
     PROFILE_ALREADY_EXIST("사용자의 프로필이 존재합니다.", HttpStatus.CONFLICT),
+    PROFILE_NOT_FOUND("사용자의 프로필이 존재하지 않습니다.", HttpStatus.CONFLICT),
 
     // rdb 관련 오류
     ;
