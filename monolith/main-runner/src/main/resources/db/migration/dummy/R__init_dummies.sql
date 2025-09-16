@@ -46,6 +46,23 @@ INSERT INTO "auth"."user" (
     'moon@gmail.com'
 );
 
+INSERT INTO "profile"."profile" (
+    "id",
+    "user_id",
+    "nickname",
+    "job"
+) VALUES (
+     current_setting('dummy.PROFILE_ID')::bigint,
+     current_setting('dummy.USER_ID')::bigint,
+     '닉네임',
+     '개발자'
+ ), (
+     current_setting('dummy.PROFILE_ID2')::bigint,
+     current_setting('dummy.USER_ID2')::bigint,
+     '침착너구리',
+     '디자이너'
+ );
+
 INSERT INTO "blog"."blog" (
     "id",
     "user_id",
