@@ -7,4 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ProfileEntityMapper {
     ProfileEntity toEntity(Profile profile);
+    Profile toDomain(ProfileEntity entity);
 }

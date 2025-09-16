@@ -19,19 +19,23 @@ public class ProfileCommandRepositoryAdapter implements ProfileCommandRepository
     private final ProfileEntityMapper mapper;
 
     @Override
-    public void save(Profile profile) {
+    public Profile save(Profile profile) {
         ProfileEntity entity = mapper.toEntity(profile);
 
         // profile id를 얻기 위해 저장
         ProfileEntity profileEntity = profileJpaRepository.save(entity);
 
-        for (String interest : profile.getInterests()) {
-            Long profileId = profileEntity.getId();
-            Long interestId = Long.valueOf(interest);
+        if (profile.getInterests() != null) {
+            for (String interest : profile.getInterests()) {
+                Long profileId = profileEntity.getId();
+                Long interestId = Long.valueOf(interest);
 
-            // 중간 테이블에 저장
-            profileInterestJpaRepository.save(new ProfileInterestEntity(profileId, interestId));
+                // 중간 테이블에 저장
+                profileInterestJpaRepository.save(new ProfileInterestEntity(profileId, interestId));
+            }
         }
+
+        return mapper.toDomain(profileEntity);
     }
 
     @Override

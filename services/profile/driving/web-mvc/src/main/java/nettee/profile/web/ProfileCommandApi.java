@@ -26,10 +26,10 @@ public class ProfileCommandApi {
         summary = "프로필 생성",
         description = "사용자의 프로필을 생성합니다."
     )
-    public ResponseEntity<Void> create(@AuthUser AuthorizedUser authorizedUser,
+    public ResponseEntity<String> create(@AuthUser AuthorizedUser authorizedUser,
                                        @RequestBody ProfileCreateModel model) {
         String userId = authorizedUser.userId();
-        profileCommandUsecase.createProfile(userId, model);
-        return ResponseEntity.noContent().build();
+        String profileId = profileCommandUsecase.createProfile(userId, model);
+        return ResponseEntity.ok(profileId);
     }
 }
