@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 import nettee.jpa.support.SnowflakeBaseTimeEntity;
 
 @Entity
-@Table(schema = "auth", name = "interest")
+@Table(schema = "profile", name = "interest")
 @SuperBuilder
 @Getter
 @NoArgsConstructor
