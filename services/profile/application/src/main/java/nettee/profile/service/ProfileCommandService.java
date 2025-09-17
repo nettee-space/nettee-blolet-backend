@@ -17,15 +17,15 @@ public class ProfileCommandService implements ProfileCommandUsecase {
     private final ProfileCommandRepositoryPort profileCommandRepositoryPort;
 
     @Override
-    public String createProfile(String userId, ProfileCreateModel model) {
+    public String createProfile(ProfileCreateModel model) {
         // 1인 1프로필 정책
-        boolean exists = profileCommandRepositoryPort.existsByUserId(userId);
+        boolean exists = profileCommandRepositoryPort.existsByUserId(model.userId());
         if (exists) {
             throw new ProfileException(PROFILE_ALREADY_EXIST);
         }
 
         Profile profile = Profile.builder()
-            .userId(userId)
+            .userId(model.userId())
             .job(model.job())
             .nickname(model.nickname())
             .interests(model.interests())

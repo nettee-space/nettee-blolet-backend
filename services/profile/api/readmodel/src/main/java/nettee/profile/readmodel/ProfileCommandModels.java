@@ -4,6 +4,7 @@ import java.util.List;
 
 public final class ProfileCommandModels {
     public record ProfileCreateModel(
+        String userId,
         String nickname,
         String job,
         List<String> interests
