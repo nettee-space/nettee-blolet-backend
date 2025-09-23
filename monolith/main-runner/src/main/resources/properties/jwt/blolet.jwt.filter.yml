@@ -31,6 +31,8 @@ app:
           methods: "*"
         - path: "/auth/email/password/reset/send"
           methods: "*"
+        - path: "/auth/validation-rules.json"
+          methods: "*"
         # Blog
         - path: "/blogs/*/ownership"
           methods: "*"
