@@ -11,6 +11,11 @@ app:
           methods: "*"
           description: |
             내부 API 경로
+        # 유효성 검증 파일
+        - path: "/validation/**"
+          methods: "*"
+          description: |
+            도메인 유효성 검증 파일 접근 경로
         # Docs 등
         - path: "/swagger-ui/**"
           methods: "*"
