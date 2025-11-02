@@ -34,6 +34,13 @@ spring:
   jackson:
     default-property-inclusion: non_null
 
+  mvc:
+    static-path-pattern: /validation/**   # URL 접두사 결정
+  web:
+    resources:
+      static-locations:
+        - classpath:/validation/               # 우리가 둔 폴더
+
 springdoc:
   swagger-ui:
     tags-sorter: alpha # 태그 알파벳순

@@ -1,0 +1,53 @@
+{
+  "validations": {
+    "email": {
+      "type": "string",
+      "required": true,
+      "regexp": {
+        "pattern": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        "flags": "u"
+      },
+      "messages": {
+        "required": "이메일을 입력하십시오.",
+        "regexp": "이메일 형식이 아닙니다."
+      }
+    },
+    "password": {
+      "type": "string",
+      "required": true,
+      "regexp": {
+        "pattern": "^[A-Za-z\\d!\"#$%&'()*+,\\-./:;<=>?@\\[\\]^_`{|}~]+$",
+        "flags": "u"
+      },
+      "minLength": 8,
+      "maxLength": 64,
+      "messages": {
+        "required": "비밀번호를 입력하십시오.",
+        "regexp": "비밀번호 형식이 올바르지 않습니다.",
+        "minLength": "비밀번호는 8자 이상 입력해야 합니다.",
+        "maxLength": "비밀번호는 64자 이하로 입력해야 합니다."
+      }
+    },
+    "passwordConfirm": {
+      "type": "string",
+      "required": true,
+      "equalTo": "password",
+      "messages": {
+        "required": "비밀번호를 입력하십시오.",
+        "equalTo": "비밀번호가 일치하지 않습니다."
+      }
+    },
+    "username": {
+      "type": "string",
+      "required": true,
+      "minLength": 2,
+      "maxLength": 8,
+      "messages": {
+        "required": "닉네임을 입력하십시오.",
+        "minLength": "닉네임은 최소 2자 이상이어야 합니다.",
+        "maxLength": "닉네임은 최대 8자까지 입력할 수 있습니다."
+      }
+    }
+  },
+  "lastUpdatedAt": "2025-09-07T00:00:00.000Z"
+}
