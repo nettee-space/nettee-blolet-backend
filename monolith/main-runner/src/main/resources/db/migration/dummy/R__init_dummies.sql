@@ -50,36 +50,18 @@ INSERT INTO "profile"."profile" (
     "id",
     "user_id",
     "nickname",
-    "gender",
-    "birth",
-    "profile_url",
-    "bio",
-    "tel",
-    "occupation",
-    "interest"
+    "job"
 ) VALUES (
-    current_setting('dummy.PROFILE_ID')::bigint,
-    current_setting('dummy.USER_ID')::bigint,
-    '동굴',
-    'NOT_THAT_SIMPLE',
-    '2025-08-15'::date,
-    'https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-2228-622f-a21e-41f365335041/raw',
-    '매너 있고 다정한 ^^;;; 젊은 남자 개발자입니다. 여친 있음 ^^;',
-    '010-1234-1234',
-    '백엔드 엔지니어',
-    '서울 데이트 코스,공부하기 좋은 카페,느좋카'
-), (
-    current_setting('dummy.PROFILE_ID2')::bigint,
-    current_setting('dummy.USER_ID2')::bigint,
-    '침착너구리',
-    '안드로진뭐시기',
-    '2025-08-15'::date,
-    'https://sdmntprnorthcentralus.oaiusercontent.com/files/00000000-2228-622f-a21e-41f365335041/raw',
-    '젊은 남자 개발자입니다. 남친 있음 ^^;',
-    '010-1234-1235',
-    '프론트엔드 엔지니어',
-    '전국 데이트 코스,공부하기 좋은 카페,느좋카'
-);
+     current_setting('dummy.PROFILE_ID')::bigint,
+     current_setting('dummy.USER_ID')::bigint,
+     '닉네임',
+     '개발자'
+ ), (
+     current_setting('dummy.PROFILE_ID2')::bigint,
+     current_setting('dummy.USER_ID2')::bigint,
+     '침착너구리',
+     '디자이너'
+ );
 
 INSERT INTO "blog"."blog" (
     "id",
@@ -364,3 +346,12 @@ FROM first_series f
 --  "auth"."user":          2 rows
 --  "profile"."profile":    2 rows
 --  "blog"."blog":          2 rows
+
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Interest 생성
+-- ─────────────────────────────────────────────────────────────────────────────
+INSERT INTO "profile"."interest" (
+    id,
+    interest
+) VALUES (1,'백엔드'), (2,'프론트엔드'), (3,'안드로이드'), (4,'ios')

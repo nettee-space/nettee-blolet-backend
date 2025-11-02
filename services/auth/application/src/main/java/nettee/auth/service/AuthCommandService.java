@@ -9,6 +9,8 @@ import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_INVALID;
 import static nettee.auth.exception.AuthErrorCode.AUTH_OTP_SERIALIZE_FAILED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_MISMATCHED;
 import static nettee.auth.exception.AuthErrorCode.AUTH_PASSWORD_RESET_INVALID;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PROFILE_CREATION_FAILED;
+import static nettee.auth.exception.AuthErrorCode.AUTH_PROFILE_ID_NOT_FOUND;
 import static nettee.auth.exception.AuthErrorCode.AUTH_REFRESH_TOKEN_NOT_FOUND;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +35,10 @@ import nettee.auth.port.AuthRedisPort;
 import nettee.auth.usecase.AuthSignUsecase;
 import nettee.blolet.auth.readmodel.AuthCommandModels.LoginTokenModel;
 import nettee.blolet.auth.readmodel.AuthCommandModels.SignUpRequestModel;
+import nettee.client.request.NetteeRequest;
 import nettee.jwt.issuer.JwtIssuer;
+import nettee.profile.readmodel.ProfileCommandModels.ProfileCreateModel;
+import nettee.restclient.NetteeClient;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +53,7 @@ public class AuthCommandService implements AuthSignUsecase {
     private final PasswordEncoder passwordEncoder;
     private final JwtIssuer jwtIssuer;
     private final AuthMailSender authMailSender;
+    private final NetteeClient netteeClient;
 
     private static final int ACCESS_TOKEN_EXPIRATION = 600;             // accessToken 유효 기간 (10분)
     private static final int REFRESH_TOKEN_EXPIRATION = 30;             // refreshToken 유효 기간 (30일)
@@ -97,8 +103,19 @@ public class AuthCommandService implements AuthSignUsecase {
         // 5. user 저장
         User userEntity = authCommandRepositoryPort.save(user);
 
-        // 6. 회원가입 성공 시, 자동 로그인 처리를 위해 accessToken & refreshToken 발급
-        return generateLoginToken(userEntity.getId());
+        // 6. 프로필 서버에 프로필 생성 요청
+        ProfileCreateModel profileBody = new ProfileCreateModel(
+                userEntity.getId(),
+                model.username(),
+                null,
+                null
+        );
+        String profileId = createProfileRequest(profileBody);
+
+        // 7. 회원가입 성공 시, 자동 로그인 처리를 위해 accessToken & refreshToken 발급
+        LoginTokenModel loginToken = generateLoginToken(userEntity.getId(), profileId);
+
+        return loginToken;
     }
 
     @Override
@@ -112,8 +129,11 @@ public class AuthCommandService implements AuthSignUsecase {
             throw new AuthException(AUTH_ACCOUNT_LOGIN_FAILED);
         }
 
-        // 3. 사용자 인증 성공 시, accessToken & refreshToken 발급
-        return generateLoginToken(userEntity.getId());
+        // 3. 프로필 서버에 프로필 ID 조회 요청
+        String profileId = findProfileIdRequest(userEntity.getId());
+
+        // 4. 사용자 인증 성공 시, accessToken & refreshToken 발급
+        return generateLoginToken(userEntity.getId(), profileId);
     }
 
     @Override
@@ -296,17 +316,20 @@ public class AuthCommandService implements AuthSignUsecase {
         String userSetKey = "user_tokens:" + userId;
         authRedisPort.removeFromSet(userSetKey, hashedRefreshToken);
 
+        // 프로필 서버에 프로필 ID 조회 요청
+        String profileId = findProfileIdRequest(userId);
+
         // 새로운 accessToken, refreshToken 발급
-        return generateLoginToken(userId);
+        return generateLoginToken(userId, profileId);
     }
 
     /**
      * accessToken과 refreshToken을 발급합니다.
      * accessToken은 JWT 형식으로 발급되며, refreshToken은 암호화된 형태로 Redis에 저장합니다.
      */
-    private LoginTokenModel generateLoginToken(String userId) {
+    private LoginTokenModel generateLoginToken(String userId, String profileId) {
         // accessToken 발급
-        String accessToken = generateAccessToken(userId);
+        String accessToken = generateAccessToken(userId, profileId);
 
         // refreshToken 발급
         String refreshToken = generateSecureRandom();
@@ -329,9 +352,10 @@ public class AuthCommandService implements AuthSignUsecase {
     /**
      * JWT 형식의 accessToken을 발급합니다.
      */
-    private String generateAccessToken(String userId) {
+    private String generateAccessToken(String userId, String profileId) {
         Map<String, Object> claims = Map.of(
-                "userId", userId
+                "userId", userId,
+                "profileId", profileId
         );
         return jwtIssuer.issue(userId, claims, ACCESS_TOKEN_EXPIRATION);
     }
@@ -372,5 +396,47 @@ public class AuthCommandService implements AuthSignUsecase {
             otp.append(secureRandom.nextInt(10));
         }
         return otp.toString();
+    }
+
+    /**
+     * 프로필 서버에 프로필 생성 요청
+     */
+    private String createProfileRequest(ProfileCreateModel profileBody) {
+        String profileId;
+        try {
+            profileId = netteeClient.post(
+                NetteeRequest.<String>builder()
+                    .domain("profile")
+                    .path("/internal/profile/create")
+                    .responseType(String.class)
+                    .body(profileBody)
+                    .build()
+            );
+        } catch (Exception e) {
+            throw new AuthException(AUTH_PROFILE_CREATION_FAILED);
+        }
+
+        return profileId;
+    }
+
+    /**
+     * 프로필 서버에 프로필 ID 조회 요청
+     */
+    private String findProfileIdRequest(String userId) {
+        String profileId;
+        try {
+            profileId = netteeClient.get(
+                NetteeRequest.<String>builder()
+                    .domain("profile")
+                    .path("/internal/profile/{userId}")
+                    .responseType(String.class)
+                    .uriVariables(new Object[]{userId})
+                    .build()
+            );
+        } catch (Exception e) {
+            throw new AuthException(AUTH_PROFILE_ID_NOT_FOUND);
+        }
+
+        return profileId;
     }
 }

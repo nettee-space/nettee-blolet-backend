@@ -28,10 +28,14 @@ public enum AuthErrorCode implements ErrorCode {
     AUTH_REFRESH_TOKEN_NOT_FOUND("리프레시 토큰을 찾을 수 없습니다.", HttpStatus.UNAUTHORIZED),
     AUTH_PASSWORD_MISMATCHED("비밀번호가 일치하지 않습니다.", HttpStatus.UNAUTHORIZED),
 
+
+    AUTH_PROFILE_CREATION_FAILED("프로필 생성에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    AUTH_PROFILE_ID_NOT_FOUND("프로필 ID 조회에 실패하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+
     // rdb 관련 오류
     AUTH_USER_STATUS_INVALID("유효하지 않는 유저 상태입니다.", HttpStatus.BAD_REQUEST),
     ;
-    
+
     private final String message;
     private final HttpStatus httpStatus;
 
