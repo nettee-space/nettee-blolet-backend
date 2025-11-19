@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public enum DraftErrorCode implements ErrorCode {
+
     // user input
     DRAFT_BLOG_ID_REQUIRED("블로그 ID를 반드시 제공해야 합니다.", HttpStatus.BAD_REQUEST),
     DRAFT_TITLE_MIN_LENGTH("블로그 제목은 반드시 3글자 이상입니다.", HttpStatus.BAD_REQUEST),
@@ -19,7 +20,13 @@ public enum DraftErrorCode implements ErrorCode {
     DRAFT_GONE("더 이상 존재하지 않는 게시물입니다.", HttpStatus.GONE),
     DRAFT_FORBIDDEN("권한이 없습니다.", HttpStatus.FORBIDDEN),
     DRAFT_ALREADY_EXIST("임시글이 이미 존재합니다.", HttpStatus.CONFLICT),
-    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    DEFAULT("임시글 조작 오류", HttpStatus.INTERNAL_SERVER_ERROR),
+    BLOG_MISMATCH("드래프트와 시리즈가 같은 블로그에 속하지 않습니다.", HttpStatus.BAD_REQUEST),
+
+    // series status
+    SERIES_ARTICLE_NOT_FOUND("시리즈 아티클을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    SERIES_NOT_FOUND("시리즈를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
+    SERIES_ALREADY_REGISTERED("이미 등록된 시리즈 아티클입니다.", HttpStatus.CONFLICT);
 
     private final String message;
     private final HttpStatus httpStatus;

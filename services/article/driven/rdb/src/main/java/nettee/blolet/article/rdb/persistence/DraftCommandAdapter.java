@@ -27,7 +27,7 @@ public class DraftCommandAdapter implements DraftCommandPort {
     private final DraftEntityMapper mapper;
 
     @Override
-    public Optional<DraftDetail> findById(String id) {
+    public Optional<DraftDetail> findDraftById(String id) {
         var draft = draftJpaRepository.findById(id)
                 .orElseThrow(DRAFT_NOT_FOUND::exception);
         return mapper.toOptionalDraftDetail(draft);
